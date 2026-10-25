@@ -1,7 +1,8 @@
 import * as THREE from 'three'
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js'
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js'
-import {VRMLoaderPlugin} from '@pixiv/three-vrm'
+import {VRMLoaderPlugin,VRMUtils} from '@pixiv/three-vrm'
+import {applyDemoHostPose} from './host-input.mjs'
 import './style.css'
 export function createStage(createFixture){
  const viewport=document.querySelector('#viewport'),scene=new THREE.Scene();scene.background=new THREE.Color('#e9eee9')
@@ -14,15 +15,15 @@ export function createStage(createFixture){
  const disposeObject=root=>{const gs=new Set(),ms=new Set(),ts=new Set();root.traverse(o=>{if(o.geometry)gs.add(o.geometry);for(const m of Array.isArray(o.material)?o.material:o.material?[o.material]:[]){ms.add(m);for(const v of Object.values(m))if(v?.isTexture)ts.add(v)}});gs.forEach(g=>g.dispose());ms.forEach(m=>m.dispose());ts.forEach(t=>t.dispose())}
  function wrap(root,bones,vrm=null,fixture=null){
   const neutral=[];root.traverse(o=>{if(o.isBone)neutral.push({o,p:o.position.clone(),q:o.quaternion.clone(),s:o.scale.clone()})});const humanoid=Object.fromEntries(Object.entries(bones).filter(([,b])=>b)),scale=root.scale.clone(),base=root.position.clone()
-  return {root,bones:humanoid,vrm,fixture,neutral,scale,base,animate(t,{seated=false,headYaw=0,headPitch=0}={}){
+  return {root,bones:humanoid,vrm,fixture,neutral,scale,base,baseQuaternion:root.quaternion.clone(),animate(t,{seated=false,headYaw=0,headPitch=0}={}){
    for(const {o,p,q,s}of neutral){o.position.copy(p);o.quaternion.copy(q);o.scale.copy(s)}
-   if(seated)for(const side of ['left','right']){humanoid[side+'UpperLeg']?.rotateX(-Math.PI/2);humanoid[side+'LowerLeg']?.rotateX(Math.PI/2);humanoid[side+'UpperArm']?.rotateZ(side==='left'?-Math.PI/2:Math.PI/2)}
-   humanoid.head?.rotateY(headYaw);humanoid.head?.rotateX(headPitch)
+   root.updateWorldMatrix(true,true)
+   applyDemoHostPose(humanoid,{seated,headYaw,headPitch})
    root.updateWorldMatrix(true,true);root.traverse(o=>{if(o.isSkinnedMesh)o.skeleton.update()})
   },dispose(){if(fixture)fixture.dispose();else disposeObject(root)}}
  }
  const roles=['hips','spine','chest','neck','head','leftUpperArm','leftLowerArm','leftHand','rightUpperArm','rightLowerArm','rightHand','leftUpperLeg','leftLowerLeg','leftFoot','rightUpperLeg','rightLowerLeg','rightFoot']
- function replace(next){if(actor){scene.remove(actor.root);actor.dispose()}actor=next;scene.add(actor.root);const box=new THREE.Box3().setFromObject(actor.root),center=box.getCenter(new THREE.Vector3()),height=Math.max(.3,box.getSize(new THREE.Vector3()).y);orbit.target.copy(center);camera.position.copy(center).add(new THREE.Vector3(1.2,.5,1.8).multiplyScalar(height));orbit.update();return actor}
+ function replace(next){if(actor){scene.remove(actor.root);actor.dispose()}actor=next;scene.add(actor.root);const box=new THREE.Box3().setFromObject(actor.root),center=box.getCenter(new THREE.Vector3()),height=Math.max(.3,box.getSize(new THREE.Vector3()).y);actor.modelHeight=height;actor.modelCenter=center.toArray();orbit.target.copy(center);camera.position.copy(center).add(new THREE.Vector3(1.2,.5,1.8).multiplyScalar(height));orbit.update();return actor}
  function useFixture(kind='standard'){
   const f=createFixture(),root=new THREE.Group();root.add(f.mesh);root.scale.setScalar(kind==='small'?.65:kind==='tall'?1.35:1)
   // A shifted head pivot/shape is an authored reproduction case, not a VRM claim.
@@ -33,6 +34,7 @@ export function createStage(createFixture){
   const manager=new THREE.LoadingManager();manager.setURLModifier(url=>{if(/^(data:|blob:)/.test(url))return url;throw Error('Embedded local VRM assets only; external references are disabled')})
   const loader=new GLTFLoader(manager);loader.register(parser=>new VRMLoaderPlugin(parser));const gltf=await loader.parseAsync(await file.arrayBuffer(),'');const vrm=gltf.userData.vrm
   if(!vrm?.humanoid)throw Error('No VRM humanoid definition')
+  VRMUtils.rotateVRM0(vrm)
   vrm.firstPerson?.setup();vrm.update(0)
   const bones=Object.fromEntries(roles.map(role=>[role,vrm.humanoid.getRawBoneNode(role)]));profile='local-vrm'
   return replace(wrap(vrm.scene,bones,vrm))
@@ -47,7 +49,12 @@ export function commonControls(title,description){
 }
 export function bindActorControls(stage,onChange=()=>{}){
  const message=document.querySelector('#message');document.querySelector('#profile').onchange=e=>{onChange(null);stage.useFixture(e.target.value);onChange(stage.actor);message.textContent='自作骨格へ切り替えました'}
- document.querySelector('#vrm').onchange=async e=>{const file=e.target.files[0];if(!file)return;onChange(null);try{await stage.loadVRM(file);onChange(stage.actor);message.textContent='ローカルVRM読込済み'}catch(error){onChange(stage.actor);message.textContent=String(error)}}
+ const input=document.querySelector('#vrm');input.multiple=true
+ const localLabel=document.createElement('label'),localSelect=document.createElement('select');localLabel.textContent='選んだVRMを切り替える';localLabel.hidden=true;localSelect.id='localModels';localLabel.append(localSelect);input.closest('label').after(localLabel)
+ let files=[]
+ async function load(file){if(!file)return;message.textContent='ローカルVRM読込中…';onChange(null);try{await stage.loadVRM(file);onChange(stage.actor);message.textContent='ローカルVRM読込済み'}catch(error){onChange(stage.actor);message.textContent=String(error)}}
+ input.onchange=async e=>{files=Array.from(e.target.files);localSelect.replaceChildren(...files.map((file,i)=>{const option=document.createElement('option');option.value=String(i);option.textContent=file.name;return option}));localLabel.hidden=files.length<2;await load(files[0])}
+ localSelect.onchange=()=>load(files[Number(localSelect.value)])
 }
 export const value=id=>Number(document.getElementById(id).value)
 export function showMetrics(data){document.querySelector('#metrics').textContent=JSON.stringify(data,null,2)}

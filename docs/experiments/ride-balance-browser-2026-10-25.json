@@ -1,0 +1,4319 @@
+{
+  "kind": "ride-balance-authored-fixture",
+  "results": [
+    {
+      "case": "static-support",
+      "state": {
+        "profile": "standard",
+        "preset": "nimbus",
+        "connected": true,
+        "error": null,
+        "frames": 9,
+        "restored": true,
+        "metrics": {
+          "headWorld": [
+            -0.03048663028130105,
+            1.5389284874505438,
+            -0.012373083708301508
+          ],
+          "feetWorld": [
+            [
+              0.269149279047629,
+              0.34874687169704766,
+              -0.43884278630304707
+            ],
+            [
+              -0.2691492790476292,
+              0.3487468716970476,
+              0.4388427863030471
+            ]
+          ],
+          "headDriftMm": 32.91923397506419,
+          "headRotationErrorDegrees": 0,
+          "handPositionErrorMm": null,
+          "handRotationErrorDegrees": null,
+          "knees": [
+            66.29770311918227,
+            67.70339995413366
+          ],
+          "upright": 1,
+          "supportHeight": 0.34874687169704754,
+          "contactPlaneY": 0.2862468715294095,
+          "contactPlaneSource": "ankle-minus-measured-sole-offset",
+          "supportSoleOffsetM": 0.06250000016763807,
+          "supportMode": "fixed-foot-targets",
+          "anchorMode": "support",
+          "footTargetsWorld": [
+            [
+              0.2691492790476291,
+              0.34874687169704754,
+              -0.4388427863030473
+            ],
+            [
+              -0.2691492790476291,
+              0.34874687169704754,
+              0.4388427863030473
+            ]
+          ],
+          "footTargetErrorMm": 2.7194799110210365e-13,
+          "footTargetErrorsMm": [
+            2.7194799110210365e-13,
+            2.077037090527612e-13
+          ],
+          "ankleHeightSpreadMm": 5.551115123125783e-14,
+          "contactPlaneErrorMm": 1.1102230246251565e-13,
+          "targetPlaneHeightSpreadMm": 0,
+          "stanceWorldM": 1.0296102670468672,
+          "boneLengthErrorMm": 2.220446049250313e-13,
+          "bodyHeading": 0.8726646259971648,
+          "cloudHeading": 0,
+          "stanceWidth": 1,
+          "crouch": 0.45,
+          "requestedKneeDegrees": 67,
+          "requestedKneesDegrees": [
+            67,
+            67
+          ],
+          "kneeTargetErrorDegrees": 0.7033999541336584,
+          "poseLimited": true,
+          "poseLimitReasons": [
+            "fixed-support-changes-crouch"
+          ],
+          "armBalance": [
+            {
+              "side": "left",
+              "shoulderWorld": [
+                0.15745189387588066,
+                1.3789284874505436,
+                -0.08077711237343524
+              ],
+              "elbowWorld": [
+                0.29511535320636106,
+                1.3221403781649208,
+                -0.31789287019844636
+              ],
+              "handWorld": [
+                0.5232528434158371,
+                1.2199284874505436,
+                -0.31544032916649445
+              ],
+              "palmNormalWorld": [
+                -0.4088239399678358,
+                -0.912602690301467,
+                -0.004394970272946908
+              ],
+              "fingerDirectionWorld": [
+                0.9125499608379043,
+                -0.40884756285750884,
+                0.009810164127807662
+              ],
+              "elbowFlexionDegrees": 58.44797375532235,
+              "palmDownDot": 0.912602690301467,
+              "wristBendDegrees": 0,
+              "wristBindDeviationDegrees": 0.0000017075472925031877,
+              "handBelowShoulderM": 0.15900000000000003,
+              "elbowAboveHandM": 0.1022118907143772,
+              "boneLengthErrorMm": 0,
+              "palmReferenceSource": "body-bind-fallback"
+            },
+            {
+              "side": "right",
+              "shoulderWorld": [
+                -0.21842515443848276,
+                1.3789284874505436,
+                0.056030944956832224
+              ],
+              "elbowWorld": [
+                -0.4634256685503213,
+                1.2494423419013234,
+                0.09613189501716107
+              ],
+              "handWorld": [
+                -0.5914769310169433,
+                1.1245284874505437,
+                0.2707726781892303
+              ],
+              "palmNormalWorld": [
+                0.295450082488592,
+                -0.8662242570258527,
+                -0.40294513931488685
+              ],
+              "fingerDirectionWorld": [
+                -0.5122050498664882,
+                -0.499655417803119,
+                0.6985631326882767
+              ],
+              "elbowFlexionDegrees": 38.80412440871896,
+              "palmDownDot": 0.8662242570258527,
+              "wristBendDegrees": 0,
+              "wristBindDeviationDegrees": 0,
+              "handBelowShoulderM": 0.25439999999999996,
+              "elbowAboveHandM": 0.12491385445077974,
+              "boneLengthErrorMm": 8.326672684688674e-14,
+              "palmReferenceSource": "body-bind-fallback"
+            }
+          ],
+          "bodyBalance": {
+            "source": "bind-anatomical-frames",
+            "hipHeightPolicy": "mean-requested-height-with-knee-policy",
+            "maxKneeDegrees": 100,
+            "kneePolicyExceeded": false,
+            "hipBalanceLimited": false,
+            "pelvisYawDegrees": 50.00000000000002,
+            "chestYawDegrees": 19.999999999999996,
+            "footYawDegrees": 62,
+            "neckYawDegrees": 8,
+            "headChestYawDegrees": 19.999999999999996,
+            "hipChestYawDegrees": 30.000000000000025,
+            "neckPolicyExceeded": false,
+            "chestPolicyLimited": false,
+            "leanForward": 0,
+            "leanSide": 0,
+            "hipsWorld": [
+              -0.03048663028130105,
+              0.8989284874505438,
+              -0.012373083708301508
+            ]
+          },
+          "balanceProxy": {
+            "source": "weighted-bone-points-and-foot-rect-proxies",
+            "contactPlaneY": 0.2862468715294095,
+            "contactPlaneSource": "ankle-minus-measured-sole-offset",
+            "centerOfMassWorld": [
+              5.900126610809166e-7,
+              0.981444364982379,
+              2.675610099008366e-7
+            ],
+            "targetCenterOfMassWorld": [
+              0,
+              0.981444364982379,
+              0
+            ],
+            "centerOfMassOffset": {
+              "forward": 2.675610099008366e-7,
+              "side": 5.900126610809166e-7
+            },
+            "centerOfMassErrorMm": 0.0006478455327120347,
+            "zeroMomentPointWorld": [
+              5.900126610809166e-7,
+              0.2862468715294095,
+              2.675610099008366e-7
+            ],
+            "loadRatio": {
+              "front": 0.49999992192365134,
+              "rear": 0.5000000780763487
+            },
+            "requestedLoadRatio": {
+              "front": 0.5,
+              "rear": 0.5
+            },
+            "loadRatioError": 7.807634866408009e-8,
+            "unclampedFrontLoadRatio": 0.49999992192365134,
+            "supportMarginM": 0.11361822181067854,
+            "supportExceeded": false,
+            "footHull2D": [
+              [
+                -0.39098963583050683,
+                0.43225431909434747
+              ],
+              [
+                -0.34274362877851716,
+                0.3415167767843848
+              ],
+              [
+                0.19555492931674104,
+                -0.5361687958217098
+              ],
+              [
+                0.39098963583050683,
+                -0.43225431909434747
+              ],
+              [
+                0.34274362877851716,
+                -0.3415167767843848
+              ],
+              [
+                -0.19555492931674104,
+                0.5361687958217098
+              ]
+            ]
+          }
+        },
+        "carrier": null,
+        "skinDiagnostics": {
+          "source": "posed-skinned-vertices",
+          "meshCount": 2,
+          "vertexCount": 432,
+          "bounds": {
+            "min": [
+              -0.6794353579466773,
+              0.28624687152940953,
+              -0.5016504201483373
+            ],
+            "max": [
+              0.6190991073530593,
+              1.738928496987287,
+              0.5942615090511709
+            ]
+          },
+          "feet": [
+            {
+              "side": "left",
+              "weightedVertexCount": 24,
+              "min": [
+                0.21397834927356157,
+                0.28624687152940964,
+                -0.5016504201483373
+              ],
+              "max": [
+                0.4657987012852299,
+                0.36124687497530317,
+                -0.32619708247289386
+              ],
+              "ankleWorld": [
+                0.269149279047629,
+                0.34874687169704766,
+                -0.43884278630304707
+              ],
+              "soleOffsetM": 0.06250000016763801
+            },
+            {
+              "side": "right",
+              "weightedVertexCount": 24,
+              "min": [
+                -0.3325619893776586,
+                0.28624687152940953,
+                0.37284595445742424
+              ],
+              "max": [
+                -0.08530516717717315,
+                0.36124687497530317,
+                0.5942615090511709
+              ],
+              "ankleWorld": [
+                -0.2691492790476292,
+                0.3487468716970476,
+                0.4388427863030471
+              ],
+              "soleOffsetM": 0.06250000016763807
+            }
+          ],
+          "legLengthM": 0.7905124837953328
+        },
+        "supportPlaneY": 0.2862468715294095,
+        "ride": {
+          "phase": "idle",
+          "paused": true,
+          "state": {
+            "config": {
+              "mass": 70,
+              "driveForce": 154,
+              "brakeForce": 210,
+              "linearDrag": 48,
+              "quadraticDrag": 2,
+              "lateralGrip": 800,
+              "maxTurnRate": 0.8,
+              "yawResponseSeconds": 0.22,
+              "turnSpeedScale": 1.2,
+              "gravity": 9.81,
+              "comHeightM": 0.6951974934529694,
+              "comHeightResponseSeconds": 0.25,
+              "comNaturalFrequency": 8,
+              "comDampingRatio": 1,
+              "supportHalfLengthM": 0.5088881962595958,
+              "supportHalfWidthM": 0.3141784711625531,
+              "maxLeanRadians": 0.45,
+              "maxDeltaTime": 2,
+              "integrationStep": 0.004166666666666667,
+              "stopSpeed": 0.0001
+            },
+            "time": 0.03339999999999964,
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "velocity": [
+              0,
+              0,
+              0
+            ],
+            "heading": 0,
+            "yawRate": 0,
+            "acceleration": [
+              0,
+              0,
+              0
+            ],
+            "com": {
+              "offset": {
+                "forward": 0,
+                "side": 0
+              },
+              "velocity": {
+                "forward": 0,
+                "side": 0
+              }
+            },
+            "estimatedComHeightM": 0.6914432302933087,
+            "heightObservationStatus": "accepted",
+            "observedComHeightM": 0.6951974934529694,
+            "integratedDt": 0.016799999999999274,
+            "discardedDt": 0,
+            "pose": {
+              "forwardAcceleration": 0,
+              "lateralAcceleration": 0,
+              "speed": 0,
+              "turnRate": 0,
+              "targetLeanForward": 0,
+              "targetLeanSide": 0,
+              "balanceLeanForward": 0,
+              "balanceLeanSide": 0,
+              "crouch": 0.45,
+              "centerOfMassOffset": {
+                "forward": 0,
+                "side": 0
+              },
+              "centerOfMassVelocity": {
+                "forward": 0,
+                "side": 0
+              },
+              "zeroMomentPoint": {
+                "forward": 0,
+                "side": 0
+              },
+              "loadRatio": {
+                "front": 0.5,
+                "rear": 0.5,
+                "right": 0.5,
+                "left": 0.5
+              },
+              "unclampedLoadRatio": {
+                "front": 0.5,
+                "rear": 0.5,
+                "right": 0.5,
+                "left": 0.5
+              },
+              "supportMarginM": 0.3141784711625531,
+              "supportExceeded": false,
+              "supportHalfLengthM": 0.5088881962595958,
+              "supportHalfWidthM": 0.3141784711625531,
+              "comHeightM": 0.6914432302933087,
+              "heightObservationStatus": "accepted",
+              "observedComHeightM": 0.6951974934529694,
+              "input": {
+                "throttle": 0,
+                "steer": 0,
+                "brake": 0
+              }
+            }
+          },
+          "anchorsLocal": [
+            [
+              0.2691492790476291,
+              0.34874687169704754,
+              -0.4388427863030473
+            ],
+            [
+              -0.2691492790476291,
+              0.34874687169704754,
+              0.4388427863030473
+            ]
+          ],
+          "anchorsWorld": [
+            [
+              0.2691492790476291,
+              0.34874687169704754,
+              -0.4388427863030473
+            ],
+            [
+              -0.2691492790476291,
+              0.34874687169704754,
+              0.4388427863030473
+            ]
+          ],
+          "anchorGeneration": 4,
+          "anchorMode": "support"
+        },
+        "simulated": true
+      }
+    },
+    {
+      "case": "torso-look-continuity",
+      "samples": [
+        {
+          "headYaw": -0.3,
+          "body": {
+            "source": "bind-anatomical-frames",
+            "hipHeightPolicy": "mean-requested-height-with-knee-policy",
+            "maxKneeDegrees": 100,
+            "kneePolicyExceeded": false,
+            "hipBalanceLimited": false,
+            "pelvisYawDegrees": 50.00000000000002,
+            "chestYawDegrees": 4.999999999999993,
+            "footYawDegrees": 62,
+            "neckYawDegrees": 8.875493541569881,
+            "headChestYawDegrees": 22.18873385392469,
+            "hipChestYawDegrees": 45.00000000000003,
+            "neckPolicyExceeded": false,
+            "chestPolicyLimited": true,
+            "leanForward": 0,
+            "leanSide": 0,
+            "hipsWorld": [
+              -0.03215832609257925,
+              0.8988318317554231,
+              -0.011748422791270176
+            ]
+          }
+        },
+        {
+          "headYaw": 0,
+          "body": {
+            "source": "bind-anatomical-frames",
+            "hipHeightPolicy": "mean-requested-height-with-knee-policy",
+            "maxKneeDegrees": 100,
+            "kneePolicyExceeded": false,
+            "hipBalanceLimited": false,
+            "pelvisYawDegrees": 50.00000000000002,
+            "chestYawDegrees": 19.999999999999996,
+            "footYawDegrees": 62,
+            "neckYawDegrees": 8,
+            "headChestYawDegrees": 19.999999999999996,
+            "hipChestYawDegrees": 30.000000000000025,
+            "neckPolicyExceeded": false,
+            "chestPolicyLimited": false,
+            "leanForward": 0,
+            "leanSide": 0,
+            "hipsWorld": [
+              -0.03048663028130105,
+              0.8989284874505438,
+              -0.012373083708301508
+            ]
+          }
+        },
+        {
+          "headYaw": 0.3,
+          "body": {
+            "source": "bind-anatomical-frames",
+            "hipHeightPolicy": "mean-requested-height-with-knee-policy",
+            "maxKneeDegrees": 100,
+            "kneePolicyExceeded": false,
+            "hipBalanceLimited": false,
+            "pelvisYawDegrees": 50.00000000000002,
+            "chestYawDegrees": 19.999999999999996,
+            "footYawDegrees": 62,
+            "neckYawDegrees": 1.1245064584301168,
+            "headChestYawDegrees": 2.8112661460753,
+            "hipChestYawDegrees": 30.000000000000025,
+            "neckPolicyExceeded": false,
+            "chestPolicyLimited": false,
+            "leanForward": 0,
+            "leanSide": 0,
+            "hipsWorld": [
+              -0.03048663028130105,
+              0.8989284874505438,
+              -0.012373083708301508
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "case": "forward-force",
+      "state": {
+        "profile": "standard",
+        "preset": "nimbus",
+        "connected": true,
+        "error": null,
+        "frames": 93,
+        "restored": true,
+        "metrics": {
+          "headWorld": [
+            -0.031049457548142607,
+            1.5183252669498144,
+            1.0566176105440905
+          ],
+          "feetWorld": [
+            [
+              0.2691492790476291,
+              0.34874687169704754,
+              0.4950703666222676
+            ],
+            [
+              -0.26914927904762886,
+              0.34874687169704754,
+              1.3727559392283621
+            ]
+          ],
+          "headDriftMm": 128.41435584212786,
+          "headRotationErrorDegrees": 0,
+          "handPositionErrorMm": null,
+          "handRotationErrorDegrees": null,
+          "knees": [
+            56.29327071422293,
+            82.00027932134687
+          ],
+          "upright": 0.99639522999215,
+          "supportHeight": 0.34874687169704754,
+          "contactPlaneY": 0.2862468715294095,
+          "contactPlaneSource": "ankle-minus-measured-sole-offset",
+          "supportSoleOffsetM": 0.06250000016763807,
+          "supportMode": "fixed-foot-targets",
+          "anchorMode": "support",
+          "footTargetsWorld": [
+            [
+              0.2691492790476291,
+              0.34874687169704754,
+              0.49507036662226755
+            ],
+            [
+              -0.2691492790476291,
+              0.34874687169704754,
+              1.3727559392283621
+            ]
+          ],
+          "footTargetErrorMm": 2.220446049250313e-13,
+          "footTargetErrorsMm": [
+            5.551115123125783e-14,
+            2.220446049250313e-13
+          ],
+          "ankleHeightSpreadMm": 0,
+          "contactPlaneErrorMm": 0,
+          "targetPlaneHeightSpreadMm": 0,
+          "stanceWorldM": 1.0296102670468676,
+          "boneLengthErrorMm": 1.6653345369377348e-13,
+          "bodyHeading": 0.8726646259971648,
+          "cloudHeading": 0,
+          "stanceWidth": 1,
+          "crouch": 0.48312283730641875,
+          "requestedKneeDegrees": 68.98737023838513,
+          "requestedKneesDegrees": [
+            68.69635390509546,
+            69.27838657167479
+          ],
+          "kneeTargetErrorDegrees": 12.72189274967208,
+          "poseLimited": true,
+          "poseLimitReasons": [
+            "fixed-support-changes-crouch"
+          ],
+          "armBalance": [
+            {
+              "side": "left",
+              "shoulderWorld": [
+                0.1568890666090391,
+                1.3675109124254268,
+                0.9761933633009787
+              ],
+              "elbowWorld": [
+                0.2951875503429613,
+                1.3411959833629188,
+                0.7341581305241508
+              ],
+              "handWorld": [
+                0.5226900161489954,
+                1.2379608894533827,
+                0.7433854507019454
+              ],
+              "palmNormalWorld": [
+                -0.4126011404502888,
+                -0.9107580612697468,
+                -0.016734776105257632
+              ],
+              "fingerDirectionWorld": [
+                0.9100098632241364,
+                -0.41294037563814473,
+                0.03690928071117838
+              ],
+              "elbowFlexionDegrees": 62.84629996847491,
+              "palmDownDot": 0.9107580612697468,
+              "wristBendDegrees": 0,
+              "wristBindDeviationDegrees": 0,
+              "handBelowShoulderM": 0.1295500229720441,
+              "elbowAboveHandM": 0.10323509390953611,
+              "boneLengthErrorMm": 0,
+              "palmReferenceSource": "body-bind-fallback"
+            },
+            {
+              "side": "right",
+              "shoulderWorld": [
+                -0.21898798170532432,
+                1.3503416508740151,
+                1.1119197830145369
+              ],
+              "elbowWorld": [
+                -0.45398565266678137,
+                1.2103930298531338,
+                1.1718403814515057
+              ],
+              "handWorld": [
+                -0.5920397582837846,
+                1.0689917982423836,
+                1.32496371612409
+              ],
+              "palmNormalWorld": [
+                0.37873807399739134,
+                -0.8246763408655586,
+                -0.42007904508715904
+              ],
+              "fingerDirectionWorld": [
+                -0.5522164224680131,
+                -0.5656049264430013,
+                0.6124933386903371
+              ],
+              "elbowFlexionDegrees": 28.689241361905488,
+              "palmDownDot": 0.8246763408655586,
+              "wristBendDegrees": 0,
+              "wristBindDeviationDegrees": 0,
+              "handBelowShoulderM": 0.2813498526316316,
+              "elbowAboveHandM": 0.14140123161075024,
+              "boneLengthErrorMm": 2.7755575615628914e-14,
+              "palmReferenceSource": "body-bind-fallback"
+            }
+          ],
+          "bodyBalance": {
+            "source": "bind-anatomical-frames",
+            "hipHeightPolicy": "mean-requested-height-with-knee-policy",
+            "maxKneeDegrees": 100,
+            "kneePolicyExceeded": false,
+            "hipBalanceLimited": false,
+            "pelvisYawDegrees": 50.04524638495292,
+            "chestYawDegrees": 20.146612805230916,
+            "footYawDegrees": 62,
+            "neckYawDegrees": 8.010012485218548,
+            "headChestYawDegrees": 20.146612805230916,
+            "hipChestYawDegrees": 29.898633579721995,
+            "neckPolicyExceeded": false,
+            "chestPolicyLimited": false,
+            "leanForward": 0.12583069728150262,
+            "leanSide": 0,
+            "hipsWorld": [
+              -0.031049457548142607,
+              0.8809067960575194,
+              1.0023482072235785
+            ]
+          },
+          "balanceProxy": {
+            "source": "weighted-bone-points-and-foot-rect-proxies",
+            "contactPlaneY": 0.2862468715294095,
+            "contactPlaneSource": "ankle-minus-measured-sole-offset",
+            "centerOfMassWorld": [
+              5.175743297922836e-8,
+              0.9644444158983592,
+              1.0191822093179193
+            ],
+            "targetCenterOfMassWorld": [
+              0,
+              0.9644444158983592,
+              1.0191829399424588
+            ],
+            "centerOfMassOffset": {
+              "forward": 0.0852690563926044,
+              "side": 5.175743297922836e-8
+            },
+            "centerOfMassErrorMm": 0.0007324554932827794,
+            "zeroMomentPointWorld": [
+              5.175743297922836e-8,
+              0.2862468715294095,
+              0.9482909316606908
+            ],
+            "loadRatio": {
+              "front": 0.5119037573978388,
+              "rear": 0.4880962426021612
+            },
+            "requestedLoadRatio": {
+              "front": 0.5145508166644833,
+              "rear": 0.4854491833355167
+            },
+            "loadRatioError": 0.002647059266644547,
+            "unclampedFrontLoadRatio": 0.5119037573978388,
+            "supportMarginM": 0.10610186211322872,
+            "supportExceeded": false,
+            "footHull2D": [
+              [
+                -0.39098963583050683,
+                1.3661674720196622
+              ],
+              [
+                -0.34274362877851716,
+                1.2754299297096996
+              ],
+              [
+                0.195554929316741,
+                0.39774435710360506
+              ],
+              [
+                0.39098963583050683,
+                0.5016588338309674
+              ],
+              [
+                0.34274362877851716,
+                0.5923963761409301
+              ],
+              [
+                -0.195554929316741,
+                1.4700819487470247
+              ]
+            ]
+          }
+        },
+        "carrier": null,
+        "skinDiagnostics": {
+          "source": "posed-skinned-vertices",
+          "meshCount": 2,
+          "vertexCount": 432,
+          "bounds": {
+            "min": [
+              -0.6837565298369463,
+              0.2862468715294095,
+              0.43226273277697747
+            ],
+            "max": [
+              0.6196214797828288,
+              1.7183252764865575,
+              1.5281746619764858
+            ]
+          },
+          "feet": [
+            {
+              "side": "left",
+              "weightedVertexCount": 24,
+              "min": [
+                0.2139783492735617,
+                0.28624687152940953,
+                0.43226273277697747
+              ],
+              "max": [
+                0.46579870128523,
+                0.3612468749753031,
+                0.6077160704524208
+              ],
+              "ankleWorld": [
+                0.2691492790476291,
+                0.34874687169704754,
+                0.4950703666222676
+              ],
+              "soleOffsetM": 0.06250000016763801
+            },
+            {
+              "side": "right",
+              "weightedVertexCount": 24,
+              "min": [
+                -0.33256198937765824,
+                0.2862468715294095,
+                1.3067591073827391
+              ],
+              "max": [
+                -0.08530516717717299,
+                0.3612468749753031,
+                1.5281746619764858
+              ],
+              "ankleWorld": [
+                -0.26914927904762886,
+                0.34874687169704754,
+                1.3727559392283621
+              ],
+              "soleOffsetM": 0.06250000016763807
+            }
+          ],
+          "legLengthM": 0.7905124837953327
+        },
+        "supportPlaneY": 0.2862468715294095,
+        "ride": {
+          "phase": "accelerating",
+          "paused": true,
+          "state": {
+            "config": {
+              "mass": 70,
+              "driveForce": 154,
+              "brakeForce": 210,
+              "linearDrag": 48,
+              "quadraticDrag": 2,
+              "lateralGrip": 800,
+              "maxTurnRate": 0.8,
+              "yawResponseSeconds": 0.22,
+              "turnSpeedScale": 1.2,
+              "gravity": 9.81,
+              "comHeightM": 0.6951974934529694,
+              "comHeightResponseSeconds": 0.25,
+              "comNaturalFrequency": 8,
+              "comDampingRatio": 1,
+              "supportHalfLengthM": 0.5088881962595958,
+              "supportHalfWidthM": 0.3141784711625531,
+              "maxLeanRadians": 0.45,
+              "maxDeltaTime": 2,
+              "integrationStep": 0.004166666666666667,
+              "stopSpeed": 0.0001
+            },
+            "time": 1.0666999999999989,
+            "position": [
+              0,
+              0,
+              0.9339131529253148
+            ],
+            "velocity": [
+              0,
+              0,
+              1.6006385596138573
+            ],
+            "heading": 0,
+            "yawRate": 0,
+            "acceleration": [
+              0,
+              0,
+              1.0254290060346771
+            ],
+            "com": {
+              "offset": {
+                "forward": 0.08526978701714404,
+                "side": 0
+              },
+              "velocity": {
+                "forward": -0.0617466957533723,
+                "side": 0
+              }
+            },
+            "estimatedComHeightM": 0.674074587711259,
+            "heightObservationStatus": "accepted",
+            "observedComHeightM": 0.6778700622318068,
+            "integratedDt": 0.016600000000000364,
+            "discardedDt": 0,
+            "pose": {
+              "forwardAcceleration": 1.0254290060346771,
+              "lateralAcceleration": 0,
+              "speed": 1.6006385596138573,
+              "turnRate": 0,
+              "targetLeanForward": 0.10415072222534634,
+              "targetLeanSide": 0,
+              "balanceLeanForward": 0.12583069728150262,
+              "balanceLeanSide": 0,
+              "crouch": 0.48312283730641875,
+              "centerOfMassOffset": {
+                "forward": 0.08526978701714404,
+                "side": 0
+              },
+              "centerOfMassVelocity": {
+                "forward": -0.0617466957533723,
+                "side": 0
+              },
+              "zeroMomentPoint": {
+                "forward": 0.01480947769298592,
+                "side": 0
+              },
+              "loadRatio": {
+                "front": 0.5145508166644833,
+                "rear": 0.4854491833355167,
+                "right": 0.5,
+                "left": 0.5
+              },
+              "unclampedLoadRatio": {
+                "front": 0.5145508166644833,
+                "rear": 0.4854491833355167,
+                "right": 0.5,
+                "left": 0.5
+              },
+              "supportMarginM": 0.3141784711625531,
+              "supportExceeded": false,
+              "supportHalfLengthM": 0.5088881962595958,
+              "supportHalfWidthM": 0.3141784711625531,
+              "comHeightM": 0.674074587711259,
+              "heightObservationStatus": "accepted",
+              "observedComHeightM": 0.6778700622318068,
+              "input": {
+                "throttle": 1,
+                "steer": 0,
+                "brake": 0
+              }
+            }
+          },
+          "anchorsLocal": [
+            [
+              0.2691492790476291,
+              0.34874687169704754,
+              -0.4388427863030473
+            ],
+            [
+              -0.2691492790476291,
+              0.34874687169704754,
+              0.4388427863030473
+            ]
+          ],
+          "anchorsWorld": [
+            [
+              0.2691492790476291,
+              0.34874687169704754,
+              0.49507036662226755
+            ],
+            [
+              -0.2691492790476291,
+              0.34874687169704754,
+              1.3727559392283621
+            ]
+          ],
+          "anchorGeneration": 4,
+          "anchorMode": "support"
+        },
+        "simulated": true
+      }
+    },
+    {
+      "case": "braking-force",
+      "state": {
+        "profile": "standard",
+        "preset": "nimbus",
+        "connected": true,
+        "error": null,
+        "frames": 112,
+        "restored": true,
+        "metrics": {
+          "headWorld": [
+            -0.03299561616863703,
+            1.485923358781705,
+            1.0109951190006472
+          ],
+          "feetWorld": [
+            [
+              0.26914927904762886,
+              0.34874687169704754,
+              0.7475804659752932
+            ],
+            [
+              -0.2691492790476292,
+              0.3487468716970475,
+              1.625266038581388
+            ]
+          ],
+          "headDriftMm": 186.51547859922067,
+          "headRotationErrorDegrees": 0,
+          "handPositionErrorMm": null,
+          "handRotationErrorDegrees": null,
+          "knees": [
+            86.96674704122924,
+            60.12864601586119
+          ],
+          "upright": 0.9948668442219463,
+          "supportHeight": 0.34874687169704754,
+          "contactPlaneY": 0.2862468715294095,
+          "contactPlaneSource": "ankle-minus-measured-sole-offset",
+          "supportSoleOffsetM": 0.06250000016763807,
+          "supportMode": "fixed-foot-targets",
+          "anchorMode": "support",
+          "footTargetsWorld": [
+            [
+              0.2691492790476291,
+              0.34874687169704754,
+              0.7475804659752932
+            ],
+            [
+              -0.2691492790476291,
+              0.34874687169704754,
+              1.6252660385813877
+            ]
+          ],
+          "footTargetErrorMm": 2.5438405243138007e-13,
+          "footTargetErrorsMm": [
+            2.220446049250313e-13,
+            2.5438405243138007e-13
+          ],
+          "ankleHeightSpreadMm": 5.551115123125783e-14,
+          "contactPlaneErrorMm": 5.551115123125783e-14,
+          "targetPlaneHeightSpreadMm": 0,
+          "stanceWorldM": 1.0296102670468679,
+          "boneLengthErrorMm": 1.6653345369377348e-13,
+          "bodyHeading": 0.8726646259971648,
+          "cloudHeading": 0,
+          "stanceWidth": 1,
+          "crouch": 0.5430197359636231,
+          "requestedKneeDegrees": 72.58118415781738,
+          "requestedKneesDegrees": [
+            69.81165664324908,
+            75.35071167238567
+          ],
+          "kneeTargetErrorDegrees": 17.15509039798016,
+          "poseLimited": true,
+          "poseLimitReasons": [
+            "fixed-support-changes-crouch"
+          ],
+          "armBalance": [
+            {
+              "side": "left",
+              "shoulderWorld": [
+                0.15494290798854463,
+                1.3165450163754278,
+                0.9583410559295836
+              ],
+              "elbowWorld": [
+                0.29294592797191776,
+                1.2252488840963223,
+                0.7324645792739903
+              ],
+              "handWorld": [
+                0.5207438575285008,
+                1.1224367489489195,
+                0.726318999060037
+              ],
+              "palmNormalWorld": [
+                -0.41109896400102935,
+                -0.9115232514110185,
+                0.011090713879881305
+              ],
+              "fingerDirectionWorld": [
+                0.9111917182263328,
+                -0.4112485405896111,
+                -0.024582320855813147
+              ],
+              "elbowFlexionDegrees": 52.913611439169586,
+              "palmDownDot": 0.9115232514110185,
+              "wristBendDegrees": 0,
+              "wristBindDeviationDegrees": 0.0000017075472925031877,
+              "handBelowShoulderM": 0.19410826742650822,
+              "elbowAboveHandM": 0.10281213514740273,
+              "boneLengthErrorMm": 1.1102230246251565e-13,
+              "palmReferenceSource": "body-bind-fallback"
+            },
+            {
+              "side": "right",
+              "shoulderWorld": [
+                -0.22093414032581868,
+                1.3370130468085388,
+                1.093609323755674
+              ],
+              "elbowWorld": [
+                -0.4724189446687759,
+                1.2152866084430662,
+                1.1119959326719837
+              ],
+              "handWorld": [
+                -0.5939859169042792,
+                1.1147408353089556,
+                1.3059341155199116
+              ],
+              "palmNormalWorld": [
+                0.21360575087207134,
+                -0.9155592608224894,
+                -0.3407694574291473
+              ],
+              "fingerDirectionWorld": [
+                -0.4862678889420132,
+                -0.4021830925364428,
+                0.7757527313917115
+              ],
+              "elbowFlexionDegrees": 48.506789392793706,
+              "palmDownDot": 0.9155592608224894,
+              "wristBendDegrees": 0,
+              "wristBindDeviationDegrees": 0,
+              "handBelowShoulderM": 0.2222722114995832,
+              "elbowAboveHandM": 0.10054577313411062,
+              "boneLengthErrorMm": 0,
+              "palmReferenceSource": "body-bind-fallback"
+            }
+          ],
+          "bodyBalance": {
+            "source": "bind-anatomical-frames",
+            "hipHeightPolicy": "mean-requested-height-with-knee-policy",
+            "maxKneeDegrees": 100,
+            "kneePolicyExceeded": false,
+            "hipBalanceLimited": false,
+            "pelvisYawDegrees": 50.06445839221511,
+            "chestYawDegrees": 20.209336863145346,
+            "footYawDegrees": 62,
+            "neckYawDegrees": 8.01426773238389,
+            "headChestYawDegrees": 20.209336863145346,
+            "hipChestYawDegrees": 29.855121529069763,
+            "neckPolicyExceeded": false,
+            "chestPolicyLimited": false,
+            "leanForward": -0.15017512994698842,
+            "leanSide": 0,
+            "hipsWorld": [
+              -0.03299561616863703,
+              0.8495989158235099,
+              1.075718743069924
+            ]
+          },
+          "balanceProxy": {
+            "source": "weighted-bone-points-and-foot-rect-proxies",
+            "contactPlaneY": 0.2862468715294095,
+            "contactPlaneSource": "ankle-minus-measured-sole-offset",
+            "centerOfMassWorld": [
+              5.496482319432457e-7,
+              0.9405295591247342,
+              1.0851902396048665
+            ],
+            "targetCenterOfMassWorld": [
+              0,
+              0.9405295591247342,
+              1.0851883309411072
+            ],
+            "centerOfMassOffset": {
+              "forward": -0.10123301267347395,
+              "side": 5.496482319432457e-7
+            },
+            "centerOfMassErrorMm": 0.0019862302295576744,
+            "zeroMomentPointWorld": [
+              5.496482319432457e-7,
+              0.2862468715294095,
+              1.3220224456651397
+            ],
+            "loadRatio": {
+              "front": 0.6122662604576956,
+              "rear": 0.3877337395423044
+            },
+            "requestedLoadRatio": {
+              "front": 0.6384763757284144,
+              "rear": 0.3615236242715856
+            },
+            "loadRatioError": 0.026210115270718815,
+            "unclampedFrontLoadRatio": 0.6122662604576956,
+            "supportMarginM": 0.04272472632003132,
+            "supportExceeded": false,
+            "footHull2D": [
+              [
+                -0.39098963583050683,
+                1.6186775713726878
+              ],
+              [
+                -0.34274362877851716,
+                1.5279400290627252
+              ],
+              [
+                0.19555492931674104,
+                0.6502544564566307
+              ],
+              [
+                0.39098963583050683,
+                0.754168933183993
+              ],
+              [
+                0.34274362877851716,
+                0.8449064754939556
+              ],
+              [
+                -0.19555492931674104,
+                1.7225920481000503
+              ]
+            ]
+          }
+        },
+        "carrier": null,
+        "skinDiagnostics": {
+          "source": "posed-skinned-vertices",
+          "meshCount": 2,
+          "vertexCount": 432,
+          "bounds": {
+            "min": [
+              -0.6785841871321509,
+              0.2862468715294095,
+              0.6837606913214742
+            ],
+            "max": [
+              0.6171905676360412,
+              1.685923368318448,
+              1.7806847613295116
+            ]
+          },
+          "feet": [
+            {
+              "side": "left",
+              "weightedVertexCount": 24,
+              "min": [
+                0.2139783492735615,
+                0.28624687152940953,
+                0.684772832130003
+              ],
+              "max": [
+                0.4657987012852298,
+                0.36124687497530306,
+                0.8602261698054464
+              ],
+              "ankleWorld": [
+                0.26914927904762886,
+                0.34874687169704754,
+                0.7475804659752932
+              ],
+              "soleOffsetM": 0.06250000016763801
+            },
+            {
+              "side": "right",
+              "weightedVertexCount": 24,
+              "min": [
+                -0.3325619893776586,
+                0.2862468715294095,
+                1.559269206735765
+              ],
+              "max": [
+                -0.08530516717717329,
+                0.36124687497530306,
+                1.7806847613295116
+              ],
+              "ankleWorld": [
+                -0.2691492790476292,
+                0.3487468716970475,
+                1.625266038581388
+              ],
+              "soleOffsetM": 0.06250000016763801
+            }
+          ],
+          "legLengthM": 0.7905124837953328
+        },
+        "supportPlaneY": 0.2862468715294095,
+        "ride": {
+          "phase": "braking",
+          "paused": true,
+          "state": {
+            "config": {
+              "mass": 70,
+              "driveForce": 154,
+              "brakeForce": 210,
+              "linearDrag": 48,
+              "quadraticDrag": 2,
+              "lateralGrip": 800,
+              "maxTurnRate": 0.8,
+              "yawResponseSeconds": 0.22,
+              "turnSpeedScale": 1.2,
+              "gravity": 9.81,
+              "comHeightM": 0.6951974934529694,
+              "comHeightResponseSeconds": 0.25,
+              "comNaturalFrequency": 8,
+              "comDampingRatio": 1,
+              "supportHalfLengthM": 0.5088881962595958,
+              "supportHalfWidthM": 0.3141784711625531,
+              "maxLeanRadians": 0.45,
+              "maxDeltaTime": 2,
+              "integrationStep": 0.004166666666666667,
+              "stopSpeed": 0.0001
+            },
+            "time": 1.2833999999999999,
+            "position": [
+              0,
+              0,
+              1.1864232522783404
+            ],
+            "velocity": [
+              0,
+              0,
+              0.7663708339999212
+            ],
+            "heading": 0,
+            "yawRate": 0,
+            "acceleration": [
+              0,
+              0,
+              -3.5509482147390425
+            ],
+            "com": {
+              "offset": {
+                "forward": -0.10123492133723315,
+                "side": 0
+              },
+              "velocity": {
+                "forward": -0.7889711988041829,
+                "side": 0
+              }
+            },
+            "estimatedComHeightM": 0.6690371356222681,
+            "heightObservationStatus": "accepted",
+            "observedComHeightM": 0.6577808748556278,
+            "integratedDt": 0.016700000000000728,
+            "discardedDt": 0,
+            "pose": {
+              "forwardAcceleration": -3.5509482147390425,
+              "lateralAcceleration": 0,
+              "speed": 0.7663708339999212,
+              "turnRate": 0,
+              "targetLeanForward": -0.3473004939532364,
+              "targetLeanSide": 0,
+              "balanceLeanForward": -0.15017512994698842,
+              "balanceLeanSide": 0,
+              "crouch": 0.543019735963623,
+              "centerOfMassOffset": {
+                "forward": -0.10123492133723315,
+                "side": 0
+              },
+              "centerOfMassVelocity": {
+                "forward": -0.7889711988041829,
+                "side": 0
+              },
+              "zeroMomentPoint": {
+                "forward": 0.14093798613799774,
+                "side": 0
+              },
+              "loadRatio": {
+                "front": 0.6384763757284144,
+                "rear": 0.3615236242715856,
+                "right": 0.5,
+                "left": 0.5
+              },
+              "unclampedLoadRatio": {
+                "front": 0.6384763757284144,
+                "rear": 0.3615236242715856,
+                "right": 0.5,
+                "left": 0.5
+              },
+              "supportMarginM": 0.3141784711625531,
+              "supportExceeded": false,
+              "supportHalfLengthM": 0.5088881962595958,
+              "supportHalfWidthM": 0.3141784711625531,
+              "comHeightM": 0.6690371356222681,
+              "heightObservationStatus": "accepted",
+              "observedComHeightM": 0.6577808748556278,
+              "input": {
+                "throttle": 0,
+                "steer": 0,
+                "brake": 1
+              }
+            }
+          },
+          "anchorsLocal": [
+            [
+              0.2691492790476291,
+              0.34874687169704754,
+              -0.4388427863030473
+            ],
+            [
+              -0.2691492790476291,
+              0.34874687169704754,
+              0.4388427863030473
+            ]
+          ],
+          "anchorsWorld": [
+            [
+              0.2691492790476291,
+              0.34874687169704754,
+              0.7475804659752932
+            ],
+            [
+              -0.2691492790476291,
+              0.34874687169704754,
+              1.6252660385813877
+            ]
+          ],
+          "anchorGeneration": 4,
+          "anchorMode": "support"
+        },
+        "simulated": true
+      }
+    },
+    {
+      "case": "stopped",
+      "state": {
+        "profile": "standard",
+        "preset": "nimbus",
+        "connected": true,
+        "error": null,
+        "frames": 210,
+        "restored": true,
+        "metrics": {
+          "headWorld": [
+            -0.03048678581831466,
+            1.5389266500596812,
+            1.259938813102181
+          ],
+          "feetWorld": [
+            [
+              0.2691492790476291,
+              0.3487468716970474,
+              0.833621581508908
+            ],
+            [
+              -0.2691492790476293,
+              0.3487468716970475,
+              1.7113071541150027
+            ]
+          ],
+          "headDriftMm": 32.97704823682265,
+          "headRotationErrorDegrees": 0,
+          "handPositionErrorMm": null,
+          "handRotationErrorDegrees": null,
+          "knees": [
+            66.31165600731006,
+            67.68944191134754
+          ],
+          "upright": 0.9999999956133081,
+          "supportHeight": 0.34874687169704754,
+          "contactPlaneY": 0.2862468715294095,
+          "contactPlaneSource": "ankle-minus-measured-sole-offset",
+          "supportSoleOffsetM": 0.06250000016763807,
+          "supportMode": "fixed-foot-targets",
+          "anchorMode": "support",
+          "footTargetsWorld": [
+            [
+              0.2691492790476291,
+              0.34874687169704754,
+              0.8336215815089081
+            ],
+            [
+              -0.2691492790476291,
+              0.34874687169704754,
+              1.7113071541150027
+            ]
+          ],
+          "footTargetErrorMm": 2.288783399261119e-13,
+          "footTargetErrorsMm": [
+            2.0014830212433604e-13,
+            2.288783399261119e-13
+          ],
+          "ankleHeightSpreadMm": 1.1102230246251565e-13,
+          "contactPlaneErrorMm": 1.6653345369377348e-13,
+          "targetPlaneHeightSpreadMm": 0,
+          "stanceWorldM": 1.0296102670468679,
+          "boneLengthErrorMm": 1.6653345369377348e-13,
+          "bodyHeading": 0.8726646259971648,
+          "cloudHeading": 0,
+          "stanceWidth": 1,
+          "crouch": 0.45,
+          "requestedKneeDegrees": 67,
+          "requestedKneesDegrees": [
+            67.00189406329739,
+            66.99810593670261
+          ],
+          "kneeTargetErrorDegrees": 0.6913359746449288,
+          "poseLimited": true,
+          "poseLimitReasons": [
+            "fixed-support-changes-crouch"
+          ],
+          "armBalance": [
+            {
+              "side": "left",
+              "shoulderWorld": [
+                0.15745173833886705,
+                1.3789171587097289,
+                1.191548661590722
+              ],
+              "elbowWorld": [
+                0.29511494265466137,
+                1.3220961026892404,
+                0.9544406487142603
+              ],
+              "handWorld": [
+                0.5232526878788235,
+                1.2198845956800057,
+                0.9568854470569665
+              ],
+              "palmNormalWorld": [
+                -0.40882255419485125,
+                -0.9126033779021524,
+                -0.004381075573331578
+              ],
+              "fingerDirectionWorld": [
+                0.9125509808966482,
+                -0.4088460280369388,
+                0.009779193370825114
+              ],
+              "elbowFlexionDegrees": 58.443000574895336,
+              "palmDownDot": 0.9126033779021524,
+              "wristBendDegrees": 0,
+              "wristBindDeviationDegrees": 0,
+              "handBelowShoulderM": 0.15903256302972313,
+              "elbowAboveHandM": 0.10221150700923465,
+              "boneLengthErrorMm": 1.942890293094024e-13,
+              "palmReferenceSource": "body-bind-fallback"
+            },
+            {
+              "side": "right",
+              "shoulderWorld": [
+                -0.21842530997549636,
+                1.3789361428730675,
+                1.3283567176038213
+              ],
+              "elbowWorld": [
+                -0.46343417165313916,
+                1.249459375229077,
+                1.3684369414042175
+              ],
+              "handWorld": [
+                -0.591477086553957,
+                1.1245659414991052,
+                1.5430984487687167
+              ],
+              "palmNormalWorld": [
+                0.29536646170957953,
+                -0.8662713682087121,
+                -0.40290516243772506
+              ],
+              "fingerDirectionWorld": [
+                -0.5121716596032716,
+                -0.4995737349198876,
+                0.6986460294579971
+              ],
+              "elbowFlexionDegrees": 38.81402495983613,
+              "palmDownDot": 0.8662713682087121,
+              "wristBendDegrees": 0,
+              "wristBindDeviationDegrees": 0,
+              "handBelowShoulderM": 0.2543702013739624,
+              "elbowAboveHandM": 0.12489343372997186,
+              "boneLengthErrorMm": 5.551115123125783e-14,
+              "palmReferenceSource": "body-bind-fallback"
+            }
+          ],
+          "bodyBalance": {
+            "source": "bind-anatomical-frames",
+            "hipHeightPolicy": "mean-requested-height-with-knee-policy",
+            "maxKneeDegrees": 100,
+            "kneePolicyExceeded": false,
+            "hipBalanceLimited": false,
+            "pelvisYawDegrees": 50.00000005500457,
+            "chestYawDegrees": 20.000000177292236,
+            "footYawDegrees": 62,
+            "neckYawDegrees": 8.00000001216411,
+            "headChestYawDegrees": 20.000000177292236,
+            "hipChestYawDegrees": 29.999999877712327,
+            "neckPolicyExceeded": false,
+            "chestPolicyLimited": false,
+            "leanForward": -0.000138764951203229,
+            "leanSide": 0,
+            "hipsWorld": [
+              -0.03048678581831466,
+              0.8989266532022134,
+              1.2599987595609807
+            ]
+          },
+          "balanceProxy": {
+            "source": "weighted-bone-points-and-foot-rect-proxies",
+            "contactPlaneY": 0.2862468715294095,
+            "contactPlaneSource": "ankle-minus-measured-sole-offset",
+            "centerOfMassWorld": [
+              5.902323728093281e-7,
+              0.9814439861439066,
+              1.2723682499544922
+            ],
+            "targetCenterOfMassWorld": [
+              0,
+              0.9814439861439066,
+              1.272367981166455
+            ],
+            "centerOfMassOffset": {
+              "forward": -0.00009611785746321821,
+              "side": 5.902323728093281e-7
+            },
+            "centerOfMassErrorMm": 0.000648553207403218,
+            "zeroMomentPointWorld": [
+              5.902323728093281e-7,
+              0.2862468715294095,
+              1.2723682499544922
+            ],
+            "loadRatio": {
+              "front": 0.4999201215040921,
+              "rear": 0.500079878495908
+            },
+            "requestedLoadRatio": {
+              "front": 0.4999052968351311,
+              "rear": 0.5000947031648689
+            },
+            "loadRatioError": 0.00001482466896102208,
+            "unclampedFrontLoadRatio": 0.4999201215040921,
+            "supportMarginM": 0.11356911566444665,
+            "supportExceeded": false,
+            "footHull2D": [
+              [
+                -0.39098963583050683,
+                1.7047186869063027
+              ],
+              [
+                -0.34274362877851716,
+                1.6139811445963401
+              ],
+              [
+                0.19555492931674104,
+                0.7362955719902456
+              ],
+              [
+                0.39098963583050683,
+                0.840210048717608
+              ],
+              [
+                0.34274362877851716,
+                0.9309475910275705
+              ],
+              [
+                -0.19555492931674104,
+                1.8086331636336652
+              ]
+            ]
+          }
+        },
+        "carrier": null,
+        "skinDiagnostics": {
+          "source": "posed-skinned-vertices",
+          "meshCount": 2,
+          "vertexCount": 432,
+          "bounds": {
+            "min": [
+              -0.6794318641274828,
+              0.28624687152940936,
+              0.7708139476636178
+            ],
+            "max": [
+              0.6190976407912923,
+              1.7389266595964243,
+              1.8667258768631263
+            ]
+          },
+          "feet": [
+            {
+              "side": "left",
+              "weightedVertexCount": 24,
+              "min": [
+                0.2139783492735617,
+                0.28624687152940936,
+                0.7708139476636178
+              ],
+              "max": [
+                0.46579870128523,
+                0.3612468749753029,
+                0.9462672853390612
+              ],
+              "ankleWorld": [
+                0.2691492790476291,
+                0.3487468716970474,
+                0.833621581508908
+              ],
+              "soleOffsetM": 0.06250000016763801
+            },
+            {
+              "side": "right",
+              "weightedVertexCount": 24,
+              "min": [
+                -0.3325619893776587,
+                0.2862468715294094,
+                1.6453103222693797
+              ],
+              "max": [
+                -0.08530516717717329,
+                0.36124687497530306,
+                1.8667258768631263
+              ],
+              "ankleWorld": [
+                -0.2691492790476293,
+                0.3487468716970475,
+                1.7113071541150027
+              ],
+              "soleOffsetM": 0.06250000016763807
+            }
+          ],
+          "legLengthM": 0.7905124837953328
+        },
+        "supportPlaneY": 0.2862468715294095,
+        "ride": {
+          "phase": "braking",
+          "paused": true,
+          "state": {
+            "config": {
+              "mass": 70,
+              "driveForce": 154,
+              "brakeForce": 210,
+              "linearDrag": 48,
+              "quadraticDrag": 2,
+              "lateralGrip": 800,
+              "maxTurnRate": 0.8,
+              "yawResponseSeconds": 0.22,
+              "turnSpeedScale": 1.2,
+              "gravity": 9.81,
+              "comHeightM": 0.6951974934529694,
+              "comHeightResponseSeconds": 0.25,
+              "comNaturalFrequency": 8,
+              "comDampingRatio": 1,
+              "supportHalfLengthM": 0.5088881962595958,
+              "supportHalfWidthM": 0.3141784711625531,
+              "maxLeanRadians": 0.45,
+              "maxDeltaTime": 2,
+              "integrationStep": 0.004166666666666667,
+              "stopSpeed": 0.0001
+            },
+            "time": 2.8168999999999986,
+            "position": [
+              0,
+              0,
+              1.2724643678119554
+            ],
+            "velocity": [
+              0,
+              0,
+              0
+            ],
+            "heading": 0,
+            "yawRate": 0,
+            "acceleration": [
+              0,
+              0,
+              0
+            ],
+            "com": {
+              "offset": {
+                "forward": -0.00009638664550045385,
+                "side": 0
+              },
+              "velocity": {
+                "forward": 0.0006614680837876692,
+                "side": 0
+              }
+            },
+            "estimatedComHeightM": 0.6946036736655913,
+            "heightObservationStatus": "accepted",
+            "observedComHeightM": 0.6951970677328474,
+            "integratedDt": 0.016700000000000728,
+            "discardedDt": 0,
+            "pose": {
+              "forwardAcceleration": 0,
+              "lateralAcceleration": 0,
+              "speed": 0,
+              "turnRate": 0,
+              "targetLeanForward": 0,
+              "targetLeanSide": 0,
+              "balanceLeanForward": -0.000138764951203229,
+              "balanceLeanSide": 0,
+              "crouch": 0.45,
+              "centerOfMassOffset": {
+                "forward": -0.00009638664550045385,
+                "side": 0
+              },
+              "centerOfMassVelocity": {
+                "forward": 0.0006614680837876692,
+                "side": 0
+              },
+              "zeroMomentPoint": {
+                "forward": -0.00009638664550045385,
+                "side": 0
+              },
+              "loadRatio": {
+                "front": 0.4999052968351311,
+                "rear": 0.5000947031648689,
+                "right": 0.5,
+                "left": 0.5
+              },
+              "unclampedLoadRatio": {
+                "front": 0.4999052968351311,
+                "rear": 0.5000947031648689,
+                "right": 0.5,
+                "left": 0.5
+              },
+              "supportMarginM": 0.3141784711625531,
+              "supportExceeded": false,
+              "supportHalfLengthM": 0.5088881962595958,
+              "supportHalfWidthM": 0.3141784711625531,
+              "comHeightM": 0.6946036736655913,
+              "heightObservationStatus": "accepted",
+              "observedComHeightM": 0.6951970677328474,
+              "input": {
+                "throttle": 0,
+                "steer": 0,
+                "brake": 1
+              }
+            }
+          },
+          "anchorsLocal": [
+            [
+              0.2691492790476291,
+              0.34874687169704754,
+              -0.4388427863030473
+            ],
+            [
+              -0.2691492790476291,
+              0.34874687169704754,
+              0.4388427863030473
+            ]
+          ],
+          "anchorsWorld": [
+            [
+              0.2691492790476291,
+              0.34874687169704754,
+              0.8336215815089081
+            ],
+            [
+              -0.2691492790476291,
+              0.34874687169704754,
+              1.7113071541150027
+            ]
+          ],
+          "anchorGeneration": 4,
+          "anchorMode": "support"
+        },
+        "simulated": true
+      }
+    },
+    {
+      "case": "driveLeft",
+      "state": {
+        "profile": "standard",
+        "preset": "nimbus",
+        "connected": true,
+        "error": null,
+        "frames": 328,
+        "restored": true,
+        "metrics": {
+          "headWorld": [
+            -0.1799158940937931,
+            1.5289674283772905,
+            1.6551951643685752
+          ],
+          "feetWorld": [
+            [
+              0.28262508027992356,
+              0.34874687169704766,
+              1.3662983389026024
+            ],
+            [
+              -0.48874708554672514,
+              0.34874687169704743,
+              2.0482677544897143
+            ]
+          ],
+          "headDriftMm": 93.49620026167398,
+          "headRotationErrorDegrees": 0,
+          "handPositionErrorMm": null,
+          "handRotationErrorDegrees": null,
+          "knees": [
+            65.74373146135348,
+            70.58159400060093
+          ],
+          "upright": 0.9993339775055702,
+          "supportHeight": 0.34874687169704754,
+          "contactPlaneY": 0.2862468715294095,
+          "contactPlaneSource": "ankle-minus-measured-sole-offset",
+          "supportSoleOffsetM": 0.06250000016763807,
+          "supportMode": "fixed-foot-targets",
+          "anchorMode": "support",
+          "footTargetsWorld": [
+            [
+              0.2826250802799235,
+              0.34874687169704754,
+              1.3662983389026024
+            ],
+            [
+              -0.4887470855467252,
+              0.34874687169704754,
+              2.0482677544897143
+            ]
+          ],
+          "footTargetErrorMm": 1.2412670766236365e-13,
+          "footTargetErrorsMm": [
+            1.2412670766236365e-13,
+            1.2412670766236365e-13
+          ],
+          "ankleHeightSpreadMm": 2.220446049250313e-13,
+          "contactPlaneErrorMm": 1.1102230246251565e-13,
+          "targetPlaneHeightSpreadMm": 0,
+          "stanceWorldM": 1.0296102670468674,
+          "boneLengthErrorMm": 3.3306690738754696e-13,
+          "bodyHeading": 0.5759817226480365,
+          "cloudHeading": -0.2966829033491283,
+          "stanceWidth": 1,
+          "crouch": 0.4693057369370463,
+          "requestedKneeDegrees": 68.15834421622279,
+          "requestedKneesDegrees": [
+            68.17598066767229,
+            68.14070776477328
+          ],
+          "kneeTargetErrorDegrees": 2.440886235827648,
+          "poseLimited": true,
+          "poseLimitReasons": [
+            "fixed-support-changes-crouch"
+          ],
+          "armBalance": [
+            {
+              "side": "left",
+              "shoulderWorld": [
+                0.024234259157377647,
+                1.3780299101793418,
+                1.6474602358212664
+              ],
+              "elbowWorld": [
+                0.22199210609269254,
+                1.3271606585517919,
+                1.4558769557199966
+              ],
+              "handWorld": [
+                0.44232574315910633,
+                1.2351167106133147,
+                1.5299107319642538
+              ],
+              "palmNormalWorld": [
+                -0.3490012178028246,
+                -0.9297561972723722,
+                -0.11726706104342755
+              ],
+              "fingerDirectionWorld": [
+                0.8813345482656553,
+                -0.36817579175390874,
+                0.29613510497702855
+              ],
+              "elbowFlexionDegrees": 60.8739529260169,
+              "palmDownDot": 0.9297561972723722,
+              "wristBendDegrees": 8.537736462515939e-7,
+              "wristBindDeviationDegrees": 0,
+              "handBelowShoulderM": 0.1429131995660271,
+              "elbowAboveHandM": 0.09204394793847714,
+              "boneLengthErrorMm": 5.551115123125783e-14,
+              "palmReferenceSource": "body-bind-fallback"
+            },
+            {
+              "side": "right",
+              "shoulderWorld": [
+                -0.37480978364013495,
+                1.3601271156330714,
+                1.6685159204515738
+              ],
+              "elbowWorld": [
+                -0.6156861491166397,
+                1.218952205517585,
+                1.6473446826815779
+              ],
+              "handWorld": [
+                -0.7939890901671158,
+                1.0889980570246376,
+                1.764903095831056
+              ],
+              "palmNormalWorld": [
+                0.4339797571545829,
+                -0.8542778872425341,
+                -0.2861308472508365
+              ],
+              "fingerDirectionWorld": [
+                -0.7132117642019046,
+                -0.5198165939717895,
+                0.4702336525979129
+              ],
+              "elbowFlexionDegrees": 32.850265969051435,
+              "palmDownDot": 0.8542778872425341,
+              "wristBendDegrees": 0,
+              "wristBindDeviationDegrees": 0,
+              "handBelowShoulderM": 0.27112905860843384,
+              "elbowAboveHandM": 0.1299541484929474,
+              "boneLengthErrorMm": 1.1102230246251565e-13,
+              "palmReferenceSource": "body-bind-fallback"
+            }
+          ],
+          "bodyBalance": {
+            "source": "bind-anatomical-frames",
+            "hipHeightPolicy": "mean-requested-height-with-knee-policy",
+            "maxKneeDegrees": 100,
+            "kneePolicyExceeded": false,
+            "hipBalanceLimited": false,
+            "pelvisYawDegrees": 49.98932467533684,
+            "chestYawDegrees": 19.941304755564534,
+            "footYawDegrees": 62,
+            "neckYawDegrees": 7.992159361462471,
+            "headChestYawDegrees": 19.941304755564538,
+            "hipChestYawDegrees": 30.048019919772305,
+            "neckPolicyExceeded": false,
+            "chestPolicyLimited": false,
+            "leanForward": -0.01317888191459717,
+            "leanSide": -0.052443413387714626,
+            "hipsWorld": [
+              -0.15992189447540497,
+              0.8894445209388914,
+              1.6672607024204869
+            ]
+          },
+          "balanceProxy": {
+            "source": "weighted-bone-points-and-foot-rect-proxies",
+            "contactPlaneY": 0.2862468715294095,
+            "contactPlaneSource": "ankle-minus-measured-sole-offset",
+            "centerOfMassWorld": [
+              -0.1349601671525336,
+              0.9745626916940769,
+              1.6880454943058825
+            ],
+            "targetCenterOfMassWorld": [
+              -0.13496112667105475,
+              0.9745626916940769,
+              1.688044812755049
+            ],
+            "centerOfMassOffset": {
+              "forward": -0.009071383228755187,
+              "side": -0.03612962946536218
+            },
+            "centerOfMassErrorMm": 0.0011769398162900732,
+            "zeroMomentPointWorld": [
+              -0.09972548589199068,
+              0.2862468715294095,
+              1.707364624160522
+            ],
+            "loadRatio": {
+              "front": 0.49762541473079264,
+              "rear": 0.5023745852692074
+            },
+            "requestedLoadRatio": {
+              "front": 0.4991181774275248,
+              "rear": 0.5008818225724752
+            },
+            "loadRatioError": 0.0014927626967321528,
+            "unclampedFrontLoadRatio": 0.49762541473079264,
+            "supportMarginM": 0.11134844538198566,
+            "supportExceeded": false,
+            "footHull2D": [
+              [
+                0.009575531602754594,
+                2.095078578731872
+              ],
+              [
+                0.057821538654744375,
+                2.004341036421909
+              ],
+              [
+                0.5961200967500025,
+                1.1266554638158153
+              ],
+              [
+                0.7915548032637683,
+                1.2305699405431774
+              ],
+              [
+                0.7433087962117786,
+                1.32130748285314
+              ],
+              [
+                0.20501023811652053,
+                2.1989930554592347
+              ]
+            ]
+          }
+        },
+        "carrier": null,
+        "skinDiagnostics": {
+          "source": "posed-skinned-vertices",
+          "meshCount": 2,
+          "vertexCount": 432,
+          "bounds": {
+            "min": [
+              -0.8943003267542653,
+              0.2862468715294094,
+              1.3003045760892893
+            ],
+            "max": [
+              0.5457287274990246,
+              1.7289674379140336,
+              2.2323435062602193
+            ]
+          },
+          "feet": [
+            {
+              "side": "left",
+              "weightedVertexCount": 24,
+              "min": [
+                0.21927344266498677,
+                0.28624687152940964,
+                1.3003045760892893
+              ],
+              "max": [
+                0.46670408534474656,
+                0.36124687497530317,
+                1.5213140079985288
+              ],
+              "ankleWorld": [
+                0.28262508027992356,
+                0.34874687169704766,
+                1.3662983389026024
+              ],
+              "soleOffsetM": 0.06250000016763801
+            },
+            {
+              "side": "right",
+              "weightedVertexCount": 24,
+              "min": [
+                -0.5547408961033924,
+                0.2862468715294094,
+                1.9849152626606572
+              ],
+              "max": [
+                -0.3337257985646319,
+                0.361246874975303,
+                2.2323435062602193
+              ],
+              "ankleWorld": [
+                -0.48874708554672514,
+                0.34874687169704743,
+                2.0482677544897143
+              ],
+              "soleOffsetM": 0.06250000016763801
+            }
+          ],
+          "legLengthM": 0.7905124837953328
+        },
+        "supportPlaneY": 0.2862468715294095,
+        "ride": {
+          "phase": "turning-left",
+          "paused": true,
+          "state": {
+            "config": {
+              "mass": 70,
+              "driveForce": 154,
+              "brakeForce": 210,
+              "linearDrag": 48,
+              "quadraticDrag": 2,
+              "lateralGrip": 800,
+              "maxTurnRate": 0.8,
+              "yawResponseSeconds": 0.22,
+              "turnSpeedScale": 1.2,
+              "gravity": 9.81,
+              "comHeightM": 0.6951974934529694,
+              "comHeightResponseSeconds": 0.25,
+              "comNaturalFrequency": 8,
+              "comDampingRatio": 1,
+              "supportHalfLengthM": 0.5088881962595958,
+              "supportHalfWidthM": 0.3141784711625531,
+              "maxLeanRadians": 0.45,
+              "maxDeltaTime": 2,
+              "integrationStep": 0.004166666666666667,
+              "stopSpeed": 0.0001
+            },
+            "time": 1.683500000000001,
+            "position": [
+              -0.10306100263340084,
+              0,
+              1.7072830466961584
+            ],
+            "velocity": [
+              -0.31620887863480174,
+              0,
+              1.186177713390967
+            ],
+            "heading": -0.2966829033491283,
+            "yawRate": -0.4582107242169438,
+            "acceleration": [
+              -0.5021709701271063,
+              0,
+              -0.27533968902338146
+            ],
+            "com": {
+              "offset": {
+                "forward": -0.009071754488758329,
+                "side": -0.03613074631510202
+              },
+              "velocity": {
+                "forward": 0.0008038638597657909,
+                "side": -0.0193817897558757
+              }
+            },
+            "estimatedComHeightM": 0.6883155444064931,
+            "heightObservationStatus": "accepted",
+            "observedComHeightM": 0.6883022207555272,
+            "integratedDt": 0.01669999999999891,
+            "discardedDt": 0,
+            "pose": {
+              "forwardAcceleration": -0.11650100724467888,
+              "lateralAcceleration": -0.5607273338271167,
+              "speed": 1.2276015732610077,
+              "turnRate": -0.4582107242169438,
+              "targetLeanForward": -0.01187518153635522,
+              "targetLeanSide": -0.05709662314974186,
+              "balanceLeanForward": -0.01317888191459717,
+              "balanceLeanSide": -0.052443413387714626,
+              "crouch": 0.46930573693704636,
+              "centerOfMassOffset": {
+                "forward": -0.009071754488758329,
+                "side": -0.03613074631510202
+              },
+              "centerOfMassVelocity": {
+                "forward": 0.0008038638597657909,
+                "side": -0.0193817897558757
+              },
+              "zeroMomentPoint": {
+                "forward": -0.0008974981966557855,
+                "side": 0.0032125095510359275
+              },
+              "loadRatio": {
+                "front": 0.4991181774275248,
+                "rear": 0.5008818225724752,
+                "right": 0.5051125551969693,
+                "left": 0.4948874448030307
+              },
+              "unclampedLoadRatio": {
+                "front": 0.4991181774275248,
+                "rear": 0.5008818225724752,
+                "right": 0.5051125551969693,
+                "left": 0.4948874448030307
+              },
+              "supportMarginM": 0.3109659616115172,
+              "supportExceeded": false,
+              "supportHalfLengthM": 0.5088881962595958,
+              "supportHalfWidthM": 0.3141784711625531,
+              "comHeightM": 0.6883155444064931,
+              "heightObservationStatus": "accepted",
+              "observedComHeightM": 0.6883022207555272,
+              "input": {
+                "throttle": 0.35,
+                "steer": -0.75,
+                "brake": 0
+              }
+            }
+          },
+          "anchorsLocal": [
+            [
+              0.2691492790476291,
+              0.34874687169704754,
+              -0.4388427863030473
+            ],
+            [
+              -0.2691492790476291,
+              0.34874687169704754,
+              0.4388427863030473
+            ]
+          ],
+          "anchorsWorld": [
+            [
+              0.2826250802799235,
+              0.34874687169704754,
+              1.3662983389026024
+            ],
+            [
+              -0.4887470855467252,
+              0.34874687169704754,
+              2.0482677544897143
+            ]
+          ],
+          "anchorGeneration": 5,
+          "anchorMode": "support"
+        },
+        "simulated": true
+      }
+    },
+    {
+      "case": "driveRight",
+      "state": {
+        "profile": "standard",
+        "preset": "nimbus",
+        "connected": true,
+        "error": null,
+        "frames": 446,
+        "restored": true,
+        "metrics": {
+          "headWorld": [
+            0.12090544649416421,
+            1.5330619190368653,
+            1.6740968032022525
+          ],
+          "feetWorld": [
+            [
+              0.23220990042570444,
+              0.3487468716970476,
+              1.2090977711553856
+            ],
+            [
+              -0.025947493850671605,
+              0.34874687169704743,
+              2.20581842499414
+            ]
+          ],
+          "headDriftMm": 38.43223496741587,
+          "headRotationErrorDegrees": 0.0000017075472925031877,
+          "handPositionErrorMm": null,
+          "handRotationErrorDegrees": null,
+          "knees": [
+            71.78984406693061,
+            64.53626618828835
+          ],
+          "upright": 0.9993349232477049,
+          "supportHeight": 0.34874687169704754,
+          "contactPlaneY": 0.2862468715294095,
+          "contactPlaneSource": "ankle-minus-measured-sole-offset",
+          "supportSoleOffsetM": 0.06250000016763807,
+          "supportMode": "fixed-foot-targets",
+          "anchorMode": "support",
+          "footTargetsWorld": [
+            [
+              0.23220990042570452,
+              0.34874687169704754,
+              1.2090977711553856
+            ],
+            [
+              -0.02594749385067155,
+              0.34874687169704754,
+              2.20581842499414
+            ]
+          ],
+          "footTargetErrorMm": 1.2412670766236365e-13,
+          "footTargetErrorsMm": [
+            1.0007415106216802e-13,
+            1.2412670766236365e-13
+          ],
+          "ankleHeightSpreadMm": 1.6653345369377348e-13,
+          "contactPlaneErrorMm": 1.1102230246251565e-13,
+          "targetPlaneHeightSpreadMm": 0,
+          "stanceWorldM": 1.0296102670468679,
+          "boneLengthErrorMm": 1.6653345369377348e-13,
+          "bodyHeading": 1.1693802804825382,
+          "cloudHeading": 0.29671565448537346,
+          "stanceWidth": 1,
+          "crouch": 0.4693085576851534,
+          "requestedKneeDegrees": 68.15851346110921,
+          "requestedKneesDegrees": [
+            68.17608025411515,
+            68.14094666810327
+          ],
+          "kneeTargetErrorDegrees": 3.6137638128154634,
+          "poseLimited": true,
+          "poseLimitReasons": [
+            "fixed-support-changes-crouch"
+          ],
+          "armBalance": [
+            {
+              "side": "left",
+              "shoulderWorld": [
+                0.2757167411297929,
+                1.362428532106962,
+                1.5566186634990815
+              ],
+              "elbowWorld": [
+                0.3434936382488279,
+                1.2931126518415048,
+                1.2939371054103177
+              ],
+              "handWorld": [
+                0.5562926977470702,
+                1.1811803421418177,
+                1.225470191342596
+              ],
+              "palmNormalWorld": [
+                -0.42621178490220724,
+                -0.8941691835020333,
+                0.1371312717281569
+              ],
+              "fingerDirectionWorld": [
+                0.8511962379929698,
+                -0.4477292387987487,
+                -0.27386765627088666
+              ],
+              "elbowFlexionDegrees": 54.98381940854067,
+              "palmDownDot": 0.8941691835020333,
+              "wristBendDegrees": 0,
+              "wristBindDeviationDegrees": 0.0000024148365394514667,
+              "handBelowShoulderM": 0.18124818996514436,
+              "elbowAboveHandM": 0.11193230969968715,
+              "boneLengthErrorMm": 0,
+              "palmReferenceSource": "body-bind-fallback"
+            },
+            {
+              "side": "right",
+              "shoulderWorld": [
+                -0.043154857910198144,
+                1.383917159576213,
+                1.797157937246981
+              ],
+              "elbowWorld": [
+                -0.2773219473360047,
+                1.268387703390136,
+                1.8982456169275221
+              ],
+              "handWorld": [
+                -0.3364925786086119,
+                1.1518830729085263,
+                2.111378222295975
+              ],
+              "palmNormalWorld": [
+                0.12466270517946454,
+                -0.8847749641697017,
+                -0.44903504620000545
+              ],
+              "fingerDirectionWorld": [
+                -0.23668252509042847,
+                -0.4660185219264392,
+                0.8525304214738123
+              ],
+              "elbowFlexionDegrees": 45.73253772062259,
+              "palmDownDot": 0.8847749641697017,
+              "wristBendDegrees": 0,
+              "wristBindDeviationDegrees": 0,
+              "handBelowShoulderM": 0.23203408666768666,
+              "elbowAboveHandM": 0.11650463048160975,
+              "boneLengthErrorMm": 1.1102230246251565e-13,
+              "palmReferenceSource": "body-bind-fallback"
+            }
+          ],
+          "bodyBalance": {
+            "source": "bind-anatomical-frames",
+            "hipHeightPolicy": "mean-requested-height-with-knee-policy",
+            "maxKneeDegrees": 100,
+            "kneePolicyExceeded": false,
+            "hipBalanceLimited": false,
+            "pelvisYawDegrees": 49.995960198854284,
+            "chestYawDegrees": 20.01123069272775,
+            "footYawDegrees": 62,
+            "neckYawDegrees": 8.00458085202299,
+            "headChestYawDegrees": 20.011230692727747,
+            "hipChestYawDegrees": 29.984729506126534,
+            "neckPolicyExceeded": false,
+            "chestPolicyLimited": false,
+            "leanForward": -0.0131742222983734,
+            "leanSide": 0.05240497893880809,
+            "hipsWorld": [
+              0.10092711636022575,
+              0.8935383341772314,
+              1.6861562212640504
+            ]
+          },
+          "balanceProxy": {
+            "source": "weighted-bone-points-and-foot-rect-proxies",
+            "contactPlaneY": 0.2862468715294095,
+            "contactPlaneSource": "ankle-minus-measured-sole-offset",
+            "centerOfMassWorld": [
+              0.1350520117396089,
+              0.9758718183673224,
+              1.6882023173819427
+            ],
+            "targetCenterOfMassWorld": [
+              0.1350519365066775,
+              0.9758718183673224,
+              1.6882020931080437
+            ],
+            "centerOfMassOffset": {
+              "forward": -0.009081303424322156,
+              "side": 0.036155954287510596
+            },
+            "centerOfMassErrorMm": 0.00023655607315184807,
+            "zeroMomentPointWorld": [
+              0.09974566480310187,
+              0.2862468715294095,
+              1.707562656128692
+            ],
+            "loadRatio": {
+              "front": 0.5009227614893293,
+              "rear": 0.49907723851067065
+            },
+            "requestedLoadRatio": {
+              "front": 0.4991216603497027,
+              "rear": 0.5008783396502974
+            },
+            "loadRatioError": 0.0018011011396266707,
+            "unclampedFrontLoadRatio": 0.5009227614893293,
+            "supportMarginM": 0.110367689127742,
+            "supportExceeded": false,
+            "footHull2D": [
+              [
+                -0.7915933111028265,
+                2.0952533861809557
+              ],
+              [
+                -0.7433473040508367,
+                2.0045158438709922
+              ],
+              [
+                -0.20504874595557843,
+                1.1268302712648979
+              ],
+              [
+                -0.009614039441812772,
+                1.2307447479922602
+              ],
+              [
+                -0.057860046493802386,
+                1.321482290302223
+              ],
+              [
+                -0.5961586045890606,
+                2.1991678629083173
+              ]
+            ]
+          }
+        },
+        "carrier": null,
+        "skinDiagnostics": {
+          "source": "posed-skinned-vertices",
+          "meshCount": 2,
+          "vertexCount": 432,
+          "bounds": {
+            "min": [
+              -0.4003877930683566,
+              0.28624687152940936,
+              1.1549654455362361
+            ],
+            "max": [
+              0.6590035139154415,
+              1.7330619285736084,
+              2.3189948114527206
+            ]
+          },
+          "feet": [
+            {
+              "side": "left",
+              "weightedVertexCount": 24,
+              "min": [
+                0.19004201168225016,
+                0.2862468715294096,
+                1.1549654455362361
+              ],
+              "max": [
+                0.4242456468094329,
+                0.3612468749753031,
+                1.269524721138612
+              ],
+              "ankleWorld": [
+                0.23220990042570444,
+                0.3487468716970476,
+                1.2090977711553856
+              ],
+              "soleOffsetM": 0.06250000016763801
+            },
+            {
+              "side": "right",
+              "weightedVertexCount": 24,
+              "min": [
+                -0.08123711112102042,
+                0.28624687152940936,
+                2.142944515772108
+              ],
+              "max": [
+                0.17065616318019355,
+                0.361246874975303,
+                2.3189948114527206
+              ],
+              "ankleWorld": [
+                -0.025947493850671605,
+                0.34874687169704743,
+                2.20581842499414
+              ],
+              "soleOffsetM": 0.06250000016763807
+            }
+          ],
+          "legLengthM": 0.7905124837953328
+        },
+        "supportPlaneY": 0.2862468715294095,
+        "ride": {
+          "phase": "turning-right",
+          "paused": true,
+          "state": {
+            "config": {
+              "mass": 70,
+              "driveForce": 154,
+              "brakeForce": 210,
+              "linearDrag": 48,
+              "quadraticDrag": 2,
+              "lateralGrip": 800,
+              "maxTurnRate": 0.8,
+              "yawResponseSeconds": 0.22,
+              "turnSpeedScale": 1.2,
+              "gravity": 9.81,
+              "comHeightM": 0.6951974934529694,
+              "comHeightResponseSeconds": 0.25,
+              "comNaturalFrequency": 8,
+              "comDampingRatio": 1,
+              "supportHalfLengthM": 0.5088881962595958,
+              "supportHalfWidthM": 0.3141784711625531,
+              "maxLeanRadians": 0.45,
+              "maxDeltaTime": 2,
+              "integrationStep": 0.004166666666666667,
+              "stopSpeed": 0.0001
+            },
+            "time": 1.6836000000000022,
+            "position": [
+              0.10313120328751649,
+              0,
+              1.707458098074763
+            ],
+            "velocity": [
+              0.31625012710020334,
+              0,
+              1.1861983880334932
+            ],
+            "heading": 0.29671565448537346,
+            "yawRate": 0.458218565590598,
+            "acceleration": [
+              0.5022371435883397,
+              0,
+              -0.2754032086229782
+            ],
+            "com": {
+              "offset": {
+                "forward": -0.009081539894560542,
+                "side": 0.03615594791553209
+              },
+              "velocity": {
+                "forward": 0.0007882142127297883,
+                "side": 0.01947742048081351
+              }
+            },
+            "estimatedComHeightM": 0.6893017504224619,
+            "heightObservationStatus": "accepted",
+            "observedComHeightM": 0.689598575801543,
+            "integratedDt": 0.016700000000000728,
+            "discardedDt": 0,
+            "pose": {
+              "forwardAcceleration": -0.11652403877994005,
+              "lateralAcceleration": 0.5608130027968479,
+              "speed": 1.2276321756390034,
+              "turnRate": 0.458218565590598,
+              "targetLeanForward": -0.011877528966209062,
+              "targetLeanSide": 0.05710532752769019,
+              "balanceLeanForward": -0.0131742222983734,
+              "balanceLeanSide": 0.05240497893880809,
+              "crouch": 0.46930855768515334,
+              "centerOfMassOffset": {
+                "forward": -0.009081539894560542,
+                "side": 0.03615594791553209
+              },
+              "centerOfMassVelocity": {
+                "forward": 0.0007882142127297883,
+                "side": 0.01947742048081351
+              },
+              "zeroMomentPoint": {
+                "forward": -0.0008939533606861783,
+                "side": -0.0032496978018526496
+              },
+              "loadRatio": {
+                "front": 0.4991216603497027,
+                "rear": 0.5008783396502974,
+                "right": 0.494828261481718,
+                "left": 0.505171738518282
+              },
+              "unclampedLoadRatio": {
+                "front": 0.4991216603497027,
+                "rear": 0.5008783396502974,
+                "right": 0.494828261481718,
+                "left": 0.505171738518282
+              },
+              "supportMarginM": 0.31092877336070046,
+              "supportExceeded": false,
+              "supportHalfLengthM": 0.5088881962595958,
+              "supportHalfWidthM": 0.3141784711625531,
+              "comHeightM": 0.6893017504224619,
+              "heightObservationStatus": "accepted",
+              "observedComHeightM": 0.689598575801543,
+              "input": {
+                "throttle": 0.35,
+                "steer": 0.75,
+                "brake": 0
+              }
+            }
+          },
+          "anchorsLocal": [
+            [
+              0.2691492790476291,
+              0.34874687169704754,
+              -0.4388427863030473
+            ],
+            [
+              -0.2691492790476291,
+              0.34874687169704754,
+              0.4388427863030473
+            ]
+          ],
+          "anchorsWorld": [
+            [
+              0.23220990042570452,
+              0.34874687169704754,
+              1.2090977711553856
+            ],
+            [
+              -0.02594749385067155,
+              0.34874687169704754,
+              2.20581842499414
+            ]
+          ],
+          "anchorGeneration": 6,
+          "anchorMode": "support"
+        },
+        "simulated": true
+      }
+    },
+    {
+      "case": "pause",
+      "state": {
+        "profile": "standard",
+        "preset": "nimbus",
+        "connected": true,
+        "error": null,
+        "frames": 466,
+        "restored": true,
+        "metrics": {
+          "headWorld": [
+            -0.03048663028130105,
+            1.5389284874505438,
+            -0.012373083708301508
+          ],
+          "feetWorld": [
+            [
+              0.269149279047629,
+              0.34874687169704766,
+              -0.43884278630304707
+            ],
+            [
+              -0.2691492790476292,
+              0.3487468716970476,
+              0.4388427863030471
+            ]
+          ],
+          "headDriftMm": 32.91923397506419,
+          "headRotationErrorDegrees": 0,
+          "handPositionErrorMm": null,
+          "handRotationErrorDegrees": null,
+          "knees": [
+            66.29770311918227,
+            67.70339995413366
+          ],
+          "upright": 1,
+          "supportHeight": 0.34874687169704754,
+          "contactPlaneY": 0.2862468715294095,
+          "contactPlaneSource": "ankle-minus-measured-sole-offset",
+          "supportSoleOffsetM": 0.06250000016763807,
+          "supportMode": "fixed-foot-targets",
+          "anchorMode": "support",
+          "footTargetsWorld": [
+            [
+              0.2691492790476291,
+              0.34874687169704754,
+              -0.4388427863030473
+            ],
+            [
+              -0.2691492790476291,
+              0.34874687169704754,
+              0.4388427863030473
+            ]
+          ],
+          "footTargetErrorMm": 2.7194799110210365e-13,
+          "footTargetErrorsMm": [
+            2.7194799110210365e-13,
+            2.077037090527612e-13
+          ],
+          "ankleHeightSpreadMm": 5.551115123125783e-14,
+          "contactPlaneErrorMm": 1.1102230246251565e-13,
+          "targetPlaneHeightSpreadMm": 0,
+          "stanceWorldM": 1.0296102670468672,
+          "boneLengthErrorMm": 2.220446049250313e-13,
+          "bodyHeading": 0.8726646259971648,
+          "cloudHeading": 0,
+          "stanceWidth": 1,
+          "crouch": 0.45,
+          "requestedKneeDegrees": 67,
+          "requestedKneesDegrees": [
+            67,
+            67
+          ],
+          "kneeTargetErrorDegrees": 0.7033999541336584,
+          "poseLimited": true,
+          "poseLimitReasons": [
+            "fixed-support-changes-crouch"
+          ],
+          "armBalance": [
+            {
+              "side": "left",
+              "shoulderWorld": [
+                0.15745189387588066,
+                1.3789284874505436,
+                -0.08077711237343524
+              ],
+              "elbowWorld": [
+                0.29511535320636106,
+                1.3221403781649208,
+                -0.31789287019844636
+              ],
+              "handWorld": [
+                0.5232528434158371,
+                1.2199284874505436,
+                -0.31544032916649445
+              ],
+              "palmNormalWorld": [
+                -0.4088239399678358,
+                -0.912602690301467,
+                -0.004394970272946908
+              ],
+              "fingerDirectionWorld": [
+                0.9125499608379043,
+                -0.40884756285750884,
+                0.009810164127807662
+              ],
+              "elbowFlexionDegrees": 58.44797375532235,
+              "palmDownDot": 0.912602690301467,
+              "wristBendDegrees": 0,
+              "wristBindDeviationDegrees": 0.0000017075472925031877,
+              "handBelowShoulderM": 0.15900000000000003,
+              "elbowAboveHandM": 0.1022118907143772,
+              "boneLengthErrorMm": 0,
+              "palmReferenceSource": "body-bind-fallback"
+            },
+            {
+              "side": "right",
+              "shoulderWorld": [
+                -0.21842515443848276,
+                1.3789284874505436,
+                0.056030944956832224
+              ],
+              "elbowWorld": [
+                -0.4634256685503213,
+                1.2494423419013234,
+                0.09613189501716107
+              ],
+              "handWorld": [
+                -0.5914769310169433,
+                1.1245284874505437,
+                0.2707726781892303
+              ],
+              "palmNormalWorld": [
+                0.295450082488592,
+                -0.8662242570258527,
+                -0.40294513931488685
+              ],
+              "fingerDirectionWorld": [
+                -0.5122050498664882,
+                -0.499655417803119,
+                0.6985631326882767
+              ],
+              "elbowFlexionDegrees": 38.80412440871896,
+              "palmDownDot": 0.8662242570258527,
+              "wristBendDegrees": 0,
+              "wristBindDeviationDegrees": 0,
+              "handBelowShoulderM": 0.25439999999999996,
+              "elbowAboveHandM": 0.12491385445077974,
+              "boneLengthErrorMm": 8.326672684688674e-14,
+              "palmReferenceSource": "body-bind-fallback"
+            }
+          ],
+          "bodyBalance": {
+            "source": "bind-anatomical-frames",
+            "hipHeightPolicy": "mean-requested-height-with-knee-policy",
+            "maxKneeDegrees": 100,
+            "kneePolicyExceeded": false,
+            "hipBalanceLimited": false,
+            "pelvisYawDegrees": 50.00000000000002,
+            "chestYawDegrees": 19.999999999999996,
+            "footYawDegrees": 62,
+            "neckYawDegrees": 8,
+            "headChestYawDegrees": 19.999999999999996,
+            "hipChestYawDegrees": 30.000000000000025,
+            "neckPolicyExceeded": false,
+            "chestPolicyLimited": false,
+            "leanForward": 0,
+            "leanSide": 0,
+            "hipsWorld": [
+              -0.03048663028130105,
+              0.8989284874505438,
+              -0.012373083708301508
+            ]
+          },
+          "balanceProxy": {
+            "source": "weighted-bone-points-and-foot-rect-proxies",
+            "contactPlaneY": 0.2862468715294095,
+            "contactPlaneSource": "ankle-minus-measured-sole-offset",
+            "centerOfMassWorld": [
+              5.900126610809166e-7,
+              0.981444364982379,
+              2.675610099008366e-7
+            ],
+            "targetCenterOfMassWorld": [
+              0,
+              0.981444364982379,
+              0
+            ],
+            "centerOfMassOffset": {
+              "forward": 2.675610099008366e-7,
+              "side": 5.900126610809166e-7
+            },
+            "centerOfMassErrorMm": 0.0006478455327120347,
+            "zeroMomentPointWorld": [
+              5.900126610809166e-7,
+              0.2862468715294095,
+              2.675610099008366e-7
+            ],
+            "loadRatio": {
+              "front": 0.49999992192365134,
+              "rear": 0.5000000780763487
+            },
+            "requestedLoadRatio": {
+              "front": 0.5,
+              "rear": 0.5
+            },
+            "loadRatioError": 7.807634866408009e-8,
+            "unclampedFrontLoadRatio": 0.49999992192365134,
+            "supportMarginM": 0.11361822181067854,
+            "supportExceeded": false,
+            "footHull2D": [
+              [
+                -0.39098963583050683,
+                0.43225431909434747
+              ],
+              [
+                -0.34274362877851716,
+                0.3415167767843848
+              ],
+              [
+                0.19555492931674104,
+                -0.5361687958217098
+              ],
+              [
+                0.39098963583050683,
+                -0.43225431909434747
+              ],
+              [
+                0.34274362877851716,
+                -0.3415167767843848
+              ],
+              [
+                -0.19555492931674104,
+                0.5361687958217098
+              ]
+            ]
+          }
+        },
+        "carrier": null,
+        "skinDiagnostics": {
+          "source": "posed-skinned-vertices",
+          "meshCount": 2,
+          "vertexCount": 432,
+          "bounds": {
+            "min": [
+              -0.6794353579466773,
+              0.28624687152940953,
+              -0.5016504201483373
+            ],
+            "max": [
+              0.6190991073530593,
+              1.738928496987287,
+              0.5942615090511709
+            ]
+          },
+          "feet": [
+            {
+              "side": "left",
+              "weightedVertexCount": 24,
+              "min": [
+                0.21397834927356157,
+                0.28624687152940964,
+                -0.5016504201483373
+              ],
+              "max": [
+                0.4657987012852299,
+                0.36124687497530317,
+                -0.32619708247289386
+              ],
+              "ankleWorld": [
+                0.269149279047629,
+                0.34874687169704766,
+                -0.43884278630304707
+              ],
+              "soleOffsetM": 0.06250000016763801
+            },
+            {
+              "side": "right",
+              "weightedVertexCount": 24,
+              "min": [
+                -0.3325619893776586,
+                0.28624687152940953,
+                0.37284595445742424
+              ],
+              "max": [
+                -0.08530516717717315,
+                0.36124687497530317,
+                0.5942615090511709
+              ],
+              "ankleWorld": [
+                -0.2691492790476292,
+                0.3487468716970476,
+                0.4388427863030471
+              ],
+              "soleOffsetM": 0.06250000016763807
+            }
+          ],
+          "legLengthM": 0.7905124837953328
+        },
+        "supportPlaneY": 0.2862468715294095,
+        "ride": {
+          "phase": "idle",
+          "paused": true,
+          "state": {
+            "config": {
+              "mass": 70,
+              "driveForce": 154,
+              "brakeForce": 210,
+              "linearDrag": 48,
+              "quadraticDrag": 2,
+              "lateralGrip": 800,
+              "maxTurnRate": 0.8,
+              "yawResponseSeconds": 0.22,
+              "turnSpeedScale": 1.2,
+              "gravity": 9.81,
+              "comHeightM": 0.6951974934529694,
+              "comHeightResponseSeconds": 0.25,
+              "comNaturalFrequency": 8,
+              "comDampingRatio": 1,
+              "supportHalfLengthM": 0.5088881962595958,
+              "supportHalfWidthM": 0.3141784711625531,
+              "maxLeanRadians": 0.45,
+              "maxDeltaTime": 2,
+              "integrationStep": 0.004166666666666667,
+              "stopSpeed": 0.0001
+            },
+            "time": 0.016700000000000728,
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "velocity": [
+              0,
+              0,
+              0
+            ],
+            "heading": 0,
+            "yawRate": 0,
+            "acceleration": [
+              0,
+              0,
+              0
+            ],
+            "com": {
+              "offset": {
+                "forward": 0,
+                "side": 0
+              },
+              "velocity": {
+                "forward": 0,
+                "side": 0
+              }
+            },
+            "estimatedComHeightM": 0.691158884634774,
+            "heightObservationStatus": "accepted",
+            "observedComHeightM": 0.6326974932853314,
+            "integratedDt": 0.016700000000000728,
+            "discardedDt": 0,
+            "pose": {
+              "forwardAcceleration": 0,
+              "lateralAcceleration": 0,
+              "speed": 0,
+              "turnRate": 0,
+              "targetLeanForward": 0,
+              "targetLeanSide": 0,
+              "balanceLeanForward": 0,
+              "balanceLeanSide": 0,
+              "crouch": 0.45,
+              "centerOfMassOffset": {
+                "forward": 0,
+                "side": 0
+              },
+              "centerOfMassVelocity": {
+                "forward": 0,
+                "side": 0
+              },
+              "zeroMomentPoint": {
+                "forward": 0,
+                "side": 0
+              },
+              "loadRatio": {
+                "front": 0.5,
+                "rear": 0.5,
+                "right": 0.5,
+                "left": 0.5
+              },
+              "unclampedLoadRatio": {
+                "front": 0.5,
+                "rear": 0.5,
+                "right": 0.5,
+                "left": 0.5
+              },
+              "supportMarginM": 0.3141784711625531,
+              "supportExceeded": false,
+              "supportHalfLengthM": 0.5088881962595958,
+              "supportHalfWidthM": 0.3141784711625531,
+              "comHeightM": 0.691158884634774,
+              "heightObservationStatus": "accepted",
+              "observedComHeightM": 0.6326974932853314,
+              "input": {
+                "throttle": 0,
+                "steer": 0,
+                "brake": 0
+              }
+            }
+          },
+          "anchorsLocal": [
+            [
+              0.2691492790476291,
+              0.34874687169704754,
+              -0.4388427863030473
+            ],
+            [
+              -0.2691492790476291,
+              0.34874687169704754,
+              0.4388427863030473
+            ]
+          ],
+          "anchorsWorld": [
+            [
+              0.2691492790476291,
+              0.34874687169704754,
+              -0.4388427863030473
+            ],
+            [
+              -0.2691492790476291,
+              0.34874687169704754,
+              0.4388427863030473
+            ]
+          ],
+          "anchorGeneration": 7,
+          "anchorMode": "support"
+        },
+        "simulated": true
+      }
+    },
+    {
+      "case": "head-priority",
+      "state": {
+        "profile": "standard",
+        "preset": "nimbus",
+        "connected": true,
+        "error": null,
+        "frames": 468,
+        "restored": true,
+        "metrics": {
+          "headWorld": [
+            0,
+            1.54,
+            0
+          ],
+          "feetWorld": [
+            [
+              0.269149279047629,
+              0.34874687169704766,
+              -0.4388427863030473
+            ],
+            [
+              -0.2691492790476292,
+              0.34874687169704754,
+              0.43884278630304735
+            ]
+          ],
+          "headDriftMm": 0,
+          "headRotationErrorDegrees": 0,
+          "handPositionErrorMm": null,
+          "handRotationErrorDegrees": null,
+          "knees": [
+            67,
+            66.99999999999999
+          ],
+          "upright": 1,
+          "supportHeight": 0.34874687169704754,
+          "contactPlaneY": 0.2862468715294095,
+          "contactPlaneSource": "ankle-minus-measured-sole-offset",
+          "supportSoleOffsetM": 0.06250000016763807,
+          "supportMode": "fixed-ankle-plane",
+          "anchorMode": "head",
+          "footTargetsWorld": [
+            [
+              0.2691492790476291,
+              0.34874687169704754,
+              -0.4388427863030473
+            ],
+            [
+              -0.2691492790476291,
+              0.34874687169704754,
+              0.4388427863030473
+            ]
+          ],
+          "footTargetErrorMm": 1.570092458683775e-13,
+          "footTargetErrorsMm": [
+            1.570092458683775e-13,
+            1.2412670766236365e-13
+          ],
+          "ankleHeightSpreadMm": 1.1102230246251565e-13,
+          "contactPlaneErrorMm": 1.1102230246251565e-13,
+          "targetPlaneHeightSpreadMm": 0,
+          "stanceWorldM": 1.0296102670468676,
+          "boneLengthErrorMm": 1.1102230246251565e-13,
+          "bodyHeading": 0.8726646259971648,
+          "cloudHeading": 0,
+          "stanceWidth": 1,
+          "crouch": 0.45,
+          "requestedKneeDegrees": 67,
+          "requestedKneesDegrees": [
+            67,
+            67
+          ],
+          "kneeTargetErrorDegrees": 1.4210854715202004e-14,
+          "poseLimited": false,
+          "poseLimitReasons": [],
+          "armBalance": [
+            {
+              "side": "left",
+              "shoulderWorld": [
+                0.1879385241571817,
+                1.38,
+                -0.06840402866513373
+              ],
+              "elbowWorld": [
+                0.32560198348766195,
+                1.3232118907143773,
+                -0.305519786490145
+              ],
+              "handWorld": [
+                0.5537394736971379,
+                1.221,
+                -0.30306724545819297
+              ],
+              "palmNormalWorld": [
+                -0.4088239399678358,
+                -0.912602690301467,
+                -0.004394970272947111
+              ],
+              "fingerDirectionWorld": [
+                0.9125499608379043,
+                -0.40884756285750884,
+                0.00981016412780811
+              ],
+              "elbowFlexionDegrees": 58.44797375532244,
+              "palmDownDot": 0.912602690301467,
+              "wristBendDegrees": 8.537736462515939e-7,
+              "wristBindDeviationDegrees": 0.0000017075472925031877,
+              "handBelowShoulderM": 0.1589999999999998,
+              "elbowAboveHandM": 0.1022118907143772,
+              "boneLengthErrorMm": 2.220446049250313e-13,
+              "palmReferenceSource": "body-bind-fallback"
+            },
+            {
+              "side": "right",
+              "shoulderWorld": [
+                -0.1879385241571817,
+                1.38,
+                0.06840402866513373
+              ],
+              "elbowWorld": [
+                -0.43293903826902014,
+                1.2505138544507794,
+                0.10850497872546258
+              ],
+              "handWorld": [
+                -0.5609903007356423,
+                1.1255999999999997,
+                0.2831457618975317
+              ],
+              "palmNormalWorld": [
+                0.29545008248859217,
+                -0.8662242570258528,
+                -0.4029451393148866
+              ],
+              "fingerDirectionWorld": [
+                -0.5122050498664885,
+                -0.49965541780311895,
+                0.6985631326882764
+              ],
+              "elbowFlexionDegrees": 38.804124408718934,
+              "palmDownDot": 0.8662242570258528,
+              "wristBendDegrees": 0,
+              "wristBindDeviationDegrees": 0,
+              "handBelowShoulderM": 0.2544000000000002,
+              "elbowAboveHandM": 0.12491385445077974,
+              "boneLengthErrorMm": 1.6653345369377348e-13,
+              "palmReferenceSource": "body-bind-fallback"
+            }
+          ],
+          "bodyBalance": {
+            "source": "bind-anatomical-frames",
+            "hipHeightPolicy": "mean-requested-height-with-knee-policy",
+            "maxKneeDegrees": 100,
+            "kneePolicyExceeded": false,
+            "hipBalanceLimited": false,
+            "pelvisYawDegrees": 50.00000000000002,
+            "chestYawDegrees": 19.999999999999996,
+            "footYawDegrees": 62,
+            "neckYawDegrees": 8,
+            "headChestYawDegrees": 19.999999999999996,
+            "hipChestYawDegrees": 30.000000000000025,
+            "neckPolicyExceeded": false,
+            "chestPolicyLimited": false,
+            "leanForward": 0,
+            "leanSide": 0,
+            "hipsWorld": [
+              0,
+              0.9,
+              0
+            ]
+          },
+          "balanceProxy": {
+            "source": "weighted-bone-points-and-foot-rect-proxies",
+            "contactPlaneY": 0.2862468715294095,
+            "contactPlaneSource": "ankle-minus-measured-sole-offset",
+            "centerOfMassWorld": [
+              0.02577854430864684,
+              0.9810899687624193,
+              0.010423998071282074
+            ],
+            "targetCenterOfMassWorld": [
+              0,
+              0.9810899687624193,
+              0
+            ],
+            "centerOfMassOffset": {
+              "forward": 0.010423998071282074,
+              "side": 0.02577854430864684
+            },
+            "centerOfMassErrorMm": 27.80634967885862,
+            "zeroMomentPointWorld": [
+              0.02577854430864684,
+              0.2862468715294095,
+              0.010423998071282074
+            ],
+            "loadRatio": {
+              "front": 0.49554044661169766,
+              "rear": 0.5044595533883023
+            },
+            "requestedLoadRatio": {
+              "front": 0.5,
+              "rear": 0.5
+            },
+            "loadRatioError": 0.00445955338830234,
+            "unclampedFrontLoadRatio": 0.49554044661169766,
+            "supportMarginM": 0.08619423568287335,
+            "supportExceeded": false,
+            "footHull2D": [
+              [
+                -0.39098963583050683,
+                0.43225431909434747
+              ],
+              [
+                -0.34274362877851716,
+                0.3415167767843848
+              ],
+              [
+                0.19555492931674104,
+                -0.5361687958217098
+              ],
+              [
+                0.39098963583050683,
+                -0.43225431909434747
+              ],
+              [
+                0.34274362877851716,
+                -0.3415167767843848
+              ],
+              [
+                -0.19555492931674104,
+                0.5361687958217098
+              ]
+            ]
+          }
+        },
+        "carrier": null,
+        "skinDiagnostics": {
+          "source": "posed-skinned-vertices",
+          "meshCount": 2,
+          "vertexCount": 432,
+          "bounds": {
+            "min": [
+              -0.6489487276653763,
+              0.28624687152940953,
+              -0.5016504201483376
+            ],
+            "max": [
+              0.6495857376343601,
+              1.7400000095367432,
+              0.594261509051171
+            ]
+          },
+          "feet": [
+            {
+              "side": "left",
+              "weightedVertexCount": 24,
+              "min": [
+                0.21397834927356163,
+                0.2862468715294096,
+                -0.5016504201483376
+              ],
+              "max": [
+                0.46579870128523,
+                0.3612468749753032,
+                -0.32619708247289414
+              ],
+              "ankleWorld": [
+                0.269149279047629,
+                0.34874687169704766,
+                -0.4388427863030473
+              ],
+              "soleOffsetM": 0.06250000016763807
+            },
+            {
+              "side": "right",
+              "weightedVertexCount": 24,
+              "min": [
+                -0.3325619893776586,
+                0.28624687152940953,
+                0.37284595445742447
+              ],
+              "max": [
+                -0.08530516717717321,
+                0.36124687497530317,
+                0.594261509051171
+              ],
+              "ankleWorld": [
+                -0.2691492790476292,
+                0.34874687169704754,
+                0.43884278630304735
+              ],
+              "soleOffsetM": 0.06250000016763801
+            }
+          ],
+          "legLengthM": 0.7905124837953328
+        },
+        "supportPlaneY": 0.2862468715294095,
+        "ride": {
+          "phase": "idle",
+          "paused": true,
+          "state": {
+            "config": {
+              "mass": 70,
+              "driveForce": 154,
+              "brakeForce": 210,
+              "linearDrag": 48,
+              "quadraticDrag": 2,
+              "lateralGrip": 800,
+              "maxTurnRate": 0.8,
+              "yawResponseSeconds": 0.22,
+              "turnSpeedScale": 1.2,
+              "gravity": 9.81,
+              "comHeightM": 0.6951974934529694,
+              "comHeightResponseSeconds": 0.25,
+              "comNaturalFrequency": 8,
+              "comDampingRatio": 1,
+              "supportHalfLengthM": 0.5088881962595958,
+              "supportHalfWidthM": 0.3141784711625531,
+              "maxLeanRadians": 0.45,
+              "maxDeltaTime": 2,
+              "integrationStep": 0.004166666666666667,
+              "stopSpeed": 0.0001
+            },
+            "time": 0.016700000000000728,
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "velocity": [
+              0,
+              0,
+              0
+            ],
+            "heading": 0,
+            "yawRate": 0,
+            "acceleration": [
+              0,
+              0,
+              0
+            ],
+            "com": {
+              "offset": {
+                "forward": 0,
+                "side": 0
+              },
+              "velocity": {
+                "forward": 0,
+                "side": 0
+              }
+            },
+            "estimatedComHeightM": 0.691158884634774,
+            "heightObservationStatus": "accepted",
+            "observedComHeightM": 0.6326974932853314,
+            "integratedDt": 0.016700000000000728,
+            "discardedDt": 0,
+            "pose": {
+              "forwardAcceleration": 0,
+              "lateralAcceleration": 0,
+              "speed": 0,
+              "turnRate": 0,
+              "targetLeanForward": 0,
+              "targetLeanSide": 0,
+              "balanceLeanForward": 0,
+              "balanceLeanSide": 0,
+              "crouch": 0.45,
+              "centerOfMassOffset": {
+                "forward": 0,
+                "side": 0
+              },
+              "centerOfMassVelocity": {
+                "forward": 0,
+                "side": 0
+              },
+              "zeroMomentPoint": {
+                "forward": 0,
+                "side": 0
+              },
+              "loadRatio": {
+                "front": 0.5,
+                "rear": 0.5,
+                "right": 0.5,
+                "left": 0.5
+              },
+              "unclampedLoadRatio": {
+                "front": 0.5,
+                "rear": 0.5,
+                "right": 0.5,
+                "left": 0.5
+              },
+              "supportMarginM": 0.3141784711625531,
+              "supportExceeded": false,
+              "supportHalfLengthM": 0.5088881962595958,
+              "supportHalfWidthM": 0.3141784711625531,
+              "comHeightM": 0.691158884634774,
+              "heightObservationStatus": "accepted",
+              "observedComHeightM": 0.6326974932853314,
+              "input": {
+                "throttle": 0,
+                "steer": 0,
+                "brake": 0
+              }
+            }
+          },
+          "anchorsLocal": [
+            [
+              0.2691492790476291,
+              0.34874687169704754,
+              -0.4388427863030473
+            ],
+            [
+              -0.2691492790476291,
+              0.34874687169704754,
+              0.4388427863030473
+            ]
+          ],
+          "anchorsWorld": [
+            [
+              0.2691492790476291,
+              0.34874687169704754,
+              -0.4388427863030473
+            ],
+            [
+              -0.2691492790476291,
+              0.34874687169704754,
+              0.4388427863030473
+            ]
+          ],
+          "anchorGeneration": 7,
+          "anchorMode": "head"
+        },
+        "simulated": true
+      }
+    },
+    {
+      "case": "deterministic-physics-properties",
+      "dynamics": {
+        "force": {
+          "config": {
+            "mass": 80,
+            "driveForce": 260,
+            "brakeForce": 520,
+            "linearDrag": 0,
+            "quadraticDrag": 0,
+            "lateralGrip": 800,
+            "maxTurnRate": 0.8,
+            "yawResponseSeconds": 0.22,
+            "turnSpeedScale": 1.2,
+            "gravity": 9.81,
+            "comHeightM": 0.9,
+            "comHeightResponseSeconds": 0.25,
+            "comNaturalFrequency": 8,
+            "comDampingRatio": 1,
+            "supportHalfLengthM": 0.45,
+            "supportHalfWidthM": 0.18,
+            "maxLeanRadians": 0.45,
+            "maxDeltaTime": 2,
+            "integrationStep": 0.004166666666666667,
+            "stopSpeed": 0.0001
+          },
+          "time": 1,
+          "position": [
+            0,
+            0,
+            1.631770833333327
+          ],
+          "velocity": [
+            0,
+            0,
+            3.2499999999999982
+          ],
+          "heading": 0,
+          "yawRate": 0,
+          "acceleration": [
+            0,
+            0,
+            3.24999999999998
+          ],
+          "com": {
+            "offset": {
+              "forward": 0.2971026511129177,
+              "side": 0
+            },
+            "velocity": {
+              "forward": 0.007171938604875421,
+              "side": 0
+            }
+          },
+          "estimatedComHeightM": 0.9,
+          "heightObservationStatus": "none",
+          "observedComHeightM": null,
+          "integratedDt": 0.016666666666665275,
+          "discardedDt": 0,
+          "pose": {
+            "forwardAcceleration": 3.24999999999998,
+            "lateralAcceleration": 0,
+            "speed": 3.2499999999999982,
+            "turnRate": 0,
+            "targetLeanForward": 0.3199145711474575,
+            "targetLeanSide": 0,
+            "balanceLeanForward": 0.31885041272517806,
+            "balanceLeanSide": 0,
+            "crouch": 0.537098009188361,
+            "centerOfMassOffset": {
+              "forward": 0.2971026511129177,
+              "side": 0
+            },
+            "centerOfMassVelocity": {
+              "forward": 0.007171938604875421,
+              "side": 0
+            },
+            "zeroMomentPoint": {
+              "forward": -0.00106248650175933,
+              "side": 0
+            },
+            "loadRatio": {
+              "front": 0.4988194594424896,
+              "rear": 0.5011805405575104,
+              "right": 0.5,
+              "left": 0.5
+            },
+            "unclampedLoadRatio": {
+              "front": 0.4988194594424896,
+              "rear": 0.5011805405575104,
+              "right": 0.5,
+              "left": 0.5
+            },
+            "supportMarginM": 0.18,
+            "supportExceeded": false,
+            "supportHalfLengthM": 0.45,
+            "supportHalfWidthM": 0.18,
+            "comHeightM": 0.9,
+            "heightObservationStatus": "none",
+            "observedComHeightM": null,
+            "input": {
+              "throttle": 1,
+              "steer": 0,
+              "brake": 0
+            }
+          }
+        },
+        "left": {
+          "config": {
+            "mass": 80,
+            "driveForce": 260,
+            "brakeForce": 520,
+            "linearDrag": 48,
+            "quadraticDrag": 2,
+            "lateralGrip": 800,
+            "maxTurnRate": 0.8,
+            "yawResponseSeconds": 0.22,
+            "turnSpeedScale": 1.2,
+            "gravity": 9.81,
+            "comHeightM": 0.9,
+            "comHeightResponseSeconds": 0.25,
+            "comNaturalFrequency": 8,
+            "comDampingRatio": 1,
+            "supportHalfLengthM": 0.45,
+            "supportHalfWidthM": 0.18,
+            "maxLeanRadians": 0.45,
+            "maxDeltaTime": 2,
+            "integrationStep": 0.004166666666666667,
+            "stopSpeed": 0.0001
+          },
+          "time": 1.9999999999999951,
+          "position": [
+            -0.6760827285428297,
+            0,
+            4.237776861618491
+          ],
+          "velocity": [
+            -1.819784122196806,
+            0,
+            2.9762546315329685
+          ],
+          "heading": -0.6171139489147613,
+          "yawRate": -0.784904853155166,
+          "acceleration": [
+            -2.6588708663234772,
+            0,
+            -0.8437787927117307
+          ],
+          "com": {
+            "offset": {
+              "forward": 0.09174809144105486,
+              "side": -0.21455097850572638
+            },
+            "velocity": {
+              "forward": -0.05882997739077193,
+              "side": -0.13587428047256142
+            }
+          },
+          "estimatedComHeightM": 0.9,
+          "heightObservationStatus": "none",
+          "observedComHeightM": null,
+          "integratedDt": 0.016666666666665275,
+          "discardedDt": 0,
+          "pose": {
+            "forwardAcceleration": 0.8505001775554767,
+            "lateralAcceleration": -2.656728511307079,
+            "speed": 3.4885105536777505,
+            "turnRate": -0.784904853155166,
+            "targetLeanForward": 0.08648102262651704,
+            "targetLeanSide": -0.264474470372333,
+            "balanceLeanForward": 0.101591373258748,
+            "balanceLeanSide": -0.23402208823575119,
+            "crouch": 0.5274901424170426,
+            "centerOfMassOffset": {
+              "forward": 0.09174809144105486,
+              "side": -0.21455097850572638
+            },
+            "centerOfMassVelocity": {
+              "forward": -0.05882997739077193,
+              "side": -0.13587428047256142
+            },
+            "zeroMomentPoint": {
+              "forward": 0.013720552215781778,
+              "side": 0.02918558216464784
+            },
+            "loadRatio": {
+              "front": 0.5152450580175353,
+              "rear": 0.4847549419824647,
+              "right": 0.5810710615684662,
+              "left": 0.4189289384315338
+            },
+            "unclampedLoadRatio": {
+              "front": 0.5152450580175353,
+              "rear": 0.4847549419824647,
+              "right": 0.5810710615684662,
+              "left": 0.4189289384315338
+            },
+            "supportMarginM": 0.15081441783535215,
+            "supportExceeded": false,
+            "supportHalfLengthM": 0.45,
+            "supportHalfWidthM": 0.18,
+            "comHeightM": 0.9,
+            "heightObservationStatus": "none",
+            "observedComHeightM": null,
+            "input": {
+              "throttle": 1,
+              "steer": -1,
+              "brake": 0
+            }
+          }
+        },
+        "right": {
+          "config": {
+            "mass": 80,
+            "driveForce": 260,
+            "brakeForce": 520,
+            "linearDrag": 48,
+            "quadraticDrag": 2,
+            "lateralGrip": 800,
+            "maxTurnRate": 0.8,
+            "yawResponseSeconds": 0.22,
+            "turnSpeedScale": 1.2,
+            "gravity": 9.81,
+            "comHeightM": 0.9,
+            "comHeightResponseSeconds": 0.25,
+            "comNaturalFrequency": 8,
+            "comDampingRatio": 1,
+            "supportHalfLengthM": 0.45,
+            "supportHalfWidthM": 0.18,
+            "maxLeanRadians": 0.45,
+            "maxDeltaTime": 2,
+            "integrationStep": 0.004166666666666667,
+            "stopSpeed": 0.0001
+          },
+          "time": 1.9999999999999951,
+          "position": [
+            0.6760827285428297,
+            0,
+            4.237776861618491
+          ],
+          "velocity": [
+            1.819784122196806,
+            0,
+            2.9762546315329685
+          ],
+          "heading": 0.6171139489147613,
+          "yawRate": 0.784904853155166,
+          "acceleration": [
+            2.6588708663234772,
+            0,
+            -0.8437787927117307
+          ],
+          "com": {
+            "offset": {
+              "forward": 0.09174809144105486,
+              "side": 0.21455097850572638
+            },
+            "velocity": {
+              "forward": -0.05882997739077193,
+              "side": 0.13587428047256142
+            }
+          },
+          "estimatedComHeightM": 0.9,
+          "heightObservationStatus": "none",
+          "observedComHeightM": null,
+          "integratedDt": 0.016666666666665275,
+          "discardedDt": 0,
+          "pose": {
+            "forwardAcceleration": 0.8505001775554767,
+            "lateralAcceleration": 2.656728511307079,
+            "speed": 3.4885105536777505,
+            "turnRate": 0.784904853155166,
+            "targetLeanForward": 0.08648102262651704,
+            "targetLeanSide": 0.264474470372333,
+            "balanceLeanForward": 0.101591373258748,
+            "balanceLeanSide": 0.23402208823575119,
+            "crouch": 0.5274901424170426,
+            "centerOfMassOffset": {
+              "forward": 0.09174809144105486,
+              "side": 0.21455097850572638
+            },
+            "centerOfMassVelocity": {
+              "forward": -0.05882997739077193,
+              "side": 0.13587428047256142
+            },
+            "zeroMomentPoint": {
+              "forward": 0.013720552215781778,
+              "side": -0.02918558216464784
+            },
+            "loadRatio": {
+              "front": 0.5152450580175353,
+              "rear": 0.4847549419824647,
+              "right": 0.4189289384315338,
+              "left": 0.5810710615684662
+            },
+            "unclampedLoadRatio": {
+              "front": 0.5152450580175353,
+              "rear": 0.4847549419824647,
+              "right": 0.4189289384315338,
+              "left": 0.5810710615684662
+            },
+            "supportMarginM": 0.15081441783535215,
+            "supportExceeded": false,
+            "supportHalfLengthM": 0.45,
+            "supportHalfWidthM": 0.18,
+            "comHeightM": 0.9,
+            "heightObservationStatus": "none",
+            "observedComHeightM": null,
+            "input": {
+              "throttle": 1,
+              "steer": 1,
+              "brake": 0
+            }
+          }
+        },
+        "stop": {
+          "config": {
+            "mass": 80,
+            "driveForce": 260,
+            "brakeForce": 520,
+            "linearDrag": 48,
+            "quadraticDrag": 2,
+            "lateralGrip": 800,
+            "maxTurnRate": 0.8,
+            "yawResponseSeconds": 0.22,
+            "turnSpeedScale": 1.2,
+            "gravity": 9.81,
+            "comHeightM": 0.9,
+            "comHeightResponseSeconds": 0.25,
+            "comNaturalFrequency": 8,
+            "comDampingRatio": 1,
+            "supportHalfLengthM": 0.45,
+            "supportHalfWidthM": 0.18,
+            "maxLeanRadians": 0.45,
+            "maxDeltaTime": 2,
+            "integrationStep": 0.004166666666666667,
+            "stopSpeed": 0.0001
+          },
+          "time": 7.999999999999975,
+          "position": [
+            0,
+            0,
+            1.7080794705779425
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "heading": 0,
+          "yawRate": 0,
+          "acceleration": [
+            0,
+            0,
+            0
+          ],
+          "com": {
+            "offset": {
+              "forward": -3.069279521590189e-20,
+              "side": 0
+            },
+            "velocity": {
+              "forward": 2.1046488136253063e-19,
+              "side": 0
+            }
+          },
+          "estimatedComHeightM": 0.9,
+          "heightObservationStatus": "none",
+          "observedComHeightM": null,
+          "integratedDt": 0.016666666666666666,
+          "discardedDt": 0,
+          "pose": {
+            "forwardAcceleration": 0,
+            "lateralAcceleration": 0,
+            "speed": 0,
+            "turnRate": 0,
+            "targetLeanForward": 0,
+            "targetLeanSide": 0,
+            "balanceLeanForward": -3.410310579544654e-20,
+            "balanceLeanSide": 0,
+            "crouch": 0.45,
+            "centerOfMassOffset": {
+              "forward": -3.069279521590189e-20,
+              "side": 0
+            },
+            "centerOfMassVelocity": {
+              "forward": 2.1046488136253063e-19,
+              "side": 0
+            },
+            "zeroMomentPoint": {
+              "forward": -3.069279521590189e-20,
+              "side": 0
+            },
+            "loadRatio": {
+              "front": 0.5,
+              "rear": 0.5,
+              "right": 0.5,
+              "left": 0.5
+            },
+            "unclampedLoadRatio": {
+              "front": 0.5,
+              "rear": 0.5,
+              "right": 0.5,
+              "left": 0.5
+            },
+            "supportMarginM": 0.18,
+            "supportExceeded": false,
+            "supportHalfLengthM": 0.45,
+            "supportHalfWidthM": 0.18,
+            "comHeightM": 0.9,
+            "heightObservationStatus": "none",
+            "observedComHeightM": null,
+            "input": {
+              "throttle": 0,
+              "steer": 0,
+              "brake": 0
+            }
+          }
+        },
+        "coasting": {
+          "config": {
+            "mass": 80,
+            "driveForce": 260,
+            "brakeForce": 520,
+            "linearDrag": 0,
+            "quadraticDrag": 0,
+            "lateralGrip": 800,
+            "maxTurnRate": 0.8,
+            "yawResponseSeconds": 0.22,
+            "turnSpeedScale": 1.2,
+            "gravity": 9.81,
+            "comHeightM": 0.9,
+            "comHeightResponseSeconds": 0.25,
+            "comNaturalFrequency": 8,
+            "comDampingRatio": 1,
+            "supportHalfLengthM": 0.45,
+            "supportHalfWidthM": 0.18,
+            "maxLeanRadians": 0.45,
+            "maxDeltaTime": 2,
+            "integrationStep": 0.004166666666666667,
+            "stopSpeed": 0.0001
+          },
+          "time": 4.999999999999988,
+          "position": [
+            0,
+            0,
+            14.999999999999682
+          ],
+          "velocity": [
+            0,
+            0,
+            3
+          ],
+          "heading": 0,
+          "yawRate": 0,
+          "acceleration": [
+            0,
+            0,
+            0
+          ],
+          "com": {
+            "offset": {
+              "forward": 0,
+              "side": 0
+            },
+            "velocity": {
+              "forward": 0,
+              "side": 0
+            }
+          },
+          "estimatedComHeightM": 0.9,
+          "heightObservationStatus": "none",
+          "observedComHeightM": null,
+          "integratedDt": 0.016666666666666666,
+          "discardedDt": 0,
+          "pose": {
+            "forwardAcceleration": 0,
+            "lateralAcceleration": 0,
+            "speed": 3,
+            "turnRate": 0,
+            "targetLeanForward": 0,
+            "targetLeanSide": 0,
+            "balanceLeanForward": 0,
+            "balanceLeanSide": 0,
+            "crouch": 0.45,
+            "centerOfMassOffset": {
+              "forward": 0,
+              "side": 0
+            },
+            "centerOfMassVelocity": {
+              "forward": 0,
+              "side": 0
+            },
+            "zeroMomentPoint": {
+              "forward": 0,
+              "side": 0
+            },
+            "loadRatio": {
+              "front": 0.5,
+              "rear": 0.5,
+              "right": 0.5,
+              "left": 0.5
+            },
+            "unclampedLoadRatio": {
+              "front": 0.5,
+              "rear": 0.5,
+              "right": 0.5,
+              "left": 0.5
+            },
+            "supportMarginM": 0.18,
+            "supportExceeded": false,
+            "supportHalfLengthM": 0.45,
+            "supportHalfWidthM": 0.18,
+            "comHeightM": 0.9,
+            "heightObservationStatus": "none",
+            "observedComHeightM": null,
+            "input": {
+              "throttle": 0,
+              "steer": 0,
+              "brake": 0
+            }
+          }
+        },
+        "dt30": {
+          "config": {
+            "mass": 80,
+            "driveForce": 260,
+            "brakeForce": 520,
+            "linearDrag": 48,
+            "quadraticDrag": 2,
+            "lateralGrip": 800,
+            "maxTurnRate": 0.8,
+            "yawResponseSeconds": 0.22,
+            "turnSpeedScale": 1.2,
+            "gravity": 9.81,
+            "comHeightM": 0.9,
+            "comHeightResponseSeconds": 0.25,
+            "comNaturalFrequency": 8,
+            "comDampingRatio": 1,
+            "supportHalfLengthM": 0.45,
+            "supportHalfWidthM": 0.18,
+            "maxLeanRadians": 0.45,
+            "maxDeltaTime": 2,
+            "integrationStep": 0.004166666666666667,
+            "stopSpeed": 0.0001
+          },
+          "time": 2.9999999999999964,
+          "position": [
+            0.26222301697431505,
+            0,
+            7.599445018494083
+          ],
+          "velocity": [
+            0.6492704072282348,
+            0,
+            2.895902353144771
+          ],
+          "heading": 0.24881277400870117,
+          "yawRate": 0.31276676105344126,
+          "acceleration": [
+            0.8114553945822145,
+            0,
+            -0.5996196262521281
+          ],
+          "com": {
+            "offset": {
+              "forward": -0.04244716635954193,
+              "side": 0.0831867079413486
+            },
+            "velocity": {
+              "forward": 0.030317693976492185,
+              "side": 0.01749241623631065
+            }
+          },
+          "estimatedComHeightM": 0.9,
+          "heightObservationStatus": "none",
+          "observedComHeightM": null,
+          "integratedDt": 0.03333333333333333,
+          "discardedDt": 0,
+          "pose": {
+            "forwardAcceleration": -0.3813309132526228,
+            "lateralAcceleration": 0.9341254135185703,
+            "speed": 2.9677942146738783,
+            "turnRate": 0.31276676105344126,
+            "targetLeanForward": -0.03885209203226484,
+            "targetLeanSide": 0.0949355126519958,
+            "balanceLeanForward": -0.047128594639257636,
+            "balanceLeanSide": 0.09216780009323707,
+            "crouch": 0.4826405231728693,
+            "centerOfMassOffset": {
+              "forward": -0.04244716635954193,
+              "side": 0.0831867079413486
+            },
+            "centerOfMassVelocity": {
+              "forward": 0.030317693976492185,
+              "side": 0.01749241623631065
+            },
+            "zeroMomentPoint": {
+              "forward": -0.0074626789051728745,
+              "side": -0.0025128712805385783
+            },
+            "loadRatio": {
+              "front": 0.49170813454980794,
+              "rear": 0.508291865450192,
+              "right": 0.4930198019985039,
+              "left": 0.5069801980014961
+            },
+            "unclampedLoadRatio": {
+              "front": 0.49170813454980794,
+              "rear": 0.508291865450192,
+              "right": 0.4930198019985039,
+              "left": 0.5069801980014961
+            },
+            "supportMarginM": 0.17748712871946143,
+            "supportExceeded": false,
+            "supportHalfLengthM": 0.45,
+            "supportHalfWidthM": 0.18,
+            "comHeightM": 0.9,
+            "heightObservationStatus": "none",
+            "observedComHeightM": null,
+            "input": {
+              "throttle": 0.5,
+              "steer": 0.4,
+              "brake": 0
+            }
+          }
+        },
+        "dt120": {
+          "config": {
+            "mass": 80,
+            "driveForce": 260,
+            "brakeForce": 520,
+            "linearDrag": 48,
+            "quadraticDrag": 2,
+            "lateralGrip": 800,
+            "maxTurnRate": 0.8,
+            "yawResponseSeconds": 0.22,
+            "turnSpeedScale": 1.2,
+            "gravity": 9.81,
+            "comHeightM": 0.9,
+            "comHeightResponseSeconds": 0.25,
+            "comNaturalFrequency": 8,
+            "comDampingRatio": 1,
+            "supportHalfLengthM": 0.45,
+            "supportHalfWidthM": 0.18,
+            "maxLeanRadians": 0.45,
+            "maxDeltaTime": 2,
+            "integrationStep": 0.004166666666666667,
+            "stopSpeed": 0.0001
+          },
+          "time": 2.999999999999992,
+          "position": [
+            0.2622230169743152,
+            0,
+            7.599445018494093
+          ],
+          "velocity": [
+            0.6492704072282351,
+            0,
+            2.8959023531447725
+          ],
+          "heading": 0.24881277400870117,
+          "yawRate": 0.31276676105344126,
+          "acceleration": [
+            0.8114553945822145,
+            0,
+            -0.5996196262521281
+          ],
+          "com": {
+            "offset": {
+              "forward": -0.042447166359542036,
+              "side": 0.08318670794134865
+            },
+            "velocity": {
+              "forward": 0.030317693976492713,
+              "side": 0.017492416236310888
+            }
+          },
+          "estimatedComHeightM": 0.9,
+          "heightObservationStatus": "none",
+          "observedComHeightM": null,
+          "integratedDt": 0.008333333333333333,
+          "discardedDt": 0,
+          "pose": {
+            "forwardAcceleration": -0.3813309132526228,
+            "lateralAcceleration": 0.9341254135185703,
+            "speed": 2.9677942146738796,
+            "turnRate": 0.31276676105344126,
+            "targetLeanForward": -0.03885209203226484,
+            "targetLeanSide": 0.0949355126519958,
+            "balanceLeanForward": -0.047128594639257754,
+            "balanceLeanSide": 0.09216780009323713,
+            "crouch": 0.4826405231728693,
+            "centerOfMassOffset": {
+              "forward": -0.042447166359542036,
+              "side": 0.08318670794134865
+            },
+            "centerOfMassVelocity": {
+              "forward": 0.030317693976492713,
+              "side": 0.017492416236310888
+            },
+            "zeroMomentPoint": {
+              "forward": -0.007462678905172979,
+              "side": -0.002512871280538523
+            },
+            "loadRatio": {
+              "front": 0.4917081345498078,
+              "rear": 0.5082918654501922,
+              "right": 0.4930198019985041,
+              "left": 0.5069801980014959
+            },
+            "unclampedLoadRatio": {
+              "front": 0.4917081345498078,
+              "rear": 0.5082918654501922,
+              "right": 0.4930198019985041,
+              "left": 0.5069801980014959
+            },
+            "supportMarginM": 0.17748712871946148,
+            "supportExceeded": false,
+            "supportHalfLengthM": 0.45,
+            "supportHalfWidthM": 0.18,
+            "comHeightM": 0.9,
+            "heightObservationStatus": "none",
+            "observedComHeightM": null,
+            "input": {
+              "throttle": 0.5,
+              "steer": 0.4,
+              "brake": 0
+            }
+          }
+        }
+      }
+    }
+  ],
+  "pageErrors": [],
+  "nonGetRequests": [],
+  "limits": [
+    "Reduced vehicle dynamics and empirical pose control, not full-body contact physics.",
+    "Real VRM images require separate private observation.",
+    "Foot targets are ankle points; sole mesh contact needs separate measurement."
+  ]
+}

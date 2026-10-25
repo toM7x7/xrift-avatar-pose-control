@@ -1,0 +1,323 @@
+
+> xrift-avatar-pose-control@0.1.0 verify
+> npm test && npm run build
+
+
+> xrift-avatar-pose-control@0.1.0 test
+> node --test tests/*.test.mjs
+
+TAP version 13
+# Subtest: different leg/torso/arm proportions and known exporter names preserve head and limb lengths
+ok 1 - different leg/torso/arm proportions and known exporter names preserve head and limb lengths
+  ---
+  duration_ms: 131.9893
+  type: 'test'
+  ...
+# Subtest: unrecognized bone names remain unsupported rather than guessing another avatar
+ok 2 - unrecognized bone names remain unsupported rather than guessing another avatar
+  ---
+  duration_ms: 4.2198
+  type: 'test'
+  ...
+# Subtest: body movement smoothly follows the head and leans toward forward/lateral flight
+ok 3 - body movement smoothly follows the head and leans toward forward/lateral flight
+  ---
+  duration_ms: 4.853
+  type: 'test'
+  ...
+# Subtest: angle following takes the short route across the pi boundary and settles at rest
+ok 4 - angle following takes the short route across the pi boundary and settles at rest
+  ---
+  duration_ms: 1.4206
+  type: 'test'
+  ...
+# Subtest: animated tilted flight preserves head, reachable tracked hands and leg segment lengths
+ok 5 - animated tilted flight preserves head, reachable tracked hands and leg segment lengths
+  ---
+  duration_ms: 160.8951
+  type: 'test'
+  ...
+# Subtest: ground mode leaves host walking pose unchanged and nested airborne render still restores
+ok 6 - ground mode leaves host walking pose unchanged and nested airborne render still restores
+  ---
+  duration_ms: 13.9531
+  type: 'test'
+  ...
+# Subtest: v2 deterministically flips a garment with a missing non-deforming parent, despite good knee metrics
+ok 7 - v2 deterministically flips a garment with a missing non-deforming parent, despite good knee metrics
+  ---
+  duration_ms: 35.8193
+  type: 'test'
+  ...
+# Subtest: v2 deterministically folds a leg with an unweighted parent omitted from the joint palette
+ok 8 - v2 deterministically folds a leg with an unweighted parent omitted from the joint palette
+  ---
+  duration_ms: 17.2791
+  type: 'test'
+  ...
+# Subtest: candidate keeps garment transforms and hanging direction while extending the human legs
+ok 9 - candidate keeps garment transforms and hanging direction while extending the human legs
+  ---
+  duration_ms: 56.0682
+  type: 'test'
+  ...
+# Subtest: candidate extends the omitted-parent knee without changing limb length or helper transforms
+ok 10 - candidate extends the omitted-parent knee without changing limb length or helper transforms
+  ---
+  duration_ms: 13.0885
+  type: 'test'
+  ...
+# Subtest: primary human joint wins over appended _sub helper, and equally ranked duplicates fail closed
+ok 11 - primary human joint wins over appended _sub helper, and equally ranked duplicates fail closed
+  ---
+  duration_ms: 9.1169
+  type: 'test'
+  ...
+# Subtest: garment and knee regression stays corrected under scaled/rotated roots and restores every frame
+ok 12 - garment and knee regression stays corrected under scaled/rotated roots and restores every frame
+  ---
+  duration_ms: 280.4947
+  type: 'test'
+  ...
+# Subtest: v3 restores seated bones during the outer render when a nested camera finishes
+ok 13 - v3 restores seated bones during the outer render when a nested camera finishes
+  ---
+  duration_ms: 42.1378
+  type: 'test'
+  ...
+# Subtest: nested camera renders keep all body copies upright and restore only after the outer render
+ok 14 - nested camera renders keep all body copies upright and restore only after the outer render
+  ---
+  duration_ms: 19.4464
+  type: 'test'
+  ...
+# Subtest: a failing pre-existing nested render callback does not end the outer pose transaction
+ok 15 - a failing pre-existing nested render callback does not end the outer pose transaction
+  ---
+  duration_ms: 12.2372
+  type: 'test'
+  ...
+# Subtest: two bridges targeting different skin palettes of one body apply only once
+ok 16 - two bridges targeting different skin palettes of one body apply only once
+  ---
+  duration_ms: 14.7311
+  type: 'test'
+  ...
+# Subtest: N02 places spread ankles on one plane with deep knees and sideways body, preserving head at three sizes
+ok 17 - N02 places spread ankles on one plane with deep knees and sideways body, preserving head at three sizes
+  ---
+  duration_ms: 131.5514
+  type: 'test'
+  ...
+# Subtest: N02 makes a measurable change from board: deeper knees, wider stance and raised balancing hands
+ok 18 - N02 makes a measurable change from board: deeper knees, wider stance and raised balancing hands
+  ---
+  duration_ms: 35.4415
+  type: 'test'
+  ...
+# Subtest: crouch and stance width provide independent visible variation without bone stretch
+ok 19 - crouch and stance width provide independent visible variation without bone stretch
+  ---
+  duration_ms: 8.8326
+  type: 'test'
+  ...
+# Subtest: reachable tracked hands retain world positions and orientations after sideways posing
+ok 20 - reachable tracked hands retain world positions and orientations after sideways posing
+  ---
+  duration_ms: 6.0202
+  type: 'test'
+  ...
+# Subtest: fixed unreachable ankle plane reports error while preserving head and limb lengths
+ok 21 - fixed unreachable ankle plane reports error while preserving head and limb lengths
+  ---
+  duration_ms: 5.6059
+  type: 'test'
+  ...
+# Subtest: wide feet and deep crouch report incompatible requested knee angle even when ankle targets are reached
+ok 22 - wide feet and deep crouch report incompatible requested knee angle even when ankle targets are reached
+  ---
+  duration_ms: 14.8573
+  type: 'test'
+  ...
+# Subtest: non-finite tuning uses finite defaults and pose snapshots restore exactly
+ok 23 - non-finite tuning uses finite defaults and pose snapshots restore exactly
+  ---
+  duration_ms: 5.1324
+  type: 'test'
+  ...
+# Subtest: omitted knee parents, garment joints and changed proportions preserve their authored lengths and auxiliary transforms
+ok 24 - omitted knee parents, garment joints and changed proportions preserve their authored lengths and auxiliary transforms
+  ---
+  duration_ms: 17.3996
+  type: 'test'
+  ...
+# Subtest: explicit humanoid map accepts arbitrary authored node names
+ok 25 - explicit humanoid map accepts arbitrary authored node names
+  ---
+  duration_ms: 25.2405
+  type: 'test'
+  ...
+# Subtest: standing and prone share outermost render restoration and can switch presets
+ok 26 - standing and prone share outermost render restoration and can switch presets
+  ---
+  duration_ms: 65.8116
+  type: 'test'
+  ...
+# Subtest: shared body palettes apply once, disabled poses do nothing, and bad preset restores safely
+ok 27 - shared body palettes apply once, disabled poses do nothing, and bad preset restores safely
+  ---
+  duration_ms: 11.0124
+  type: 'test'
+  ...
+# Subtest: anatomical head forward handles authored rest axes and transformed parents
+ok 28 - anatomical head forward handles authored rest axes and transformed parents
+  ---
+  duration_ms: 40.2131
+  type: 'test'
+  ...
+# Subtest: near vertical head direction holds the last horizontal heading and resumes on return
+ok 29 - near vertical head direction holds the last horizontal heading and resumes on return
+  ---
+  duration_ms: 6.682
+  type: 'test'
+  ...
+# Subtest: missing rig uses seat world yaw plus independent seated look yaw
+ok 30 - missing rig uses seat world yaw plus independent seated look yaw
+  ---
+  duration_ms: 2.0325
+  type: 'test'
+  ...
+# Subtest: N02 and the paired U02 drivers preserve nested render transactions, move with carrier, and stop on disable
+ok 31 - N02 and the paired U02 drivers preserve nested render transactions, move with carrier, and stop on disable
+  ---
+  duration_ms: 75.4119
+  type: 'test'
+  ...
+# Subtest: shoulder support seats the passenger with forward knees and hanging calves at three sizes
+ok 32 - shoulder support seats the passenger with forward knees and hanging calves at three sizes
+  ---
+  duration_ms: 64.3218
+  type: 'test'
+  ...
+# Subtest: head anchoring honestly reports the support error while support anchoring moves the rendered head
+ok 33 - head anchoring honestly reports the support error while support anchoring moves the rendered head
+  ---
+  duration_ms: 8.9243
+  type: 'test'
+  ...
+# Subtest: translated and rotated carrier anchors produce an equivariant pose without changing the carrier points
+ok 34 - translated and rotated carrier anchors produce an equivariant pose without changing the carrier points
+  ---
+  duration_ms: 14.144
+  type: 'test'
+  ...
+# Subtest: unreachable tracked hands report error without stretching limbs or losing head rotation
+ok 35 - unreachable tracked hands report error without stretching limbs or losing head rotation
+  ---
+  duration_ms: 5.0241
+  type: 'test'
+  ...
+# Subtest: omitted knee parents and clothing retain local transforms and all snapshots restore
+ok 36 - omitted knee parents and clothing retain local transforms and all snapshots restore
+  ---
+  duration_ms: 15.1296
+  type: 'test'
+  ...
+# Subtest: invalid carrier anchors and anchor modes fail before modifying passenger bones
+ok 37 - invalid carrier anchors and anchor modes fail before modifying passenger bones
+  ---
+  duration_ms: 5.924
+  type: 'test'
+  ...
+# Subtest: small passenger and tall carrier increase the back offset and expose conservative body proxies
+ok 38 - small passenger and tall carrier increase the back offset and expose conservative body proxies
+  ---
+  duration_ms: 4.3833
+  type: 'test'
+  ...
+# Subtest: automatic leg spread improves small/tall leg clearance but keeps unresolved body overlap visible
+ok 39 - automatic leg spread improves small/tall leg clearance but keeps unresolved body overlap visible
+  ---
+  duration_ms: 7.7785
+  type: 'test'
+  ...
+# Subtest: carrier hands reach reachable shin targets and report unreachable targets without stretching
+ok 40 - carrier hands reach reachable shin targets and report unreachable targets without stretching
+  ---
+  duration_ms: 5.2954
+  type: 'test'
+  ...
+# Subtest: seated knees become straight at different body sizes without changing head position/orientation or bone lengths
+ok 41 - seated knees become straight at different body sizes without changing head position/orientation or bone lengths
+  ---
+  duration_ms: 77.2789
+  type: 'test'
+  ...
+# Subtest: moving reachable VR-like head and hands retain their world position and rotation over 180 frames
+ok 42 - moving reachable VR-like head and hands retain their world position and rotation over 180 frames
+  ---
+  duration_ms: 163.1963
+  type: 'test'
+  ...
+# Subtest: unreachable controllers produce reach error without stretching bones or moving head
+ok 43 - unreachable controllers produce reach error without stretching bones or moving head
+  ---
+  duration_ms: 3.4801
+  type: 'test'
+  ...
+# Subtest: render-only correction restores animation, keeps camera unchanged and ceases on leave/dispose
+ok 44 - render-only correction restores animation, keeps camera unchanged and ceases on leave/dispose
+  ---
+  duration_ms: 8.3196
+  type: 'test'
+  ...
+# Subtest: owner selection rejects multiple unclaimed avatars and cannot correct unrelated bystanders
+ok 45 - owner selection rejects multiple unclaimed avatars and cannot correct unrelated bystanders
+  ---
+  duration_ms: 5.3108
+  type: 'test'
+  ...
+# Subtest: two simultaneous pose bridges restore independently when removed in either order
+ok 46 - two simultaneous pose bridges restore independently when removed in either order
+  ---
+  duration_ms: 17.6747
+  type: 'test'
+  ...
+# Subtest: VR finger curls and facial bone animation are preserved below wrist and head anchors
+ok 47 - VR finger curls and facial bone animation are preserved below wrist and head anchors
+  ---
+  duration_ms: 4.7609
+  type: 'test'
+  ...
+# Subtest: upright body faces the Seat forward direction (-Z) while preserving the host head
+ok 48 - upright body faces the Seat forward direction (-Z) while preserving the host head
+  ---
+  duration_ms: 4.053
+  type: 'test'
+  ...
+1..48
+# tests 48
+# suites 0
+# pass 48
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1437.7414
+
+> xrift-avatar-pose-control@0.1.0 build
+> npm run typecheck && vite build
+
+
+> xrift-avatar-pose-control@0.1.0 typecheck
+> tsc --noEmit
+
+vite v7.3.1 building client environment for production...
+transforming...
+✓ 21 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.44 kB │ gzip:   0.30 kB
+dist/assets/index-DZ1LW7wB.css    1.21 kB │ gzip:   0.61 kB
+dist/assets/index-CFS41w9O.js   974.37 kB │ gzip: 253.00 kB
+✓ built in 3.33s

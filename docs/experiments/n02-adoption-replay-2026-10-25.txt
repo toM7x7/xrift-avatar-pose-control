@@ -1,0 +1,36 @@
+
+> xrift-avatar-pose-control@0.1.0 replay:n02
+> node scripts/replay-n02-profile.mjs
+
+{
+  "success": true,
+  "profile": "n02-normal-flight",
+  "version": "1.0.0",
+  "frames": 1740,
+  "checkpoints": 16,
+  "extrema": {
+    "footTargetErrorMm": 6.080941944488118e-13,
+    "boneLengthErrorMm": 1.2212453270876722e-12,
+    "actualSkinSoleGapMm": 5.4539706084710815e-12,
+    "headUpDotWorld": 1,
+    "headRotationErrorDegrees": 0.0000029575586669421963,
+    "maxKneeDegrees": 100.00000000000058,
+    "footNormalErrorDegrees": 0.0000012074182697257333,
+    "centerOfMassErrorMm": 0.27777584894875434,
+    "peakSpeedMps": 3.612201055609182,
+    "peakVerticalSpeedMps": 3.1374316440268086,
+    "peakPitchRadians": 0.20943951023761412,
+    "peakRollRadians": 0.0669230653656831
+  },
+  "limits": {
+    "poseLimitedFrames": 1719,
+    "poseLimitReasons": {
+      "fixed-support-changes-crouch": 1719
+    },
+    "hipBalanceLimitedFrames": 0,
+    "supportExceededFrames": 0,
+    "zmpInvalidFrames": 0
+  },
+  "failure": null,
+  "report": "artifacts/n02-normal-flight-v1.json"
+}

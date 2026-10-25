@@ -1,6 +1,7 @@
 # xrift-avatar-pose-control
 
 - README.md、docs/EXPERIMENTS.md、docs/NEXT_THREAD.md、docs/STATUS.mdを先に読む。
+- N02の採用基準はdocs/specs/N02_NORMAL_FLIGHT_V1.mdとspecs/n02-normal-flight.v1.json。設定と14秒コースは共有profileを参照する。挙動を変える時はprofile版・再現結果・前後差分を更新する。
 - このリポジトリ内だけを編集し、元のプロペラ実験や公開XRiftアイテムへの反映は別の依頼として扱う。
 - 私有VRM・認証情報・配布権限が不明な素材はコミットしない。VRMはデモのローカルファイル選択から読み込む。
 - 自作骨格のテスト、ローカル実VRM、PC実XRift、Quest、他者視点を区別して結果を書く。

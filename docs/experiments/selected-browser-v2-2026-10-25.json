@@ -1,0 +1,1274 @@
+{
+  "kind": "authored-fixture-only",
+  "results": [
+    {
+      "case": "profile",
+      "profile": "standard",
+      "preset": "nimbus",
+      "metrics": {
+        "headWorld": [
+          0,
+          1.54,
+          0
+        ],
+        "feetWorld": [
+          [
+            0.031620499351813575,
+            0.34783732645055787,
+            -0.5138331144669663
+          ],
+          [
+            -0.031620499351813436,
+            0.347837326450558,
+            0.5138331144669663
+          ]
+        ],
+        "headDriftMm": 0,
+        "headRotationErrorDegrees": 0,
+        "handPositionErrorMm": null,
+        "handRotationErrorDegrees": null,
+        "knees": [
+          66.99999999999997,
+          66.99999999999999
+        ],
+        "upright": 1,
+        "supportHeight": 0.34783732645055787,
+        "supportMode": "head-relative-ankle-plane",
+        "footTargetsWorld": [
+          [
+            0.03162049935181342,
+            0.34783732645055787,
+            -0.5138331144669663
+          ],
+          [
+            -0.03162049935181342,
+            0.34783732645055787,
+            0.5138331144669663
+          ]
+        ],
+        "footTargetErrorMm": 1.5265566588595902e-13,
+        "footTargetErrorsMm": [
+          1.5265566588595902e-13,
+          1.1188630228279524e-13
+        ],
+        "ankleHeightSpreadMm": 1.1102230246251565e-13,
+        "stanceWorldM": 1.0296102670468679,
+        "boneLengthErrorMm": 1.6653345369377348e-13,
+        "bodyHeading": 1.5707963267948966,
+        "cloudHeading": 0,
+        "stanceWidth": 1,
+        "crouch": 0.45,
+        "requestedKneeDegrees": 67,
+        "kneeTargetErrorDegrees": 2.842170943040401e-14,
+        "poseLimited": false,
+        "poseLimitReasons": []
+      },
+      "carrier": null
+    },
+    {
+      "case": "profile",
+      "profile": "small",
+      "preset": "nimbus",
+      "metrics": {
+        "headWorld": [
+          0,
+          1.0010000000000001,
+          0
+        ],
+        "feetWorld": [
+          [
+            0.020553324578678783,
+            0.2260942621928628,
+            -0.3339915244035281
+          ],
+          [
+            -0.0205533245786787,
+            0.2260942621928627,
+            0.3339915244035282
+          ]
+        ],
+        "headDriftMm": 0,
+        "headRotationErrorDegrees": 0,
+        "handPositionErrorMm": null,
+        "handRotationErrorDegrees": null,
+        "knees": [
+          67.00000000000004,
+          66.99999999999999
+        ],
+        "upright": 1,
+        "supportHeight": 0.22609426219286272,
+        "supportMode": "head-relative-ankle-plane",
+        "footTargetsWorld": [
+          [
+            0.020553324578678728,
+            0.22609426219286272,
+            -0.33399152440352814
+          ],
+          [
+            -0.020553324578678728,
+            0.22609426219286272,
+            0.33399152440352814
+          ]
+        ],
+        "footTargetErrorMm": 1.1443916996305594e-13,
+        "footTargetErrorsMm": [
+          1.1443916996305594e-13,
+          6.798699777552591e-14
+        ],
+        "ankleHeightSpreadMm": 1.1102230246251565e-13,
+        "stanceWorldM": 0.6692466735804641,
+        "boneLengthErrorMm": 5.551115123125783e-14,
+        "bodyHeading": 1.5707963267948966,
+        "cloudHeading": 0,
+        "stanceWidth": 1,
+        "crouch": 0.45,
+        "requestedKneeDegrees": 67,
+        "kneeTargetErrorDegrees": 4.263256414560601e-14,
+        "poseLimited": false,
+        "poseLimitReasons": []
+      },
+      "carrier": null
+    },
+    {
+      "case": "profile",
+      "profile": "tall",
+      "preset": "nimbus",
+      "metrics": {
+        "headWorld": [
+          0,
+          2.0789999999999997,
+          0
+        ],
+        "feetWorld": [
+          [
+            0.042687674124948116,
+            0.4695803907082531,
+            -0.6936747045304046
+          ],
+          [
+            -0.04268767412494823,
+            0.46958039070825314,
+            0.6936747045304046
+          ]
+        ],
+        "headDriftMm": 0,
+        "headRotationErrorDegrees": 0,
+        "handPositionErrorMm": null,
+        "handRotationErrorDegrees": null,
+        "knees": [
+          66.99999999999999,
+          66.99999999999999
+        ],
+        "upright": 1,
+        "supportHeight": 0.4695803907082531,
+        "supportMode": "head-relative-ankle-plane",
+        "footTargetsWorld": [
+          [
+            0.04268767412494812,
+            0.4695803907082531,
+            -0.6936747045304046
+          ],
+          [
+            -0.04268767412494812,
+            0.4695803907082531,
+            0.6936747045304046
+          ]
+        ],
+        "footTargetErrorMm": 1.1796119636642288e-13,
+        "footTargetErrorsMm": [
+          6.938893903907228e-15,
+          1.1796119636642288e-13
+        ],
+        "ankleHeightSpreadMm": 5.551115123125783e-14,
+        "stanceWorldM": 1.3899738605132714,
+        "boneLengthErrorMm": 1.1102230246251565e-13,
+        "bodyHeading": 1.5707963267948966,
+        "cloudHeading": 0,
+        "stanceWidth": 1,
+        "crouch": 0.45,
+        "requestedKneeDegrees": 67,
+        "kneeTargetErrorDegrees": 1.4210854715202004e-14,
+        "poseLimited": false,
+        "poseLimitReasons": []
+      },
+      "carrier": null
+    },
+    {
+      "case": "profile",
+      "profile": "standard",
+      "preset": "shoulder",
+      "metrics": {
+        "headWorld": [
+          0,
+          2.12,
+          -0.20000000000000018
+        ],
+        "feetWorld": [
+          [
+            0.2996992481045956,
+            0.9731160090293502,
+            0.20001207068841753
+          ],
+          [
+            -0.2996992481045956,
+            0.9731160090293502,
+            0.20001207068841753
+          ]
+        ],
+        "headDriftMm": 613.5144660071188,
+        "headRotationErrorDegrees": 0,
+        "handPositionErrorMm": null,
+        "handRotationErrorDegrees": null,
+        "knees": [
+          70.28866567221876,
+          70.28866567221876
+        ],
+        "upright": 1,
+        "anchorMode": "support",
+        "supportTargetWorld": [
+          0,
+          1.48,
+          -0.20000000000000018
+        ],
+        "hipsWorld": [
+          0,
+          1.48,
+          -0.20000000000000018
+        ],
+        "kneesWorld": [
+          [
+            0.2687781735329611,
+            1.3596294411747805,
+            0.15363045883096588
+          ],
+          [
+            -0.2687781735329611,
+            1.3596294411747805,
+            0.15363045883096588
+          ]
+        ],
+        "supportErrorMm": 0,
+        "carrierHeadHipDistanceM": 0.20880613017821117,
+        "kneeLateralGapM": 0.5375563470659221,
+        "maxLimbLengthErrorMm": 1.1102230246251565e-13,
+        "scale": 1,
+        "carrierScale": 1.0000000000000009,
+        "heading": 0,
+        "seatLift": 0.1,
+        "seatBack": 0.20000000000000018,
+        "spread": 1,
+        "headTorsoProxyClearanceMm": -24.999999999999925,
+        "headThighProxyClearanceMm": 38.365384472016274,
+        "proxyWarning": "possible-head-body-overlap"
+      },
+      "carrier": {
+        "frames": 4,
+        "restored": true,
+        "error": null,
+        "metrics": {
+          "headWorld": [
+            0,
+            1.54,
+            0
+          ],
+          "feetWorld": [
+            [
+              0.1,
+              0.06999999999999995,
+              0.02
+            ],
+            [
+              -0.1,
+              0.06999999999999995,
+              0.02
+            ]
+          ],
+          "headDriftMm": 0,
+          "headRotationErrorDegrees": 0,
+          "handPositionErrorMm": null,
+          "handRotationErrorDegrees": null,
+          "knees": [
+            2.935673446421106,
+            2.935673446421106
+          ],
+          "upright": 1,
+          "handsWorld": [
+            [
+              0.28578476454736,
+              1.1470470534947936,
+              0.17914034535256437
+            ],
+            [
+              -0.28578476454736,
+              1.1470470534947936,
+              0.17914034535256437
+            ]
+          ],
+          "handTargetErrorsMm": [
+            2.435541875787129e-13,
+            2.435541875787129e-13
+          ],
+          "handTargetErrorMm": 2.435541875787129e-13,
+          "maxLimbLengthErrorMm": 2.7755575615628914e-14
+        },
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "heading": 0,
+        "scale": 1
+      }
+    },
+    {
+      "case": "profile",
+      "profile": "small",
+      "preset": "shoulder",
+      "metrics": {
+        "headWorld": [
+          0,
+          1.8609999999999998,
+          -0.20000000000000015
+        ],
+        "feetWorld": [
+          [
+            0.19480451126798715,
+            1.1155254058690776,
+            0.06000784594747143
+          ],
+          [
+            -0.19480451126798715,
+            1.1155254058690776,
+            0.06000784594747143
+          ]
+        ],
+        "headDriftMm": 882.9496021857642,
+        "headRotationErrorDegrees": 0,
+        "handPositionErrorMm": null,
+        "handRotationErrorDegrees": null,
+        "knees": [
+          70.28866567221876,
+          70.28866567221876
+        ],
+        "upright": 1,
+        "anchorMode": "support",
+        "supportTargetWorld": [
+          0,
+          1.4449999999999998,
+          -0.20000000000000018
+        ],
+        "hipsWorld": [
+          0,
+          1.4449999999999998,
+          -0.20000000000000015
+        ],
+        "kneesWorld": [
+          [
+            0.17470581279642472,
+            1.3667591367636072,
+            0.0298597982401278
+          ],
+          [
+            -0.17470581279642472,
+            1.3667591367636072,
+            0.0298597982401278
+          ]
+        ],
+        "supportErrorMm": 2.7755575615628914e-14,
+        "carrierHeadHipDistanceM": 0.2214158982548455,
+        "kneeLateralGapM": 0.34941162559284944,
+        "maxLimbLengthErrorMm": 1.1102230246251565e-13,
+        "scale": 0.65,
+        "carrierScale": 1.0000000000000009,
+        "heading": 0,
+        "seatLift": 0.065,
+        "seatBack": 0.20000000000000018,
+        "spread": 1,
+        "headTorsoProxyClearanceMm": 11.750000000000039,
+        "headThighProxyClearanceMm": 65.10661448416745,
+        "proxyWarning": null
+      },
+      "carrier": {
+        "frames": 2,
+        "restored": true,
+        "error": null,
+        "metrics": {
+          "headWorld": [
+            0,
+            1.54,
+            0
+          ],
+          "feetWorld": [
+            [
+              0.1,
+              0.06999999999999995,
+              0.02
+            ],
+            [
+              -0.1,
+              0.06999999999999995,
+              0.02
+            ]
+          ],
+          "headDriftMm": 0,
+          "headRotationErrorDegrees": 0,
+          "handPositionErrorMm": null,
+          "handRotationErrorDegrees": null,
+          "knees": [
+            2.935673446421106,
+            2.935673446421106
+          ],
+          "upright": 1,
+          "handsWorld": [
+            [
+              0.1857600969557837,
+              1.2285805847716158,
+              0.04644122447916649
+            ],
+            [
+              -0.1857600969557837,
+              1.2285805847716158,
+              0.04644122447916649
+            ]
+          ],
+          "handTargetErrorsMm": [
+            4.771719477035306e-13,
+            4.771719477035306e-13
+          ],
+          "handTargetErrorMm": 4.771719477035306e-13,
+          "maxLimbLengthErrorMm": 2.220446049250313e-13
+        },
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "heading": 0,
+        "scale": 1
+      }
+    },
+    {
+      "case": "profile",
+      "profile": "tall",
+      "preset": "shoulder",
+      "metrics": {
+        "headWorld": [
+          0,
+          2.3789999999999996,
+          -0.2699999999999999
+        ],
+        "feetWorld": [
+          [
+            0.4045939849412041,
+            0.8307066121896227,
+            0.27001629542936434
+          ],
+          [
+            -0.4045939849412041,
+            0.8307066121896227,
+            0.27001629542936434
+          ]
+        ],
+        "headDriftMm": 403.6087214122111,
+        "headRotationErrorDegrees": 0,
+        "handPositionErrorMm": null,
+        "handRotationErrorDegrees": null,
+        "knees": [
+          70.28866567221873,
+          70.28866567221873
+        ],
+        "upright": 1,
+        "anchorMode": "support",
+        "supportTargetWorld": [
+          0,
+          1.515,
+          -0.2699999999999999
+        ],
+        "hipsWorld": [
+          0,
+          1.515,
+          -0.2699999999999999
+        ],
+        "kneesWorld": [
+          [
+            0.3628505342694975,
+            1.3524997455859533,
+            0.20740111942180434
+          ],
+          [
+            -0.3628505342694975,
+            1.3524997455859533,
+            0.20740111942180434
+          ]
+        ],
+        "supportErrorMm": 0,
+        "carrierHeadHipDistanceM": 0.2711549372591249,
+        "kneeLateralGapM": 0.725701068538995,
+        "maxLimbLengthErrorMm": 2.220446049250313e-13,
+        "scale": 1.3499999999999994,
+        "carrierScale": 1.0000000000000009,
+        "heading": 0,
+        "seatLift": 0.13499999999999995,
+        "seatBack": 0.2699999999999999,
+        "spread": 1,
+        "headTorsoProxyClearanceMm": 8.249999999999869,
+        "headThighProxyClearanceMm": 48.40097624457906,
+        "proxyWarning": null
+      },
+      "carrier": {
+        "frames": 1,
+        "restored": true,
+        "error": null,
+        "metrics": {
+          "headWorld": [
+            0,
+            1.54,
+            0
+          ],
+          "feetWorld": [
+            [
+              0.1,
+              0.06999999999999995,
+              0.02
+            ],
+            [
+              -0.1,
+              0.06999999999999995,
+              0.02
+            ]
+          ],
+          "headDriftMm": 0,
+          "headRotationErrorDegrees": 0,
+          "handPositionErrorMm": null,
+          "handRotationErrorDegrees": null,
+          "knees": [
+            2.935673446421106,
+            2.935673446421106
+          ],
+          "upright": 1,
+          "handsWorld": [
+            [
+              0.3858094321389361,
+              1.0655135222179712,
+              0.2418394662259623
+            ],
+            [
+              -0.3858094321389361,
+              1.0655135222179712,
+              0.2418394662259623
+            ]
+          ],
+          "handTargetErrorsMm": [
+            2.2377260456559047e-13,
+            2.2377260456559047e-13
+          ],
+          "handTargetErrorMm": 2.2377260456559047e-13,
+          "maxLimbLengthErrorMm": 5.551115123125783e-14
+        },
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "heading": 0,
+        "scale": 1
+      }
+    },
+    {
+      "case": "nimbus-heading",
+      "heading": -1.2,
+      "metrics": {
+        "headWorld": [
+          0,
+          1.54,
+          0
+        ],
+        "feetWorld": [
+          [
+            0.4903704794880386,
+            0.3478373264505578,
+            -0.1567198722203142
+          ],
+          [
+            -0.4903704794880387,
+            0.34783732645055787,
+            0.15671987222031422
+          ]
+        ],
+        "headDriftMm": 0,
+        "headRotationErrorDegrees": 0,
+        "handPositionErrorMm": null,
+        "handRotationErrorDegrees": null,
+        "knees": [
+          67,
+          66.99999999999999
+        ],
+        "upright": 1,
+        "supportHeight": 0.34783732645055776,
+        "supportMode": "head-relative-ankle-plane",
+        "footTargetsWorld": [
+          [
+            0.4903704794880387,
+            0.34783732645055776,
+            -0.15671987222031414
+          ],
+          [
+            -0.4903704794880387,
+            0.34783732645055776,
+            0.15671987222031414
+          ]
+        ],
+        "footTargetErrorMm": 1.3877787807814457e-13,
+        "footTargetErrorsMm": [
+          1.3597399555105182e-13,
+          1.3877787807814457e-13
+        ],
+        "ankleHeightSpreadMm": 5.551115123125783e-14,
+        "stanceWorldM": 1.0296102670468676,
+        "boneLengthErrorMm": 1.1102230246251565e-13,
+        "bodyHeading": 0.3707963267948966,
+        "cloudHeading": -1.2,
+        "stanceWidth": 1,
+        "crouch": 0.45,
+        "requestedKneeDegrees": 67,
+        "kneeTargetErrorDegrees": 1.4210854715202004e-14,
+        "poseLimited": false,
+        "poseLimitReasons": []
+      }
+    },
+    {
+      "case": "nimbus-heading",
+      "heading": 1.2,
+      "metrics": {
+        "headWorld": [
+          0,
+          1.54,
+          0
+        ],
+        "feetWorld": [
+          [
+            -0.4674546132069305,
+            0.3478373264505578,
+            -0.21566295484769682
+          ],
+          [
+            0.4674546132069303,
+            0.34783732645055804,
+            0.2156629548476967
+          ]
+        ],
+        "headDriftMm": 0,
+        "headRotationErrorDegrees": 0,
+        "handPositionErrorMm": null,
+        "handRotationErrorDegrees": null,
+        "knees": [
+          66.99999999999999,
+          67.00000000000004
+        ],
+        "upright": 1,
+        "supportHeight": 0.34783732645055787,
+        "supportMode": "head-relative-ankle-plane",
+        "footTargetsWorld": [
+          [
+            -0.46745461320693044,
+            0.34783732645055787,
+            -0.2156629548476968
+          ],
+          [
+            0.46745461320693044,
+            0.34783732645055787,
+            0.2156629548476968
+          ]
+        ],
+        "footTargetErrorMm": 2.1677797545656836e-13,
+        "footTargetErrorsMm": [
+          8.326672684688674e-14,
+          2.1677797545656836e-13
+        ],
+        "ankleHeightSpreadMm": 2.220446049250313e-13,
+        "stanceWorldM": 1.0296102670468679,
+        "boneLengthErrorMm": 1.1102230246251565e-13,
+        "bodyHeading": 2.7707963267948967,
+        "cloudHeading": 1.2,
+        "stanceWidth": 1,
+        "crouch": 0.45,
+        "requestedKneeDegrees": 67,
+        "kneeTargetErrorDegrees": 4.263256414560601e-14,
+        "poseLimited": false,
+        "poseLimitReasons": []
+      }
+    },
+    {
+      "case": "nimbus-reach",
+      "stanceWidth": 0.6,
+      "crouch": 0,
+      "metrics": {
+        "headWorld": [
+          0,
+          1.54,
+          0
+        ],
+        "feetWorld": [
+          [
+            0.031620499351813464,
+            0.14765791695803526,
+            -0.3082998686801798
+          ],
+          [
+            -0.031620499351813436,
+            0.1476579169580352,
+            0.3082998686801797
+          ]
+        ],
+        "headDriftMm": 0,
+        "headRotationErrorDegrees": 0,
+        "handPositionErrorMm": null,
+        "handRotationErrorDegrees": null,
+        "knees": [
+          40.00000000000003,
+          40.00000000000006
+        ],
+        "upright": 1,
+        "supportHeight": 0.1476579169580352,
+        "supportMode": "head-relative-ankle-plane",
+        "footTargetsWorld": [
+          [
+            0.03162049935181338,
+            0.1476579169580352,
+            -0.3082998686801798
+          ],
+          [
+            -0.03162049935181338,
+            0.1476579169580352,
+            0.3082998686801798
+          ]
+        ],
+        "footTargetErrorMm": 1.0007415106216802e-13,
+        "footTargetErrorsMm": [
+          1.0007415106216802e-13,
+          7.850462293418876e-14
+        ],
+        "ankleHeightSpreadMm": 5.551115123125783e-14,
+        "stanceWorldM": 0.619834381129263,
+        "boneLengthErrorMm": 0,
+        "bodyHeading": 1.5707963267948966,
+        "cloudHeading": 0,
+        "stanceWidth": 0.6,
+        "crouch": 0,
+        "requestedKneeDegrees": 40,
+        "kneeTargetErrorDegrees": 5.684341886080802e-14,
+        "poseLimited": false,
+        "poseLimitReasons": []
+      }
+    },
+    {
+      "case": "nimbus-reach",
+      "stanceWidth": 1.4,
+      "crouch": 1,
+      "metrics": {
+        "headWorld": [
+          0,
+          1.54,
+          0
+        ],
+        "feetWorld": [
+          [
+            0.0316204993518136,
+            0.86,
+            -0.7193663602537526
+          ],
+          [
+            -0.031620499351813575,
+            0.86,
+            0.7193663602537528
+          ]
+        ],
+        "headDriftMm": 0,
+        "headRotationErrorDegrees": 0,
+        "handPositionErrorMm": null,
+        "handRotationErrorDegrees": null,
+        "knees": [
+          76.65387929120932,
+          76.6538792912093
+        ],
+        "upright": 1,
+        "supportHeight": 0.86,
+        "supportMode": "head-relative-ankle-plane",
+        "footTargetsWorld": [
+          [
+            0.03162049935181347,
+            0.86,
+            -0.7193663602537528
+          ],
+          [
+            -0.03162049935181347,
+            0.86,
+            0.7193663602537528
+          ]
+        ],
+        "footTargetErrorMm": 2.582350176184633e-13,
+        "footTargetErrorsMm": [
+          2.582350176184633e-13,
+          1.0408340855860843e-13
+        ],
+        "ankleHeightSpreadMm": 0,
+        "stanceWorldM": 1.4401219618407184,
+        "boneLengthErrorMm": 1.1102230246251565e-13,
+        "bodyHeading": 1.5707963267948966,
+        "cloudHeading": 0,
+        "stanceWidth": 1.4,
+        "crouch": 1,
+        "requestedKneeDegrees": 100,
+        "kneeTargetErrorDegrees": 23.346120708790707,
+        "poseLimited": true,
+        "poseLimitReasons": [
+          "stance-exceeds-crouch-reach"
+        ]
+      }
+    },
+    {
+      "case": "tracked-hands",
+      "preset": "nimbus",
+      "metrics": {
+        "headWorld": [
+          0,
+          1.54,
+          0
+        ],
+        "feetWorld": [
+          [
+            0.031620499351813575,
+            0.34783732645055787,
+            -0.5138331144669663
+          ],
+          [
+            -0.031620499351813436,
+            0.347837326450558,
+            0.5138331144669663
+          ]
+        ],
+        "headDriftMm": 0,
+        "headRotationErrorDegrees": 0,
+        "handPositionErrorMm": 70.75953183502376,
+        "handRotationErrorDegrees": 0,
+        "knees": [
+          66.99999999999997,
+          66.99999999999999
+        ],
+        "upright": 1,
+        "supportHeight": 0.34783732645055787,
+        "supportMode": "head-relative-ankle-plane",
+        "footTargetsWorld": [
+          [
+            0.03162049935181342,
+            0.34783732645055787,
+            -0.5138331144669663
+          ],
+          [
+            -0.03162049935181342,
+            0.34783732645055787,
+            0.5138331144669663
+          ]
+        ],
+        "footTargetErrorMm": 1.5265566588595902e-13,
+        "footTargetErrorsMm": [
+          1.5265566588595902e-13,
+          1.1188630228279524e-13
+        ],
+        "ankleHeightSpreadMm": 1.1102230246251565e-13,
+        "stanceWorldM": 1.0296102670468679,
+        "boneLengthErrorMm": 1.6653345369377348e-13,
+        "bodyHeading": 1.5707963267948966,
+        "cloudHeading": 0,
+        "stanceWidth": 1,
+        "crouch": 0.45,
+        "requestedKneeDegrees": 67,
+        "kneeTargetErrorDegrees": 2.842170943040401e-14,
+        "poseLimited": false,
+        "poseLimitReasons": []
+      }
+    },
+    {
+      "case": "tracked-hands",
+      "preset": "shoulder",
+      "metrics": {
+        "headWorld": [
+          0,
+          2.12,
+          -0.20000000000000018
+        ],
+        "feetWorld": [
+          [
+            0.2996992481045956,
+            0.9731160090293502,
+            0.20001207068841753
+          ],
+          [
+            -0.2996992481045956,
+            0.9731160090293502,
+            0.20001207068841753
+          ]
+        ],
+        "headDriftMm": 613.5144660071188,
+        "headRotationErrorDegrees": 0,
+        "handPositionErrorMm": 597.8751064498291,
+        "handRotationErrorDegrees": 0,
+        "knees": [
+          70.28866567221876,
+          70.28866567221876
+        ],
+        "upright": 1,
+        "anchorMode": "support",
+        "supportTargetWorld": [
+          0,
+          1.48,
+          -0.20000000000000018
+        ],
+        "hipsWorld": [
+          0,
+          1.48,
+          -0.20000000000000018
+        ],
+        "kneesWorld": [
+          [
+            0.2687781735329611,
+            1.3596294411747805,
+            0.15363045883096588
+          ],
+          [
+            -0.2687781735329611,
+            1.3596294411747805,
+            0.15363045883096588
+          ]
+        ],
+        "supportErrorMm": 0,
+        "carrierHeadHipDistanceM": 0.20880613017821117,
+        "kneeLateralGapM": 0.5375563470659221,
+        "maxLimbLengthErrorMm": 1.1102230246251565e-13,
+        "scale": 1,
+        "carrierScale": 1.0000000000000009,
+        "heading": 0,
+        "seatLift": 0.1,
+        "seatBack": 0.20000000000000018,
+        "spread": 1,
+        "headTorsoProxyClearanceMm": -24.999999999999925,
+        "headThighProxyClearanceMm": 38.365384472016274,
+        "proxyWarning": "possible-head-body-overlap"
+      }
+    },
+    {
+      "case": "shoulder-head-mode",
+      "metrics": {
+        "headWorld": [
+          0,
+          1.54,
+          0
+        ],
+        "feetWorld": [
+          [
+            0.2996992481045956,
+            0.39311600902935007,
+            0.4000120706884177
+          ],
+          [
+            -0.2996992481045956,
+            0.39311600902935007,
+            0.4000120706884177
+          ]
+        ],
+        "headDriftMm": 0,
+        "headRotationErrorDegrees": 0,
+        "handPositionErrorMm": null,
+        "handRotationErrorDegrees": null,
+        "knees": [
+          70.28866567221876,
+          70.28866567221876
+        ],
+        "upright": 1,
+        "anchorMode": "head",
+        "supportTargetWorld": [
+          0,
+          1.48,
+          -0.20000000000000018
+        ],
+        "hipsWorld": [
+          0,
+          0.8999999999999999,
+          0
+        ],
+        "kneesWorld": [
+          [
+            0.2687781735329611,
+            0.7796294411747803,
+            0.35363045883096605
+          ],
+          [
+            -0.2687781735329611,
+            0.7796294411747803,
+            0.35363045883096605
+          ]
+        ],
+        "supportErrorMm": 613.5144660071188,
+        "carrierHeadHipDistanceM": 0.6400000000000001,
+        "kneeLateralGapM": 0.5375563470659221,
+        "maxLimbLengthErrorMm": 1.1102230246251565e-13,
+        "scale": 1,
+        "carrierScale": 1.0000000000000009,
+        "heading": 0,
+        "seatLift": 0.1,
+        "seatBack": 0.20000000000000018,
+        "spread": 1,
+        "headTorsoProxyClearanceMm": 4.999999999999893,
+        "headThighProxyClearanceMm": 536.5082630795343,
+        "proxyWarning": null
+      }
+    },
+    {
+      "case": "carrier-scale",
+      "carrierScale": 0.65,
+      "metrics": {
+        "headWorld": [
+          0,
+          1.637,
+          -0.2
+        ],
+        "feetWorld": [
+          [
+            0.2996992481045956,
+            0.49011600902935015,
+            0.2000120706884177
+          ],
+          [
+            -0.2996992481045956,
+            0.49011600902935015,
+            0.2000120706884177
+          ]
+        ],
+        "headDriftMm": 222.28135324403618,
+        "headRotationErrorDegrees": 0,
+        "handPositionErrorMm": null,
+        "handRotationErrorDegrees": null,
+        "knees": [
+          70.28866567221876,
+          70.28866567221876
+        ],
+        "upright": 1,
+        "anchorMode": "support",
+        "supportTargetWorld": [
+          0,
+          0.997,
+          -0.2
+        ],
+        "hipsWorld": [
+          0,
+          0.997,
+          -0.2
+        ],
+        "kneesWorld": [
+          [
+            0.2687781735329611,
+            0.8766294411747804,
+            0.15363045883096604
+          ],
+          [
+            -0.2687781735329611,
+            0.8766294411747804,
+            0.15363045883096604
+          ]
+        ],
+        "supportErrorMm": 0,
+        "carrierHeadHipDistanceM": 0.20003999600079983,
+        "kneeLateralGapM": 0.5375563470659221,
+        "maxLimbLengthErrorMm": 1.1102230246251565e-13,
+        "scale": 1,
+        "carrierScale": 0.6500000000000006,
+        "heading": 0,
+        "seatLift": 0.1,
+        "seatBack": 0.2,
+        "spread": 1,
+        "headTorsoProxyClearanceMm": 16.999999999999947,
+        "headThighProxyClearanceMm": 37.10032122668245,
+        "proxyWarning": null
+      }
+    },
+    {
+      "case": "carrier-scale",
+      "carrierScale": 1.35,
+      "metrics": {
+        "headWorld": [
+          0,
+          2.603,
+          -0.27
+        ],
+        "feetWorld": [
+          [
+            0.2996992481045956,
+            1.4561160090293503,
+            0.1300120706884177
+          ],
+          [
+            -0.2996992481045956,
+            1.4561160090293503,
+            0.1300120706884177
+          ]
+        ],
+        "headDriftMm": 1096.7538465854589,
+        "headRotationErrorDegrees": 0,
+        "handPositionErrorMm": null,
+        "handRotationErrorDegrees": null,
+        "knees": [
+          70.28866567221876,
+          70.28866567221876
+        ],
+        "upright": 1,
+        "anchorMode": "support",
+        "supportTargetWorld": [
+          0,
+          1.963,
+          -0.27
+        ],
+        "hipsWorld": [
+          0,
+          1.963,
+          -0.27
+        ],
+        "kneesWorld": [
+          [
+            0.2687781735329611,
+            1.8426294411747806,
+            0.08363045883096604
+          ],
+          [
+            -0.2687781735329611,
+            1.8426294411747806,
+            0.08363045883096604
+          ]
+        ],
+        "supportErrorMm": 0,
+        "carrierHeadHipDistanceM": 0.29386391408269225,
+        "kneeLateralGapM": 0.5375563470659221,
+        "maxLimbLengthErrorMm": 2.7755575615628914e-13,
+        "scale": 1,
+        "carrierScale": 1.35,
+        "heading": 0,
+        "seatLift": 0.1,
+        "seatBack": 0.27,
+        "spread": 1,
+        "headTorsoProxyClearanceMm": 3.00000000000003,
+        "headThighProxyClearanceMm": 77.79760878626541,
+        "proxyWarning": null
+      }
+    },
+    {
+      "case": "moving-carrier",
+      "from": [
+        0.008182254515799887,
+        0,
+        0.1999453400499399
+      ],
+      "to": [
+        0.03670687406800558,
+        0,
+        0.19889704476203565
+      ],
+      "metrics": {
+        "headWorld": [
+          0.024621176029221013,
+          2.12,
+          -0.0007103819610242701
+        ],
+        "feetWorld": [
+          [
+            0.340061559292652,
+            0.9731160090293499,
+            0.38700944035596196
+          ],
+          [
+            -0.2588584307965083,
+            0.97311600902935,
+            0.4109552694174038
+          ]
+        ],
+        "headDriftMm": 580.5227876247344,
+        "headRotationErrorDegrees": 0,
+        "handPositionErrorMm": null,
+        "handRotationErrorDegrees": null,
+        "knees": [
+          70.28866567221874,
+          70.28866567221874
+        ],
+        "upright": 1,
+        "anchorMode": "support",
+        "supportTargetWorld": [
+          0.024621176029221013,
+          1.48,
+          -0.0007103819610242701
+        ],
+        "hipsWorld": [
+          0.024621176029221013,
+          1.48,
+          -0.0007103819610242701
+        ],
+        "kneesWorld": [
+          [
+            0.30731223484611336,
+            1.3596294411747802,
+            0.34190014508929634
+          ],
+          [
+            -0.2298149753374856,
+            1.3596294411747802,
+            0.3633753948257275
+          ]
+        ],
+        "supportErrorMm": 0,
+        "carrierHeadHipDistanceM": 0.2088061301782112,
+        "kneeLateralGapM": 0.5375563470659221,
+        "maxLimbLengthErrorMm": 1.1102230246251565e-13,
+        "scale": 1,
+        "carrierScale": 1.0000000000000009,
+        "heading": 0.03996039916247867,
+        "seatLift": 0.1,
+        "seatBack": 0.20000000000000018,
+        "spread": 1,
+        "headTorsoProxyClearanceMm": -24.999999999999897,
+        "headThighProxyClearanceMm": 38.36538447201633,
+        "proxyWarning": "possible-head-body-overlap"
+      }
+    },
+    {
+      "case": "view",
+      "view": "front",
+      "supportErrorMm": 0
+    },
+    {
+      "case": "view",
+      "view": "side",
+      "supportErrorMm": 0
+    },
+    {
+      "case": "view",
+      "view": "back",
+      "supportErrorMm": 0
+    },
+    {
+      "case": "view",
+      "view": "orbit",
+      "supportErrorMm": 0
+    },
+    {
+      "case": "disabled",
+      "frames": 52,
+      "restored": true
+    }
+  ],
+  "pageErrors": [],
+  "nonGetRequests": [],
+  "unverified": [
+    "real VRM",
+    "XRift host",
+    "Quest",
+    "remote users",
+    "real tracking"
+  ]
+}

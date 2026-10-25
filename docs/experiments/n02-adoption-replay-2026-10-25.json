@@ -1,0 +1,5925 @@
+{
+  "kind": "n02-adopted-profile-cpu-replay",
+  "version": 1,
+  "createdAt": "2026-10-25T06:46:16.775Z",
+  "input": {
+    "profilePath": "specs/n02-normal-flight.v1.json",
+    "profileSha256": "305bb9a6981499c3d481ebf9a4eae72158ecb9e6886951295b987f49b2c4d0e1",
+    "profile": {
+      "id": "n02-normal-flight",
+      "version": "1.0.0",
+      "status": "adopted-local-baseline",
+      "adoptedOn": "2026-10-25",
+      "scope": "N02 surf stance with normal upright-head cloud flight",
+      "coordinates": {
+        "space": "right-handed world",
+        "lengthUnit": "meter",
+        "timeUnit": "second",
+        "angleUnit": "radian",
+        "up": "+Y",
+        "forward": "+Z",
+        "right": "+X",
+        "quaternionOrder": "xyzw",
+        "headingZero": "+Z",
+        "positiveSteer": "right",
+        "positivePitch": "nose-up",
+        "positiveRoll": "right-bank",
+        "supportRotation": "QyawY * Qx(-pitch) * Qz(-roll)"
+      },
+      "runtime": {
+        "node": ">=22",
+        "three": ">=0.183.1 <0.184.0",
+        "vrmLoaderForDemo": "@pixiv/three-vrm 3.5.5"
+      },
+      "dynamics": {
+        "mass": 70,
+        "driveForce": 154,
+        "brakeForce": 210,
+        "linearDrag": 48,
+        "quadraticDrag": 2,
+        "lateralGrip": 800,
+        "liftForceUp": 210,
+        "liftForceDown": 210,
+        "verticalDrag": 20,
+        "verticalQuadraticDrag": 1,
+        "verticalBrakeForce": 210,
+        "verticalCompressionResponseSeconds": 0.18,
+        "verticalCompressionGain": 0.28,
+        "verticalCompressionMax": 0.22,
+        "verticalReleaseMax": 0.12,
+        "lowLoadEnterRatio": 0.15,
+        "lowLoadExitRatio": 0.25,
+        "supportRecoverySeconds": 0.08,
+        "attitudeEnabled": true,
+        "pitchLimitRadians": 0.20943951023931953,
+        "rollLimitRadians": 0.3141592653589793,
+        "attitudeMaxRate": 0.7,
+        "attitudeNaturalFrequency": 6,
+        "attitudeDampingRatio": 1,
+        "attitudePathSpeedFloor": 0.6,
+        "pitchPathGain": 0.35,
+        "pitchAccelerationGain": 0.25,
+        "rollAccelerationGain": 1,
+        "maxTurnRate": 0.8,
+        "yawResponseSeconds": 0.22,
+        "turnSpeedScale": 1.2,
+        "gravity": 9.81,
+        "comHeightM": 0.9,
+        "comHeightResponseSeconds": 0.25,
+        "comNaturalFrequency": 8,
+        "comDampingRatio": 1,
+        "supportHalfLengthM": 0.42,
+        "supportHalfWidthM": 0.24,
+        "maxLeanRadians": 0.45,
+        "maxDeltaTime": 2,
+        "integrationStep": 0.004166666666666667,
+        "stopSpeed": 0.0001
+      },
+      "pose": {
+        "preset": "nimbus",
+        "anchorMode": "support",
+        "stanceWidth": 1,
+        "crouch": 0.45,
+        "maxKneeDegrees": 100
+      },
+      "calibration": {
+        "referenceLegLengthM": 0.79,
+        "initialComHeightPerScaleM": 0.9,
+        "initialSupportHalfLengthPerScaleM": 0.42,
+        "initialSupportHalfWidthPerScaleM": 0.24,
+        "supportLengthPaddingPerScaleM": 0.07,
+        "supportWidthPaddingPerScaleM": 0.045,
+        "minimumSupportHalfLengthM": 0.1,
+        "minimumSupportHalfWidthM": 0.08,
+        "soleSource": "posed foot-weighted skin vertices projected on support normal",
+        "fixtureSoleOffsetM": 0.0625
+      },
+      "replay": {
+        "stepSeconds": 0.008333333333333333,
+        "durationSeconds": 14,
+        "settleSeconds": 0.5,
+        "sampling": "controls sampled at the end of each integration step"
+      },
+      "sequence": [
+        {
+          "until": 1,
+          "label": "ホバー",
+          "controls": {
+            "brake": 1
+          }
+        },
+        {
+          "until": 3,
+          "label": "斜め上へ発進",
+          "controls": {
+            "throttle": 0.8,
+            "lift": 0.7
+          }
+        },
+        {
+          "until": 5,
+          "label": "上昇しながら左旋回",
+          "controls": {
+            "throttle": 0.4,
+            "lift": 0.35,
+            "steer": -0.65
+          }
+        },
+        {
+          "until": 7,
+          "label": "右へ切り返し",
+          "controls": {
+            "throttle": 0.4,
+            "lift": -0.35,
+            "steer": 0.65
+          }
+        },
+        {
+          "until": 9,
+          "label": "下降",
+          "controls": {
+            "throttle": 0.2,
+            "lift": -0.7
+          }
+        },
+        {
+          "until": 14,
+          "label": "制動・構えが戻る",
+          "controls": {
+            "brake": 1
+          }
+        }
+      ],
+      "acceptance": {
+        "footTargetErrorMaxMm": 1,
+        "boneLengthErrorMaxMm": 0.01,
+        "headInputRotationErrorMaxDegrees": 0.001,
+        "fixtureHeadUpDotMin": 0.9999,
+        "vrmHeadUpDotBaselineDeltaMax": 0.00001,
+        "footNormalProxyErrorMaxDegrees": 0.5,
+        "visibleSoleMinGapAbsMaxMm": 2,
+        "kneeLimitToleranceDegrees": 0.1,
+        "stoppedSpeedMaxMps": 0.01,
+        "stoppedTiltMaxRadians": 0.01
+      },
+      "limits": {
+        "rotationalPointAccelerationIncluded": false,
+        "fullBodyContactPhysics": false,
+        "xriftNativeVerified": false,
+        "questVerified": false,
+        "remoteAvatarSyncVerified": false,
+        "stuntsIncluded": false
+      }
+    },
+    "sourceSha256": {
+      "scripts/replay-n02-profile.mjs": "a176b48a97de5cc7acdb69919abf8add653e5a636b57c53cf1b14c9bb45b7fcb",
+      "src/index.mjs": "184110bac4c81bfcf92e6d961a7e146b08708c4eadd2b8fd62bfb3cbace3b3e6",
+      "src/ride-dynamics.mjs": "0bdd494a7523317709ca39477023d8549ade8daeeb23b9fce2f2883b457d9a28",
+      "src/nimbus-pose.mjs": "0df9bc1daaf82ebce4be0e2c900e4db6eafdf085944191bbc88796ade4251b6e",
+      "src/standing.mjs": "3ebe955dda28b08fe834895a810171a7d731d43ae4043824e65814c53ce5e410",
+      "src/vendor/render-pose.mjs": "d11736f6eb7a6a3344c1d5c083769b68385b692d74ab09dc992f43c3ad5945d2",
+      "src/vendor/fixture.mjs": "a536382eb9a643d39d5fda09d7d377380b50c9f753545e65e1c787576b90ecfa",
+      "demo/host-input.mjs": "bb9d635876505a58c8f0438fcbb566c89b17094d7db5fb8adede6be4ed95648e",
+      "demo/skin-diagnostics.mjs": "ad0f0fd31332215f95a96f979b702ae3c2ee1e312aded47381b547b07827a921"
+    }
+  },
+  "environment": {
+    "node": "v22.18.0",
+    "dtSeconds": 0.008333333333333333,
+    "durationSeconds": 14.5,
+    "fixture": "authored-pose-test-body",
+    "privateVrmRequired": false,
+    "renderMode": "CPU scene onBeforeRender/onAfterRender transaction; no pixels rendered"
+  },
+  "calibration": {
+    "method": "Initial posed skin soles, foot anchors and weighted-bone COM proxy; same formulas as local demo",
+    "rideScale": 1.0006487136649782,
+    "soleOffsetM": 0.06250000016763807,
+    "anchorsLocal": [
+      [
+        0.2691492790476291,
+        0.34874687169704766,
+        -0.4388427863030473
+      ],
+      [
+        -0.2691492790476291,
+        0.34874687169704766,
+        0.4388427863030473
+      ]
+    ],
+    "supportOriginLocal": [
+      0,
+      0.2862468715294096,
+      0
+    ],
+    "supportOriginWorldBase": [
+      0,
+      0.2862468715294096,
+      0
+    ],
+    "initialCenterOfMassWorld": [
+      5.90012661123851e-7,
+      0.9814443649823792,
+      2.6756100991991855e-7
+    ],
+    "comHeightM": 0.6951974934529697,
+    "footHull2D": [
+      [
+        -0.39098963583050683,
+        0.43225431909434747
+      ],
+      [
+        -0.34274362877851716,
+        0.3415167767843848
+      ],
+      [
+        0.19555492931674104,
+        -0.5361687958217098
+      ],
+      [
+        0.39098963583050683,
+        -0.43225431909434747
+      ],
+      [
+        0.34274362877851716,
+        -0.3415167767843848
+      ],
+      [
+        -0.19555492931674104,
+        0.5361687958217098
+      ]
+    ],
+    "resolvedDynamics": {
+      "mass": 70,
+      "driveForce": 154,
+      "brakeForce": 210,
+      "linearDrag": 48,
+      "quadraticDrag": 2,
+      "lateralGrip": 800,
+      "liftForceUp": 210,
+      "liftForceDown": 210,
+      "verticalDrag": 20,
+      "verticalQuadraticDrag": 1,
+      "verticalBrakeForce": 210,
+      "verticalCompressionResponseSeconds": 0.18,
+      "verticalCompressionGain": 0.28,
+      "verticalCompressionMax": 0.22,
+      "verticalReleaseMax": 0.12,
+      "lowLoadEnterRatio": 0.15,
+      "lowLoadExitRatio": 0.25,
+      "supportRecoverySeconds": 0.08,
+      "attitudeEnabled": true,
+      "pitchLimitRadians": 0.20943951023931953,
+      "rollLimitRadians": 0.3141592653589793,
+      "attitudeMaxRate": 0.7,
+      "attitudeNaturalFrequency": 6,
+      "attitudeDampingRatio": 1,
+      "attitudePathSpeedFloor": 0.6,
+      "pitchPathGain": 0.35,
+      "pitchAccelerationGain": 0.25,
+      "rollAccelerationGain": 1,
+      "maxTurnRate": 0.8,
+      "yawResponseSeconds": 0.22,
+      "turnSpeedScale": 1.2,
+      "gravity": 9.81,
+      "comHeightM": 0.6951974934529697,
+      "comHeightResponseSeconds": 0.25,
+      "comNaturalFrequency": 8,
+      "comDampingRatio": 1,
+      "supportHalfLengthM": 0.5088881962595958,
+      "supportHalfWidthM": 0.3141784711625531,
+      "maxLeanRadians": 0.45,
+      "maxDeltaTime": 2,
+      "integrationStep": 0.004166666666666667,
+      "stopSpeed": 0.0001
+    }
+  },
+  "checkpoints": [
+    {
+      "timeSeconds": 0,
+      "segment": 0,
+      "controls": {
+        "brake": 1
+      },
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "velocity": [
+        0,
+        0,
+        0
+      ],
+      "acceleration": [
+        0,
+        0,
+        0
+      ],
+      "heading": 0,
+      "attitude": {
+        "pitch": 0,
+        "roll": 0,
+        "pitchRate": 0,
+        "rollRate": 0,
+        "targetPitch": 0,
+        "targetRoll": 0,
+        "pathAngle": 0,
+        "angularSpeed": 0,
+        "angularSpeedLimit": 2.2
+      },
+      "supportFrame": {
+        "position": [
+          0,
+          0.2862468715294096,
+          0
+        ],
+        "quaternion": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "dynamicsPose": {
+        "forwardAcceleration": 0,
+        "lateralAcceleration": 0,
+        "verticalAcceleration": 0,
+        "requiredAccelerationWorld": [
+          0,
+          9.81,
+          0
+        ],
+        "effectiveGravityMps2": 9.81,
+        "tangentForwardAcceleration": 0,
+        "tangentLateralAcceleration": 0,
+        "verticalSpeed": 0,
+        "speed": 0,
+        "totalSpeed": 0,
+        "turnRate": 0,
+        "normalLoadRatio": 1,
+        "supportState": "supported",
+        "zmpValid": true,
+        "zmpInvalidReason": null,
+        "verticalCompression": 0,
+        "targetLeanForward": 0,
+        "targetLeanSide": 0,
+        "balanceLeanForward": 0,
+        "balanceLeanSide": 0,
+        "crouch": 0.45,
+        "centerOfMassOffset": {
+          "forward": 0,
+          "side": 0
+        },
+        "centerOfMassVelocity": {
+          "forward": 0,
+          "side": 0
+        },
+        "zeroMomentPoint": {
+          "forward": 0,
+          "side": 0
+        },
+        "loadRatio": {
+          "front": 0.5,
+          "rear": 0.5,
+          "right": 0.5,
+          "left": 0.5
+        },
+        "unclampedLoadRatio": {
+          "front": 0.5,
+          "rear": 0.5,
+          "right": 0.5,
+          "left": 0.5
+        },
+        "supportMarginM": 0.3141784711625531,
+        "supportExceeded": false,
+        "supportHalfLengthM": 0.5088881962595958,
+        "supportHalfWidthM": 0.3141784711625531,
+        "comHeightM": 0.6951974934529697,
+        "heightObservationStatus": "none",
+        "observedComHeightM": null,
+        "supportQuaternion": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "supportFrame": {
+          "quaternion": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "normal": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            1,
+            0,
+            0
+          ],
+          "forward": [
+            0,
+            0,
+            1
+          ]
+        },
+        "supportAngularSpeed": 0,
+        "attitudeEnabled": true,
+        "rotationalPointAccelerationIncluded": false,
+        "input": {
+          "throttle": 0,
+          "steer": 0,
+          "brake": 0,
+          "lift": 0
+        }
+      },
+      "pose": {
+        "feetWorld": [
+          [
+            0.26914927904762914,
+            0.34874687169704766,
+            -0.4388427863030473
+          ],
+          [
+            -0.26914927904762914,
+            0.3487468716970477,
+            0.4388427863030471
+          ]
+        ],
+        "footTargetsWorld": [
+          [
+            0.2691492790476291,
+            0.34874687169704766,
+            -0.4388427863030473
+          ],
+          [
+            -0.2691492790476291,
+            0.34874687169704766,
+            0.4388427863030473
+          ]
+        ],
+        "footTargetErrorMm": 1.841096603147574e-13,
+        "boneLengthErrorMm": 2.220446049250313e-13,
+        "headUpDotWorld": 1,
+        "headRotationErrorDegrees": 0,
+        "knees": [
+          66.29770311918222,
+          67.70339995413363
+        ],
+        "footSoleNormalErrorDegrees": [
+          0,
+          0
+        ],
+        "bodyBalance": {
+          "source": "bind-anatomical-frames",
+          "pelvisPitchDegrees": 0,
+          "chestPitchDegrees": 0,
+          "hipChestPitchDegrees": 0,
+          "hipHeightPolicy": "mean-requested-height-with-knee-policy",
+          "maxKneeDegrees": 100,
+          "kneePolicyExceeded": false,
+          "hipBalanceLimited": false,
+          "pelvisYawDegrees": 49.99999999999999,
+          "chestYawDegrees": 19.999999999999993,
+          "footYawDegrees": 62,
+          "neckYawDegrees": 7.999999999999996,
+          "headChestYawDegrees": 19.999999999999993,
+          "hipChestYawDegrees": 30.000000000000004,
+          "neckPolicyExceeded": false,
+          "chestPolicyLimited": false,
+          "leanForward": 0,
+          "leanSide": 0,
+          "hipsWorld": [
+            -0.03048663028130102,
+            0.8989284874505439,
+            -0.012373083708301494
+          ],
+          "coordinateSpace": "support-frame",
+          "uprightBlendPolicy": {
+            "pelvis": 0.3,
+            "chest": 0.65,
+            "neck": 0.85
+          },
+          "headNeckAngleDegrees": 7.9999999999999005,
+          "pelvisWorldUpDot": 1,
+          "chestWorldUpDot": 1
+        },
+        "verticalBody": {
+          "verticalAcceleration": 0,
+          "normalLoadRatio": 1,
+          "effectiveGravityMps2": 9.81,
+          "supportState": "supported",
+          "baseCrouch": 0.45,
+          "verticalCompression": 0,
+          "combinedCrouch": 0.45,
+          "compressionLimited": false,
+          "footConstraintMode": "ordinary-support-proxy"
+        },
+        "balanceProxy": {
+          "source": "weighted-bone-points-and-foot-rect-proxies",
+          "zmpValid": true,
+          "zmpInvalidReason": null,
+          "supportState": "supported",
+          "normalLoadRatio": 1,
+          "effectiveGravityMps2": 9.81,
+          "comHeightM": 0.6951974934529697,
+          "contactPlaneY": 0.2862468715294096,
+          "contactPlaneSource": "explicit-support-frame",
+          "centerOfMassWorld": [
+            5.900126610969628e-7,
+            0.9814443649823792,
+            2.675610098800199e-7
+          ],
+          "targetCenterOfMassWorld": [
+            0,
+            0.9814443649823792,
+            0
+          ],
+          "centerOfMassOffset": {
+            "forward": 2.675610098800199e-7,
+            "side": 5.900126610969628e-7
+          },
+          "centerOfMassErrorMm": 0.0006478455327180512,
+          "zeroMomentPointWorld": [
+            5.900126610969628e-7,
+            0.2862468715294096,
+            2.675610098800199e-7
+          ],
+          "loadRatio": {
+            "front": 0.49999992192365134,
+            "rear": 0.5000000780763487
+          },
+          "requestedLoadRatio": {
+            "front": 0.5,
+            "rear": 0.5
+          },
+          "loadRatioError": 7.807634866408009e-8,
+          "unclampedFrontLoadRatio": 0.49999992192365134,
+          "supportMarginM": 0.11361822181067849,
+          "supportExceeded": false,
+          "footHull2D": [
+            [
+              -0.39098963583050683,
+              0.43225431909434747
+            ],
+            [
+              -0.34274362877851716,
+              0.3415167767843848
+            ],
+            [
+              0.19555492931674104,
+              -0.5361687958217098
+            ],
+            [
+              0.39098963583050683,
+              -0.43225431909434747
+            ],
+            [
+              0.34274362877851716,
+              -0.3415167767843848
+            ],
+            [
+              -0.19555492931674104,
+              0.5361687958217098
+            ]
+          ],
+          "footHullWorld": [
+            [
+              -0.39098963583050683,
+              0.2862468715294096,
+              0.43225431909434747
+            ],
+            [
+              -0.34274362877851716,
+              0.2862468715294096,
+              0.3415167767843848
+            ],
+            [
+              0.19555492931674104,
+              0.2862468715294096,
+              -0.5361687958217098
+            ],
+            [
+              0.39098963583050683,
+              0.2862468715294096,
+              -0.43225431909434747
+            ],
+            [
+              0.34274362877851716,
+              0.2862468715294096,
+              -0.3415167767843848
+            ],
+            [
+              -0.19555492931674104,
+              0.2862468715294096,
+              0.5361687958217098
+            ]
+          ],
+          "coordinateSpace": "support-frame"
+        },
+        "poseLimited": true,
+        "poseLimitReasons": [
+          "fixed-support-changes-crouch"
+        ]
+      },
+      "actualSkinSoles": [
+        {
+          "side": "left",
+          "weightedVertexCount": 24,
+          "soleOffsetNormalM": 0.06250000016763801,
+          "supportGapM": 0
+        },
+        {
+          "side": "right",
+          "weightedVertexCount": 24,
+          "soleOffsetNormalM": 0.06250000016763801,
+          "supportGapM": 5.551115123125783e-17
+        }
+      ]
+    },
+    {
+      "timeSeconds": 0.5,
+      "segment": 0,
+      "controls": {
+        "brake": 1
+      },
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "velocity": [
+        0,
+        0,
+        0
+      ],
+      "acceleration": [
+        0,
+        0,
+        0
+      ],
+      "heading": 0,
+      "attitude": {
+        "pitch": 0,
+        "roll": 0,
+        "pitchRate": 0,
+        "rollRate": 0,
+        "targetPitch": 0,
+        "targetRoll": 0,
+        "pathAngle": 0,
+        "angularSpeed": 0,
+        "angularSpeedLimit": 2.2
+      },
+      "supportFrame": {
+        "position": [
+          0,
+          0.2862468715294096,
+          0
+        ],
+        "quaternion": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "dynamicsPose": {
+        "forwardAcceleration": 0,
+        "lateralAcceleration": 0,
+        "verticalAcceleration": 0,
+        "requiredAccelerationWorld": [
+          0,
+          9.81,
+          0
+        ],
+        "effectiveGravityMps2": 9.81,
+        "tangentForwardAcceleration": 0,
+        "tangentLateralAcceleration": 0,
+        "verticalSpeed": 0,
+        "speed": 0,
+        "totalSpeed": 0,
+        "turnRate": 0,
+        "normalLoadRatio": 1,
+        "supportState": "supported",
+        "zmpValid": true,
+        "zmpInvalidReason": null,
+        "verticalCompression": 0,
+        "targetLeanForward": 0,
+        "targetLeanSide": 0,
+        "balanceLeanForward": 0,
+        "balanceLeanSide": 0,
+        "crouch": 0.45,
+        "centerOfMassOffset": {
+          "forward": 0,
+          "side": 0
+        },
+        "centerOfMassVelocity": {
+          "forward": 0,
+          "side": 0
+        },
+        "zeroMomentPoint": {
+          "forward": 0,
+          "side": 0
+        },
+        "loadRatio": {
+          "front": 0.5,
+          "rear": 0.5,
+          "right": 0.5,
+          "left": 0.5
+        },
+        "unclampedLoadRatio": {
+          "front": 0.5,
+          "rear": 0.5,
+          "right": 0.5,
+          "left": 0.5
+        },
+        "supportMarginM": 0.3141784711625531,
+        "supportExceeded": false,
+        "supportHalfLengthM": 0.5088881962595958,
+        "supportHalfWidthM": 0.3141784711625531,
+        "comHeightM": 0.6951974934529697,
+        "heightObservationStatus": "accepted",
+        "observedComHeightM": 0.6951974934529697,
+        "supportQuaternion": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "supportFrame": {
+          "quaternion": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "normal": [
+            0,
+            1,
+            0
+          ],
+          "right": [
+            1,
+            0,
+            0
+          ],
+          "forward": [
+            0,
+            0,
+            1
+          ]
+        },
+        "supportAngularSpeed": 0,
+        "attitudeEnabled": true,
+        "rotationalPointAccelerationIncluded": false,
+        "input": {
+          "throttle": 0,
+          "steer": 0,
+          "brake": 1,
+          "lift": 0
+        }
+      },
+      "pose": {
+        "feetWorld": [
+          [
+            0.26914927904762914,
+            0.34874687169704766,
+            -0.4388427863030473
+          ],
+          [
+            -0.26914927904762914,
+            0.3487468716970477,
+            0.4388427863030471
+          ]
+        ],
+        "footTargetsWorld": [
+          [
+            0.2691492790476291,
+            0.34874687169704766,
+            -0.4388427863030473
+          ],
+          [
+            -0.2691492790476291,
+            0.34874687169704766,
+            0.4388427863030473
+          ]
+        ],
+        "footTargetErrorMm": 1.841096603147574e-13,
+        "boneLengthErrorMm": 2.220446049250313e-13,
+        "headUpDotWorld": 1,
+        "headRotationErrorDegrees": 0,
+        "knees": [
+          66.29770311918222,
+          67.70339995413363
+        ],
+        "footSoleNormalErrorDegrees": [
+          0,
+          0
+        ],
+        "bodyBalance": {
+          "source": "bind-anatomical-frames",
+          "pelvisPitchDegrees": 0,
+          "chestPitchDegrees": 0,
+          "hipChestPitchDegrees": 0,
+          "hipHeightPolicy": "mean-requested-height-with-knee-policy",
+          "maxKneeDegrees": 100,
+          "kneePolicyExceeded": false,
+          "hipBalanceLimited": false,
+          "pelvisYawDegrees": 49.99999999999999,
+          "chestYawDegrees": 19.999999999999993,
+          "footYawDegrees": 62,
+          "neckYawDegrees": 7.999999999999996,
+          "headChestYawDegrees": 19.999999999999993,
+          "hipChestYawDegrees": 30.000000000000004,
+          "neckPolicyExceeded": false,
+          "chestPolicyLimited": false,
+          "leanForward": 0,
+          "leanSide": 0,
+          "hipsWorld": [
+            -0.03048663028130102,
+            0.8989284874505439,
+            -0.012373083708301494
+          ],
+          "coordinateSpace": "support-frame",
+          "uprightBlendPolicy": {
+            "pelvis": 0.3,
+            "chest": 0.65,
+            "neck": 0.85
+          },
+          "headNeckAngleDegrees": 7.9999999999999005,
+          "pelvisWorldUpDot": 1,
+          "chestWorldUpDot": 1
+        },
+        "verticalBody": {
+          "verticalAcceleration": 0,
+          "normalLoadRatio": 1,
+          "effectiveGravityMps2": 9.81,
+          "supportState": "supported",
+          "baseCrouch": 0.45,
+          "verticalCompression": 0,
+          "combinedCrouch": 0.45,
+          "compressionLimited": false,
+          "footConstraintMode": "ordinary-support-proxy"
+        },
+        "balanceProxy": {
+          "source": "weighted-bone-points-and-foot-rect-proxies",
+          "zmpValid": true,
+          "zmpInvalidReason": null,
+          "supportState": "supported",
+          "normalLoadRatio": 1,
+          "effectiveGravityMps2": 9.81,
+          "comHeightM": 0.6951974934529697,
+          "contactPlaneY": 0.2862468715294096,
+          "contactPlaneSource": "explicit-support-frame",
+          "centerOfMassWorld": [
+            5.900126610969628e-7,
+            0.9814443649823792,
+            2.675610098800199e-7
+          ],
+          "targetCenterOfMassWorld": [
+            0,
+            0.9814443649823792,
+            0
+          ],
+          "centerOfMassOffset": {
+            "forward": 2.675610098800199e-7,
+            "side": 5.900126610969628e-7
+          },
+          "centerOfMassErrorMm": 0.0006478455327180512,
+          "zeroMomentPointWorld": [
+            5.900126610969628e-7,
+            0.2862468715294096,
+            2.675610098800199e-7
+          ],
+          "loadRatio": {
+            "front": 0.49999992192365134,
+            "rear": 0.5000000780763487
+          },
+          "requestedLoadRatio": {
+            "front": 0.5,
+            "rear": 0.5
+          },
+          "loadRatioError": 7.807634866408009e-8,
+          "unclampedFrontLoadRatio": 0.49999992192365134,
+          "supportMarginM": 0.11361822181067849,
+          "supportExceeded": false,
+          "footHull2D": [
+            [
+              -0.39098963583050683,
+              0.43225431909434747
+            ],
+            [
+              -0.34274362877851716,
+              0.3415167767843848
+            ],
+            [
+              0.19555492931674104,
+              -0.5361687958217098
+            ],
+            [
+              0.39098963583050683,
+              -0.43225431909434747
+            ],
+            [
+              0.34274362877851716,
+              -0.3415167767843848
+            ],
+            [
+              -0.19555492931674104,
+              0.5361687958217098
+            ]
+          ],
+          "footHullWorld": [
+            [
+              -0.39098963583050683,
+              0.2862468715294096,
+              0.43225431909434747
+            ],
+            [
+              -0.34274362877851716,
+              0.2862468715294096,
+              0.3415167767843848
+            ],
+            [
+              0.19555492931674104,
+              0.2862468715294096,
+              -0.5361687958217098
+            ],
+            [
+              0.39098963583050683,
+              0.2862468715294096,
+              -0.43225431909434747
+            ],
+            [
+              0.34274362877851716,
+              0.2862468715294096,
+              -0.3415167767843848
+            ],
+            [
+              -0.19555492931674104,
+              0.2862468715294096,
+              0.5361687958217098
+            ]
+          ],
+          "coordinateSpace": "support-frame"
+        },
+        "poseLimited": true,
+        "poseLimitReasons": [
+          "fixed-support-changes-crouch"
+        ]
+      },
+      "actualSkinSoles": [
+        {
+          "side": "left",
+          "weightedVertexCount": 24,
+          "soleOffsetNormalM": 0.06250000016763801,
+          "supportGapM": 0
+        },
+        {
+          "side": "right",
+          "weightedVertexCount": 24,
+          "soleOffsetNormalM": 0.06250000016763801,
+          "supportGapM": 5.551115123125783e-17
+        }
+      ]
+    },
+    {
+      "timeSeconds": 1,
+      "segment": 1,
+      "controls": {
+        "throttle": 0.8,
+        "lift": 0.7
+      },
+      "position": [
+        0,
+        0.00010920132673961148,
+        0.00009131755007861046
+      ],
+      "velocity": [
+        0,
+        0.017468739641465086,
+        0.01460383746860196
+      ],
+      "acceleration": [
+        0,
+        2.0949986077016205,
+        1.7499511004009785
+      ],
+      "heading": 0,
+      "attitude": {
+        "pitch": 0.00010961141087960282,
+        "roll": 0,
+        "pitchRate": 0.017643053938097578,
+        "rollRate": 0,
+        "targetPitch": 0.06278645534440974,
+        "targetRoll": 0,
+        "pathAngle": 0.029106343852611717,
+        "angularSpeed": 0.017643053951306054,
+        "angularSpeedLimit": 2.2
+      },
+      "supportFrame": {
+        "position": [
+          0,
+          0.2863560728561492,
+          0.00009131755007861046
+        ],
+        "quaternion": [
+          -0.00005480570541236508,
+          0,
+          0,
+          0.9999999984981673
+        ]
+      },
+      "dynamicsPose": {
+        "forwardAcceleration": 1.7499511004009785,
+        "lateralAcceleration": 0,
+        "verticalAcceleration": 2.0949986077016205,
+        "requiredAccelerationWorld": [
+          0,
+          11.904998607701621,
+          1.7499511004009785
+        ],
+        "effectiveGravityMps2": 11.904806721575655,
+        "tangentForwardAcceleration": 1.7512560135797401,
+        "tangentLateralAcceleration": 0,
+        "verticalSpeed": 0.017468739641465086,
+        "speed": 0.01460383746860196,
+        "totalSpeed": 0.02276903453092898,
+        "turnRate": 0,
+        "normalLoadRatio": 1.21353789210761,
+        "supportState": "supported",
+        "zmpValid": true,
+        "zmpInvalidReason": null,
+        "verticalCompression": 0.0027066628937225754,
+        "targetLeanForward": 0.1460574087728375,
+        "targetLeanSide": 0,
+        "balanceLeanForward": 0.0004799489165600072,
+        "balanceLeanSide": 0,
+        "crouch": 0.5029831726640347,
+        "centerOfMassOffset": {
+          "forward": 0.0003336593093975669,
+          "side": 0
+        },
+        "centerOfMassVelocity": {
+          "forward": 0.0527485433977115,
+          "side": 0
+        },
+        "zeroMomentPoint": {
+          "forward": -0.10193333414196169,
+          "side": 0
+        },
+        "loadRatio": {
+          "front": 0.3998470244631464,
+          "rear": 0.6001529755368535,
+          "right": 0.5,
+          "left": 0.5
+        },
+        "unclampedLoadRatio": {
+          "front": 0.3998470244631464,
+          "rear": 0.6001529755368535,
+          "right": 0.5,
+          "left": 0.5
+        },
+        "supportMarginM": 0.3141784711625531,
+        "supportExceeded": false,
+        "supportHalfLengthM": 0.5088881962595958,
+        "supportHalfWidthM": 0.3141784711625531,
+        "comHeightM": 0.6951974934529697,
+        "heightObservationStatus": "accepted",
+        "observedComHeightM": 0.6951974934529697,
+        "supportQuaternion": [
+          -0.00005480570541236508,
+          0,
+          0,
+          0.9999999984981673
+        ],
+        "supportFrame": {
+          "quaternion": [
+            -0.00005480570541236508,
+            0,
+            0,
+            0.9999999984981673
+          ],
+          "normal": [
+            0,
+            0.9999999939926693,
+            -0.00010961141066011216
+          ],
+          "right": [
+            1,
+            0,
+            0
+          ],
+          "forward": [
+            0,
+            0.00010961141066011216,
+            0.9999999939926693
+          ]
+        },
+        "supportAngularSpeed": 0.017643053951306054,
+        "attitudeEnabled": true,
+        "rotationalPointAccelerationIncluded": false,
+        "input": {
+          "throttle": 0.8,
+          "steer": 0,
+          "brake": 0,
+          "lift": 0.7
+        }
+      },
+      "pose": {
+        "feetWorld": [
+          [
+            0.269149279047629,
+            0.3488079704714645,
+            -0.4387583168298794
+          ],
+          [
+            -0.2691492790476293,
+            0.3489041748251938,
+            0.4389272505036675
+          ]
+        ],
+        "footTargetsWorld": [
+          [
+            0.2691492790476291,
+            0.34880797047146445,
+            -0.4387583168298795
+          ],
+          [
+            -0.2691492790476291,
+            0.3489041748251938,
+            0.43892725050366754
+          ]
+        ],
+        "footTargetErrorMm": 2.288783399261119e-13,
+        "boneLengthErrorMm": 1.6653345369377348e-13,
+        "headUpDotWorld": 1,
+        "headRotationErrorDegrees": 0,
+        "knees": [
+          69.66957105898211,
+          71.11324013192385
+        ],
+        "footSoleNormalErrorDegrees": [
+          0,
+          0
+        ],
+        "bodyBalance": {
+          "source": "bind-anatomical-frames",
+          "pelvisPitchDegrees": -0.012978242392955844,
+          "chestPitchDegrees": 0.11113484876818674,
+          "hipChestPitchDegrees": 0.1241130911611426,
+          "hipHeightPolicy": "mean-requested-height-with-knee-policy",
+          "maxKneeDegrees": 100,
+          "kneePolicyExceeded": false,
+          "hipBalanceLimited": false,
+          "pelvisYawDegrees": 49.99999719338223,
+          "chestYawDegrees": 20.00001612215217,
+          "footYawDegrees": 62,
+          "neckYawDegrees": 8.000000642735795,
+          "headChestYawDegrees": 20.00001612215217,
+          "hipChestYawDegrees": 29.999981071230053,
+          "neckPolicyExceeded": false,
+          "chestPolicyLimited": false,
+          "leanForward": 0.0004799489165600072,
+          "leanSide": 0,
+          "hipsWorld": [
+            -0.032029382296829494,
+            0.881755431580324,
+            -0.012987855062034528
+          ],
+          "coordinateSpace": "support-frame",
+          "uprightBlendPolicy": {
+            "pelvis": 0.3,
+            "chest": 0.65,
+            "neck": 0.85
+          },
+          "headNeckAngleDegrees": 8.00003395976178,
+          "pelvisWorldUpDot": 0.9999999528690904,
+          "chestWorldUpDot": 0.9999983053040464
+        },
+        "verticalBody": {
+          "verticalAcceleration": 2.0949986077016205,
+          "normalLoadRatio": 1.21353789210761,
+          "effectiveGravityMps2": 11.904806721575655,
+          "supportState": "supported",
+          "baseCrouch": 0.5029831726640348,
+          "verticalCompression": 0.0027066628937225754,
+          "combinedCrouch": 0.5056898355577574,
+          "compressionLimited": false,
+          "footConstraintMode": "ordinary-support-proxy"
+        },
+        "balanceProxy": {
+          "source": "weighted-bone-points-and-foot-rect-proxies",
+          "zmpValid": true,
+          "zmpInvalidReason": null,
+          "supportState": "supported",
+          "normalLoadRatio": 1.21353789210761,
+          "effectiveGravityMps2": 11.904806721575655,
+          "comHeightM": 0.6808542554389566,
+          "contactPlaneY": 0.2863560728561492,
+          "contactPlaneSource": "explicit-support-frame",
+          "centerOfMassWorld": [
+            6.177958549180573e-7,
+            0.967210360808362,
+            0.00035062576558809614
+          ],
+          "targetCenterOfMassWorld": [
+            0,
+            0.9672103607778568,
+            0.00035034746207919894
+          ],
+          "centerOfMassOffset": {
+            "forward": 0.000333937612908136,
+            "side": 6.177958549180573e-7
+          },
+          "centerOfMassErrorMm": 0.0006775873097609011,
+          "zeroMomentPointWorld": [
+            6.177958549180573e-7,
+            0.28634513110594373,
+            -0.09973177635848399
+          ],
+          "loadRatio": {
+            "front": 0.41735322573181977,
+            "rear": 0.5826467742681802
+          },
+          "requestedLoadRatio": {
+            "front": 0.3998470244631464,
+            "rear": 0.6001529755368535
+          },
+          "loadRatioError": 0.01750620126867336,
+          "unclampedFrontLoadRatio": 0.41735322573181977,
+          "supportMarginM": 0.061430102233460133,
+          "supportExceeded": false,
+          "footHull2D": [
+            [
+              -0.39098963583050683,
+              0.43225431909434747
+            ],
+            [
+              -0.34274362877851716,
+              0.3415167767843848
+            ],
+            [
+              0.19555492931674104,
+              -0.5361687958217097
+            ],
+            [
+              0.39098963583050683,
+              -0.4322543190943474
+            ],
+            [
+              0.34274362877851716,
+              -0.34151677678438475
+            ],
+            [
+              -0.19555492931674104,
+              0.5361687958217098
+            ]
+          ],
+          "footHullWorld": [
+            [
+              -0.39098963583050683,
+              0.28640345286182906,
+              0.43234563404773146
+            ],
+            [
+              -0.34274362877851716,
+              0.28639350699181665,
+              0.3416080922828592
+            ],
+            [
+              0.19555492931674104,
+              0.2862973026380873,
+              -0.5360774750506878
+            ],
+            [
+              0.39098963583050683,
+              0.2863086928504694,
+              -0.43216299894757415
+            ],
+            [
+              0.34274362877851716,
+              0.2863186387204818,
+              -0.3414254571827019
+            ],
+            [
+              -0.19555492931674104,
+              0.28641484307421117,
+              0.5362601101508452
+            ]
+          ],
+          "coordinateSpace": "support-frame"
+        },
+        "poseLimited": true,
+        "poseLimitReasons": [
+          "fixed-support-changes-crouch"
+        ]
+      },
+      "actualSkinSoles": [
+        {
+          "side": "left",
+          "weightedVertexCount": 24,
+          "soleOffsetNormalM": 0.06250000016763807,
+          "supportGapM": -3.553472620321241e-17
+        },
+        {
+          "side": "right",
+          "weightedVertexCount": 24,
+          "soleOffsetNormalM": 0.06250000016763807,
+          "supportGapM": 3.573801411055344e-17
+        }
+      ]
+    },
+    {
+      "timeSeconds": 2,
+      "segment": 1,
+      "controls": {
+        "throttle": 0.8,
+        "lift": 0.7
+      },
+      "position": [
+        0,
+        0.9708576803570013,
+        0.7166529308720319
+      ],
+      "velocity": [
+        0,
+        1.8223808917628568,
+        1.2633287108860098
+      ],
+      "acceleration": [
+        0,
+        1.5310750576569276,
+        0.8452282664983635
+      ],
+      "heading": 0,
+      "attitude": {
+        "pitch": 0.20463291950085424,
+        "roll": 0,
+        "pitchRate": 0.02392292343811459,
+        "rollRate": 0,
+        "targetPitch": 0.20943951023931953,
+        "targetRoll": 0,
+        "pathAngle": 0.9646285985623613,
+        "angularSpeed": 0.023922923318465707,
+        "angularSpeedLimit": 2.2
+      },
+      "supportFrame": {
+        "position": [
+          0,
+          1.2571045518864108,
+          0.7166529308720319
+        ],
+        "quaternion": [
+          -0.10213803383364364,
+          0,
+          0,
+          0.9947702358055339
+        ]
+      },
+      "dynamicsPose": {
+        "forwardAcceleration": 0.8452282664983635,
+        "lateralAcceleration": 0,
+        "verticalAcceleration": 1.5310750576569276,
+        "requiredAccelerationWorld": [
+          0,
+          11.341075057656928,
+          0.8452282664983635
+        ],
+        "effectiveGravityMps2": 10.932693895278453,
+        "tangentForwardAcceleration": 3.132187490881924,
+        "tangentLateralAcceleration": 0,
+        "verticalSpeed": 1.8223808917628568,
+        "speed": 1.2633287108860098,
+        "totalSpeed": 2.2174470786044234,
+        "turnRate": 0,
+        "normalLoadRatio": 1.1144438221486699,
+        "supportState": "supported",
+        "zmpValid": true,
+        "zmpInvalidReason": null,
+        "verticalCompression": 0.03487864275385391,
+        "targetLeanForward": 0.2790234456423133,
+        "targetLeanSide": 0,
+        "balanceLeanForward": 0.27945371986508033,
+        "balanceLeanSide": 0,
+        "crouch": 0.47776382503268944,
+        "centerOfMassOffset": {
+          "forward": 0.1837250998574115,
+          "side": 0
+        },
+        "centerOfMassVelocity": {
+          "forward": 0.011238073548151126,
+          "side": 0
+        },
+        "zeroMomentPoint": {
+          "forward": 0.0002981269168209344,
+          "side": 0
+        },
+        "loadRatio": {
+          "front": 0.5002929198584406,
+          "rear": 0.4997070801415594,
+          "right": 0.5,
+          "left": 0.5
+        },
+        "unclampedLoadRatio": {
+          "front": 0.5002929198584406,
+          "rear": 0.4997070801415594,
+          "right": 0.5,
+          "left": 0.5
+        },
+        "supportMarginM": 0.3141784711625531,
+        "supportExceeded": false,
+        "supportHalfLengthM": 0.5088881962595958,
+        "supportHalfWidthM": 0.3141784711625531,
+        "comHeightM": 0.6402397535699108,
+        "heightObservationStatus": "accepted",
+        "observedComHeightM": 0.6338507438370802,
+        "supportQuaternion": [
+          -0.10213803383364364,
+          0,
+          0,
+          0.9947702358055339
+        ],
+        "supportFrame": {
+          "quaternion": [
+            -0.10213803383364364,
+            0,
+            0,
+            0.9947702358055339
+          ],
+          "normal": [
+            0,
+            0.979135644089195,
+            -0.20320775200281457
+          ],
+          "right": [
+            1,
+            0,
+            0
+          ],
+          "forward": [
+            0,
+            0.20320775200281457,
+            0.979135644089195
+          ]
+        },
+        "supportAngularSpeed": 0.023922923318465707,
+        "attitudeEnabled": true,
+        "rotationalPointAccelerationIncluded": false,
+        "input": {
+          "throttle": 0.8,
+          "steer": 0,
+          "brake": 0,
+          "lift": 0.7
+        }
+      },
+      "pose": {
+        "feetWorld": [
+          [
+            0.26914927904762903,
+            1.2291242737188324,
+            0.2742658321170597
+          ],
+          [
+            -0.26914927904762914,
+            1.4074767858934196,
+            1.1336390605585218
+          ]
+        ],
+        "footTargetsWorld": [
+          [
+            0.2691492790476291,
+            1.2291242737188321,
+            0.27426583211705946
+          ],
+          [
+            -0.2691492790476291,
+            1.4074767858934196,
+            1.1336390605585218
+          ]
+        ],
+        "footTargetErrorMm": 3.040470972244059e-13,
+        "boneLengthErrorMm": 1.6653345369377348e-13,
+        "headUpDotWorld": 1,
+        "headRotationErrorDegrees": 0,
+        "knees": [
+          46.043297341675924,
+          98.88061445148965
+        ],
+        "footSoleNormalErrorDegrees": [
+          0,
+          0
+        ],
+        "bodyBalance": {
+          "source": "bind-anatomical-frames",
+          "pelvisPitchDegrees": 5.295749904632883,
+          "chestPitchDegrees": 16.11619566490407,
+          "hipChestPitchDegrees": 10.820445760271186,
+          "hipHeightPolicy": "mean-requested-height-with-knee-policy",
+          "maxKneeDegrees": 100,
+          "kneePolicyExceeded": false,
+          "hipBalanceLimited": false,
+          "pelvisYawDegrees": 50.29756159404,
+          "chestYawDegrees": 20.851410233525595,
+          "footYawDegrees": 62,
+          "neckYawDegrees": 8.145187833422598,
+          "headChestYawDegrees": 20.851410233525595,
+          "hipChestYawDegrees": 29.446151360514403,
+          "neckPolicyExceeded": false,
+          "chestPolicyLimited": false,
+          "leanForward": 0.27945371986508033,
+          "leanSide": 0,
+          "hipsWorld": [
+            -0.032457871863870516,
+            1.8258302928065353,
+            0.7580548466188858
+          ],
+          "coordinateSpace": "support-frame",
+          "uprightBlendPolicy": {
+            "pelvis": 0.3,
+            "chest": 0.65,
+            "neck": 0.85
+          },
+          "headNeckAngleDegrees": 8.034643547679208,
+          "pelvisWorldUpDot": 0.9983489509966962,
+          "chestWorldUpDot": 0.9956713451734827
+        },
+        "verticalBody": {
+          "verticalAcceleration": 1.5310750576569276,
+          "normalLoadRatio": 1.1144438221486699,
+          "effectiveGravityMps2": 10.932693895278453,
+          "supportState": "supported",
+          "baseCrouch": 0.4777638250326894,
+          "verticalCompression": 0.03487864275385391,
+          "combinedCrouch": 0.5126424677865433,
+          "compressionLimited": false,
+          "footConstraintMode": "ordinary-support-proxy"
+        },
+        "balanceProxy": {
+          "source": "weighted-bone-points-and-foot-rect-proxies",
+          "zmpValid": true,
+          "zmpInvalidReason": null,
+          "supportState": "supported",
+          "normalLoadRatio": 1.1144438221486699,
+          "effectiveGravityMps2": 10.932693895278453,
+          "comHeightM": 0.6339059562569943,
+          "contactPlaneY": 1.2571045518864108,
+          "contactPlaneSource": "explicit-support-frame",
+          "centerOfMassWorld": [
+            -9.944015531473255e-7,
+            1.9151180538739376,
+            0.7677263654662289
+          ],
+          "targetCenterOfMassWorld": [
+            0,
+            1.9151188331865971,
+            0.7677301205040918
+          ],
+          "centerOfMassOffset": {
+            "forward": 0.18372126480362133,
+            "side": -9.944015531473255e-7
+          },
+          "centerOfMassErrorMm": 0.003961877335611545,
+          "zeroMomentPointWorld": [
+            -9.944015531473255e-7,
+            1.2575330983021749,
+            0.7187178376813722
+          ],
+          "loadRatio": {
+            "front": 0.5017465314197321,
+            "rear": 0.49825346858026787
+          },
+          "requestedLoadRatio": {
+            "front": 0.5002929198584406,
+            "rear": 0.4997070801415594
+          },
+          "loadRatioError": 0.0014536115612915346,
+          "unclampedFrontLoadRatio": 0.5017465314197321,
+          "supportMarginM": 0.11251713781247173,
+          "supportExceeded": false,
+          "footHull2D": [
+            [
+              -0.39098963583050683,
+              0.4322543190943475
+            ],
+            [
+              -0.34274362877851716,
+              0.34151677678438486
+            ],
+            [
+              0.19555492931674104,
+              -0.5361687958217098
+            ],
+            [
+              0.39098963583050683,
+              -0.43225431909434747
+            ],
+            [
+              0.34274362877851716,
+              -0.3415167767843848
+            ],
+            [
+              -0.19555492931674104,
+              0.5361687958217098
+            ]
+          ],
+          "footHullWorld": [
+            [
+              -0.39098963583050683,
+              1.3449419803630804,
+              1.1398885420088123
+            ],
+            [
+              -0.34274362877851716,
+              1.3265034083680127,
+              1.0510441800760764
+            ],
+            [
+              0.19555492931674104,
+              1.148150896193425,
+              0.1916709516346139
+            ],
+            [
+              0.39098963583050683,
+              1.1692671234097411,
+              0.29341731973525154
+            ],
+            [
+              0.34274362877851716,
+              1.1877056954048089,
+              0.3822616816679874
+            ],
+            [
+              -0.19555492931674104,
+              1.3660582075793966,
+              1.24163491010945
+            ]
+          ],
+          "coordinateSpace": "support-frame"
+        },
+        "poseLimited": true,
+        "poseLimitReasons": [
+          "fixed-support-changes-crouch"
+        ]
+      },
+      "actualSkinSoles": [
+        {
+          "side": "left",
+          "weightedVertexCount": 24,
+          "soleOffsetNormalM": 0.0625000001676381,
+          "supportGapM": 2.498001805406602e-16
+        },
+        {
+          "side": "right",
+          "weightedVertexCount": 24,
+          "soleOffsetNormalM": 0.06250000016763807,
+          "supportGapM": -5.551115123125783e-17
+        }
+      ]
+    },
+    {
+      "timeSeconds": 3,
+      "segment": 2,
+      "controls": {
+        "throttle": 0.4,
+        "lift": 0.35,
+        "steer": -0.65
+      },
+      "position": [
+        -6.956491850758961e-8,
+        3.4793269594750247,
+        2.31289612477108
+      ],
+      "velocity": [
+        -0.000013307149392374317,
+        3.103845814057536,
+        1.844016375500741
+      ],
+      "acceleration": [
+        -0.0023804924023025113,
+        0.023959489985507787,
+        -0.48612675747884637
+      ],
+      "heading": -0.00011052496406714594,
+      "attitude": {
+        "pitch": 0.2094094342398225,
+        "roll": -2.58330231908718e-7,
+        "pitchRate": 0.0001564597936178359,
+        "rollRate": -0.000049288133513805134,
+        "targetPitch": 0.20943951023931953,
+        "targetRoll": -0.00024813674618714987,
+        "pathAngle": 1.0347212177865992,
+        "angularSpeed": 0.017617932151949036,
+        "angularSpeedLimit": 2.2
+      },
+      "supportFrame": {
+        "position": [
+          -6.956491850758961e-8,
+          3.7655738310044344,
+          2.31289612477108
+        ],
+        "quaternion": [
+          -0.10451350748333141,
+          -0.00005494633570832384,
+          -0.000005647218096292288,
+          0.9945234656369556
+        ]
+      },
+      "dynamicsPose": {
+        "forwardAcceleration": -0.4861264914058039,
+        "lateralAcceleration": -0.0024342215300557773,
+        "verticalAcceleration": 0.023959489985507787,
+        "requiredAccelerationWorld": [
+          -0.0023804924023025113,
+          9.833959489985508,
+          -0.48612675747884637
+        ],
+        "effectiveGravityMps2": 9.720182449855193,
+        "tangentForwardAcceleration": 1.5687993402816383,
+        "tangentLateralAcceleration": -0.0024317105130693926,
+        "verticalSpeed": 3.103845814057536,
+        "speed": 1.8440163755487557,
+        "totalSpeed": 3.610298496071268,
+        "turnRate": -0.017627418292892466,
+        "normalLoadRatio": 0.9908442864276444,
+        "supportState": "supported",
+        "zmpValid": true,
+        "zmpInvalidReason": null,
+        "verticalCompression": 0.022122861715665684,
+        "targetLeanForward": 0.1600161969853855,
+        "targetLeanSide": -0.00025017127763641347,
+        "balanceLeanForward": 0.25076789822010026,
+        "balanceLeanSide": -4.6144122427610185e-7,
+        "crouch": 0.46652527331480365,
+        "centerOfMassOffset": {
+          "forward": 0.1658474941139297,
+          "side": -2.987541255727153e-7
+        },
+        "centerOfMassVelocity": {
+          "forward": -0.04713903422759138,
+          "side": -0.00005694650141824323
+        },
+        "zeroMomentPoint": {
+          "forward": 0.06135369925704219,
+          "side": 0.00016167139271193985
+        },
+        "loadRatio": {
+          "front": 0.5602821009683473,
+          "rear": 0.4397178990316527,
+          "right": 0.5002572922837675,
+          "left": 0.4997427077162325
+        },
+        "unclampedLoadRatio": {
+          "front": 0.5602821009683473,
+          "rear": 0.4397178990316527,
+          "right": 0.5002572922837675,
+          "left": 0.4997427077162325
+        },
+        "supportMarginM": 0.31401679976984115,
+        "supportExceeded": false,
+        "supportHalfLengthM": 0.5088881962595958,
+        "supportHalfWidthM": 0.3141784711625531,
+        "comHeightM": 0.64743700791227,
+        "heightObservationStatus": "accepted",
+        "observedComHeightM": 0.6513085925066778,
+        "supportQuaternion": [
+          -0.10451350748333141,
+          -0.00005494633570832384,
+          -0.000005647218096292288,
+          0.9945234656369556
+        ],
+        "supportFrame": {
+          "quaternion": [
+            -0.10451350748333141,
+            -0.00005494633570832384,
+            -0.000005647218096292288,
+            0.9945234656369556
+          ],
+          "normal": [
+            0.000022717850361131763,
+            0.9781538534432812,
+            -0.2078822707158054
+          ],
+          "right": [
+            0.9999999938980183,
+            2.5268671180241454e-7,
+            0.00011047126156692137
+          ],
+          "forward": [
+            -0.00010811041928385397,
+            0.20788227195698117,
+            0.9781538474688637
+          ]
+        },
+        "supportAngularSpeed": 0.017617932151949036,
+        "attitudeEnabled": true,
+        "rotationalPointAccelerationIncluded": false,
+        "input": {
+          "throttle": 0.4,
+          "steer": -0.65,
+          "brake": 0,
+          "lift": 0.35
+        }
+      },
+      "pose": {
+        "feetWorld": [
+          [
+            0.26919807118364486,
+            3.735480879570452,
+            1.8706774562206174
+          ],
+          [
+            -0.2691953705821796,
+            3.917936014446778,
+            2.7291295094123686
+          ]
+        ],
+        "footTargetsWorld": [
+          [
+            0.2691980711836449,
+            3.735480879570452,
+            1.8706774562206174
+          ],
+          [
+            -0.26919537058217924,
+            3.917936014446778,
+            2.729129509412369
+          ]
+        ],
+        "footTargetErrorMm": 4.484050470211362e-13,
+        "boneLengthErrorMm": 2.220446049250313e-13,
+        "headUpDotWorld": 1,
+        "headRotationErrorDegrees": 0.0000017075472925031877,
+        "knees": [
+          45.72673870167657,
+          94.02920148468291
+        ],
+        "footSoleNormalErrorDegrees": [
+          0,
+          0
+        ],
+        "bodyBalance": {
+          "source": "bind-anatomical-frames",
+          "pelvisPitchDegrees": 5.088687244421478,
+          "chestPitchDegrees": 14.179000373122355,
+          "hipChestPitchDegrees": 9.090313128700878,
+          "hipHeightPolicy": "mean-requested-height-with-knee-policy",
+          "maxKneeDegrees": 100,
+          "kneePolicyExceeded": false,
+          "hipBalanceLimited": false,
+          "pelvisYawDegrees": 50.27417857953221,
+          "chestYawDegrees": 20.655063499682125,
+          "footYawDegrees": 62,
+          "neckYawDegrees": 8.148881612217428,
+          "headChestYawDegrees": 20.655066645315838,
+          "hipChestYawDegrees": 29.619115079850086,
+          "neckPolicyExceeded": false,
+          "chestPolicyLimited": false,
+          "leanForward": 0.25076789822010026,
+          "leanSide": -4.6144122427610185e-7,
+          "hipsWorld": [
+            -0.031085248279322016,
+            4.350959470797323,
+            2.3310850454501773
+          ],
+          "coordinateSpace": "support-frame",
+          "uprightBlendPolicy": {
+            "pelvis": 0.3,
+            "chest": 0.65,
+            "neck": 0.85
+          },
+          "headNeckAngleDegrees": 8.050933198149977,
+          "pelvisWorldUpDot": 0.9976198762171291,
+          "chestWorldUpDot": 0.9985981657510755
+        },
+        "verticalBody": {
+          "verticalAcceleration": 0.023959489985507787,
+          "normalLoadRatio": 0.9908442864276444,
+          "effectiveGravityMps2": 9.720182449855193,
+          "supportState": "supported",
+          "baseCrouch": 0.4665252733148037,
+          "verticalCompression": 0.022122861715665684,
+          "combinedCrouch": 0.4886481350304694,
+          "compressionLimited": false,
+          "footConstraintMode": "ordinary-support-proxy"
+        },
+        "balanceProxy": {
+          "source": "weighted-bone-points-and-foot-rect-proxies",
+          "zmpValid": true,
+          "zmpInvalidReason": null,
+          "supportState": "supported",
+          "normalLoadRatio": 0.9908442864276444,
+          "effectiveGravityMps2": 9.720182449855193,
+          "comHeightM": 0.6522043364217239,
+          "contactPlaneY": 3.7655738310044344,
+          "contactPlaneSource": "explicit-support-frame",
+          "centerOfMassWorld": [
+            -0.000004754442329441437,
+            4.438006349808314,
+            2.339536794518255
+          ],
+          "targetCenterOfMassWorld": [
+            -0.0000034814806484085546,
+            4.438006769782462,
+            2.339538770772643
+          ],
+          "centerOfMassOffset": {
+            "forward": 0.1658454738655369,
+            "side": -0.000001571934224275321
+          },
+          "centerOfMassErrorMm": 0.002387967992317832,
+          "zeroMomentPointWorld": [
+            0.0001549717228541961,
+            3.7781678069978692,
+            2.372154904406003
+          ],
+          "loadRatio": {
+            "front": 0.5500757650478316,
+            "rear": 0.4499242349521684
+          },
+          "requestedLoadRatio": {
+            "front": 0.5602821009683473,
+            "rear": 0.4397178990316527
+          },
+          "loadRatioError": 0.010206335920515675,
+          "unclampedFrontLoadRatio": 0.5500757650478316,
+          "supportMarginM": 0.0818076392670696,
+          "supportExceeded": false,
+          "footHull2D": [
+            [
+              -0.39098963583050683,
+              0.43225431909434747
+            ],
+            [
+              -0.3427436287785172,
+              0.3415167767843848
+            ],
+            [
+              0.19555492931674107,
+              -0.5361687958217097
+            ],
+            [
+              0.3909896358305068,
+              -0.4322543190943474
+            ],
+            [
+              0.34274362877851716,
+              -0.34151677678438475
+            ],
+            [
+              -0.19555492931674112,
+              0.5361687958217097
+            ]
+          ],
+          "footHullWorld": [
+            [
+              -0.3910364342052883,
+              3.8554317421230997,
+              2.73566415695992
+            ],
+            [
+              -0.3427806177739509,
+              3.836569027867037,
+              2.646914210636826
+            ],
+            [
+              0.19561282399187313,
+              3.654113892990711,
+              1.7884621574450743
+            ],
+            [
+              0.39103629507545123,
+              3.675715919885769,
+              1.89012809258224
+            ],
+            [
+              0.3427804786441139,
+              3.694578634141832,
+              1.9788780389053342
+            ],
+            [
+              -0.19561296312171023,
+              3.877033769018158,
+              2.8373300920970856
+            ]
+          ],
+          "coordinateSpace": "support-frame"
+        },
+        "poseLimited": true,
+        "poseLimitReasons": [
+          "fixed-support-changes-crouch"
+        ]
+      },
+      "actualSkinSoles": [
+        {
+          "side": "left",
+          "weightedVertexCount": 24,
+          "soleOffsetNormalM": 0.06250000016763908,
+          "supportGapM": -3.011479954295737e-15
+        },
+        {
+          "side": "right",
+          "weightedVertexCount": 24,
+          "soleOffsetNormalM": 0.06250000016763893,
+          "supportGapM": -2.5673907444456745e-15
+        }
+      ]
+    },
+    {
+      "timeSeconds": 4,
+      "segment": 2,
+      "controls": {
+        "throttle": 0.4,
+        "lift": 0.35,
+        "steer": -0.65
+      },
+      "position": [
+        -0.2034046560185562,
+        6.593818944395172,
+        3.940222398707303
+      ],
+      "velocity": [
+        -0.4834787822178331,
+        3.1238097908730538,
+        1.4151816235726564
+      ],
+      "acceleration": [
+        -0.5505600226138618,
+        0.016465220177579454,
+        -0.437070688029948
+      ],
+      "heading": -0.3643114625431325,
+      "attitude": {
+        "pitch": 0.2094393383809555,
+        "roll": -0.06504972155846808,
+        "pitchRate": 8.989052053441524e-7,
+        "rollRate": -0.019070005343337148,
+        "targetPitch": 0.20943951023931953,
+        "targetRoll": -0.06820772001719379,
+        "pathAngle": 1.1243015784886743,
+        "angularSpeed": 0.43900132526310276,
+        "angularSpeedLimit": 2.2
+      },
+      "supportFrame": {
+        "position": [
+          -0.2034046560185562,
+          6.880065815924581,
+          3.940222398707303
+        ],
+        "quaternion": [
+          -0.10860320671859146,
+          -0.17671948421028627,
+          0.012880610137015119,
+          0.9781664772795006
+        ]
+      },
+      "dynamicsPose": {
+        "forwardAcceleration": -0.21221758203740212,
+        "lateralAcceleration": -0.6701573119124693,
+        "verticalAcceleration": 0.016465220177579454,
+        "requiredAccelerationWorld": [
+          -0.5505600226138618,
+          9.82646522017758,
+          -0.437070688029948
+        ],
+        "effectiveGravityMps2": 9.678997007316301,
+        "tangentForwardAcceleration": 1.8354552205459873,
+        "tangentLateralAcceleration": -0.041072057748656354,
+        "verticalSpeed": 3.1238097908730538,
+        "speed": 1.4954901405735106,
+        "totalSpeed": 3.4633334188476477,
+        "turnRate": -0.44256972888808166,
+        "normalLoadRatio": 0.9866459742422324,
+        "supportState": "supported",
+        "zmpValid": true,
+        "zmpInvalidReason": null,
+        "verticalCompression": -0.0034138935059352202,
+        "targetLeanForward": 0.18740750842491147,
+        "targetLeanSide": -0.004243395384592792,
+        "balanceLeanForward": 0.18196935195504674,
+        "balanceLeanSide": -0.01531980243486534,
+        "crouch": 0.47340298931687064,
+        "centerOfMassOffset": {
+          "forward": 0.12333784012809008,
+          "side": -0.010269617595142869
+        },
+        "centerOfMassVelocity": {
+          "forward": 0.015741184698677545,
+          "side": 0.03230254527021309
+        },
+        "zeroMomentPoint": {
+          "forward": -0.0037724084245719797,
+          "side": -0.0074252662807871754
+        },
+        "loadRatio": {
+          "front": 0.4962934801275607,
+          "rear": 0.5037065198724393,
+          "right": 0.488183044093837,
+          "left": 0.5118169559061629
+        },
+        "unclampedLoadRatio": {
+          "front": 0.4962934801275607,
+          "rear": 0.5037065198724393,
+          "right": 0.488183044093837,
+          "left": 0.5118169559061629
+        },
+        "supportMarginM": 0.30675320488176594,
+        "supportExceeded": false,
+        "supportHalfLengthM": 0.5088881962595958,
+        "supportHalfWidthM": 0.3141784711625531,
+        "comHeightM": 0.6702967751915373,
+        "heightObservationStatus": "accepted",
+        "observedComHeightM": 0.6709786573728749,
+        "supportQuaternion": [
+          -0.10860320671859146,
+          -0.17671948421028627,
+          0.012880610137015119,
+          0.9781664772795006
+        ],
+        "supportFrame": {
+          "quaternion": [
+            -0.10860320671859146,
+            -0.17671948421028627,
+            0.012880610137015119,
+            0.9781664772795006
+          ],
+          "normal": [
+            0.013185843263915753,
+            0.9760788667458742,
+            -0.2170165418338182
+          ],
+          "right": [
+            0.9372086275658972,
+            0.06358336743565457,
+            0.3429243995425084
+          ],
+          "forward": [
+            -0.3485199018039957,
+            0.2079115227149098,
+            0.9139511347817785
+          ]
+        },
+        "supportAngularSpeed": 0.43900132526310276,
+        "attitudeEnabled": true,
+        "rotationalPointAccelerationIncluded": false,
+        "input": {
+          "throttle": 0.4,
+          "steer": -0.65,
+          "brake": 0,
+          "lift": 0.35
+        }
+      },
+      "pose": {
+        "feetWorld": [
+          [
+            0.20261393040395806,
+            6.866943690831833,
+            3.6178758571785488
+          ],
+          [
+            -0.6077750120286601,
+            7.01519779968782,
+            4.23544187243407
+          ]
+        ],
+        "footTargetsWorld": [
+          [
+            0.20261393040395806,
+            6.866943690831833,
+            3.6178758571785488
+          ],
+          [
+            -0.6077750120286601,
+            7.01519779968782,
+            4.23544187243407
+          ]
+        ],
+        "footTargetErrorMm": 7.97218214573518e-14,
+        "boneLengthErrorMm": 4.440892098500626e-13,
+        "headUpDotWorld": 1,
+        "headRotationErrorDegrees": 0,
+        "knees": [
+          49.386691686845296,
+          87.70991145263017
+        ],
+        "footSoleNormalErrorDegrees": [
+          0,
+          0
+        ],
+        "bodyBalance": {
+          "source": "bind-anatomical-frames",
+          "pelvisPitchDegrees": 5.065162467589507,
+          "chestPitchDegrees": 11.455535515180863,
+          "hipChestPitchDegrees": 6.390373047591356,
+          "hipHeightPolicy": "mean-requested-height-with-knee-policy",
+          "maxKneeDegrees": 100,
+          "kneePolicyExceeded": false,
+          "hipBalanceLimited": false,
+          "pelvisYawDegrees": 50.28491985872889,
+          "chestYawDegrees": 19.750907193312678,
+          "footYawDegrees": 62,
+          "neckYawDegrees": 7.993889817480225,
+          "headChestYawDegrees": 20.542511707298132,
+          "hipChestYawDegrees": 30.534012665416213,
+          "neckPolicyExceeded": false,
+          "chestPolicyLimited": false,
+          "leanForward": 0.18196935195504674,
+          "leanSide": -0.01531980243486534,
+          "hipsWorld": [
+            -0.2749124352981651,
+            7.471087816959343,
+            3.885431972062165
+          ],
+          "coordinateSpace": "support-frame",
+          "uprightBlendPolicy": {
+            "pelvis": 0.3,
+            "chest": 0.65,
+            "neck": 0.85
+          },
+          "headNeckAngleDegrees": 7.894664154828152,
+          "pelvisWorldUpDot": 0.9948106728455475,
+          "chestWorldUpDot": 0.9995609156600967
+        },
+        "verticalBody": {
+          "verticalAcceleration": 0.016465220177579454,
+          "normalLoadRatio": 0.9866459742422324,
+          "effectiveGravityMps2": 9.678997007316301,
+          "supportState": "supported",
+          "baseCrouch": 0.4734029893168707,
+          "verticalCompression": -0.0034138935059352202,
+          "combinedCrouch": 0.46998909581093545,
+          "compressionLimited": false,
+          "footConstraintMode": "ordinary-support-proxy"
+        },
+        "balanceProxy": {
+          "source": "weighted-bone-points-and-foot-rect-proxies",
+          "zmpValid": true,
+          "zmpInvalidReason": null,
+          "supportState": "supported",
+          "normalLoadRatio": 0.9866459742422324,
+          "effectiveGravityMps2": 9.678997007316301,
+          "comHeightM": 0.6709811729443749,
+          "contactPlaneY": 6.880065815924581,
+          "contactPlaneSource": "explicit-support-frame",
+          "centerOfMassWorld": [
+            -0.24716724025501427,
+            7.559986523428863,
+            3.903810492977281
+          ],
+          "targetCenterOfMassWorld": [
+            -0.24716766958120268,
+            7.559986740100368,
+            3.9038114414185716
+          ],
+          "centerOfMassOffset": {
+            "forward": 0.1233367786218729,
+            "side": -0.01026955424729899
+          },
+          "centerOfMassErrorMm": 0.0010633947519414783,
+          "zeroMomentPointWorld": [
+            -0.20900053667297044,
+            6.878782349654663,
+            3.9341097277732278
+          ],
+          "loadRatio": {
+            "front": 0.500537292968308,
+            "rear": 0.49946270703169204
+          },
+          "requestedLoadRatio": {
+            "front": 0.4962934801275607,
+            "rear": 0.5037065198724393
+          },
+          "loadRatioError": 0.004243812840747263,
+          "unclampedFrontLoadRatio": 0.500537292968308,
+          "supportMarginM": 0.10525107646696463,
+          "supportExceeded": false,
+          "footHull2D": [
+            [
+              -0.39098963583050683,
+              0.4322543190943476
+            ],
+            [
+              -0.3427436287785172,
+              0.3415167767843849
+            ],
+            [
+              0.195554929316741,
+              -0.53616879582171
+            ],
+            [
+              0.3909896358305067,
+              -0.4322543190943477
+            ],
+            [
+              0.3427436287785171,
+              -0.341516776784385
+            ],
+            [
+              -0.19555492931674112,
+              0.5361687958217098
+            ]
+          ],
+          "footHullWorld": [
+            [
+              -0.7204927488528705,
+              6.94507603192904,
+              4.201201838063387
+            ],
+            [
+              -0.6436523354623367,
+              6.929278294933657,
+              4.134816891300513
+            ],
+            [
+              0.16673660697028167,
+              6.78102418607767,
+              3.5172508760449928
+            ],
+            [
+              0.31368343681575805,
+              6.8150555999201226,
+              3.6792429593512197
+            ],
+            [
+              0.2368430234252242,
+              6.830853336915506,
+              3.7456279061140925
+            ],
+            [
+              -0.5735459190073942,
+              6.979107445771493,
+              4.363193921369613
+            ]
+          ],
+          "coordinateSpace": "support-frame"
+        },
+        "poseLimited": true,
+        "poseLimitReasons": [
+          "fixed-support-changes-crouch"
+        ]
+      },
+      "actualSkinSoles": [
+        {
+          "side": "left",
+          "weightedVertexCount": 24,
+          "soleOffsetNormalM": 0.06250000016763918,
+          "supportGapM": -2.248201624865942e-15
+        },
+        {
+          "side": "right",
+          "weightedVertexCount": 24,
+          "soleOffsetNormalM": 0.06250000016763871,
+          "supportGapM": -1.9290125052862095e-15
+        }
+      ]
+    },
+    {
+      "timeSeconds": 5,
+      "segment": 3,
+      "controls": {
+        "throttle": 0.4,
+        "lift": -0.35,
+        "steer": 0.65
+      },
+      "position": [
+        -0.9249319260147153,
+        9.724834541742304,
+        5.1307072549946255
+      ],
+      "velocity": [
+        -0.9216965547142358,
+        3.12006698927787,
+        0.9626803427764228
+      ],
+      "acceleration": [
+        -0.3328779134341797,
+        -2.082128899527902,
+        -0.4653741283757551
+      ],
+      "heading": -0.7969042846111593,
+      "attitude": {
+        "pitch": 0.20943950926905683,
+        "roll": -0.0608124186886227,
+        "pitchRate": 5.07880037920671e-9,
+        "rollRate": 0.009271274112379458,
+        "targetPitch": 0.20943951023931953,
+        "targetRoll": -0.05758052386469231,
+        "pathAngle": 1.1670967568101744,
+        "angularSpeed": 0.39329453695249006,
+        "angularSpeedLimit": 2.2
+      },
+      "supportFrame": {
+        "position": [
+          -0.9249319260147153,
+          10.011081413271713,
+          5.1307072549946255
+        ],
+        "quaternion": [
+          -0.10802638611556262,
+          -0.3827595004955207,
+          -0.012671028973560976,
+          0.9174229720842955
+        ]
+      },
+      "dynamicsPose": {
+        "forwardAcceleration": -0.08718829007681378,
+        "lateralAcceleration": -0.5654900411919457,
+        "verticalAcceleration": -2.082128899527902,
+        "requiredAccelerationWorld": [
+          -0.3328779134341797,
+          7.727871100472099,
+          -0.4653741283757551
+        ],
+        "effectiveGravityMps2": 7.59748730914465,
+        "tangentForwardAcceleration": 1.5214317228183312,
+        "tangentLateralAcceleration": -0.10394532367384446,
+        "verticalSpeed": 3.12006698927787,
+        "speed": 1.3327707909990463,
+        "totalSpeed": 3.392800612903991,
+        "turnRate": -0.3912623630630741,
+        "normalLoadRatio": 0.7744635381391081,
+        "supportState": "supported",
+        "zmpValid": true,
+        "zmpInvalidReason": null,
+        "verticalCompression": -0.007299544547706303,
+        "targetLeanForward": 0.19764034805004121,
+        "targetLeanSide": -0.013680686063797019,
+        "balanceLeanForward": 0.1978836083569727,
+        "balanceLeanSide": 0.0018759887949893637,
+        "crouch": 0.4692888536475467,
+        "centerOfMassOffset": {
+          "forward": 0.1343876326126594,
+          "side": 0.0012573586414021609
+        },
+        "centerOfMassVelocity": {
+          "forward": 0.006049154498029901,
+          "side": -0.005361621927338467
+        },
+        "zeroMomentPoint": {
+          "forward": 0.00016958862830179777,
+          "side": 0.010427233184954204
+        },
+        "loadRatio": {
+          "front": 0.5001666266083084,
+          "rear": 0.49983337339169165,
+          "right": 0.5165944425573948,
+          "left": 0.48340555744260516
+        },
+        "unclampedLoadRatio": {
+          "front": 0.5001666266083084,
+          "rear": 0.49983337339169165,
+          "right": 0.5165944425573948,
+          "left": 0.48340555744260516
+        },
+        "supportMarginM": 0.3037512379775989,
+        "supportExceeded": false,
+        "supportHalfLengthM": 0.5088881962595958,
+        "supportHalfWidthM": 0.3141784711625531,
+        "comHeightM": 0.6702370343247644,
+        "heightObservationStatus": "accepted",
+        "observedComHeightM": 0.6698954928629283,
+        "supportQuaternion": [
+          -0.10802638611556262,
+          -0.3827595004955207,
+          -0.012671028973560976,
+          0.9174229720842955
+        ],
+        "supportFrame": {
+          "quaternion": [
+            -0.10802638611556262,
+            -0.3827595004955207,
+            -0.012671028973560976,
+            0.9174229720842955
+          ],
+          "normal": [
+            0.10594563730043906,
+            0.9763394898551252,
+            -0.18851186298596131
+          ],
+          "right": [
+            0.7066692196103413,
+            0.059446865059276946,
+            0.7050423280129606
+          ],
+          "forward": [
+            -0.6995671061394432,
+            0.2079116898686992,
+            0.6836509293664618
+          ]
+        },
+        "supportAngularSpeed": 0.39329453695249006,
+        "attitudeEnabled": true,
+        "rotationalPointAccelerationIncluded": false,
+        "input": {
+          "throttle": 0.4,
+          "steer": 0.65,
+          "brake": 0,
+          "lift": -0.35
+        }
+      },
+      "pose": {
+        "feetWorld": [
+          [
+            -0.42111083461821064,
+            9.996862167136722,
+            5.0086716191073055
+          ],
+          [
+            -1.4155098127131445,
+            10.14734309596594,
+            5.229178907945497
+          ]
+        ],
+        "footTargetsWorld": [
+          [
+            -0.42111083461821064,
+            9.996862167136722,
+            5.0086716191073055
+          ],
+          [
+            -1.4155098127131442,
+            10.14734309596594,
+            5.229178907945497
+          ]
+        ],
+        "footTargetErrorMm": 2.482534153247273e-13,
+        "boneLengthErrorMm": 7.771561172376096e-13,
+        "headUpDotWorld": 1,
+        "headRotationErrorDegrees": 0,
+        "knees": [
+          48.10269816314744,
+          87.97300087555648
+        ],
+        "footSoleNormalErrorDegrees": [
+          0,
+          0
+        ],
+        "bodyBalance": {
+          "source": "bind-anatomical-frames",
+          "pelvisPitchDegrees": 5.455824303268202,
+          "chestPitchDegrees": 11.7764680583012,
+          "hipChestPitchDegrees": 6.3206437550329975,
+          "hipHeightPolicy": "mean-requested-height-with-knee-policy",
+          "maxKneeDegrees": 100,
+          "kneePolicyExceeded": false,
+          "hipBalanceLimited": false,
+          "pelvisYawDegrees": 50.27335202975364,
+          "chestYawDegrees": 19.64228948356807,
+          "footYawDegrees": 62,
+          "neckYawDegrees": 7.960227041832268,
+          "headChestYawDegrees": 20.382401666620424,
+          "hipChestYawDegrees": 30.631062546185564,
+          "neckPolicyExceeded": false,
+          "chestPolicyLimited": false,
+          "leanForward": 0.1978836083569727,
+          "leanSide": 0.0018759887949893637,
+          "hipsWorld": [
+            -0.9640607613922936,
+            10.606392791139392,
+            5.0702560697834125
+          ],
+          "coordinateSpace": "support-frame",
+          "uprightBlendPolicy": {
+            "pelvis": 0.3,
+            "chest": 0.65,
+            "neck": 0.85
+          },
+          "headNeckAngleDegrees": 7.852890753315147,
+          "pelvisWorldUpDot": 0.9956527273392206,
+          "chestWorldUpDot": 0.9997719377030391
+        },
+        "verticalBody": {
+          "verticalAcceleration": -2.082128899527902,
+          "normalLoadRatio": 0.7744635381391081,
+          "effectiveGravityMps2": 7.59748730914465,
+          "supportState": "supported",
+          "baseCrouch": 0.46928885364754674,
+          "verticalCompression": -0.007299544547706303,
+          "combinedCrouch": 0.46198930909984043,
+          "compressionLimited": false,
+          "footConstraintMode": "ordinary-support-proxy"
+        },
+        "balanceProxy": {
+          "source": "weighted-bone-points-and-foot-rect-proxies",
+          "zmpValid": true,
+          "zmpInvalidReason": null,
+          "supportState": "supported",
+          "normalLoadRatio": 0.7744635381391081,
+          "effectiveGravityMps2": 7.59748730914465,
+          "comHeightM": 0.6706431307103297,
+          "contactPlaneY": 10.011081413271713,
+          "contactPlaneSource": "explicit-support-frame",
+          "centerOfMassWorld": [
+            -0.9470043511204325,
+            10.69387202205268,
+            5.0970426723030124
+          ],
+          "targetCenterOfMassWorld": [
+            -0.9470048427283269,
+            10.693872291207718,
+            5.0970437900203684
+          ],
+          "centerOfMassOffset": {
+            "forward": 0.134386468610959,
+            "side": 0.0012569020070989185
+          },
+          "centerOfMassErrorMm": 0.001250365884638514,
+          "zeroMomentPointWorld": [
+            -0.9176206513620773,
+            10.01171969225432,
+            5.138122038375773
+          ],
+          "loadRatio": {
+            "front": 0.4947747612999234,
+            "rear": 0.5052252387000766
+          },
+          "requestedLoadRatio": {
+            "front": 0.5001666266083084,
+            "rear": 0.49983337339169165
+          },
+          "loadRatioError": 0.005391865308384924,
+          "unclampedFrontLoadRatio": 0.4947747612999234,
+          "supportMarginM": 0.10468034204180394,
+          "supportExceeded": false,
+          "footHull2D": [
+            [
+              -0.3909896358305067,
+              0.43225431909434775
+            ],
+            [
+              -0.34274362877851705,
+              0.3415167767843851
+            ],
+            [
+              0.19555492931674087,
+              -0.5361687958217094
+            ],
+            [
+              0.3909896358305066,
+              -0.43225431909434714
+            ],
+            [
+              0.34274362877851694,
+              -0.34151677678438447
+            ],
+            [
+              -0.19555492931674093,
+              0.5361687958217101
+            ]
+          ],
+          "footHullWorld": [
+            [
+              -1.5036231699678992,
+              10.07770903108687,
+              5.150554078891263
+            ],
+            [
+              -1.406052201923169,
+              10.061711709201543,
+              5.122536750891893
+            ],
+            [
+              -0.4116532238282353,
+              9.911230780372325,
+              4.902029462053703
+            ],
+            [
+              -0.3462406820615317,
+              9.944453795456555,
+              5.110860431097988
+            ],
+            [
+              -0.4438116501062621,
+              9.960451117341883,
+              5.138877759097358
+            ],
+            [
+              -1.4382106282011957,
+              10.1109320461711,
+              5.359385047935549
+            ]
+          ],
+          "coordinateSpace": "support-frame"
+        },
+        "poseLimited": true,
+        "poseLimitReasons": [
+          "fixed-support-changes-crouch"
+        ]
+      },
+      "actualSkinSoles": [
+        {
+          "side": "left",
+          "weightedVertexCount": 24,
+          "soleOffsetNormalM": 0.06250000016763962,
+          "supportGapM": 2.42861286636753e-17
+        },
+        {
+          "side": "right",
+          "weightedVertexCount": 24,
+          "soleOffsetNormalM": 0.06250000016763776,
+          "supportGapM": 2.1024848528838902e-15
+        }
+      ]
+    },
+    {
+      "timeSeconds": 6,
+      "segment": 3,
+      "controls": {
+        "throttle": 0.4,
+        "lift": -0.35,
+        "steer": 0.65
+      },
+      "position": [
+        -1.7973685377224728,
+        11.915874780846101,
+        6.08383312290867
+      ],
+      "velocity": [
+        -0.7017735836990812,
+        1.3708252483751266,
+        1.0518608061640526
+      ],
+      "acceleration": [
+        0.44566967489099163,
+        -1.4690768613252558,
+        0.23618465809654765
+      ],
+      "heading": -0.557164428771574,
+      "attitude": {
+        "pitch": 0.20943951023385088,
+        "roll": 0.04003258753407309,
+        "pitchRate": 2.8628224202599778e-11,
+        "rollRate": 0.047045905571988574,
+        "targetPitch": 0.20943951023931953,
+        "targetRoll": 0.051245183768003605,
+        "pathAngle": 0.8257322582529794,
+        "angularSpeed": 0.3937199775936791,
+        "angularSpeedLimit": 2.2
+      },
+      "supportFrame": {
+        "position": [
+          -1.7973685377224728,
+          12.20212165237551,
+          6.08383312290867
+        ],
+        "quaternion": [
+          -0.0950045531081253,
+          -0.27544304998578245,
+          -0.04787670617651582,
+          0.9554125193386064
+        ]
+      },
+      "dynamicsPose": {
+        "forwardAcceleration": -0.03519833080989443,
+        "lateralAcceleration": 0.5031557704586349,
+        "verticalAcceleration": -1.4690768613252558,
+        "requiredAccelerationWorld": [
+          0.44566967489099163,
+          8.340923138674745,
+          0.23618465809654765
+        ],
+        "effectiveGravityMps2": 8.179566795674367,
+        "tangentForwardAcceleration": 1.6997462698666481,
+        "tangentLateralAcceleration": 0.1759349604062665,
+        "verticalSpeed": 1.3708252483751266,
+        "speed": 1.2644751157385195,
+        "totalSpeed": 1.864955543680511,
+        "turnRate": 0.4008028506586911,
+        "normalLoadRatio": 0.8337988578669079,
+        "supportState": "supported",
+        "zmpValid": true,
+        "zmpInvalidReason": null,
+        "verticalCompression": -0.0489621845605288,
+        "targetLeanForward": 0.20488797091045538,
+        "targetLeanSide": 0.021505764398131958,
+        "balanceLeanForward": 0.20367148246877778,
+        "balanceLeanSide": 0.035865354495094995,
+        "crouch": 0.46711540627852427,
+        "centerOfMassOffset": {
+          "forward": 0.14100063020290407,
+          "side": 0.02449561067156419
+        },
+        "centerOfMassVelocity": {
+          "forward": 0.0039424704617907775,
+          "side": -0.04069199256779639
+        },
+        "zeroMomentPoint": {
+          "forward": -0.0008661349963461906,
+          "side": 0.009811463889907564
+        },
+        "loadRatio": {
+          "front": 0.4991489928409497,
+          "rear": 0.5008510071590503,
+          "right": 0.5156144751955827,
+          "left": 0.4843855248044173
+        },
+        "unclampedLoadRatio": {
+          "front": 0.4991489928409497,
+          "rear": 0.5008510071590503,
+          "right": 0.5156144751955827,
+          "left": 0.4843855248044173
+        },
+        "supportMarginM": 0.30436700727264554,
+        "supportExceeded": false,
+        "supportHalfLengthM": 0.5088881962595958,
+        "supportHalfWidthM": 0.3141784711625531,
+        "comHeightM": 0.6826952366982149,
+        "heightObservationStatus": "accepted",
+        "observedComHeightM": 0.6816524038833809,
+        "supportQuaternion": [
+          -0.0950045531081253,
+          -0.27544304998578245,
+          -0.04787670617651582,
+          0.9554125193386064
+        ],
+        "supportFrame": {
+          "quaternion": [
+            -0.0950045531081253,
+            -0.27544304998578245,
+            -0.04787670617651582,
+            0.9554125193386064
+          ],
+          "normal": [
+            0.14382069667275496,
+            0.9773639117888259,
+            -0.15516246692227953
+          ],
+          "right": [
+            0.8436778944404346,
+            -0.03914732119020183,
+            0.53542048679163
+          ],
+          "forward": [
+            -0.5172264664932743,
+            0.20791169081241018,
+            0.8302105222065103
+          ]
+        },
+        "supportAngularSpeed": 0.3937199775936791,
+        "attitudeEnabled": true,
+        "rotationalPointAccelerationIncluded": false,
+        "input": {
+          "throttle": 0.4,
+          "steer": 0.65,
+          "brake": 0,
+          "lift": -0.35
+        }
+      },
+      "pose": {
+        "feetWorld": [
+          [
+            -1.3343233434136628,
+            12.161429878050072,
+            5.853911607924101
+          ],
+          [
+            -2.242436144898969,
+            12.36498391600224,
+            6.294359329475932
+          ]
+        ],
+        "footTargetsWorld": [
+          [
+            -1.3343233434136628,
+            12.161429878050072,
+            5.853911607924101
+          ],
+          [
+            -2.242436144898969,
+            12.36498391600224,
+            6.294359329475932
+          ]
+        ],
+        "footTargetErrorMm": 2.1544120232613907e-13,
+        "boneLengthErrorMm": 3.885780586188048e-13,
+        "headUpDotWorld": 1,
+        "headRotationErrorDegrees": 0,
+        "knees": [
+          46.2397737019908,
+          83.72972810247778
+        ],
+        "footSoleNormalErrorDegrees": [
+          0,
+          0
+        ],
+        "bodyBalance": {
+          "source": "bind-anatomical-frames",
+          "pelvisPitchDegrees": 4.933965364857781,
+          "chestPitchDegrees": 10.401353061138549,
+          "hipChestPitchDegrees": 5.467387696280768,
+          "hipHeightPolicy": "mean-requested-height-with-knee-policy",
+          "maxKneeDegrees": 100,
+          "kneePolicyExceeded": false,
+          "hipBalanceLimited": false,
+          "pelvisYawDegrees": 50.14001350059063,
+          "chestYawDegrees": 19.96190679237515,
+          "footYawDegrees": 62,
+          "neckYawDegrees": 7.938573514540388,
+          "headChestYawDegrees": 19.474508135774897,
+          "hipChestYawDegrees": 30.17810670821548,
+          "neckPolicyExceeded": false,
+          "chestPolicyLimited": false,
+          "leanForward": 0.20367148246877778,
+          "leanSide": 0.035865354495094995,
+          "hipsWorld": [
+            -1.7699286253531448,
+            12.816175950230932,
+            6.089589760377163
+          ],
+          "coordinateSpace": "support-frame",
+          "uprightBlendPolicy": {
+            "pelvis": 0.3,
+            "chest": 0.65,
+            "neck": 0.85
+          },
+          "headNeckAngleDegrees": 7.948452900433099,
+          "pelvisWorldUpDot": 0.9959505115890396,
+          "chestWorldUpDot": 0.999679751538057
+        },
+        "verticalBody": {
+          "verticalAcceleration": -1.4690768613252558,
+          "normalLoadRatio": 0.8337988578669079,
+          "effectiveGravityMps2": 8.179566795674367,
+          "supportState": "supported",
+          "baseCrouch": 0.46711540627852427,
+          "verticalCompression": -0.0489621845605288,
+          "combinedCrouch": 0.41815322171799546,
+          "compressionLimited": false,
+          "footConstraintMode": "ordinary-support-proxy"
+        },
+        "balanceProxy": {
+          "source": "weighted-bone-points-and-foot-rect-proxies",
+          "zmpValid": true,
+          "zmpInvalidReason": null,
+          "supportState": "supported",
+          "normalLoadRatio": 0.8337988578669079,
+          "effectiveGravityMps2": 8.179566795674367,
+          "comHeightM": 0.6816011985878802,
+          "contactPlaneY": 12.20212165237551,
+          "contactPlaneSource": "explicit-support-frame",
+          "centerOfMassWorld": [
+            -1.7516038573469117,
+            12.896650596764793,
+            6.108247761582282
+          ],
+          "targetCenterOfMassWorld": [
+            -1.7516030309873343,
+            12.896650807999704,
+            6.1082498581008196
+          ],
+          "centerOfMassOffset": {
+            "forward": 0.1409992731479916,
+            "side": 0.024493799240560984
+          },
+          "centerOfMassErrorMm": 0.0022633780759824308,
+          "zeroMomentPointWorld": [
+            -1.7887413967995651,
+            12.201603615590118,
+            6.088566554732574
+          ],
+          "loadRatio": {
+            "front": 0.4944768878113987,
+            "rear": 0.5055231121886012
+          },
+          "requestedLoadRatio": {
+            "front": 0.4991489928409497,
+            "rear": 0.5008510071590503
+          },
+          "loadRatioError": 0.00467210502955101,
+          "unclampedFrontLoadRatio": 0.4944768878113987,
+          "supportMarginM": 0.10557130123374676,
+          "supportExceeded": false,
+          "footHull2D": [
+            [
+              -0.39098963583050683,
+              0.43225431909434786
+            ],
+            [
+              -0.34274362877851716,
+              0.3415167767843852
+            ],
+            [
+              0.19555492931674098,
+              -0.5361687958217096
+            ],
+            [
+              0.3909896358305067,
+              -0.43225431909434736
+            ],
+            [
+              0.34274362877851705,
+              -0.3415167767843847
+            ],
+            [
+              -0.19555492931674104,
+              0.5361687958217102
+            ]
+          ],
+          "footHullWorld": [
+            [
+              -2.350811224519613,
+              12.30729857557528,
+              6.233351345743156
+            ],
+            [
+              -2.263175276487566,
+              12.286544477799245,
+              6.183851983939795
+            ],
+            [
+              -1.35506247500226,
+              12.082990439847075,
+              5.7434042623879655
+            ],
+            [
+              -1.2439258509253333,
+              12.09694472917574,
+              5.934314900074185
+            ],
+            [
+              -1.33156179895738,
+              12.117698826951775,
+              5.983814261877545
+            ],
+            [
+              -2.2396746004426857,
+              12.321252864903945,
+              6.424261983429376
+            ]
+          ],
+          "coordinateSpace": "support-frame"
+        },
+        "poseLimited": true,
+        "poseLimitReasons": [
+          "fixed-support-changes-crouch"
+        ]
+      },
+      "actualSkinSoles": [
+        {
+          "side": "left",
+          "weightedVertexCount": 24,
+          "soleOffsetNormalM": 0.06250000016763566,
+          "supportGapM": 5.4539706084710815e-15
+        },
+        {
+          "side": "right",
+          "weightedVertexCount": 24,
+          "soleOffsetNormalM": 0.06250000016763685,
+          "supportGapM": 5.002942504717112e-15
+        }
+      ]
+    },
+    {
+      "timeSeconds": 7,
+      "segment": 4,
+      "controls": {
+        "throttle": 0.2,
+        "lift": -0.7
+      },
+      "position": [
+        -2.2638517881677784,
+        12.62144783525099,
+        7.228037899491383
+      ],
+      "velocity": [
+        -0.22564899132729271,
+        0.10121155614924691,
+        1.2038315433341442
+      ],
+      "acceleration": [
+        0.555938286979345,
+        -2.1290989195662635,
+        -0.364250709888303
+      ],
+      "heading": -0.15370009882602456,
+      "attitude": {
+        "pitch": 0.09432660279064933,
+        "roll": 0.050860168851256826,
+        "pitchRate": -0.2717280413193267,
+        "rollRate": -0.0011206966233207097,
+        "targetPitch": -0.02457294295424246,
+        "targetRoll": 0.0502755731613073,
+        "pathAngle": 0.08244804010198323,
+        "angularSpeed": 0.473137257586372,
+        "angularSpeedLimit": 2.2
+      },
+      "supportFrame": {
+        "position": [
+          -2.2638517881677784,
+          12.907694706780399,
+          7.228037899491383
+        ],
+        "quaternion": [
+          -0.0450414695833337,
+          -0.07785951379078819,
+          -0.028942526075862462,
+          0.9955257366408885
+        ]
+      },
+      "dynamicsPose": {
+        "forwardAcceleration": -0.44506842925396034,
+        "lateralAcceleration": 0.49361933903066824,
+        "verticalAcceleration": -2.1290989195662635,
+        "requiredAccelerationWorld": [
+          0.555938286979345,
+          7.6809010804337365,
+          -0.364250709888303
+        ],
+        "effectiveGravityMps2": 7.70382805194605,
+        "tangentForwardAcceleration": 0.28034949238373363,
+        "tangentLateralAcceleration": 0.10210227304581324,
+        "verticalSpeed": 0.10121155614924691,
+        "speed": 1.2247970656452816,
+        "totalSpeed": 1.2289717779963234,
+        "turnRate": 0.3872199131947321,
+        "normalLoadRatio": 0.7853035730831854,
+        "supportState": "supported",
+        "zmpValid": true,
+        "zmpInvalidReason": null,
+        "verticalCompression": -0.03574765139025232,
+        "targetLeanForward": 0.036374881827837637,
+        "targetLeanSide": 0.013252670590313929,
+        "balanceLeanForward": 0.14590943749183613,
+        "balanceLeanSide": 0.007655971327718032,
+        "crouch": 0.47220829627651095,
+        "centerOfMassOffset": {
+          "forward": 0.10043563613492217,
+          "side": 0.005232579710252451
+        },
+        "centerOfMassVelocity": {
+          "forward": -0.15800948507401696,
+          "side": -0.002515703300720009
+        },
+        "zeroMomentPoint": {
+          "forward": 0.07556423440285348,
+          "side": -0.0038254950131499403
+        },
+        "loadRatio": {
+          "front": 0.5742444361632495,
+          "rear": 0.4257555638367505,
+          "right": 0.4939119077780943,
+          "left": 0.5060880922219058
+        },
+        "unclampedLoadRatio": {
+          "front": 0.5742444361632495,
+          "rear": 0.4257555638367505,
+          "right": 0.4939119077780943,
+          "left": 0.5060880922219058
+        },
+        "supportMarginM": 0.31035297614940316,
+        "supportExceeded": false,
+        "supportHalfLengthM": 0.5088881962595958,
+        "supportHalfWidthM": 0.3141784711625531,
+        "comHeightM": 0.683450505743978,
+        "heightObservationStatus": "accepted",
+        "observedComHeightM": 0.6879781917481956,
+        "supportQuaternion": [
+          -0.0450414695833337,
+          -0.07785951379078819,
+          -0.028942526075862462,
+          0.9955257366408885
+        ],
+        "supportFrame": {
+          "quaternion": [
+            -0.0450414695833337,
+            -0.07785951379078819,
+            -0.028942526075862462,
+            0.9955257366408885
+          ],
+          "normal": [
+            0.06463987302820408,
+            0.9942671924042433,
+            -0.0851729823563852
+          ],
+          "right": [
+            0.9862004525932202,
+            -0.05061224533948033,
+            0.15762952745797326
+          ],
+          "forward": [
+            -0.15241507182633007,
+            0.09418678638896062,
+            0.9838183242600714
+          ]
+        },
+        "supportAngularSpeed": 0.473137257586372,
+        "attitudeEnabled": true,
+        "rotationalPointAccelerationIncluded": false,
+        "input": {
+          "throttle": 0.2,
+          "steer": 0,
+          "brake": 0,
+          "lift": -0.7
+        }
+      },
+      "pose": {
+        "feetWorld": [
+          [
+            -1.9274904004859232,
+            12.914880965356378,
+            6.833398887117478
+          ],
+          [
+            -2.592133191699436,
+            13.024791847588306,
+            7.612030289042184
+          ]
+        ],
+        "footTargetsWorld": [
+          [
+            -1.9274904004859232,
+            12.914880965356378,
+            6.833398887117478
+          ],
+          [
+            -2.592133191699436,
+            13.024791847588306,
+            7.612030289042184
+          ]
+        ],
+        "footTargetErrorMm": 2.419674984566563e-13,
+        "boneLengthErrorMm": 6.106226635438361e-13,
+        "headUpDotWorld": 1,
+        "headRotationErrorDegrees": 0,
+        "knees": [
+          50.97163582490853,
+          81.08281531018245
+        ],
+        "footSoleNormalErrorDegrees": [
+          0,
+          0
+        ],
+        "bodyBalance": {
+          "source": "bind-anatomical-frames",
+          "pelvisPitchDegrees": 2.3757287533899785,
+          "chestPitchDegrees": 6.878316683422411,
+          "hipChestPitchDegrees": 4.5025879300324325,
+          "hipHeightPolicy": "mean-requested-height-with-knee-policy",
+          "maxKneeDegrees": 100,
+          "kneePolicyExceeded": false,
+          "hipBalanceLimited": false,
+          "pelvisYawDegrees": 50.04194238653778,
+          "chestYawDegrees": 20.091450158165582,
+          "footYawDegrees": 62,
+          "neckYawDegrees": 7.939593022026443,
+          "headChestYawDegrees": 19.81587837283946,
+          "hipChestYawDegrees": 29.95049222837218,
+          "neckPolicyExceeded": false,
+          "chestPolicyLimited": false,
+          "leanForward": 0.14590943749183613,
+          "leanSide": 0.007655971327718032,
+          "hipsWorld": [
+            -2.2576454587906913,
+            13.520140845393133,
+            7.2567703382014
+          ],
+          "coordinateSpace": "support-frame",
+          "uprightBlendPolicy": {
+            "pelvis": 0.3,
+            "chest": 0.65,
+            "neck": 0.85
+          },
+          "headNeckAngleDegrees": 7.957384246459327,
+          "pelvisWorldUpDot": 0.9990186138907172,
+          "chestWorldUpDot": 0.9981307951919045
+        },
+        "verticalBody": {
+          "verticalAcceleration": -2.1290989195662635,
+          "normalLoadRatio": 0.7853035730831854,
+          "effectiveGravityMps2": 7.70382805194605,
+          "supportState": "supported",
+          "baseCrouch": 0.472208296276511,
+          "verticalCompression": -0.03574765139025232,
+          "combinedCrouch": 0.4364606448862587,
+          "compressionLimited": false,
+          "footConstraintMode": "ordinary-support-proxy"
+        },
+        "balanceProxy": {
+          "source": "weighted-bone-points-and-foot-rect-proxies",
+          "zmpValid": true,
+          "zmpInvalidReason": null,
+          "supportState": "supported",
+          "normalLoadRatio": 0.7853035730831854,
+          "effectiveGravityMps2": 7.70382805194605,
+          "comHeightM": 0.6875702881277241,
+          "contactPlaneY": 12.907694706780399,
+          "contactPlaneSource": "explicit-support-frame",
+          "centerOfMassWorld": [
+            -2.2295553191986053,
+            13.600518101157304,
+            7.269109637665644
+          ],
+          "targetCenterOfMassWorld": [
+            -2.229554864262183,
+            13.600518163936153,
+            7.2691107157772725
+          ],
+          "centerOfMassOffset": {
+            "forward": 0.10043463889517606,
+            "side": 0.005231964286898731
+          },
+          "centerOfMassErrorMm": 0.0011718502530215242,
+          "zeroMomentPointWorld": [
+            -2.2791730735906004,
+            12.91499405605348,
+            7.301619185368408
+          ],
+          "loadRatio": {
+            "front": 0.5644074458780586,
+            "rear": 0.4355925541219414
+          },
+          "requestedLoadRatio": {
+            "front": 0.5742444361632495,
+            "rear": 0.4257555638367505
+          },
+          "loadRatioError": 0.009836990285190916,
+          "unclampedFrontLoadRatio": 0.5644074458780586,
+          "supportMarginM": 0.07749953396966394,
+          "supportExceeded": false,
+          "footHull2D": [
+            [
+              -0.3909896358305066,
+              0.4322543190943478
+            ],
+            [
+              -0.34274362877851694,
+              0.34151677678438513
+            ],
+            [
+              0.19555492931674082,
+              -0.5361687958217098
+            ],
+            [
+              0.3909896358305066,
+              -0.4322543190943476
+            ],
+            [
+              0.34274362877851694,
+              -0.3415167767843849
+            ],
+            [
+              -0.19555492931674087,
+              0.5361687958217101
+            ]
+          ],
+          "footHullWorld": [
+            [
+              -2.715328017075089,
+              12.968196215372492,
+              7.591666107820035
+            ],
+            [
+              -2.6539180140560834,
+              12.957208099111918,
+              7.51000184629051
+            ],
+            [
+              -1.9892752228425707,
+              12.847297216879989,
+              6.731370444365804
+            ],
+            [
+              -1.812375559260468,
+              12.847193198188306,
+              6.864409691162732
+            ],
+            [
+              -1.8737855622794737,
+              12.85818131444888,
+              6.946073952692258
+            ],
+            [
+              -2.538428353492986,
+              12.968092196680809,
+              7.7247053546169635
+            ]
+          ],
+          "coordinateSpace": "support-frame"
+        },
+        "poseLimited": true,
+        "poseLimitReasons": [
+          "fixed-support-changes-crouch"
+        ]
+      },
+      "actualSkinSoles": [
+        {
+          "side": "left",
+          "weightedVertexCount": 24,
+          "soleOffsetNormalM": 0.06250000016763961,
+          "supportGapM": -1.987993103469421e-15
+        },
+        {
+          "side": "right",
+          "weightedVertexCount": 24,
+          "soleOffsetNormalM": 0.06250000016763974,
+          "supportGapM": -4.801714581503802e-15
+        }
+      ]
+    },
+    {
+      "timeSeconds": 8,
+      "segment": 4,
+      "controls": {
+        "throttle": 0.2,
+        "lift": -0.7
+      },
+      "position": [
+        -2.3674285805878856,
+        11.753012668707452,
+        8.269157375152565
+      ],
+      "velocity": [
+        -0.0643529710597201,
+        -1.7355316488530126,
+        0.9083001740352558
+      ],
+      "acceleration": [
+        0.020760932494562345,
+        -1.5603502317387452,
+        -0.20914296197749316
+      ],
+      "heading": -0.070211647385979,
+      "attitude": {
+        "pitch": -0.2000455401975731,
+        "roll": 0.005804848654399937,
+        "pitchRate": -0.046067527782672556,
+        "rollRate": -0.021451703790381724,
+        "targetPitch": -0.20943951023931953,
+        "targetRoll": 0.0006154505943599643,
+        "pathAngle": -1.087610031194701,
+        "angularSpeed": 0.05063853627459029,
+        "angularSpeedLimit": 2.2
+      },
+      "supportFrame": {
+        "position": [
+          -2.3674285805878856,
+          12.039259540236861,
+          8.269157375152565
+        ],
+        "quaternion": [
+          0.0998954884560687,
+          -0.034633393812132915,
+          0.0006186606624843518,
+          0.9943948092574509
+        ]
+      },
+      "dynamicsPose": {
+        "forwardAcceleration": -0.21008413219008287,
+        "lateralAcceleration": 0.006037571092973856,
+        "verticalAcceleration": -1.5603502317387452,
+        "requiredAccelerationWorld": [
+          0.020760932494562345,
+          8.249649768261255,
+          -0.20914296197749316
+        ],
+        "effectiveGravityMps2": 8.04328425104157,
+        "tangentForwardAcceleration": -1.8452151344909473,
+        "tangentLateralAcceleration": -0.04065289937926078,
+        "verticalSpeed": -1.7355316488530126,
+        "speed": 0.9105770209250227,
+        "totalSpeed": 1.9599032157754999,
+        "turnRate": 0.004110473535538567,
+        "normalLoadRatio": 0.819906651482321,
+        "supportState": "supported",
+        "zmpValid": true,
+        "zmpInvalidReason": null,
+        "verticalCompression": -0.052260986720437434,
+        "targetLeanForward": -0.22550858404944185,
+        "targetLeanSide": -0.005054223119324286,
+        "balanceLeanForward": -0.20174951706952318,
+        "balanceLeanSide": -0.01103162406669306,
+        "crouch": 0.45734117268770774,
+        "centerOfMassOffset": {
+          "forward": -0.14137141145107696,
+          "side": -0.007625304798429987
+        },
+        "centerOfMassVelocity": {
+          "forward": -0.09314987012536423,
+          "side": 0.017254384245643326
+        },
+        "zeroMomentPoint": {
+          "forward": 0.01719592365365627,
+          "side": -0.004131824933477215
+        },
+        "loadRatio": {
+          "front": 0.516895581170922,
+          "rear": 0.48310441882907795,
+          "right": 0.49342439837111013,
+          "left": 0.5065756016288898
+        },
+        "unclampedLoadRatio": {
+          "front": 0.516895581170922,
+          "rear": 0.48310441882907795,
+          "right": 0.49342439837111013,
+          "left": 0.5065756016288898
+        },
+        "supportMarginM": 0.3100466462290759,
+        "supportExceeded": false,
+        "supportHalfLengthM": 0.5088881962595958,
+        "supportHalfWidthM": 0.3141784711625531,
+        "comHeightM": 0.6911942815434289,
+        "heightObservationStatus": "accepted",
+        "observedComHeightM": 0.6825463925430463,
+        "supportQuaternion": [
+          0.0998954884560687,
+          -0.034633393812132915,
+          0.0006186606624843518,
+          0.9943948092574509
+        ],
+        "supportFrame": {
+          "quaternion": [
+            0.0998954884560687,
+            -0.034633393812132915,
+            0.0006186606624843518,
+            0.9943948092574509
+          ],
+          "normal": [
+            -0.00814982548644124,
+            0.9800410172902162,
+            0.19862825774118487
+          ],
+          "right": [
+            0.9976002905840767,
+            -0.005689053680576379,
+            0.06900213688564304
+          ],
+          "forward": [
+            -0.06875493124937333,
+            -0.19871396301462446,
+            0.9776428388383542
+          ]
+        },
+        "supportAngularSpeed": 0.05063853627459029,
+        "attitudeEnabled": true,
+        "rotationalPointAccelerationIncluded": false,
+        "input": {
+          "throttle": 0.2,
+          "steer": 0,
+          "brake": 0,
+          "lift": -0.7
+        }
+      },
+      "pose": {
+        "feetWorld": [
+          [
+            -2.069261940092195,
+            12.186185088491861,
+            7.8711120092851585
+          ],
+          [
+            -2.6666139492721133,
+            12.014839119471723,
+            8.692031273304215
+          ]
+        ],
+        "footTargetsWorld": [
+          [
+            -2.069261940092195,
+            12.186185088491861,
+            7.8711120092851585
+          ],
+          [
+            -2.6666139492721133,
+            12.014839119471723,
+            8.692031273304215
+          ]
+        ],
+        "footTargetErrorMm": 3.0688430113079397e-13,
+        "boneLengthErrorMm": 1.1102230246251565e-12,
+        "headUpDotWorld": 1,
+        "headRotationErrorDegrees": 0.0000017075472925031877,
+        "knees": [
+          83.651877364671,
+          44.83948388695879
+        ],
+        "footSoleNormalErrorDegrees": [
+          0,
+          8.537736462515939e-7
+        ],
+        "bodyBalance": {
+          "source": "bind-anatomical-frames",
+          "pelvisPitchDegrees": -4.480149943618117,
+          "chestPitchDegrees": -12.721043543085575,
+          "hipChestPitchDegrees": -8.240893599467459,
+          "hipHeightPolicy": "mean-requested-height-with-knee-policy",
+          "maxKneeDegrees": 100,
+          "kneePolicyExceeded": false,
+          "hipBalanceLimited": false,
+          "pelvisYawDegrees": 50.18370438874174,
+          "chestYawDegrees": 20.296545855295484,
+          "footYawDegrees": 62,
+          "neckYawDegrees": 8.081100381916956,
+          "headChestYawDegrees": 20.36398121978393,
+          "hipChestYawDegrees": 29.88715853344626,
+          "neckPolicyExceeded": false,
+          "chestPolicyLimited": false,
+          "leanForward": -0.20174951706952318,
+          "leanSide": -0.01103162406669306,
+          "hipsWorld": [
+            -2.397964725990743,
+            12.654769560521919,
+            8.247742508483265
+          ],
+          "coordinateSpace": "support-frame",
+          "uprightBlendPolicy": {
+            "pelvis": 0.3,
+            "chest": 0.65,
+            "neck": 0.85
+          },
+          "headNeckAngleDegrees": 8.000238198208892,
+          "pelvisWorldUpDot": 0.9968097400348248,
+          "chestWorldUpDot": 0.9994762170024487
+        },
+        "verticalBody": {
+          "verticalAcceleration": -1.5603502317387452,
+          "normalLoadRatio": 0.819906651482321,
+          "effectiveGravityMps2": 8.04328425104157,
+          "supportState": "supported",
+          "baseCrouch": 0.45734117268770774,
+          "verticalCompression": -0.052260986720437434,
+          "combinedCrouch": 0.4050801859672703,
+          "compressionLimited": false,
+          "footConstraintMode": "ordinary-support-proxy"
+        },
+        "balanceProxy": {
+          "source": "weighted-bone-points-and-foot-rect-proxies",
+          "zmpValid": true,
+          "zmpInvalidReason": null,
+          "supportState": "supported",
+          "normalLoadRatio": 0.819906651482321,
+          "effectiveGravityMps2": 8.04328425104157,
+          "comHeightM": 0.6822615138373975,
+          "contactPlaneY": 12.039259540236861,
+          "contactPlaneSource": "explicit-support-frame",
+          "centerOfMassWorld": [
+            -2.3708765112285626,
+            12.736039014300214,
+            8.26594005456147
+          ],
+          "targetCenterOfMassWorld": [
+            -2.3708759174695357,
+            12.73603966251077,
+            8.265936880622839
+          ],
+          "centerOfMassOffset": {
+            "forward": -0.14136813884035332,
+            "side": -0.007625674436354993
+          },
+          "centerOfMassErrorMm": 0.003293419673237195,
+          "zeroMomentPointWorld": [
+            -2.3726375313281047,
+            12.036272803900102,
+            8.283680344397519
+          ],
+          "loadRatio": {
+            "front": 0.5146642460241214,
+            "rear": 0.4853357539758786
+          },
+          "requestedLoadRatio": {
+            "front": 0.516895581170922,
+            "rear": 0.48310441882907795
+          },
+          "loadRatioError": 0.002231335146800628,
+          "unclampedFrontLoadRatio": 0.5146642460241214,
+          "supportMarginM": 0.10925916793156157,
+          "supportExceeded": false,
+          "footHull2D": [
+            [
+              -0.3909896358305066,
+              0.43225431909434797
+            ],
+            [
+              -0.34274362877851694,
+              0.3415167767843853
+            ],
+            [
+              0.19555492931674126,
+              -0.5361687958217103
+            ],
+            [
+              0.39098963583050705,
+              -0.432254319094348
+            ],
+            [
+              0.3427436287785174,
+              -0.34151677678438536
+            ],
+            [
+              -0.19555492931674087,
+              0.5361687958217103
+            ]
+          ],
+          "footHullWorld": [
+            [
+              -2.787199570899338,
+              11.955588932486224,
+              8.664768594399659
+            ],
+            [
+              -2.732830686761493,
+              11.973345274988851,
+              8.579388763529318
+            ],
+            [
+              -2.135478677581575,
+              12.144691244008987,
+              7.758469499510262
+            ],
+            [
+              -1.9476575902764328,
+              12.122930147987498,
+              7.873546155905471
+            ],
+            [
+              -2.002026474414278,
+              12.10517380548487,
+              7.958925986775811
+            ],
+            [
+              -2.599378483594196,
+              11.933827836464735,
+              8.779845250794867
+            ]
+          ],
+          "coordinateSpace": "support-frame"
+        },
+        "poseLimited": true,
+        "poseLimitReasons": [
+          "fixed-support-changes-crouch"
+        ]
+      },
+      "actualSkinSoles": [
+        {
+          "side": "left",
+          "weightedVertexCount": 24,
+          "soleOffsetNormalM": 0.06250000016763828,
+          "supportGapM": -5.551115123125783e-16
+        },
+        {
+          "side": "right",
+          "weightedVertexCount": 24,
+          "soleOffsetNormalM": 0.06250000016763912,
+          "supportGapM": -1.1102230246251565e-15
+        }
+      ]
+    },
+    {
+      "timeSeconds": 9,
+      "segment": 5,
+      "controls": {
+        "brake": 1
+      },
+      "position": [
+        -2.4249609336537943,
+        9.317975304562873,
+        9.093991463553811
+      ],
+      "velocity": [
+        -0.05081179598548415,
+        -3.009342560691461,
+        0.7317138887554371
+      ],
+      "acceleration": [
+        0.24452388046907692,
+        3.9953773514676527,
+        -3.520549832199089
+      ],
+      "heading": -0.06932538854836899,
+      "attitude": {
+        "pitch": -0.20937907123197838,
+        "roll": 0.00009690357438131111,
+        "pitchRate": -0.0003139178626030834,
+        "rollRate": -0.00042453626985609986,
+        "targetPitch": -0.20943951023931953,
+        "targetRoll": 0.000006981341593448569,
+        "pathAngle": -1.3317246843700512,
+        "angularSpeed": 0.0005223815813973746,
+        "angularSpeedLimit": 2.2
+      },
+      "supportFrame": {
+        "position": [
+          -2.4249609336537943,
+          9.604222176092282,
+          9.093991463553811
+        ],
+        "quaternion": [
+          0.10443730782124457,
+          -0.03446095495034131,
+          0.0035733135344098547,
+          0.9939278257244568
+        ]
+      },
+      "dynamicsPose": {
+        "forwardAcceleration": -3.5290314598238175,
+        "lateralAcceleration": 0.00006848696103284313,
+        "verticalAcceleration": 3.9953773514676527,
+        "requiredAccelerationWorld": [
+          0.24452388046907692,
+          13.805377351467653,
+          -3.520549832199089
+        ],
+        "effectiveGravityMps2": 12.770351867434083,
+        "tangentForwardAcceleration": -6.321441187014322,
+        "tangentLateralAcceleration": -0.0011690057845805957,
+        "verticalSpeed": -3.009342560691461,
+        "speed": 0.7334760075209513,
+        "totalSpeed": 3.0974392167075555,
+        "turnRate": 0.000043634100702527523,
+        "normalLoadRatio": 1.3017687938261042,
+        "supportState": "supported",
+        "zmpValid": true,
+        "zmpInvalidReason": null,
+        "verticalCompression": -0.03393615443205784,
+        "targetLeanForward": -0.4596469739630817,
+        "targetLeanSide": -0.00009154060854786625,
+        "balanceLeanForward": -0.2243287725027291,
+        "balanceLeanSide": -0.00038496724449868877,
+        "crouch": 0.5425975034116688,
+        "centerOfMassOffset": {
+          "forward": -0.15417059056015822,
+          "side": -0.0002601168741753038
+        },
+        "centerOfMassVelocity": {
+          "forward": -0.08227365449422838,
+          "side": 0.0010482709443787731
+        },
+        "zeroMomentPoint": {
+          "forward": 0.18030002117163327,
+          "side": -0.00019826419401593225
+        },
+        "loadRatio": {
+          "front": 0.677150916937026,
+          "rear": 0.322849083062974,
+          "right": 0.4996844720243206,
+          "left": 0.5003155279756795
+        },
+        "unclampedLoadRatio": {
+          "front": 0.677150916937026,
+          "rear": 0.322849083062974,
+          "right": 0.4996844720243206,
+          "left": 0.5003155279756795
+        },
+        "supportMarginM": 0.3139802069685372,
+        "supportExceeded": false,
+        "supportHalfLengthM": 0.5088881962595958,
+        "supportHalfWidthM": 0.3141784711625531,
+        "comHeightM": 0.6756856980501758,
+        "heightObservationStatus": "accepted",
+        "observedComHeightM": 0.6753246870629362,
+        "supportQuaternion": [
+          0.10443730782124457,
+          -0.03446095495034131,
+          0.0035733135344098547,
+          0.9939278257244568
+        ],
+        "supportFrame": {
+          "quaternion": [
+            0.10443730782124457,
+            -0.03446095495034131,
+            0.0035733135344098547,
+            0.9939278257244568
+          ],
+          "normal": [
+            -0.014301250223701194,
+            0.9781601603308708,
+            0.20736001298110535
+          ],
+          "right": [
+            0.9975993480285907,
+            -0.00009478721615015142,
+            0.06924977854343234
+          ],
+          "forward": [
+            -0.06775702956129243,
+            -0.20785257216803632,
+            0.9758105826379223
+          ]
+        },
+        "supportAngularSpeed": 0.0005223815813973746,
+        "attitudeEnabled": true,
+        "rotationalPointAccelerationIncluded": false,
+        "input": {
+          "throttle": 0,
+          "steer": 0,
+          "brake": 1,
+          "lift": 0
+        }
+      },
+      "pose": {
+        "feetWorld": [
+          [
+            -2.1276169328505974,
+            9.756546276276525,
+            8.697362557380238
+          ],
+          [
+            -2.724092590739748,
+            9.574168096277353,
+            9.516540371419545
+          ]
+        ],
+        "footTargetsWorld": [
+          [
+            -2.1276169328505974,
+            9.756546276276525,
+            8.697362557380238
+          ],
+          [
+            -2.7240925907397484,
+            9.574168096277353,
+            9.516540371419545
+          ]
+        ],
+        "footTargetErrorMm": 3.947248820392849e-13,
+        "boneLengthErrorMm": 7.216449660063518e-13,
+        "headUpDotWorld": 1,
+        "headRotationErrorDegrees": 0,
+        "knees": [
+          93.21608517391356,
+          51.75097025924697
+        ],
+        "footSoleNormalErrorDegrees": [
+          0,
+          0
+        ],
+        "bodyBalance": {
+          "source": "bind-anatomical-frames",
+          "pelvisPitchDegrees": -4.723645750724851,
+          "chestPitchDegrees": -13.139895245700167,
+          "hipChestPitchDegrees": -8.416249494975316,
+          "hipHeightPolicy": "mean-requested-height-with-knee-policy",
+          "maxKneeDegrees": 100,
+          "kneePolicyExceeded": false,
+          "hipBalanceLimited": false,
+          "pelvisYawDegrees": 50.2374513888673,
+          "chestYawDegrees": 20.551234263567032,
+          "footYawDegrees": 62,
+          "neckYawDegrees": 8.144326045463792,
+          "headChestYawDegrees": 20.552414062120125,
+          "hipChestYawDegrees": 29.686217125300267,
+          "neckPolicyExceeded": false,
+          "chestPolicyLimited": false,
+          "leanForward": -0.2243287725027291,
+          "leanSide": -0.00038496724449868877,
+          "hipsWorld": [
+            -2.454022153134985,
+            10.177202719219325,
+            9.054251009600458
+          ],
+          "coordinateSpace": "support-frame",
+          "uprightBlendPolicy": {
+            "pelvis": 0.3,
+            "chest": 0.65,
+            "neck": 0.85
+          },
+          "headNeckAngleDegrees": 8.057781890304879,
+          "pelvisWorldUpDot": 0.9969533633654923,
+          "chestWorldUpDot": 0.9994500692963317
+        },
+        "verticalBody": {
+          "verticalAcceleration": 3.9953773514676527,
+          "normalLoadRatio": 1.3017687938261042,
+          "effectiveGravityMps2": 12.770351867434083,
+          "supportState": "supported",
+          "baseCrouch": 0.5425975034116688,
+          "verticalCompression": -0.03393615443205784,
+          "combinedCrouch": 0.5086613489796109,
+          "compressionLimited": false,
+          "footConstraintMode": "ordinary-support-proxy"
+        },
+        "balanceProxy": {
+          "source": "weighted-bone-points-and-foot-rect-proxies",
+          "zmpValid": true,
+          "zmpInvalidReason": null,
+          "supportState": "supported",
+          "normalLoadRatio": 1.3017687938261042,
+          "effectiveGravityMps2": 12.770351867434083,
+          "comHeightM": 0.6435167263890305,
+          "contactPlaneY": 9.604222176092282,
+          "contactPlaneSource": "explicit-support-frame",
+          "centerOfMassWorld": [
+            -2.423976845698673,
+            10.265727648699036,
+            9.07697999149158
+          ],
+          "targetCenterOfMassWorld": [
+            -2.4239773785430425,
+            10.265729378808922,
+            9.076971793455327
+          ],
+          "centerOfMassOffset": {
+            "forward": -0.15416226732578736,
+            "side": -0.0002590174327923647
+          },
+          "centerOfMassErrorMm": 0.008395534631385532,
+          "zeroMomentPointWorld": [
+            -2.436298762018354,
+            9.57005447289274,
+            9.254385651619362
+          ],
+          "loadRatio": {
+            "front": 0.6362002735481761,
+            "rear": 0.3637997264518239
+          },
+          "requestedLoadRatio": {
+            "front": 0.677150916937026,
+            "rear": 0.322849083062974
+          },
+          "loadRatioError": 0.040950643388849906,
+          "unclampedFrontLoadRatio": 0.6362002735481761,
+          "supportMarginM": 0.027846354651272227,
+          "supportExceeded": false,
+          "footHull2D": [
+            [
+              -0.3909896358305066,
+              0.43225431909434747
+            ],
+            [
+              -0.342743628778517,
+              0.3415167767843848
+            ],
+            [
+              0.19555492931674118,
+              -0.5361687958217106
+            ],
+            [
+              0.3909896358305069,
+              -0.4322543190943483
+            ],
+            [
+              0.3427436287785173,
+              -0.34151677678438563
+            ],
+            [
+              -0.1955549293167409,
+              0.5361687958217097
+            ]
+          ],
+          "footHullWorld": [
+            [
+              -2.844300208121116,
+              9.514414064856902,
+              9.488713856822985
+            ],
+            [
+              -2.790021916604453,
+              9.533269523313535,
+              9.403512228098322
+            ],
+            [
+              -2.193546258715302,
+              9.715647703312708,
+              8.584334414059015
+            ],
+            [
+              -2.0056216591864726,
+              9.694030287327662,
+              8.699269070284636
+            ],
+            [
+              -2.059899950703135,
+              9.675174828871029,
+              8.784470699009299
+            ],
+            [
+              -2.6563756085922865,
+              9.492796648871856,
+              9.603648513048606
+            ]
+          ],
+          "coordinateSpace": "support-frame"
+        },
+        "poseLimited": true,
+        "poseLimitReasons": [
+          "fixed-support-changes-crouch"
+        ]
+      },
+      "actualSkinSoles": [
+        {
+          "side": "left",
+          "weightedVertexCount": 24,
+          "soleOffsetNormalM": 0.06250000016763896,
+          "supportGapM": 1.0824674490095276e-15
+        },
+        {
+          "side": "right",
+          "weightedVertexCount": 24,
+          "soleOffsetNormalM": 0.06250000016763817,
+          "supportGapM": 9.020562075079397e-16
+        }
+      ]
+    },
+    {
+      "timeSeconds": 10,
+      "segment": 5,
+      "controls": {
+        "brake": 1
+      },
+      "position": [
+        -2.4304286098298946,
+        8.074820859028367,
+        9.172733103195576
+      ],
+      "velocity": [
+        0,
+        0,
+        0
+      ],
+      "acceleration": [
+        0,
+        0,
+        0
+      ],
+      "heading": -0.06931598060375278,
+      "attitude": {
+        "pitch": -0.11367283186930856,
+        "roll": 8.366203938389025e-7,
+        "pitchRate": 0.41986015584431596,
+        "rollRate": -0.000004276155429276896,
+        "targetPitch": 0,
+        "targetRoll": 0,
+        "pathAngle": 0,
+        "angularSpeed": 0.4198601557939361,
+        "angularSpeedLimit": 2.2
+      },
+      "supportFrame": {
+        "position": [
+          -2.4304286098298946,
+          8.361067730557776,
+          9.172733103195576
+        ],
+        "quaternion": [
+          0.05677172134127962,
+          -0.034595075640929805,
+          0.001967964069684414,
+          0.997785688168941
+        ]
+      },
+      "dynamicsPose": {
+        "forwardAcceleration": 0,
+        "lateralAcceleration": 0,
+        "verticalAcceleration": 0,
+        "requiredAccelerationWorld": [
+          0,
+          9.81,
+          0
+        ],
+        "effectiveGravityMps2": 9.74668819793349,
+        "tangentForwardAcceleration": -1.1127305029509686,
+        "tangentLateralAcceleration": -0.000008154278118786881,
+        "verticalSpeed": 0,
+        "speed": 0,
+        "totalSpeed": 0,
+        "turnRate": 4.6319109651410407e-7,
+        "normalLoadRatio": 0.993546197546737,
+        "supportState": "supported",
+        "zmpValid": true,
+        "zmpInvalidReason": null,
+        "verticalCompression": 0.038688723721126805,
+        "targetLeanForward": -0.11367283186934803,
+        "targetLeanSide": -8.36620393839403e-7,
+        "balanceLeanForward": -0.18703111576840284,
+        "balanceLeanSide": -0.000005330582874077473,
+        "crouch": 0.45,
+        "centerOfMassOffset": {
+          "forward": -0.1226381505974564,
+          "side": -0.0000034544643708137795
+        },
+        "centerOfMassVelocity": {
+          "forward": 0.16246253008482758,
+          "side": 0.000016290852623193333
+        },
+        "zeroMomentPoint": {
+          "forward": -0.04865395802192812,
+          "side": -0.0000029122956416787176
+        },
+        "loadRatio": {
+          "front": 0.45219582770877575,
+          "rear": 0.5478041722912242,
+          "right": 0.4999953652208713,
+          "left": 0.5000046347791287
+        },
+        "unclampedLoadRatio": {
+          "front": 0.45219582770877575,
+          "rear": 0.5478041722912242,
+          "right": 0.4999953652208713,
+          "left": 0.5000046347791287
+        },
+        "supportMarginM": 0.3141755588669114,
+        "supportExceeded": false,
+        "supportHalfLengthM": 0.5088881962595958,
+        "supportHalfWidthM": 0.3141784711625531,
+        "comHeightM": 0.6480462741851472,
+        "heightObservationStatus": "accepted",
+        "observedComHeightM": 0.6652301834666626,
+        "supportQuaternion": [
+          0.05677172134127962,
+          -0.034595075640929805,
+          0.001967964069684414,
+          0.997785688168941
+        ],
+        "supportFrame": {
+          "quaternion": [
+            0.05677172134127962,
+            -0.034595075640929805,
+            0.001967964069684414,
+            0.997785688168941
+          ],
+          "normal": [
+            -0.00785525675525834,
+            0.993546197546737,
+            0.11315585836238935
+          ],
+          "right": [
+            0.9975986157176375,
+            -8.312210110893864e-7,
+            0.06926039212683097
+          ],
+          "forward": [
+            -0.06881349329573588,
+            -0.1134281858257868,
+            0.9911603047946929
+          ]
+        },
+        "supportAngularSpeed": 0.4198601557939361,
+        "attitudeEnabled": true,
+        "rotationalPointAccelerationIncluded": false,
+        "input": {
+          "throttle": 0,
+          "steer": 0,
+          "brake": 1,
+          "lift": 0
+        }
+      },
+      "pose": {
+        "feetWorld": [
+          [
+            -2.1322183100459533,
+            8.472941285461557,
+            8.763483179140605
+          ],
+          [
+            -2.729620816710877,
+            8.373387450680452,
+            9.596127509583782
+          ]
+        ],
+        "footTargetsWorld": [
+          [
+            -2.1322183100459533,
+            8.472941285461557,
+            8.763483179140605
+          ],
+          [
+            -2.729620816710877,
+            8.373387450680452,
+            9.596127509583782
+          ]
+        ],
+        "footTargetErrorMm": 1.3092278833360674e-13,
+        "boneLengthErrorMm": 6.106226635438361e-13,
+        "headUpDotWorld": 1,
+        "headRotationErrorDegrees": 0,
+        "knees": [
+          86.577346385524,
+          52.552580722256124
+        ],
+        "footSoleNormalErrorDegrees": [
+          0,
+          0
+        ],
+        "bodyBalance": {
+          "source": "bind-anatomical-frames",
+          "pelvisPitchDegrees": -3.639713690858608,
+          "chestPitchDegrees": -8.846339383798384,
+          "hipChestPitchDegrees": -5.206625692939776,
+          "hipHeightPolicy": "mean-requested-height-with-knee-policy",
+          "maxKneeDegrees": 100,
+          "kneePolicyExceeded": false,
+          "hipBalanceLimited": false,
+          "pelvisYawDegrees": 50.13590077274642,
+          "chestYawDegrees": 20.246418017179444,
+          "footYawDegrees": 62,
+          "neckYawDegrees": 8.04622817951973,
+          "headChestYawDegrees": 20.246423489657133,
+          "hipChestYawDegrees": 29.889482755566977,
+          "neckPolicyExceeded": false,
+          "chestPolicyLimited": false,
+          "leanForward": -0.18703111576840284,
+          "leanSide": -0.000005330582874077473,
+          "hipsWorld": [
+            -2.4578444357252405,
+            8.950115455863259,
+            9.106498930075695
+          ],
+          "coordinateSpace": "support-frame",
+          "uprightBlendPolicy": {
+            "pelvis": 0.3,
+            "chest": 0.65,
+            "neck": 0.85
+          },
+          "headNeckAngleDegrees": 8.009407130724219,
+          "pelvisWorldUpDot": 0.9998298168071271,
+          "chestWorldUpDot": 0.9985501557302676
+        },
+        "verticalBody": {
+          "verticalAcceleration": 0,
+          "normalLoadRatio": 0.993546197546737,
+          "effectiveGravityMps2": 9.74668819793349,
+          "supportState": "supported",
+          "baseCrouch": 0.45,
+          "verticalCompression": 0.038688723721126805,
+          "combinedCrouch": 0.4886887237211268,
+          "compressionLimited": false,
+          "footConstraintMode": "ordinary-support-proxy"
+        },
+        "balanceProxy": {
+          "source": "weighted-bone-points-and-foot-rect-proxies",
+          "zmpValid": true,
+          "zmpInvalidReason": null,
+          "supportState": "supported",
+          "normalLoadRatio": 0.993546197546737,
+          "effectiveGravityMps2": 9.74668819793349,
+          "comHeightM": 0.6662150903738129,
+          "contactPlaneY": 8.361067730557776,
+          "contactPlaneSource": "explicit-support-frame",
+          "centerOfMassWorld": [
+            -2.4272262751301485,
+            9.036893599763372,
+            9.126566894097383
+          ],
+          "targetCenterOfMassWorld": [
+            -2.4272261870339435,
+            9.036893823285105,
+            9.126564937617612
+          ],
+          "centerOfMassOffset": {
+            "forward": -0.1226361799964972,
+            "side": -0.000003406842281076551
+          },
+          "centerOfMassErrorMm": 0.0019711762995335198,
+          "zeroMomentPointWorld": [
+            -2.4272262751301485,
+            8.366350959653804,
+            9.126566894097383
+          ],
+          "loadRatio": {
+            "front": 0.4614383692142558,
+            "rear": 0.5385616307857441
+          },
+          "requestedLoadRatio": {
+            "front": 0.45219582770877575,
+            "rear": 0.5478041722912242
+          },
+          "loadRatioError": 0.00924254150548004,
+          "unclampedFrontLoadRatio": 0.4614383692142558,
+          "supportMarginM": 0.08926476231123429,
+          "supportExceeded": false,
+          "footHull2D": [
+            [
+              -0.3909896358305068,
+              0.4322543190943475
+            ],
+            [
+              -0.34274362877851716,
+              0.34151677678438486
+            ],
+            [
+              0.19555492931674107,
+              -0.5361687958217107
+            ],
+            [
+              0.3909896358305068,
+              -0.43225431909434847
+            ],
+            [
+              0.34274362877851716,
+              -0.3415167767843858
+            ],
+            [
+              -0.19555492931674107,
+              0.5361687958217098
+            ]
+          ],
+          "footHullWorld": [
+            [
+              -2.850224258983403,
+              8.312038232326344,
+              9.574086330362803
+            ],
+            [
+              -2.795850141875017,
+              8.322330387033759,
+              9.487492417637515
+            ],
+            [
+              -2.1984476352100932,
+              8.421884221814864,
+              8.654848087194338
+            ],
+            [
+              -2.010632960676386,
+              8.410097228789208,
+              8.771379876028346
+            ],
+            [
+              -2.0650070777847724,
+              8.399805074081794,
+              8.857973788753636
+            ],
+            [
+              -2.662409584449696,
+              8.300251239300689,
+              9.690618119196813
+            ]
+          ],
+          "coordinateSpace": "support-frame"
+        },
+        "poseLimited": true,
+        "poseLimitReasons": [
+          "fixed-support-changes-crouch"
+        ]
+      },
+      "actualSkinSoles": [
+        {
+          "side": "left",
+          "weightedVertexCount": 24,
+          "soleOffsetNormalM": 0.0625000001676396,
+          "supportGapM": 1.2698175844150228e-15
+        },
+        {
+          "side": "right",
+          "weightedVertexCount": 24,
+          "soleOffsetNormalM": 0.06250000016763949,
+          "supportGapM": -7.147060721024445e-16
+        }
+      ]
+    },
+    {
+      "timeSeconds": 11,
+      "segment": 5,
+      "controls": {
+        "brake": 1
+      },
+      "position": [
+        -2.4304286098298946,
+        8.074820859028367,
+        9.172733103195576
+      ],
+      "velocity": [
+        0,
+        0,
+        0
+      ],
+      "acceleration": [
+        0,
+        0,
+        0
+      ],
+      "heading": -0.06931588073516134,
+      "attitude": {
+        "pitch": -0.0010633948778589056,
+        "roll": 4.964142745797659e-9,
+        "pitchRate": 0.005426900081632644,
+        "rollRate": -2.5904982361630778e-8,
+        "targetPitch": 0,
+        "targetRoll": 0,
+        "pathAngle": 0,
+        "angularSpeed": 0.005426896560102073,
+        "angularSpeedLimit": 2.2
+      },
+      "supportFrame": {
+        "position": [
+          -2.4304286098298946,
+          8.361067730557776,
+          9.172733103195576
+        ],
+        "quaternion": [
+          0.0005313782016028494,
+          -0.034650997522279965,
+          0.000018421367795329195,
+          0.999399332433523
+        ]
+      },
+      "dynamicsPose": {
+        "forwardAcceleration": 0,
+        "lateralAcceleration": 0,
+        "verticalAcceleration": 0,
+        "requiredAccelerationWorld": [
+          0,
+          9.81,
+          0
+        ],
+        "effectiveGravityMps2": 9.809994453384014,
+        "tangentForwardAcceleration": -0.010431901785714784,
+        "tangentLateralAcceleration": -4.869821280202175e-8,
+        "verticalSpeed": 0,
+        "speed": 0,
+        "totalSpeed": 0,
+        "turnRate": 4.916933967600035e-9,
+        "normalLoadRatio": 0.99999943459572,
+        "supportState": "supported",
+        "zmpValid": true,
+        "zmpInvalidReason": null,
+        "verticalCompression": 0.00013766779757099263,
+        "targetLeanForward": -0.0010633948778589059,
+        "targetLeanSide": -4.9641427457915654e-9,
+        "balanceLeanForward": -0.006139348888902474,
+        "balanceLeanSide": -3.89534252299257e-8,
+        "crouch": 0.45,
+        "centerOfMassOffset": {
+          "forward": -0.004255718949069376,
+          "side": -2.7001682117047768e-8
+        },
+        "centerOfMassVelocity": {
+          "forward": 0.01911997184128866,
+          "side": 1.3622923943699744e-7
+        },
+        "zeroMomentPoint": {
+          "forward": -0.003518596061659503,
+          "side": -2.3560644426155902e-8
+        },
+        "loadRatio": {
+          "front": 0.4965428594261748,
+          "rear": 0.5034571405738252,
+          "right": 0.499999962504362,
+          "left": 0.5000000374956379
+        },
+        "unclampedLoadRatio": {
+          "front": 0.4965428594261748,
+          "rear": 0.5034571405738252,
+          "right": 0.499999962504362,
+          "left": 0.5000000374956379
+        },
+        "supportMarginM": 0.31417844760190866,
+        "supportExceeded": false,
+        "supportHalfLengthM": 0.5088881962595958,
+        "supportHalfWidthM": 0.3141784711625531,
+        "comHeightM": 0.693178634681499,
+        "heightObservationStatus": "accepted",
+        "observedComHeightM": 0.6951236606858882,
+        "supportQuaternion": [
+          0.0005313782016028494,
+          -0.034650997522279965,
+          0.000018421367795329195,
+          0.999399332433523
+        ],
+        "supportFrame": {
+          "quaternion": [
+            0.0005313782016028494,
+            -0.034650997522279965,
+            0.000018421367795329195,
+            0.999399332433523
+          ],
+          "normal": [
+            -0.00007364617484859664,
+            0.9999994345957202,
+            0.0010608414023635614
+          ],
+          "right": [
+            0.9975986160627284,
+            -4.964139939044011e-9,
+            0.0692603871612711
+          ],
+          "forward": [
+            -0.06926034800641793,
+            -0.0010633946774428933,
+            0.9975980520158356
+          ]
+        },
+        "supportAngularSpeed": 0.005426896560102073,
+        "attitudeEnabled": true,
+        "rotationalPointAccelerationIncluded": false,
+        "input": {
+          "throttle": 0,
+          "steer": 0,
+          "brake": 1,
+          "lift": 0
+        }
+      },
+      "pose": {
+        "feetWorld": [
+          [
+            -2.131535860324184,
+            8.424034357134742,
+            8.753652080297295
+          ],
+          [
+            -2.729330565107486,
+            8.423101033640553,
+            9.591946731269507
+          ]
+        ],
+        "footTargetsWorld": [
+          [
+            -2.131535860324184,
+            8.424034357134742,
+            8.753652080297295
+          ],
+          [
+            -2.729330565107486,
+            8.423101033640553,
+            9.591946731269507
+          ]
+        ],
+        "footTargetErrorMm": 1.6653345369377348e-13,
+        "boneLengthErrorMm": 7.771561172376096e-13,
+        "headUpDotWorld": 1,
+        "headRotationErrorDegrees": 0,
+        "knees": [
+          66.92231684287383,
+          67.0945451767239
+        ],
+        "footSoleNormalErrorDegrees": [
+          0,
+          0
+        ],
+        "bodyBalance": {
+          "source": "bind-anatomical-frames",
+          "pelvisPitchDegrees": -0.10285276417843953,
+          "chestPitchDegrees": -0.326207379078207,
+          "hipChestPitchDegrees": -0.2233546148997675,
+          "hipHeightPolicy": "mean-requested-height-with-knee-policy",
+          "maxKneeDegrees": 100,
+          "kneePolicyExceeded": false,
+          "hipBalanceLimited": false,
+          "pelvisYawDegrees": 50.00011000330109,
+          "chestYawDegrees": 20.000337918949683,
+          "footYawDegrees": 62,
+          "neckYawDegrees": 8.000023484747116,
+          "headChestYawDegrees": 20.000337919252143,
+          "hipChestYawDegrees": 29.999772084351406,
+          "neckPolicyExceeded": false,
+          "chestPolicyLimited": false,
+          "leanForward": -0.006139348888902474,
+          "leanSide": -3.89534252299257e-8,
+          "hipsWorld": [
+            -2.4597591574525652,
+            8.973623392346683,
+            9.154844732382957
+          ],
+          "coordinateSpace": "support-frame",
+          "uprightBlendPolicy": {
+            "pelvis": 0.3,
+            "chest": 0.65,
+            "neck": 0.85
+          },
+          "headNeckAngleDegrees": 8.000387733164056,
+          "pelvisWorldUpDot": 0.9999985349312215,
+          "chestWorldUpDot": 0.999987475665
+        },
+        "verticalBody": {
+          "verticalAcceleration": 0,
+          "normalLoadRatio": 0.99999943459572,
+          "effectiveGravityMps2": 9.809994453384014,
+          "supportState": "supported",
+          "baseCrouch": 0.45,
+          "verticalCompression": 0.00013766779757099263,
+          "combinedCrouch": 0.45013766779757103,
+          "compressionLimited": false,
+          "footConstraintMode": "ordinary-support-proxy"
+        },
+        "balanceProxy": {
+          "source": "weighted-bone-points-and-foot-rect-proxies",
+          "zmpValid": true,
+          "zmpInvalidReason": null,
+          "supportState": "supported",
+          "normalLoadRatio": 0.99999943459572,
+          "effectiveGravityMps2": 9.809994453384014,
+          "comHeightM": 0.6951274383245769,
+          "contactPlaneY": 8.361067730557776,
+          "contactPlaneSource": "explicit-support-frame",
+          "centerOfMassWorld": [
+            -2.4301845028170836,
+            9.056199301021,
+            9.16922538684422
+          ],
+          "targetCenterOfMassWorld": [
+            -2.4301850776681704,
+            9.056199301363204,
+            9.169225024358404
+          ],
+          "centerOfMassOffset": {
+            "forward": -0.00425539714794772,
+            "side": 5.71574874432771e-7
+          },
+          "centerOfMassErrorMm": 0.0006795953619251724,
+          "zeroMomentPointWorld": [
+            -2.4301845028170836,
+            8.361071469668172,
+            9.16922538684422
+          ],
+          "loadRatio": {
+            "front": 0.49708854157247584,
+            "rear": 0.5029114584275242
+          },
+          "requestedLoadRatio": {
+            "front": 0.4965428594261748,
+            "rear": 0.5034571405738252
+          },
+          "loadRatioError": 0.0005456821463010186,
+          "unclampedFrontLoadRatio": 0.49708854157247584,
+          "supportMarginM": 0.11178102193539942,
+          "supportExceeded": false,
+          "footHull2D": [
+            [
+              -0.39098963583050694,
+              0.4322543190943477
+            ],
+            [
+              -0.34274362877851733,
+              0.341516776784385
+            ],
+            [
+              0.19555492931674118,
+              -0.5361687958217103
+            ],
+            [
+              0.3909896358305069,
+              -0.432254319094348
+            ],
+            [
+              0.3427436287785173,
+              -0.34151677678438536
+            ],
+            [
+              -0.19555492931674123,
+              0.53616879582171
+            ]
+          ],
+          "footHullWorld": [
+            [
+              -2.85041741399703,
+              8.360608075556478,
+              9.576869076345863
+            ],
+            [
+              -2.796002750373778,
+              8.360704565136514,
+              9.489691018020146
+            ],
+            [
+              -2.198208045590475,
+              8.361637888630701,
+              8.651396367047933
+            ],
+            [
+              -2.010439805662759,
+              8.361527385559075,
+              8.768597130045288
+            ],
+            [
+              -2.064854469286012,
+              8.361430895979039,
+              8.855775188371005
+            ],
+            [
+              -2.662649174069314,
+              8.360497572484851,
+              9.694069839343218
+            ]
+          ],
+          "coordinateSpace": "support-frame"
+        },
+        "poseLimited": false,
+        "poseLimitReasons": []
+      },
+      "actualSkinSoles": [
+        {
+          "side": "left",
+          "weightedVertexCount": 24,
+          "soleOffsetNormalM": 0.06250000016763682,
+          "supportGapM": 4.09058637657056e-15
+        },
+        {
+          "side": "right",
+          "weightedVertexCount": 24,
+          "soleOffsetNormalM": 0.0625000001676377,
+          "supportGapM": 2.0649172476072675e-15
+        }
+      ]
+    },
+    {
+      "timeSeconds": 12,
+      "segment": 5,
+      "controls": {
+        "brake": 1
+      },
+      "position": [
+        -2.4304286098298946,
+        8.074820859028367,
+        9.172733103195576
+      ],
+      "velocity": [
+        0,
+        0,
+        0
+      ],
+      "acceleration": [
+        0,
+        0,
+        0
+      ],
+      "heading": -0.06931587967502185,
+      "attitude": {
+        "pitch": -0.0000063298780113405675,
+        "roll": 2.8170840284273902e-11,
+        "pitchRate": 0.00003302562287224283,
+        "rollRate": -1.4741126623806396e-10,
+        "targetPitch": 0,
+        "targetRoll": 0,
+        "pathAngle": 0,
+        "angularSpeed": 0.000031177274776988086,
+        "angularSpeedLimit": 2.2
+      },
+      "supportFrame": {
+        "position": [
+          -2.4304286098298946,
+          8.361067730557776,
+          9.172733103195576
+        ],
+        "quaternion": [
+          0.0000031630388646852166,
+          -0.034651001891630485,
+          1.0965423051126535e-7,
+          0.9993994737130342
+        ]
+      },
+      "dynamicsPose": {
+        "forwardAcceleration": 0,
+        "lateralAcceleration": 0,
+        "verticalAcceleration": 0,
+        "requiredAccelerationWorld": [
+          0,
+          9.81,
+          0
+        ],
+        "effectiveGravityMps2": 9.80999999980347,
+        "tangentForwardAcceleration": -0.00006209610329083633,
+        "tangentLateralAcceleration": -2.7635594318305776e-10,
+        "verticalSpeed": 0,
+        "speed": 0,
+        "totalSpeed": 0,
+        "turnRate": 5.219495759673541e-11,
+        "normalLoadRatio": 0.9999999999799662,
+        "supportState": "supported",
+        "zmpValid": true,
+        "zmpInvalidReason": null,
+        "verticalCompression": 5.314991527166779e-7,
+        "targetLeanForward": -0.000006329878011340571,
+        "targetLeanSide": -2.8170840284260367e-11,
+        "balanceLeanForward": -0.00005041173475997971,
+        "balanceLeanSide": -2.4249510043914303e-10,
+        "crouch": 0.45,
+        "centerOfMassOffset": {
+          "forward": -0.00003504412499436561,
+          "side": -1.6857242948636014e-10
+        },
+        "centerOfMassVelocity": {
+          "forward": 0.00017739626636101093,
+          "side": 8.744056740135842e-10
+        },
+        "zeroMomentPoint": {
+          "forward": -0.00003064385912175262,
+          "side": -1.489892421197281e-10
+        },
+        "loadRatio": {
+          "front": 0.4999698913638133,
+          "rear": 0.5000301086361867,
+          "right": 0.4999999997628908,
+          "left": 0.5000000002371092
+        },
+        "unclampedLoadRatio": {
+          "front": 0.4999698913638133,
+          "rear": 0.5000301086361867,
+          "right": 0.4999999997628908,
+          "left": 0.5000000002371092
+        },
+        "supportMarginM": 0.31417847101356383,
+        "supportExceeded": false,
+        "supportHalfLengthM": 0.5088881962595958,
+        "supportHalfWidthM": 0.3141784711625531,
+        "comHeightM": 0.6951580843534007,
+        "heightObservationStatus": "accepted",
+        "observedComHeightM": 0.6951972190888224,
+        "supportQuaternion": [
+          0.0000031630388646852166,
+          -0.034651001891630485,
+          1.0965423051126535e-7,
+          0.9993994737130342
+        ],
+        "supportFrame": {
+          "quaternion": [
+            0.0000031630388646852166,
+            -0.034651001891630485,
+            1.0965423051126535e-7,
+            0.9993994737130342
+          ],
+          "normal": [
+            -4.38381691893749e-7,
+            0.9999999999799662,
+            0.000006314679495502815
+          ],
+          "right": [
+            0.9975986161357884,
+            -2.8170840283696e-11,
+            0.0692603861089434
+          ],
+          "forward": [
+            -0.06926038610755604,
+            -0.0000063298780112983,
+            0.9975986161158028
+          ]
+        },
+        "supportAngularSpeed": 0.000031177274776988086,
+        "attitudeEnabled": true,
+        "rotationalPointAccelerationIncluded": false,
+        "input": {
+          "throttle": 0,
+          "steer": 0,
+          "brake": 1,
+          "lift": 0
+        }
+      },
+      "pose": {
+        "feetWorld": [
+          [
+            -2.1315312680970258,
+            8.423570508537884,
+            8.753585924542504
+          ],
+          [
+            -2.7293260063604756,
+            8.423564952910441,
+            9.591881071183586
+          ]
+        ],
+        "footTargetsWorld": [
+          [
+            -2.1315312680970258,
+            8.423570508537884,
+            8.753585924542504
+          ],
+          [
+            -2.729326006360475,
+            8.423564952910441,
+            9.591881071183586
+          ]
+        ],
+        "footTargetErrorMm": 4.4603650439756773e-13,
+        "boneLengthErrorMm": 8.881784197001252e-13,
+        "headUpDotWorld": 1,
+        "headRotationErrorDegrees": 0.0000029575586669421963,
+        "knees": [
+          66.30281101171892,
+          67.6983528516101
+        ],
+        "footSoleNormalErrorDegrees": [
+          0,
+          0
+        ],
+        "bodyBalance": {
+          "source": "bind-anatomical-frames",
+          "pelvisPitchDegrees": -0.000839744751641125,
+          "chestPitchDegrees": -0.0026974448232667146,
+          "hipChestPitchDegrees": -0.0018577000716255895,
+          "hipHeightPolicy": "mean-requested-height-with-knee-policy",
+          "maxKneeDegrees": 100,
+          "kneePolicyExceeded": false,
+          "hipBalanceLimited": false,
+          "pelvisYawDegrees": 50.00000000733345,
+          "chestYawDegrees": 20.000000023109383,
+          "footYawDegrees": 62,
+          "neckYawDegrees": 8.000000001595033,
+          "headChestYawDegrees": 20.000000023109397,
+          "hipChestYawDegrees": 29.999999984224072,
+          "neckPolicyExceeded": false,
+          "chestPolicyLimited": false,
+          "leanForward": -0.00005041173475997971,
+          "leanSide": -2.4249510043914303e-10,
+          "hipsWorld": [
+            -2.4599830824970184,
+            8.9737486045194,
+            9.158248480846865
+          ],
+          "coordinateSpace": "support-frame",
+          "uprightBlendPolicy": {
+            "pelvis": 0.3,
+            "chest": 0.65,
+            "neck": 0.85
+          },
+          "headNeckAngleDegrees": 8.000000038846578,
+          "pelvisWorldUpDot": 0.9999999998654654,
+          "chestWorldUpDot": 0.9999999990404613
+        },
+        "verticalBody": {
+          "verticalAcceleration": 0,
+          "normalLoadRatio": 0.9999999999799662,
+          "effectiveGravityMps2": 9.80999999980347,
+          "supportState": "supported",
+          "baseCrouch": 0.45,
+          "verticalCompression": 5.314991527166779e-7,
+          "combinedCrouch": 0.4500005314991527,
+          "compressionLimited": false,
+          "footConstraintMode": "ordinary-support-proxy"
+        },
+        "balanceProxy": {
+          "source": "weighted-bone-points-and-foot-rect-proxies",
+          "zmpValid": true,
+          "zmpInvalidReason": null,
+          "supportState": "supported",
+          "normalLoadRatio": 0.9999999999799662,
+          "effectiveGravityMps2": 9.80999999980347,
+          "comHeightM": 0.6951972309543357,
+          "contactPlaneY": 8.361067730557776,
+          "contactPlaneSource": "explicit-support-frame",
+          "centerOfMassWorld": [
+            -2.430425917476592,
+            9.056264961718313,
+            9.172702841395013
+          ],
+          "targetCenterOfMassWorld": [
+            -2.4304264875901724,
+            9.056264961720009,
+            9.172702533161003
+          ],
+          "centerOfMassOffset": {
+            "forward": -0.00003477611745868973,
+            "side": 5.89924353130121e-7
+          },
+          "centerOfMassErrorMm": 0.0006481031553499465,
+          "zeroMomentPointWorld": [
+            -2.430425917476592,
+            8.361067730750051,
+            9.172702841395013
+          ],
+          "loadRatio": {
+            "front": 0.4999745515858517,
+            "rear": 0.5000254484141483
+          },
+          "requestedLoadRatio": {
+            "front": 0.4999698913638133,
+            "rear": 0.5000301086361867
+          },
+          "loadRatioError": 0.0000046602220383773485,
+          "unclampedFrontLoadRatio": 0.4999745515858517,
+          "supportMarginM": 0.11360348663794374,
+          "supportExceeded": false,
+          "footHull2D": [
+            [
+              -0.39098963583050683,
+              0.43225431909434786
+            ],
+            [
+              -0.34274362877851716,
+              0.3415167767843852
+            ],
+            [
+              0.19555492931674104,
+              -0.5361687958217105
+            ],
+            [
+              0.39098963583050683,
+              -0.4322543190943482
+            ],
+            [
+              0.34274362877851716,
+              -0.3415167767843855
+            ],
+            [
+              -0.1955549293167411,
+              0.5361687958217102
+            ]
+          ],
+          "footHullWorld": [
+            [
+              -2.850417430494977,
+              8.36106499445168,
+              9.57686932059196
+            ],
+            [
+              -2.7960027634109963,
+              8.361065568807895,
+              9.489691211030427
+            ],
+            [
+              -2.198208025147547,
+              8.361071124435338,
+              8.651396064389345
+            ],
+            [
+              -2.010439789164812,
+              8.361070466663872,
+              8.768596885799191
+            ],
+            [
+              -2.064854456248793,
+              8.361069892307658,
+              8.855774995360724
+            ],
+            [
+              -2.6626491945122424,
+              8.361064336680215,
+              9.694070142001806
+            ]
+          ],
+          "coordinateSpace": "support-frame"
+        },
+        "poseLimited": true,
+        "poseLimitReasons": [
+          "fixed-support-changes-crouch"
+        ]
+      },
+      "actualSkinSoles": [
+        {
+          "side": "left",
+          "weightedVertexCount": 24,
+          "soleOffsetNormalM": 0.06250000016763944,
+          "supportGapM": -1.3384492759992497e-15
+        },
+        {
+          "side": "right",
+          "weightedVertexCount": 24,
+          "soleOffsetNormalM": 0.06250000016763807,
+          "supportGapM": 5.500250794643162e-17
+        }
+      ]
+    },
+    {
+      "timeSeconds": 14,
+      "segment": 5,
+      "controls": {
+        "brake": 1
+      },
+      "position": [
+        -2.4304286098298946,
+        8.074820859028367,
+        9.172733103195576
+      ],
+      "velocity": [
+        0,
+        0,
+        0
+      ],
+      "acceleration": [
+        0,
+        0,
+        0
+      ],
+      "heading": -0.0693158796636485,
+      "attitude": {
+        "pitch": -2.0270322072368148e-10,
+        "roll": 8.954105097799715e-16,
+        "pitchRate": 1.0611025388029633e-9,
+        "rollRate": -4.687532231078618e-15,
+        "targetPitch": 0,
+        "targetRoll": 0,
+        "pathAngle": 0,
+        "angularSpeed": 0,
+        "angularSpeedLimit": 2.2
+      },
+      "supportFrame": {
+        "position": [
+          -2.4304286098298946,
+          8.361067730557776,
+          9.172733103195576
+        ],
+        "quaternion": [
+          1.0129076156955506e-10,
+          -0.03465100188612081,
+          3.511487405413407e-12,
+          0.9993994737182367
+        ]
+      },
+      "dynamicsPose": {
+        "forwardAcceleration": 0,
+        "lateralAcceleration": 0,
+        "verticalAcceleration": 0,
+        "requiredAccelerationWorld": [
+          0,
+          9.81,
+          0
+        ],
+        "effectiveGravityMps2": 9.81,
+        "tangentForwardAcceleration": -1.9885185952993163e-9,
+        "tangentLateralAcceleration": -8.783977100945005e-15,
+        "verticalSpeed": 0,
+        "speed": 0,
+        "totalSpeed": 0,
+        "turnRate": 5.881619096368037e-15,
+        "normalLoadRatio": 1,
+        "supportState": "supported",
+        "zmpValid": true,
+        "zmpInvalidReason": null,
+        "verticalCompression": 7.943339395374974e-12,
+        "targetLeanForward": -2.0270322072368156e-10,
+        "targetLeanSide": -8.954105097803267e-16,
+        "balanceLeanForward": -1.78779495870795e-9,
+        "balanceLeanSide": -7.932482228923824e-15,
+        "crouch": 0.45,
+        "centerOfMassOffset": {
+          "forward": -1.2428705500075113e-9,
+          "side": -5.514641655502012e-15
+        },
+        "centerOfMassVelocity": {
+          "forward": 6.494840566255839e-9,
+          "side": 2.885663691679667e-14
+        },
+        "zeroMomentPoint": {
+          "forward": -1.1019517817773948e-9,
+          "side": -4.892154525558729e-15
+        },
+        "loadRatio": {
+          "front": 0.4999999989172948,
+          "rear": 0.5000000010827053,
+          "right": 0.49999999999999223,
+          "left": 0.5000000000000078
+        },
+        "unclampedLoadRatio": {
+          "front": 0.4999999989172948,
+          "rear": 0.5000000010827053,
+          "right": 0.49999999999999223,
+          "left": 0.5000000000000078
+        },
+        "supportMarginM": 0.3141784711625482,
+        "supportExceeded": false,
+        "supportHalfLengthM": 0.5088881962595958,
+        "supportHalfWidthM": 0.3141784711625531,
+        "comHeightM": 0.6951974799759706,
+        "heightObservationStatus": "accepted",
+        "observedComHeightM": 0.6951974934460675,
+        "supportQuaternion": [
+          1.0129076156955506e-10,
+          -0.03465100188612081,
+          3.511487405413407e-12,
+          0.9993994737182367
+        ],
+        "supportFrame": {
+          "quaternion": [
+            1.0129076156955506e-10,
+            -0.03465100188612081,
+            3.511487405413407e-12,
+            0.9993994737182367
+          ],
+          "normal": [
+            -1.4038410070263281e-11,
+            1,
+            2.0221651449684928e-10
+          ],
+          "right": [
+            0.9975986161365761,
+            -8.954105097803267e-16,
+            0.06926038609759752
+          ],
+          "forward": [
+            -0.06926038609759752,
+            -2.0270322072368156e-10,
+            0.9975986161365761
+          ]
+        },
+        "supportAngularSpeed": 0,
+        "attitudeEnabled": true,
+        "rotationalPointAccelerationIncluded": false,
+        "input": {
+          "throttle": 0,
+          "steer": 0,
+          "brake": 1,
+          "lift": 0
+        }
+      },
+      "pose": {
+        "feetWorld": [
+          [
+            -2.1315312407032057,
+            8.42356773081437,
+            8.753585529875505
+          ],
+          [
+            -2.7293259789583386,
+            8.42356773063646,
+            9.591880676540924
+          ]
+        ],
+        "footTargetsWorld": [
+          [
+            -2.1315312407032057,
+            8.42356773081437,
+            8.753585529875505
+          ],
+          [
+            -2.7293259789583386,
+            8.42356773063646,
+            9.591880676540924
+          ]
+        ],
+        "footTargetErrorMm": 1.8041124150158794e-13,
+        "boneLengthErrorMm": 1.1102230246251565e-12,
+        "headUpDotWorld": 1,
+        "headRotationErrorDegrees": 0.0000017075472925031877,
+        "knees": [
+          66.29770329962787,
+          67.70339977454076
+        ],
+        "footSoleNormalErrorDegrees": [
+          0,
+          0
+        ],
+        "bodyBalance": {
+          "source": "bind-anatomical-frames",
+          "pelvisPitchDegrees": -2.9693102494061288e-8,
+          "chestPitchDegrees": -9.600547316001809e-8,
+          "hipChestPitchDegrees": -6.63123706659568e-8,
+          "hipHeightPolicy": "mean-requested-height-with-knee-policy",
+          "maxKneeDegrees": 100,
+          "kneePolicyExceeded": false,
+          "hipBalanceLimited": false,
+          "pelvisYawDegrees": 49.99999999999999,
+          "chestYawDegrees": 19.999999999999986,
+          "footYawDegrees": 62,
+          "neckYawDegrees": 7.999999999999999,
+          "headChestYawDegrees": 19.999999999999986,
+          "hipChestYawDegrees": 30.000000000000004,
+          "neckPolicyExceeded": false,
+          "chestPolicyLimited": false,
+          "leanForward": -1.78779495870795e-9,
+          "leanSide": -7.932482228923824e-15,
+          "hipsWorld": [
+            -2.4599850653826256,
+            8.973749346455621,
+            9.158278215159536
+          ],
+          "coordinateSpace": "support-frame",
+          "uprightBlendPolicy": {
+            "pelvis": 0.3,
+            "chest": 0.65,
+            "neck": 0.85
+          },
+          "headNeckAngleDegrees": 8.000000000000265,
+          "pelvisWorldUpDot": 1,
+          "chestWorldUpDot": 1
+        },
+        "verticalBody": {
+          "verticalAcceleration": 0,
+          "normalLoadRatio": 1,
+          "effectiveGravityMps2": 9.81,
+          "supportState": "supported",
+          "baseCrouch": 0.45,
+          "verticalCompression": 7.943339395374974e-12,
+          "combinedCrouch": 0.4500000000079433,
+          "compressionLimited": false,
+          "footConstraintMode": "ordinary-support-proxy"
+        },
+        "balanceProxy": {
+          "source": "weighted-bone-points-and-foot-rect-proxies",
+          "zmpValid": true,
+          "zmpInvalidReason": null,
+          "supportState": "supported",
+          "normalLoadRatio": 1,
+          "effectiveGravityMps2": 9.81,
+          "comHeightM": 0.6951974934463628,
+          "contactPlaneY": 8.361067730557776,
+          "contactPlaneSource": "explicit-support-frame",
+          "centerOfMassWorld": [
+            -2.4304280396891405,
+            9.05626522400414,
+            9.172733409879283
+          ],
+          "targetCenterOfMassWorld": [
+            -2.430428609753578,
+            9.05626522400414,
+            9.17273310209627
+          ],
+          "centerOfMassOffset": {
+            "forward": 2.663181550956531e-7,
+            "side": 5.900126588804198e-7
+          },
+          "centerOfMassErrorMm": 0.0006478455422329595,
+          "zeroMomentPointWorld": [
+            -2.4304280396891405,
+            8.361067730557776,
+            9.172733409879283
+          ],
+          "loadRatio": {
+            "front": 0.49999992101132706,
+            "rear": 0.5000000789886729
+          },
+          "requestedLoadRatio": {
+            "front": 0.4999999989172948,
+            "rear": 0.5000000010827053
+          },
+          "loadRatioError": 7.790596773249447e-8,
+          "unclampedFrontLoadRatio": 0.49999992101132706,
+          "supportMarginM": 0.11361822238679155,
+          "supportExceeded": false,
+          "footHull2D": [
+            [
+              -0.39098963583050694,
+              0.43225431909434725
+            ],
+            [
+              -0.34274362877851733,
+              0.3415167767843846
+            ],
+            [
+              0.195554929316741,
+              -0.5361687958217091
+            ],
+            [
+              0.3909896358305067,
+              -0.43225431909434675
+            ],
+            [
+              0.3427436287785171,
+              -0.3415167767843841
+            ],
+            [
+              -0.19555492931674123,
+              0.5361687958217095
+            ]
+          ],
+          "footHullWorld": [
+            [
+              -2.850417430490981,
+              8.361067730470157,
+              9.576869320605375
+            ],
+            [
+              -2.7960027634078655,
+              8.36106773048855,
+              9.48969121104141
+            ],
+            [
+              -2.1982080251527325,
+              8.36106773066646,
+              8.65139606437599
+            ],
+            [
+              -2.010439789168809,
+              8.361067730645395,
+              8.768596885785778
+            ],
+            [
+              -2.064854456251924,
+              8.361067730627003,
+              8.855774995349742
+            ],
+            [
+              -2.662649194507057,
+              8.361067730449093,
+              9.694070142015162
+            ]
+          ],
+          "coordinateSpace": "support-frame"
+        },
+        "poseLimited": true,
+        "poseLimitReasons": [
+          "fixed-support-changes-crouch"
+        ]
+      },
+      "actualSkinSoles": [
+        {
+          "side": "left",
+          "weightedVertexCount": 24,
+          "soleOffsetNormalM": 0.06250000016763968,
+          "supportGapM": -3.0989108758761392e-15
+        },
+        {
+          "side": "right",
+          "weightedVertexCount": 24,
+          "soleOffsetNormalM": 0.06250000016764129,
+          "supportGapM": -4.725653569949192e-15
+        }
+      ]
+    },
+    {
+      "timeSeconds": 14.5,
+      "segment": 5,
+      "controls": {
+        "brake": 1
+      },
+      "position": [
+        -2.4304286098298946,
+        8.074820859028367,
+        9.172733103195576
+      ],
+      "velocity": [
+        0,
+        0,
+        0
+      ],
+      "acceleration": [
+        0,
+        0,
+        0
+      ],
+      "heading": -0.06931587966364816,
+      "attitude": {
+        "pitch": -1.5217354509093692e-11,
+        "roll": 6.72139426454565e-17,
+        "pitchRate": 7.966253568914323e-11,
+        "rollRate": -3.518713406270534e-16,
+        "targetPitch": 0,
+        "targetRoll": 0,
+        "pathAngle": 0,
+        "angularSpeed": 0,
+        "angularSpeedLimit": 2.2
+      },
+      "supportFrame": {
+        "position": [
+          -2.4304286098298946,
+          8.361067730557776,
+          9.172733103195576
+        ],
+        "quaternion": [
+          7.604109208401263e-12,
+          -0.03465100188612064,
+          2.6361470310873277e-13,
+          0.9993994737182367
+        ]
+      },
+      "dynamicsPose": {
+        "forwardAcceleration": 0,
+        "lateralAcceleration": 0,
+        "verticalAcceleration": 0,
+        "requiredAccelerationWorld": [
+          0,
+          9.81,
+          0
+        ],
+        "effectiveGravityMps2": 9.81,
+        "tangentForwardAcceleration": -1.492822477342092e-10,
+        "tangentLateralAcceleration": -6.593687773535789e-16,
+        "verticalSpeed": 0,
+        "speed": 0,
+        "totalSpeed": 0,
+        "turnRate": 6.059879411548508e-16,
+        "normalLoadRatio": 1,
+        "supportState": "supported",
+        "zmpValid": true,
+        "zmpInvalidReason": null,
+        "verticalCompression": 4.938892327323575e-13,
+        "targetLeanForward": -1.52173545090937e-11,
+        "targetLeanSide": -6.721394264562475e-17,
+        "balanceLeanForward": -1.3463453296229207e-10,
+        "balanceLeanSide": -5.959258152936291e-16,
+        "crouch": 0.45,
+        "centerOfMassOffset": {
+          "forward": -9.359758960185302e-11,
+          "side": -4.14286131988326e-16
+        },
+        "centerOfMassVelocity": {
+          "forward": 4.895761858943332e-10,
+          "side": 2.168376484516691e-15
+        },
+        "zeroMomentPoint": {
+          "forward": -8.301852291792154e-11,
+          "side": -3.6755916765867923e-16
+        },
+        "loadRatio": {
+          "front": 0.49999999991843147,
+          "rear": 0.5000000000815685,
+          "right": 0.4999999999999994,
+          "left": 0.5000000000000007
+        },
+        "unclampedLoadRatio": {
+          "front": 0.49999999991843147,
+          "rear": 0.5000000000815685,
+          "right": 0.4999999999999994,
+          "left": 0.5000000000000007
+        },
+        "supportMarginM": 0.3141784711625527,
+        "supportExceeded": false,
+        "supportHalfLengthM": 0.5088881962595958,
+        "supportHalfWidthM": 0.3141784711625531,
+        "comHeightM": 0.695197491627705,
+        "heightObservationStatus": "accepted",
+        "observedComHeightM": 0.6951974934524751,
+        "supportQuaternion": [
+          7.604109208401263e-12,
+          -0.03465100188612064,
+          2.6361470310873277e-13,
+          0.9993994737182367
+        ],
+        "supportFrame": {
+          "quaternion": [
+            7.604109208401263e-12,
+            -0.03465100188612064,
+            2.6361470310873277e-13,
+            0.9993994737182367
+          ],
+          "normal": [
+            -1.0538927961476725e-12,
+            1,
+            1.518081645479518e-11
+          ],
+          "right": [
+            0.9975986161365761,
+            -6.721394264562475e-17,
+            0.06926038609759719
+          ],
+          "forward": [
+            -0.06926038609759719,
+            -1.52173545090937e-11,
+            0.9975986161365761
+          ]
+        },
+        "supportAngularSpeed": 0,
+        "attitudeEnabled": true,
+        "rotationalPointAccelerationIncluded": false,
+        "input": {
+          "throttle": 0,
+          "steer": 0,
+          "brake": 1,
+          "lift": 0
+        }
+      },
+      "pose": {
+        "feetWorld": [
+          [
+            -2.1315312407023943,
+            8.423567730732094,
+            8.753585529863814
+          ],
+          [
+            -2.729325978957527,
+            8.423567730718737,
+            9.591880676529234
+          ]
+        ],
+        "footTargetsWorld": [
+          [
+            -2.1315312407023943,
+            8.423567730732094,
+            8.753585529863814
+          ],
+          [
+            -2.729325978957527,
+            8.423567730718737,
+            9.591880676529234
+          ]
+        ],
+        "footTargetErrorMm": 1.4752290795525883e-13,
+        "boneLengthErrorMm": 4.996003610813204e-13,
+        "headUpDotWorld": 1,
+        "headRotationErrorDegrees": 0.0000017075472925031877,
+        "knees": [
+          66.29770313276477,
+          67.7033999406035
+        ],
+        "footSoleNormalErrorDegrees": [
+          0,
+          0
+        ],
+        "bodyBalance": {
+          "source": "bind-anatomical-frames",
+          "pelvisPitchDegrees": -2.2352793437910508e-9,
+          "chestPitchDegrees": -7.23322786941195e-9,
+          "hipChestPitchDegrees": -4.9979485256209e-9,
+          "hipHeightPolicy": "mean-requested-height-with-knee-policy",
+          "maxKneeDegrees": 100,
+          "kneePolicyExceeded": false,
+          "hipBalanceLimited": false,
+          "pelvisYawDegrees": 49.99999999999999,
+          "chestYawDegrees": 19.999999999999996,
+          "footYawDegrees": 62,
+          "neckYawDegrees": 7.9999999999999964,
+          "headChestYawDegrees": 19.999999999999996,
+          "hipChestYawDegrees": 29.999999999999993,
+          "neckPolicyExceeded": false,
+          "chestPolicyLimited": false,
+          "leanForward": -1.3463453296229207e-10,
+          "leanSide": -5.959258152936291e-16,
+          "hipsWorld": [
+            -2.4599850654489264,
+            8.973749346477188,
+            9.158278216146345
+          ],
+          "coordinateSpace": "support-frame",
+          "uprightBlendPolicy": {
+            "pelvis": 0.3,
+            "chest": 0.65,
+            "neck": 0.85
+          },
+          "headNeckAngleDegrees": 8.000000000000265,
+          "pelvisWorldUpDot": 1,
+          "chestWorldUpDot": 1
+        },
+        "verticalBody": {
+          "verticalAcceleration": 0,
+          "normalLoadRatio": 1,
+          "effectiveGravityMps2": 9.81,
+          "supportState": "supported",
+          "baseCrouch": 0.45,
+          "verticalCompression": 4.938892327323575e-13,
+          "combinedCrouch": 0.4500000000004939,
+          "compressionLimited": false,
+          "footConstraintMode": "ordinary-support-proxy"
+        },
+        "balanceProxy": {
+          "source": "weighted-bone-points-and-foot-rect-proxies",
+          "zmpValid": true,
+          "zmpInvalidReason": null,
+          "supportState": "supported",
+          "normalLoadRatio": 1,
+          "effectiveGravityMps2": 9.81,
+          "comHeightM": 0.6951974934524975,
+          "contactPlaneY": 8.361067730557776,
+          "contactPlaneSource": "explicit-support-frame",
+          "centerOfMassWorld": [
+            -2.4304280397597093,
+            9.056265224010273,
+            9.172733410895756
+          ],
+          "targetCenterOfMassWorld": [
+            -2.430428609824145,
+            9.056265224010273,
+            9.172733103112757
+          ],
+          "centerOfMassOffset": {
+            "forward": 2.674674134438629e-7,
+            "side": 5.900126612700014e-7
+          },
+          "centerOfMassErrorMm": 0.00064784553372932,
+          "zeroMomentPointWorld": [
+            -2.4304280397597093,
+            8.361067730557776,
+            9.172733410895756
+          ],
+          "loadRatio": {
+            "front": 0.4999999218549187,
+            "rear": 0.5000000781450813
+          },
+          "requestedLoadRatio": {
+            "front": 0.49999999991843147,
+            "rear": 0.5000000000815685
+          },
+          "loadRatioError": 7.806351276506973e-8,
+          "unclampedFrontLoadRatio": 0.4999999218549187,
+          "supportMarginM": 0.11361822185408128,
+          "supportExceeded": false,
+          "footHull2D": [
+            [
+              -0.39098963583050683,
+              0.4322543190943467
+            ],
+            [
+              -0.34274362877851716,
+              0.341516776784384
+            ],
+            [
+              0.19555492931674093,
+              -0.5361687958217094
+            ],
+            [
+              0.3909896358305067,
+              -0.4322543190943471
+            ],
+            [
+              0.34274362877851705,
+              -0.3415167767843844
+            ],
+            [
+              -0.1955549293167411,
+              0.536168795821709
+            ]
+          ],
+          "footHullWorld": [
+            [
+              -2.8504174304909804,
+              8.361067730551198,
+              9.576869320605374
+            ],
+            [
+              -2.796002763407865,
+              8.361067730552579,
+              9.489691211041409
+            ],
+            [
+              -2.1982080251527325,
+              8.361067730565935,
+              8.651396064375989
+            ],
+            [
+              -2.010439789168809,
+              8.361067730564354,
+              8.768596885785778
+            ],
+            [
+              -2.064854456251924,
+              8.361067730562974,
+              8.85577499534974
+            ],
+            [
+              -2.6626491945070567,
+              8.361067730549617,
+              9.69407014201516
+            ]
+          ],
+          "coordinateSpace": "support-frame"
+        },
+        "poseLimited": true,
+        "poseLimitReasons": [
+          "fixed-support-changes-crouch"
+        ]
+      },
+      "actualSkinSoles": [
+        {
+          "side": "left",
+          "weightedVertexCount": 24,
+          "soleOffsetNormalM": 0.06250000016764082,
+          "supportGapM": -3.1600275531755302e-15
+        },
+        {
+          "side": "right",
+          "weightedVertexCount": 24,
+          "soleOffsetNormalM": 0.06250000016764079,
+          "supportGapM": -3.5255379870978396e-15
+        }
+      ]
+    }
+  ],
+  "checks": {
+    "finiteEveryFrame": true,
+    "footTargetsWithinProfileTolerance": true,
+    "boneLengthsWithinProfileTolerance": true,
+    "headUpWithinProfileTolerance": true,
+    "headInputRotationWithinProfileTolerance": true,
+    "kneesWithinProfileTolerance": true,
+    "skinnedSolesWithinProfileToleranceAtCheckpoints": true,
+    "footNormalsWithinProfileTolerance": true,
+    "restoredEveryFrame": true,
+    "cameraUnchanged": true,
+    "finalVelocitySettled": true,
+    "finalAttitudeSettled": true
+  },
+  "extrema": {
+    "footTargetErrorMm": 6.080941944488118e-13,
+    "boneLengthErrorMm": 1.2212453270876722e-12,
+    "actualSkinSoleGapMm": 5.4539706084710815e-12,
+    "headUpDotWorld": 1,
+    "headRotationErrorDegrees": 0.0000029575586669421963,
+    "maxKneeDegrees": 100.00000000000058,
+    "footNormalErrorDegrees": 0.0000012074182697257333,
+    "centerOfMassErrorMm": 0.27777584894875434,
+    "peakSpeedMps": 3.612201055609182,
+    "peakVerticalSpeedMps": 3.1374316440268086,
+    "peakPitchRadians": 0.20943951023761412,
+    "peakRollRadians": 0.0669230653656831
+  },
+  "limits": {
+    "poseLimitedFrames": 1719,
+    "poseLimitReasons": {
+      "fixed-support-changes-crouch": 1719
+    },
+    "hipBalanceLimitedFrames": 0,
+    "supportExceededFrames": 0,
+    "zmpInvalidFrames": 0
+  },
+  "limitations": [
+    "Self-authored fixture numerical replay only; no new real-VRM or visual acceptance.",
+    "COM/ZMP and sole normals are model proxies, not measured contact forces or full-body rigid-body physics.",
+    "Rotational point acceleration, collision, tracking, XRift, Quest and multi-user synchronization are unverified."
+  ],
+  "success": true,
+  "thresholds": {
+    "footTargetErrorMm": 1,
+    "boneLengthErrorMm": 0.01,
+    "actualSkinSoleGapMm": 2,
+    "headUpDotWorld": 0.9999,
+    "headRotationErrorDegrees": 0.001,
+    "maxKneeDegrees": 100.1,
+    "footNormalErrorDegrees": 0.5,
+    "finalSpeedMps": 0.01,
+    "finalAttitudeRadians": 0.01
+  },
+  "final": {
+    "timeSeconds": 14.5,
+    "position": [
+      -2.4304286098298946,
+      8.074820859028367,
+      9.172733103195576
+    ],
+    "velocity": [
+      0,
+      0,
+      0
+    ],
+    "attitude": {
+      "pitch": -1.5217354509093692e-11,
+      "roll": 6.72139426454565e-17,
+      "pitchRate": 7.966253568914323e-11,
+      "rollRate": -3.518713406270534e-16,
+      "targetPitch": 0,
+      "targetRoll": 0,
+      "pathAngle": 0,
+      "angularSpeed": 0,
+      "angularSpeedLimit": 2.2
+    },
+    "estimatedComHeightM": 0.695197491627705
+  },
+  "frames": 1740
+}

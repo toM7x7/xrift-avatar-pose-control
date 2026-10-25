@@ -7,3 +7,5 @@
 - three / three-vrm / Vite等はnpmの依存として参照し、再配布物をソースへコピーしていない。各依存のライセンスは各パッケージに従う。
 - リポジトリは閲覧できるが、コード自体の利用許諾はまだ選定していない。package.jsonはprivate:true / UNLICENSEDとしてnpm公開を防いでいる。MIT等への変更は所有者が決める。
 - 既存のremote-playerマーカーはホストの慣習で、保証されたアバター取得APIではない。明示的に頭／humanoid mapを渡す経路を優先し、曖昧な対象へ適用しない。
+
+同日、N02通常飛行profile 1.0.0をユーザーの採用基準として追加。概念画像はimage_genによる想像図、公開screenshotsは自作の検証骨格。実VRMのモデル本体・元ファイル名対応・画像はignoredの私有領域へ残し、GitHubには含めない。profileの採用やGitタグはコードのライセンス変更・npm公開・XRift配布を意味しない。
