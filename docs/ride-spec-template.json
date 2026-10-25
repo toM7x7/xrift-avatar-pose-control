@@ -1,0 +1,39 @@
+{
+  "ride_id": "R01",
+  "title": "upright-hover",
+  "units": "meters",
+  "forward_axis": "-Z",
+  "seat": {
+    "position": [
+      0,
+      0,
+      0
+    ],
+    "rotation_radians": [
+      0,
+      0,
+      0
+    ]
+  },
+  "desired_pose": "upright",
+  "priority": [
+    "tracked-head",
+    "tracked-hands",
+    "bone-lengths",
+    "support-contacts"
+  ],
+  "targets": {
+    "hips": null,
+    "left_hand": null,
+    "right_hand": null,
+    "left_foot": null,
+    "right_foot": null,
+    "torso_surface": null
+  },
+  "constraints": {
+    "preserve_head": true,
+    "preserve_tracked_hands": true,
+    "contact_tolerance_m": 0.02
+  },
+  "notes": "座標は乗り物ローカル。nullは未指定で、全てを同時に拘束する意味ではない。"
+}

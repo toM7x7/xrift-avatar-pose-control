@@ -1,0 +1,11 @@
+node_modules/
+dist/
+artifacts/
+local-assets/
+*.vrm
+*.vrma
+.env
+.env.*
+!.env.example
+*.log
+.playwright-cli/

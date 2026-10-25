@@ -1,0 +1,149 @@
+{
+  "date": "2026-10-25",
+  "sourceItemVersion": 9,
+  "files": [
+    {
+      "path": "src/vendor/render-pose.mjs",
+      "source": "head-propeller-ride/src/vendor/render-pose.mjs",
+      "sha256": "d11736f6eb7a6a3344c1d5c083769b68385b692d74ab09dc992f43c3ad5945d2"
+    },
+    {
+      "path": "src/vendor/render-pose.d.mts",
+      "source": "head-propeller-ride/src/vendor/render-pose.d.mts",
+      "sha256": "fcb544cee526837aae723521e62f07e2ba89f9f4c3ecfba0c774fb0270694f90"
+    },
+    {
+      "path": "src/vendor/rider-binding.mjs",
+      "source": "head-propeller-ride/src/vendor/rider-binding.mjs",
+      "sha256": "64733e2bb383ac23061f1fe3c44b1f9ce34e9f06f195a9cc2b6df7c5a2c5979e"
+    },
+    {
+      "path": "src/vendor/rider-binding.d.mts",
+      "source": "head-propeller-ride/src/vendor/rider-binding.d.mts",
+      "sha256": "71de3f26ce1b4bc867e85df66d3d53e8d5bfa2fb60b10a20cdfd998571124c9d"
+    },
+    {
+      "path": "src/vendor/torso-support.mjs",
+      "source": "head-propeller-ride/src/vendor/torso-support.mjs",
+      "sha256": "b3bc14249e9b95beb5e077694d655e6f1534731ec4845908f7b668c0a92d0272"
+    },
+    {
+      "path": "src/vendor/torso-support.d.mts",
+      "source": "head-propeller-ride/src/vendor/torso-support.d.mts",
+      "sha256": "e1f453e986b88e5436aab36f5c9b1d8ac57da23eba65b654356fd93874b19ddc"
+    },
+    {
+      "path": "src/vendor/fixture.mjs",
+      "source": "head-propeller-ride/src/vendor/fixture.mjs",
+      "sha256": "a536382eb9a643d39d5fda09d7d377380b50c9f753545e65e1c787576b90ecfa"
+    },
+    {
+      "path": "src/vendor/fixture.d.mts",
+      "source": "head-propeller-ride/src/vendor/fixture.d.mts",
+      "sha256": "a79a762f71bd9b65f60a9ac3fafd165f04ed6abe75db057b4cf4990cdeb27b88"
+    },
+    {
+      "path": "src/standing.mjs",
+      "source": "head-propeller-ride/src/standing.mjs",
+      "sha256": "3ebe955dda28b08fe834895a810171a7d731d43ae4043824e65814c53ce5e410"
+    },
+    {
+      "path": "src/standing.d.mts",
+      "source": "head-propeller-ride/src/standing.d.mts",
+      "sha256": "4ac777b39228c63670d87684cc65c63249e891d5767ff72ef4750540d662c7dd"
+    },
+    {
+      "path": "src/flight-motion.mjs",
+      "source": "head-propeller-ride/src/flight-motion.mjs",
+      "sha256": "90e1fa656dd1b7b10ab1f61ae7ad58d77a586975122d38ac89c8b54c4520e211"
+    },
+    {
+      "path": "src/flight-motion.d.mts",
+      "source": "head-propeller-ride/src/flight-motion.d.mts",
+      "sha256": "4c1b49ded0367cf5c9c50ccac505e655d265d28f40f32d66a24b24791a2093da"
+    },
+    {
+      "path": "src/rider-heading.mjs",
+      "source": "head-propeller-ride/src/rider-heading.mjs",
+      "sha256": "b560104e5bc707d9f978ab0321b5491ef17be67d58989c6de554012a285063c1"
+    },
+    {
+      "path": "src/rider-heading.d.mts",
+      "source": "head-propeller-ride/src/rider-heading.d.mts",
+      "sha256": "c71f17cfc27a1568ed1dc24bdcbb97db987914baa8f9c8a48a24cb948252e7c9"
+    },
+    {
+      "path": "src/repro/baseline-rig.mjs",
+      "source": "head-propeller-ride/src/repro/baseline-rig.mjs",
+      "sha256": "5817516eae268a0fa671cfdb7a21d1245760504790f87634230d17472b757469"
+    },
+    {
+      "path": "src/repro/baseline-rig.d.mts",
+      "source": "head-propeller-ride/src/repro/baseline-rig.d.mts",
+      "sha256": "d0fe9e28202f1a4f66c107bb6d3c5273512e1f48ce97f8af249b4afe798f713e"
+    },
+    {
+      "path": "src/repro/baseline-standing.mjs",
+      "source": "head-propeller-ride/src/repro/baseline-standing.mjs",
+      "sha256": "b8b5c9f7e10a1f7e7e5514ae693a82d960fdee60f6eea02b57a4ea044db3806a"
+    },
+    {
+      "path": "src/repro/baseline-standing.d.mts",
+      "source": "head-propeller-ride/src/repro/baseline-standing.d.mts",
+      "sha256": "53d3dc164c39363cd7a7b1e153e15f46996dac21240fc6a96f8f951838a39cb6"
+    },
+    {
+      "path": "src/repro/complex-fixture.mjs",
+      "source": "head-propeller-ride/src/repro/complex-fixture.mjs",
+      "sha256": "ec1cd56f54e4cd534b5e3bab562de680e6ade1049af12070fad528808e5963f5"
+    },
+    {
+      "path": "src/repro/complex-fixture.d.mts",
+      "source": "head-propeller-ride/src/repro/complex-fixture.d.mts",
+      "sha256": "b36df36643f174a4a65c19730bf6f8c6eea068248972e401966d7d13b6ec238b"
+    },
+    {
+      "path": "src/repro/v3-standing.mjs",
+      "source": "head-propeller-ride/src/repro/v3-standing.mjs",
+      "sha256": "8860f3363d7bf17af570973f32bf9e10ef55da368d78fe51d15439229dbe2ce9"
+    },
+    {
+      "path": "src/repro/v3-standing.d.mts",
+      "source": "head-propeller-ride/src/repro/v3-standing.d.mts",
+      "sha256": "4de23705961a3f6d9d4ee3d41b3bac8f4262812c53fc3bbdd6cf3c7445425036"
+    },
+    {
+      "path": "tests/standing.test.mjs",
+      "source": "head-propeller-ride/tests/standing.test.mjs",
+      "sha256": "37fc4bec391a59625014cc5fc8c7d2e6b77c3ce2011bbb4258aa8756a82ca8ba"
+    },
+    {
+      "path": "tests/avatar-compatibility.test.mjs",
+      "source": "head-propeller-ride/tests/avatar-compatibility.test.mjs",
+      "sha256": "4537dd206a557c7e555ad967f5f2923fad0c02f98738e832b077535c25894c2e"
+    },
+    {
+      "path": "tests/flight-motion.test.mjs",
+      "source": "head-propeller-ride/tests/flight-motion.test.mjs",
+      "sha256": "d7d180546695fae7bfe62660055ef482ba6566388fd9c1e7593b97ab4455f2b9"
+    },
+    {
+      "path": "tests/nested-render.test.mjs",
+      "source": "head-propeller-ride/tests/nested-render.test.mjs",
+      "sha256": "26536e058fd4cb4821cb88d8263699f8da611b9c5d4424e131b07f0584ec25a5"
+    },
+    {
+      "path": "tests/fold-reproduction.test.mjs",
+      "source": "head-propeller-ride/tests/fold-reproduction.test.mjs",
+      "sha256": "1a3cd17f8c303ea28cb653a477729e42153a6bb71cec31309b252f454b922e17"
+    },
+    {
+      "path": "tests/rider-heading.test.mjs",
+      "source": "head-propeller-ride/tests/rider-heading.test.mjs",
+      "sha256": "beb7b1e289b7a5d43d95bc3b569c5226511fac65b9cac59adb28558a53ebe3b7"
+    }
+  ],
+  "adaptations": [
+    "Removed two vehicle-motion-only tests and their import from standing.test.mjs. Baseline sources are intentionally faulty regression fixtures, not public entry points."
+  ]
+}
