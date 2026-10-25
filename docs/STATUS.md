@@ -1,5 +1,11 @@
 # 初期版とN02/U02実験の状態
 
+## 2026-10-25：他姿勢の大量SIMと18候補
+
+`/patterns.html`へ7系統・18候補の比較画面を追加。椅子座り・またがり・横座りは新しい腰支持IK、立つ・N02・伏せる・肩車は既存コアと実験adapterを使用する。通常324／境界込み540の意味のある条件を生成し、実VRM3体では全条件screen後に代表を24フレーム再確認する。自作3体格は別に972条件・23,328フレームをCPU再現する。
+
+採用profileはN02通常飛行1.0.0のまま。新候補は未採用で、数値・可視形状・接触・見た目の判定を分ける。[実験結果と未達](experiments/pose-patterns-2026-10-25.md)を参照。
+
 ## 2026-10-25：N02 通常飛行1.0.0を採用
 
 ユーザーが現仕様を採用。[再現仕様](specs/N02_NORMAL_FLIGHT_V1.md)・[JSON正本](../specs/n02-normal-flight.v1.json)・[モデル接続への引継ぎ](handoff/NIMBUS_MODEL_INTEGRATION.md)を追加。デモの設定と14秒コースを共有profileへ接続し、`npm run replay:n02`で私有VRM不要の1740フレーム／16checkpointを再現する。採用タグは `n02-normal-flight-v1.0.0`、npm公開とは別。

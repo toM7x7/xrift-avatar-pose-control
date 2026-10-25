@@ -2,7 +2,9 @@
   "ride_id": "R01",
   "title": "upright-hover",
   "units": "meters",
-  "forward_axis": "-Z",
+  "forward_axis": "+Z",
+  "coordinate_system": "right-handed; +Y up; +X right",
+  "status": "draft-template; choose priorities for each support family",
   "seat": {
     "position": [
       0,

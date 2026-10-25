@@ -1,0 +1,594 @@
+{
+  "schemaVersion": 1,
+  "experiment": "pose-pattern-authored-fixture-sweep",
+  "createdAt": "2026-10-25T13:24:01.496Z",
+  "scope": "Public numerical summary of self-authored fixtures only; no private avatars or failed source-change audit runs are included.",
+  "artifact": {
+    "path": "artifacts/pose-pattern-fixtures.json",
+    "sha256": "0dda356eb6882940ff45ad38c0971b42468ce8664da06c5e40b814ed121f1a19"
+  },
+  "runtime": {
+    "node": "v22.18.0"
+  },
+  "input": {
+    "intensity": "standard",
+    "dtSeconds": 0.016666666666666666,
+    "framesPerCase": 24,
+    "fixtureScales": [
+      0.65,
+      1,
+      1.35
+    ],
+    "catalogHash": "f143ad15548aaef0710160b38a426e06aaac8f7bfcb515b092f0d134aee0b29e",
+    "casesHash": "bad0f976849dded430ac8327af366759dd73b37d29a3d7e0ab37ca8c2de1126c",
+    "sourceHashes": {
+      "scripts/replay-pose-patterns.mjs": "9843620643e51db26fb04d12e8455ff45e05ce1182b7c92ef4d5d64f2f4d75e2",
+      "src/pose-patterns.mjs": "5f80b5bb9a411ba25d4b2143c0fe88e69fbc477f08b4b5cb90f7dc9e9e43701c",
+      "demo/pattern-engine.mjs": "567d27fdd7b1c1b33fd3224d00ada2d94b05d6dcbfcae14eb8763e5ea1c99321",
+      "demo/pattern-assessment.mjs": "e4028a6d5f1c74dc6ff2a5c9ca04499f6e23299364b0068da808e1bc09db931a",
+      "demo/host-input.mjs": "bb9d635876505a58c8f0438fcbb566c89b17094d7db5fb8adede6be4ed95648e",
+      "demo/skin-diagnostics.mjs": "ad0f0fd31332215f95a96f979b702ae3c2ee1e312aded47381b547b07827a921",
+      "src/index.mjs": "6808d9c28df53279ab286ed922c4871009bf5940b4d18e4722fba911b6714698",
+      "src/nimbus-pose.mjs": "0df9bc1daaf82ebce4be0e2c900e4db6eafdf085944191bbc88796ade4251b6e",
+      "src/supported-seat.mjs": "038db8f80ed1f10975a6b79c7c2225aa7ef550e477c6e7903c699f3790997e25",
+      "src/shoulder-ride.mjs": "e7293e820863eb9487fbd9c1ddb48afed4a9c677655e52ef9e73ae5e4511e0af",
+      "src/standing.mjs": "3ebe955dda28b08fe834895a810171a7d731d43ae4043824e65814c53ce5e410",
+      "src/vendor/render-pose.mjs": "077da6f171060fb414ff34899a4184029b3ee60a233f2be981da26f3fe34808d",
+      "src/vendor/torso-support.mjs": "b3bc14249e9b95beb5e077694d655e6f1534731ec4845908f7b668c0a92d0272",
+      "src/vendor/fixture.mjs": "a536382eb9a643d39d5fda09d7d377380b50c9f753545e65e1c787576b90ecfa",
+      "package-lock.json": "012c2cba1b9183ea5ecb3b70012de8a585e69df45da2d92196b884d00d044f36"
+    },
+    "sourceChangedDuringRun": false
+  },
+  "simulation": {
+    "kind": "kinematic-parameter-sweep",
+    "forceIntegration": false,
+    "supportPerturbationRadians": 0.025,
+    "frameTimes": "frame index / 60, frame=0..23; first=0s, final=23/60s",
+    "source": "self-authored fixture only; no real VRM",
+    "bodyScalePolicy": "Three separate instances of the authored fixture are scaled before rig preparation. No rider scaling condition is added to the catalog.",
+    "restorationScope": "engine capture/restore/isRestored covers actor joints, carrier joints and carrier root transform; actor/carrier joints are also checked separately.",
+    "visibleSupportMeasurement": "Final sample only, before restore; posed foot weights >0.5 projected on the reported support normal. This is distinct from joint metric maxima over all 24 frames.",
+    "numericPassIsVisualAcceptance": false
+  },
+  "runnerCompleted": true,
+  "runnerErrors": [],
+  "summary": {
+    "totalCases": 972,
+    "solveFrames": 23328,
+    "byStatus": {
+      "pass": 117,
+      "limited": 855,
+      "unsupported": 0,
+      "fail": 0
+    },
+    "byFamily": {
+      "nimbus": {
+        "cases": 108,
+        "byStatus": {
+          "pass": 0,
+          "limited": 108,
+          "unsupported": 0,
+          "fail": 0
+        }
+      },
+      "standing": {
+        "cases": 108,
+        "byStatus": {
+          "pass": 0,
+          "limited": 108,
+          "unsupported": 0,
+          "fail": 0
+        }
+      },
+      "prone": {
+        "cases": 162,
+        "byStatus": {
+          "pass": 117,
+          "limited": 45,
+          "unsupported": 0,
+          "fail": 0
+        }
+      },
+      "chair": {
+        "cases": 162,
+        "byStatus": {
+          "pass": 0,
+          "limited": 162,
+          "unsupported": 0,
+          "fail": 0
+        }
+      },
+      "straddle": {
+        "cases": 216,
+        "byStatus": {
+          "pass": 0,
+          "limited": 216,
+          "unsupported": 0,
+          "fail": 0
+        }
+      },
+      "side-sit": {
+        "cases": 108,
+        "byStatus": {
+          "pass": 0,
+          "limited": 108,
+          "unsupported": 0,
+          "fail": 0
+        }
+      },
+      "shoulder": {
+        "cases": 108,
+        "byStatus": {
+          "pass": 0,
+          "limited": 108,
+          "unsupported": 0,
+          "fail": 0
+        }
+      }
+    },
+    "solverExceptions": 0,
+    "caseExceptions": 0,
+    "restoreExceptions": 0,
+    "engineRestoreMismatches": 0,
+    "actorRestoreMismatches": 0,
+    "carrierRestoreMismatches": 0,
+    "reasonCounts": {
+      "fixed-support-changes-crouch": 108,
+      "support-contact-not-constrained": 108,
+      "head-neck-angle-large": 45,
+      "grip-finger-closure-not-simulated": 234,
+      "seat-and-clothing-contact-unmeasured": 486,
+      "hand-target-unreachable": 33,
+      "foot-target-unreachable": 9,
+      "visible-sole-gap-over-10mm": 9,
+      "possible-head-body-overlap": 54,
+      "possible-shin-torso-overlap": 32,
+      "possible-foot-torso-overlap": 17,
+      "carrier-tilt-proxy-only": 108,
+      "carrier-hand-target-unreachable": 2
+    },
+    "durationSeconds": 9.4365995,
+    "visualReview": "not-performed",
+    "realVrmVerification": "not-performed"
+  },
+  "extrema": {
+    "boneLengthErrorMm": 8.881784197001252e-13,
+    "mappedSpanErrorMm": 8.881784197001252e-13,
+    "headRotationErrorDegrees": 0.0000029575586669421963,
+    "footTargetErrorMm": 625.9490116175201,
+    "maxKneeDegrees": 129.53753158253895,
+    "neckAngleDegrees": 68.2530618071321,
+    "headChestAngleDegrees": 104.2530618071321,
+    "handPositionErrorMm": 871.3534362697484,
+    "supportErrorMm": 8.886119947416683e-13,
+    "handTargetErrorMm": 112.41448177717162,
+    "carrierHandTargetErrorMm": 41.736834306023034
+  },
+  "torsoContact": {
+    "proneCases": 162,
+    "finalContactSamples": 162,
+    "sourceCounts": {
+      "sampled-skin": 162
+    },
+    "withinBoardFalse": 0,
+    "fittedFalse": 0,
+    "maxChestGapAbsMm": 10.807006107582298,
+    "maxAbdomenGapAbsMm": 10.807006107582096
+  },
+  "fixtures": [
+    {
+      "id": "F01",
+      "riderFixtureScale": 0.65,
+      "model": {
+        "kind": "fixture",
+        "vertexCount": 432,
+        "meshCount": 2,
+        "visibleFeet": true,
+        "footWeightedVertexCounts": [
+          24,
+          24
+        ],
+        "legLengthM": 0.5138331144669663,
+        "soleOffsetM": 0.040625000108964714,
+        "skinCullingPolicy": "disabled-for-posed-lab-skins"
+      },
+      "summary": {
+        "total": 324,
+        "solveFrames": 7776,
+        "byStatus": {
+          "pass": 39,
+          "limited": 285,
+          "unsupported": 0,
+          "fail": 0
+        },
+        "byFamily": {
+          "nimbus": {
+            "cases": 36,
+            "byStatus": {
+              "pass": 0,
+              "limited": 36,
+              "unsupported": 0,
+              "fail": 0
+            }
+          },
+          "standing": {
+            "cases": 36,
+            "byStatus": {
+              "pass": 0,
+              "limited": 36,
+              "unsupported": 0,
+              "fail": 0
+            }
+          },
+          "prone": {
+            "cases": 54,
+            "byStatus": {
+              "pass": 39,
+              "limited": 15,
+              "unsupported": 0,
+              "fail": 0
+            }
+          },
+          "chair": {
+            "cases": 54,
+            "byStatus": {
+              "pass": 0,
+              "limited": 54,
+              "unsupported": 0,
+              "fail": 0
+            }
+          },
+          "straddle": {
+            "cases": 72,
+            "byStatus": {
+              "pass": 0,
+              "limited": 72,
+              "unsupported": 0,
+              "fail": 0
+            }
+          },
+          "side-sit": {
+            "cases": 36,
+            "byStatus": {
+              "pass": 0,
+              "limited": 36,
+              "unsupported": 0,
+              "fail": 0
+            }
+          },
+          "shoulder": {
+            "cases": 36,
+            "byStatus": {
+              "pass": 0,
+              "limited": 36,
+              "unsupported": 0,
+              "fail": 0
+            }
+          }
+        },
+        "solverExceptions": 0,
+        "caseExceptions": 0,
+        "restoreExceptions": 0,
+        "engineRestoreMismatches": 0,
+        "actorRestoreMismatches": 0,
+        "carrierRestoreMismatches": 0,
+        "reasonCounts": {
+          "fixed-support-changes-crouch": 36,
+          "support-contact-not-constrained": 36,
+          "head-neck-angle-large": 15,
+          "grip-finger-closure-not-simulated": 78,
+          "seat-and-clothing-contact-unmeasured": 162,
+          "hand-target-unreachable": 11,
+          "foot-target-unreachable": 3,
+          "visible-sole-gap-over-10mm": 3,
+          "possible-head-body-overlap": 33,
+          "possible-shin-torso-overlap": 32,
+          "possible-foot-torso-overlap": 17,
+          "carrier-tilt-proxy-only": 36
+        }
+      },
+      "extrema": {
+        "boneLengthErrorMm": 4.440892098500626e-13,
+        "mappedSpanErrorMm": 4.440892098500626e-13,
+        "headRotationErrorDegrees": 0.0000029575586669421963,
+        "footTargetErrorMm": 301.38285744547244,
+        "maxKneeDegrees": 129.53753158253895,
+        "neckAngleDegrees": 68.25306180713207,
+        "headChestAngleDegrees": 104.25306180713206,
+        "handPositionErrorMm": 871.3534362697484,
+        "supportErrorMm": 8.886119947416683e-13,
+        "handTargetErrorMm": 54.12549122604569,
+        "carrierHandTargetErrorMm": 8.029952337223719e-13
+      },
+      "torsoContact": {
+        "proneCases": 54,
+        "finalContactSamples": 54,
+        "sourceCounts": {
+          "sampled-skin": 54
+        },
+        "withinBoardFalse": 0,
+        "fittedFalse": 0,
+        "maxChestGapAbsMm": 5.203373311058097,
+        "maxAbdomenGapAbsMm": 5.20337331105804
+      }
+    },
+    {
+      "id": "F02",
+      "riderFixtureScale": 1,
+      "model": {
+        "kind": "fixture",
+        "vertexCount": 432,
+        "meshCount": 2,
+        "visibleFeet": true,
+        "footWeightedVertexCounts": [
+          24,
+          24
+        ],
+        "legLengthM": 0.7905124837953328,
+        "soleOffsetM": 0.06250000016763801,
+        "skinCullingPolicy": "disabled-for-posed-lab-skins"
+      },
+      "summary": {
+        "total": 324,
+        "solveFrames": 7776,
+        "byStatus": {
+          "pass": 39,
+          "limited": 285,
+          "unsupported": 0,
+          "fail": 0
+        },
+        "byFamily": {
+          "nimbus": {
+            "cases": 36,
+            "byStatus": {
+              "pass": 0,
+              "limited": 36,
+              "unsupported": 0,
+              "fail": 0
+            }
+          },
+          "standing": {
+            "cases": 36,
+            "byStatus": {
+              "pass": 0,
+              "limited": 36,
+              "unsupported": 0,
+              "fail": 0
+            }
+          },
+          "prone": {
+            "cases": 54,
+            "byStatus": {
+              "pass": 39,
+              "limited": 15,
+              "unsupported": 0,
+              "fail": 0
+            }
+          },
+          "chair": {
+            "cases": 54,
+            "byStatus": {
+              "pass": 0,
+              "limited": 54,
+              "unsupported": 0,
+              "fail": 0
+            }
+          },
+          "straddle": {
+            "cases": 72,
+            "byStatus": {
+              "pass": 0,
+              "limited": 72,
+              "unsupported": 0,
+              "fail": 0
+            }
+          },
+          "side-sit": {
+            "cases": 36,
+            "byStatus": {
+              "pass": 0,
+              "limited": 36,
+              "unsupported": 0,
+              "fail": 0
+            }
+          },
+          "shoulder": {
+            "cases": 36,
+            "byStatus": {
+              "pass": 0,
+              "limited": 36,
+              "unsupported": 0,
+              "fail": 0
+            }
+          }
+        },
+        "solverExceptions": 0,
+        "caseExceptions": 0,
+        "restoreExceptions": 0,
+        "engineRestoreMismatches": 0,
+        "actorRestoreMismatches": 0,
+        "carrierRestoreMismatches": 0,
+        "reasonCounts": {
+          "fixed-support-changes-crouch": 36,
+          "support-contact-not-constrained": 36,
+          "head-neck-angle-large": 15,
+          "grip-finger-closure-not-simulated": 78,
+          "seat-and-clothing-contact-unmeasured": 162,
+          "hand-target-unreachable": 11,
+          "foot-target-unreachable": 3,
+          "visible-sole-gap-over-10mm": 3,
+          "possible-head-body-overlap": 18,
+          "carrier-tilt-proxy-only": 36
+        }
+      },
+      "extrema": {
+        "boneLengthErrorMm": 7.216449660063518e-13,
+        "mappedSpanErrorMm": 7.216449660063518e-13,
+        "headRotationErrorDegrees": 0.0000029575586669421963,
+        "footTargetErrorMm": 463.6659345314958,
+        "maxKneeDegrees": 129.53753158253892,
+        "neckAngleDegrees": 68.25306180713201,
+        "headChestAngleDegrees": 104.25306180713204,
+        "handPositionErrorMm": 605.01875245061,
+        "supportErrorMm": 4.440892098500626e-13,
+        "handTargetErrorMm": 83.26998650160863,
+        "carrierHandTargetErrorMm": 6.70779683098309e-13
+      },
+      "torsoContact": {
+        "proneCases": 54,
+        "finalContactSamples": 54,
+        "sourceCounts": {
+          "sampled-skin": 54
+        },
+        "withinBoardFalse": 0,
+        "fittedFalse": 0,
+        "maxChestGapAbsMm": 8.005189709320126,
+        "maxAbdomenGapAbsMm": 8.005189709320419
+      }
+    },
+    {
+      "id": "F03",
+      "riderFixtureScale": 1.35,
+      "model": {
+        "kind": "fixture",
+        "vertexCount": 432,
+        "meshCount": 2,
+        "visibleFeet": true,
+        "footWeightedVertexCounts": [
+          24,
+          24
+        ],
+        "legLengthM": 1.0671918531236992,
+        "soleOffsetM": 0.08437500022631134,
+        "skinCullingPolicy": "disabled-for-posed-lab-skins"
+      },
+      "summary": {
+        "total": 324,
+        "solveFrames": 7776,
+        "byStatus": {
+          "pass": 39,
+          "limited": 285,
+          "unsupported": 0,
+          "fail": 0
+        },
+        "byFamily": {
+          "nimbus": {
+            "cases": 36,
+            "byStatus": {
+              "pass": 0,
+              "limited": 36,
+              "unsupported": 0,
+              "fail": 0
+            }
+          },
+          "standing": {
+            "cases": 36,
+            "byStatus": {
+              "pass": 0,
+              "limited": 36,
+              "unsupported": 0,
+              "fail": 0
+            }
+          },
+          "prone": {
+            "cases": 54,
+            "byStatus": {
+              "pass": 39,
+              "limited": 15,
+              "unsupported": 0,
+              "fail": 0
+            }
+          },
+          "chair": {
+            "cases": 54,
+            "byStatus": {
+              "pass": 0,
+              "limited": 54,
+              "unsupported": 0,
+              "fail": 0
+            }
+          },
+          "straddle": {
+            "cases": 72,
+            "byStatus": {
+              "pass": 0,
+              "limited": 72,
+              "unsupported": 0,
+              "fail": 0
+            }
+          },
+          "side-sit": {
+            "cases": 36,
+            "byStatus": {
+              "pass": 0,
+              "limited": 36,
+              "unsupported": 0,
+              "fail": 0
+            }
+          },
+          "shoulder": {
+            "cases": 36,
+            "byStatus": {
+              "pass": 0,
+              "limited": 36,
+              "unsupported": 0,
+              "fail": 0
+            }
+          }
+        },
+        "solverExceptions": 0,
+        "caseExceptions": 0,
+        "restoreExceptions": 0,
+        "engineRestoreMismatches": 0,
+        "actorRestoreMismatches": 0,
+        "carrierRestoreMismatches": 0,
+        "reasonCounts": {
+          "fixed-support-changes-crouch": 36,
+          "support-contact-not-constrained": 36,
+          "head-neck-angle-large": 15,
+          "grip-finger-closure-not-simulated": 78,
+          "seat-and-clothing-contact-unmeasured": 162,
+          "hand-target-unreachable": 11,
+          "foot-target-unreachable": 3,
+          "visible-sole-gap-over-10mm": 3,
+          "carrier-tilt-proxy-only": 36,
+          "possible-head-body-overlap": 3,
+          "carrier-hand-target-unreachable": 2
+        }
+      },
+      "extrema": {
+        "boneLengthErrorMm": 8.881784197001252e-13,
+        "mappedSpanErrorMm": 8.881784197001252e-13,
+        "headRotationErrorDegrees": 0.0000029575586669421963,
+        "footTargetErrorMm": 625.9490116175201,
+        "maxKneeDegrees": 129.53753158253895,
+        "neckAngleDegrees": 68.2530618071321,
+        "headChestAngleDegrees": 104.2530618071321,
+        "handPositionErrorMm": 345.5844497975128,
+        "supportErrorMm": 6.661338147750939e-13,
+        "handTargetErrorMm": 112.41448177717162,
+        "carrierHandTargetErrorMm": 41.736834306023034
+      },
+      "torsoContact": {
+        "proneCases": 54,
+        "finalContactSamples": 54,
+        "sourceCounts": {
+          "sampled-skin": 54
+        },
+        "withinBoardFalse": 0,
+        "fittedFalse": 0,
+        "maxChestGapAbsMm": 10.807006107582298,
+        "maxAbdomenGapAbsMm": 10.807006107582096
+      }
+    }
+  ],
+  "interpretation": {
+    "boneLengthErrorMm": "Actual bone.parent-to-bone length preservation, excluding movable hips-to-parent offset.",
+    "mappedSpanErrorMm": "Diagnostic mapped anatomical-role spans; not treated as a direct bone-length invariant.",
+    "visualAcceptance": false,
+    "realVrmVerification": false,
+    "fullBodyContactPhysics": false,
+    "sourceChangeAuditRunsIncluded": false
+  }
+}

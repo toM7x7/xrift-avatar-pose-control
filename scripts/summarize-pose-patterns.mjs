@@ -1,0 +1,38 @@
+import {readFile,writeFile,mkdir} from 'node:fs/promises'
+import {createHash} from 'node:crypto'
+import path from 'node:path'
+import {fileURLToPath} from 'node:url'
+import {assessPatternSample} from '../demo/pattern-assessment.mjs'
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..')
+const args=Object.fromEntries(process.argv.slice(2).map(arg=>{const i=arg.indexOf('=');return [arg.slice(0,i).replace(/^--/,''),arg.slice(i+1)]}))
+const load=async file=>JSON.parse(await readFile(path.resolve(root,file),'utf8'))
+const browser=await load(args.browser??'local-assets/pattern-sim-staged-final.json'),fixture=await load(args.fixture??'artifacts/pose-pattern-fixtures.json')
+const observer=await load(args.observer??'local-assets/pattern-observer-2026-10-25.json')
+const files=['src/pose-patterns.mjs','src/supported-seat.mjs','src/index.mjs','src/vendor/render-pose.mjs','src/standing.mjs','src/nimbus-pose.mjs','src/shoulder-ride.mjs','demo/host-input.mjs','demo/common.mjs','demo/pattern-engine.mjs','demo/pattern-assessment.mjs','demo/patterns.mjs','scripts/replay-pose-patterns.mjs','scripts/simulate-pose-patterns.js','package-lock.json']
+const sourceHashes=Object.fromEntries(await Promise.all(files.map(async file=>[file,createHash('sha256').update(await readFile(path.resolve(root,file))).digest('hex')])))
+const statuses=['pass','limited','unsupported','fail'],count=cases=>Object.fromEntries(statuses.map(status=>[status,cases.filter(c=>c.assessment.status===status).length]))
+const softReasons=new Set(['seat-and-clothing-contact-unmeasured','grip-finger-closure-not-simulated','fixed-support-changes-crouch','shared-plane-changes-crouch','support-contact-not-constrained','carrier-tilt-proxy-only'])
+const keys=['boneLengthErrorMm','headRotationErrorDegrees','footTargetErrorMm','supportErrorMm','handTargetErrorMm','handPositionErrorMm','carrierHandTargetErrorMm','maxKneeDegrees','neckAngleDegrees','headChestAngleDegrees']
+const summarizeCases=cases=>({cases:cases.length,byStatus:count(cases),reasonCounts:Object.fromEntries([...new Set(cases.flatMap(c=>c.assessment.reasons))].sort().map(reason=>[reason,cases.filter(c=>c.assessment.reasons.includes(reason)).length])),maxima:Object.fromEntries(keys.map(key=>[key,Math.max(0,...cases.map(c=>c.metrics?.[key]).filter(Number.isFinite))]))})
+const reassessed=[]
+const runs=browser.runs.map(run=>{
+ const cases=run.report.cases.map(c=>{
+  const assessment=assessPatternSample({family:c.family,metrics:c.metrics,model:run.report.model,restored:c.restored,error:c.error})
+  if(JSON.stringify(assessment)!==JSON.stringify(c.assessment))reassessed.push({modelId:run.modelId,mode:run.mode,caseId:c.id,before:c.assessment.status,after:assessment.status,reasons:assessment.reasons})
+  return {...c,assessment}
+ })
+ return {modelId:run.modelId,mode:run.mode,intensity:run.intensity,model:{kind:run.model.kind,vertexCount:run.model.vertexCount,visibleFeet:run.model.visibleFeet,meshCount:run.model.meshCount,legLengthM:run.model.legLengthM,footWeightedVertexCounts:run.model.footWeightedVertexCounts},...summarizeCases(cases),byFamily:Object.fromEntries([...new Set(cases.map(c=>c.family))].map(family=>[family,summarizeCases(cases.filter(c=>c.family===family))])),caseExceptions:cases.filter(c=>c.error).length,restoreMismatches:cases.filter(c=>!c.restored).length,simulatedFrames:cases.reduce((sum,c)=>sum+c.frames,0),notableLimits:cases.filter(c=>c.assessment.status==='fail'||(c.metrics?.footTargetErrorMm??0)>20||(c.metrics?.handTargetErrorMm??0)>20||(c.metrics?.carrierHandTargetErrorMm??0)>20).map(c=>({caseId:c.id,patternId:c.patternId,status:c.assessment.status,reasons:c.assessment.reasons,boneLengthErrorMm:c.metrics.boneLengthErrorMm,footTargetErrorMm:c.metrics.footTargetErrorMm??null,handTargetErrorMm:c.metrics.handTargetErrorMm??null,carrierHandTargetErrorMm:c.metrics.carrierHandTargetErrorMm??null})).slice(0,40)}
+})
+const summary={schemaVersion:1,date:'2026-10-25',status:'experimental-candidates',privacy:'Anonymous aggregates only. No VRM files, original names, authors, image pixels, or per-avatar pose coordinates.',sourceHashes,executedBrowserSources:args.sources?await load(args.sources):null,scheduler:{kind:'message-channel-for-numerical-yields',rendererRafUnchanged:true,inputsAndSamplesUnchanged:true},browser:{executionSucceeded:browser.executionSucceeded,summary:browser.summary,runs,pageErrorCount:browser.pageErrors.length,nonGetRequestCount:browser.nonGetRequests.length,executionErrorCount:browser.executionErrors.length,independentFindingCount:browser.independentFindings.length,reassessment:{changes:reassessed.length,items:reassessed}},fixture:{runnerCompleted:fixture.runnerCompleted,sourceChangedDuringRun:fixture.input.sourceChangedDuringRun,sourceHashes:fixture.input.sourceHashes,summary:fixture.summary},visualReview:{...observer,images:undefined,entries:undefined,reviews:undefined},limitations:['Numerical screening is not visual adoption or full-body contact physics.','Stress contains standard conditions. Unique model/case counts exclude continuous repetitions.','A model without visible feet is unsupported for visible-foot screening; its other pose metrics remain available.','Actual XRift, Quest, tracking, other-user synchronization and clothing contacts remain unverified.']}
+// Only explicitly public observer aggregate fields, never private capture paths.
+summary.visualReview={status:'selected-images-reviewed',reviewedImageCount:observer.review?.uniqueImagesReviewed??observer.reviewedImageCount??observer.summary?.reviewedImageCount??observer.images?.length??observer.reviews?.length??observer.entries?.length??null,allNumericCasesVisuallyReviewed:false,notes:'Selected local captures were reviewed independently. Per-image paths and detailed private notes stay local-assets.'}
+summary.visualReview.byStage=observer.review.byStage
+summary.visualReview.refinedReviewedImageCount=observer.review.byStage['refined-run'].uniqueImages
+summary.sourceRevisionNotes=Object.entries(summary.executedBrowserSources??{}).filter(([file,hash])=>sourceHashes[file]!==hash).map(([file,hash])=>({file,executedSha256:hash,currentSha256:sourceHashes[file],change:file==='demo/patterns.mjs'?'After capture, synchronize renderCase supportContactMeasured and assessment with its measured visibleSupport. No pose or runSweep calculation changed.':'Review this source change before using the results as a reference.'}))
+summary.browser.observedPatternFits=browser.runs.filter(run=>run.mode==='screen').map(run=>({modelId:run.modelId,scope:'Observed cases without numerical target/angle/proxy limits; unmeasured contacts and visual acceptance remain separate. This does not define a continuous safe parameter interval.',patterns:[...new Set(run.report.cases.map(c=>c.patternId))].map(patternId=>{
+ const cases=run.report.cases.filter(c=>c.patternId===patternId),fit=cases.filter(c=>['pass','limited'].includes(c.assessment.status)&&c.assessment.reasons.every(reason=>softReasons.has(reason))),base=cases.find(c=>c.condition.variantId==='base')
+ return {patternId,testedCases:cases.length,casesWithoutTargetLimits:fit.length,baselineStatus:base?.assessment.status,baselineReasons:base?.assessment.reasons,exampleCaseIds:fit.slice(0,6).map(c=>c.id)}
+})}))
+const output=path.resolve(root,args.output??'docs/experiments/pose-patterns-summary-2026-10-25.json')
+await mkdir(path.dirname(output),{recursive:true});await writeFile(output,JSON.stringify(summary,null,2)+'\n','utf8')
+console.log(JSON.stringify({output:path.relative(root,output),browser:summary.browser.summary,fixture:summary.fixture.summary.byStatus,reassessmentChanges:reassessed.length,reviewedImageCount:summary.visualReview.reviewedImageCount},null,2))

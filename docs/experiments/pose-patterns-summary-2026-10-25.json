@@ -1,0 +1,3951 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-25",
+  "status": "experimental-candidates",
+  "privacy": "Anonymous aggregates only. No VRM files, original names, authors, image pixels, or per-avatar pose coordinates.",
+  "sourceHashes": {
+    "src/pose-patterns.mjs": "5f80b5bb9a411ba25d4b2143c0fe88e69fbc477f08b4b5cb90f7dc9e9e43701c",
+    "src/supported-seat.mjs": "038db8f80ed1f10975a6b79c7c2225aa7ef550e477c6e7903c699f3790997e25",
+    "src/index.mjs": "6808d9c28df53279ab286ed922c4871009bf5940b4d18e4722fba911b6714698",
+    "src/vendor/render-pose.mjs": "077da6f171060fb414ff34899a4184029b3ee60a233f2be981da26f3fe34808d",
+    "src/standing.mjs": "3ebe955dda28b08fe834895a810171a7d731d43ae4043824e65814c53ce5e410",
+    "src/nimbus-pose.mjs": "0df9bc1daaf82ebce4be0e2c900e4db6eafdf085944191bbc88796ade4251b6e",
+    "src/shoulder-ride.mjs": "e7293e820863eb9487fbd9c1ddb48afed4a9c677655e52ef9e73ae5e4511e0af",
+    "demo/host-input.mjs": "bb9d635876505a58c8f0438fcbb566c89b17094d7db5fb8adede6be4ed95648e",
+    "demo/common.mjs": "a945a74009e912351f7233541120298aad9eba893c2a82e83751d48aa8215173",
+    "demo/pattern-engine.mjs": "567d27fdd7b1c1b33fd3224d00ada2d94b05d6dcbfcae14eb8763e5ea1c99321",
+    "demo/pattern-assessment.mjs": "e4028a6d5f1c74dc6ff2a5c9ca04499f6e23299364b0068da808e1bc09db931a",
+    "demo/patterns.mjs": "a36313d1c5a3258969200a4b4fc5ac2a8c770275ffc99fb1c26d55e12133d4bc",
+    "scripts/replay-pose-patterns.mjs": "9843620643e51db26fb04d12e8455ff45e05ce1182b7c92ef4d5d64f2f4d75e2",
+    "scripts/simulate-pose-patterns.js": "b0fcae0ac58ff6472bf7dfa4e5aa2b038c5fe5696fa6ae782fea3b0366bd75d0",
+    "package-lock.json": "012c2cba1b9183ea5ecb3b70012de8a585e69df45da2d92196b884d00d044f36"
+  },
+  "executedBrowserSources": {
+    "src/pose-patterns.mjs": "5f80b5bb9a411ba25d4b2143c0fe88e69fbc477f08b4b5cb90f7dc9e9e43701c",
+    "src/supported-seat.mjs": "038db8f80ed1f10975a6b79c7c2225aa7ef550e477c6e7903c699f3790997e25",
+    "src/index.mjs": "6808d9c28df53279ab286ed922c4871009bf5940b4d18e4722fba911b6714698",
+    "src/vendor/render-pose.mjs": "077da6f171060fb414ff34899a4184029b3ee60a233f2be981da26f3fe34808d",
+    "src/standing.mjs": "3ebe955dda28b08fe834895a810171a7d731d43ae4043824e65814c53ce5e410",
+    "src/nimbus-pose.mjs": "0df9bc1daaf82ebce4be0e2c900e4db6eafdf085944191bbc88796ade4251b6e",
+    "src/shoulder-ride.mjs": "e7293e820863eb9487fbd9c1ddb48afed4a9c677655e52ef9e73ae5e4511e0af",
+    "demo/host-input.mjs": "bb9d635876505a58c8f0438fcbb566c89b17094d7db5fb8adede6be4ed95648e",
+    "demo/common.mjs": "a945a74009e912351f7233541120298aad9eba893c2a82e83751d48aa8215173",
+    "demo/pattern-engine.mjs": "567d27fdd7b1c1b33fd3224d00ada2d94b05d6dcbfcae14eb8763e5ea1c99321",
+    "demo/pattern-assessment.mjs": "e4028a6d5f1c74dc6ff2a5c9ca04499f6e23299364b0068da808e1bc09db931a",
+    "demo/patterns.mjs": "94f68383f7dc14c0ef143a628aa19ec89d6965ef9d8289c1f3dc65fe1aa412fd",
+    "scripts/replay-pose-patterns.mjs": "9843620643e51db26fb04d12e8455ff45e05ce1182b7c92ef4d5d64f2f4d75e2",
+    "scripts/simulate-pose-patterns.js": "b0fcae0ac58ff6472bf7dfa4e5aa2b038c5fe5696fa6ae782fea3b0366bd75d0",
+    "package-lock.json": "012c2cba1b9183ea5ecb3b70012de8a585e69df45da2d92196b884d00d044f36"
+  },
+  "scheduler": {
+    "kind": "message-channel-for-numerical-yields",
+    "rendererRafUnchanged": true,
+    "inputsAndSamplesUnchanged": true
+  },
+  "browser": {
+    "executionSucceeded": true,
+    "summary": {
+      "selectedModelCount": 3,
+      "completedRuns": 6,
+      "numericCaseCount": 1728,
+      "uniqueModelCaseCount": 1620,
+      "simulatedFrames": 4212,
+      "captureCount": 144,
+      "assessmentCounts": {
+        "pass": 26,
+        "limited": 1126,
+        "unsupported": 576,
+        "fail": 0
+      },
+      "byMode": {
+        "screen": {
+          "runs": 3,
+          "cases": 1620,
+          "frames": 1620
+        },
+        "continuous": {
+          "runs": 3,
+          "cases": 108,
+          "frames": 2592
+        }
+      },
+      "repeatedModelCaseEvaluations": 108
+    },
+    "runs": [
+      {
+        "modelId": "A01",
+        "mode": "screen",
+        "intensity": "stress",
+        "model": {
+          "kind": "local-vrm",
+          "vertexCount": 58640,
+          "visibleFeet": true,
+          "meshCount": 14,
+          "legLengthM": 0.7519357767091454,
+          "footWeightedVertexCounts": [
+            2656,
+            2656
+          ]
+        },
+        "cases": 540,
+        "byStatus": {
+          "pass": 12,
+          "limited": 528,
+          "unsupported": 0,
+          "fail": 0
+        },
+        "reasonCounts": {
+          "carrier-hand-target-unreachable": 2,
+          "carrier-tilt-proxy-only": 60,
+          "fixed-support-changes-crouch": 57,
+          "foot-target-unreachable": 10,
+          "grip-finger-closure-not-simulated": 132,
+          "hand-target-unreachable": 23,
+          "head-chest-angle-large": 18,
+          "head-neck-angle-large": 90,
+          "head-neck-orientation-limit": 3,
+          "head-torso-yaw-conflict": 4,
+          "possible-head-body-overlap": 29,
+          "seat-and-clothing-contact-unmeasured": 270,
+          "support-contact-not-constrained": 60,
+          "visible-sole-gap-over-10mm": 330
+        },
+        "maxima": {
+          "boneLengthErrorMm": 0.00004346999091242587,
+          "headRotationErrorDegrees": 0.0000024148365394514667,
+          "footTargetErrorMm": 772.9991386243993,
+          "supportErrorMm": 2.7194799110210365e-13,
+          "handTargetErrorMm": 195.37119617985277,
+          "handPositionErrorMm": 616.1968033617641,
+          "carrierHandTargetErrorMm": 66.16610443154727,
+          "maxKneeDegrees": 131.78486175149197,
+          "neckAngleDegrees": 101.01659027627788,
+          "headChestAngleDegrees": 137.0159693018325
+        },
+        "byFamily": {
+          "nimbus": {
+            "cases": 60,
+            "byStatus": {
+              "pass": 0,
+              "limited": 60,
+              "unsupported": 0,
+              "fail": 0
+            },
+            "reasonCounts": {
+              "fixed-support-changes-crouch": 57,
+              "head-torso-yaw-conflict": 4,
+              "visible-sole-gap-over-10mm": 60
+            },
+            "maxima": {
+              "boneLengthErrorMm": 0.00004346999080140357,
+              "headRotationErrorDegrees": 0.0000017075472925031877,
+              "footTargetErrorMm": 3.7675062959647363e-13,
+              "supportErrorMm": 0,
+              "handTargetErrorMm": 0,
+              "handPositionErrorMm": 4.434382113913243e-13,
+              "carrierHandTargetErrorMm": 0,
+              "maxKneeDegrees": 85.55658452359957,
+              "neckAngleDegrees": 45.14590903850978,
+              "headChestAngleDegrees": 70.99113245217579
+            }
+          },
+          "standing": {
+            "cases": 60,
+            "byStatus": {
+              "pass": 0,
+              "limited": 60,
+              "unsupported": 0,
+              "fail": 0
+            },
+            "reasonCounts": {
+              "head-neck-angle-large": 6,
+              "support-contact-not-constrained": 60
+            },
+            "maxima": {
+              "boneLengthErrorMm": 0.00004346999080140357,
+              "headRotationErrorDegrees": 0.0000017075472925031877,
+              "footTargetErrorMm": 0,
+              "supportErrorMm": 0,
+              "handTargetErrorMm": 0,
+              "handPositionErrorMm": 0.737387075559188,
+              "carrierHandTargetErrorMm": 0,
+              "maxKneeDegrees": 14.953245296924308,
+              "neckAngleDegrees": 66.33443280812466,
+              "headChestAngleDegrees": 66.33443280812466
+            }
+          },
+          "prone": {
+            "cases": 90,
+            "byStatus": {
+              "pass": 12,
+              "limited": 78,
+              "unsupported": 0,
+              "fail": 0
+            },
+            "reasonCounts": {
+              "head-chest-angle-large": 18,
+              "head-neck-angle-large": 78
+            },
+            "maxima": {
+              "boneLengthErrorMm": 0.00004346999080140357,
+              "headRotationErrorDegrees": 0.0000017075472925031877,
+              "footTargetErrorMm": 0,
+              "supportErrorMm": 0,
+              "handTargetErrorMm": 0,
+              "handPositionErrorMm": 2.6595070446912007e-13,
+              "carrierHandTargetErrorMm": 0,
+              "maxKneeDegrees": 20.000000000000057,
+              "neckAngleDegrees": 101.01659027627788,
+              "headChestAngleDegrees": 137.0159693018325
+            }
+          },
+          "chair": {
+            "cases": 90,
+            "byStatus": {
+              "pass": 0,
+              "limited": 90,
+              "unsupported": 0,
+              "fail": 0
+            },
+            "reasonCounts": {
+              "foot-target-unreachable": 3,
+              "grip-finger-closure-not-simulated": 60,
+              "hand-target-unreachable": 6,
+              "head-neck-orientation-limit": 1,
+              "seat-and-clothing-contact-unmeasured": 90,
+              "visible-sole-gap-over-10mm": 90
+            },
+            "maxima": {
+              "boneLengthErrorMm": 0.00004346999085691472,
+              "headRotationErrorDegrees": 0.0000024148365394514667,
+              "footTargetErrorMm": 66.94970117095635,
+              "supportErrorMm": 0,
+              "handTargetErrorMm": 195.37119617985277,
+              "handPositionErrorMm": 0,
+              "carrierHandTargetErrorMm": 0,
+              "maxKneeDegrees": 109.27474390085526,
+              "neckAngleDegrees": 45.20891068119743,
+              "headChestAngleDegrees": 58.90329438389693
+            }
+          },
+          "straddle": {
+            "cases": 120,
+            "byStatus": {
+              "pass": 0,
+              "limited": 120,
+              "unsupported": 0,
+              "fail": 0
+            },
+            "reasonCounts": {
+              "grip-finger-closure-not-simulated": 64,
+              "hand-target-unreachable": 9,
+              "head-neck-orientation-limit": 2,
+              "seat-and-clothing-contact-unmeasured": 120,
+              "visible-sole-gap-over-10mm": 120
+            },
+            "maxima": {
+              "boneLengthErrorMm": 0.00004346999091242587,
+              "headRotationErrorDegrees": 0.0000017075472925031877,
+              "footTargetErrorMm": 4.825400815232004e-13,
+              "supportErrorMm": 0,
+              "handTargetErrorMm": 195.37119617985277,
+              "handPositionErrorMm": 0,
+              "carrierHandTargetErrorMm": 0,
+              "maxKneeDegrees": 131.78486175149197,
+              "neckAngleDegrees": 53.6303787621333,
+              "headChestAngleDegrees": 72.2500660405797
+            }
+          },
+          "side-sit": {
+            "cases": 60,
+            "byStatus": {
+              "pass": 0,
+              "limited": 60,
+              "unsupported": 0,
+              "fail": 0
+            },
+            "reasonCounts": {
+              "foot-target-unreachable": 7,
+              "grip-finger-closure-not-simulated": 8,
+              "hand-target-unreachable": 4,
+              "seat-and-clothing-contact-unmeasured": 60,
+              "visible-sole-gap-over-10mm": 60
+            },
+            "maxima": {
+              "boneLengthErrorMm": 0.00004346999080140357,
+              "headRotationErrorDegrees": 0.0000017075472925031877,
+              "footTargetErrorMm": 772.9991386243993,
+              "supportErrorMm": 0,
+              "handTargetErrorMm": 195.37119617985263,
+              "handPositionErrorMm": 0,
+              "carrierHandTargetErrorMm": 0,
+              "maxKneeDegrees": 102.94381981835254,
+              "neckAngleDegrees": 44.60547665113342,
+              "headChestAngleDegrees": 46.57291384982485
+            }
+          },
+          "shoulder": {
+            "cases": 60,
+            "byStatus": {
+              "pass": 0,
+              "limited": 60,
+              "unsupported": 0,
+              "fail": 0
+            },
+            "reasonCounts": {
+              "carrier-hand-target-unreachable": 2,
+              "carrier-tilt-proxy-only": 60,
+              "hand-target-unreachable": 4,
+              "head-neck-angle-large": 6,
+              "possible-head-body-overlap": 29
+            },
+            "maxima": {
+              "boneLengthErrorMm": 0.00004346999085691472,
+              "headRotationErrorDegrees": 0.0000017075472925031877,
+              "footTargetErrorMm": 0,
+              "supportErrorMm": 2.7194799110210365e-13,
+              "handTargetErrorMm": 0,
+              "handPositionErrorMm": 616.1968033617641,
+              "carrierHandTargetErrorMm": 66.16610443154727,
+              "maxKneeDegrees": 70.35463269480185,
+              "neckAngleDegrees": 66.02357951143706,
+              "headChestAngleDegrees": 66.02357951143706
+            }
+          }
+        },
+        "caseExceptions": 0,
+        "restoreMismatches": 0,
+        "simulatedFrames": 540,
+        "notableLimits": [
+          {
+            "caseId": "chair-car__grip-far",
+            "patternId": "chair-car",
+            "status": "limited",
+            "reasons": [
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.00004346999085691472,
+            "footTargetErrorMm": 3.535432836170581e-13,
+            "handTargetErrorMm": 68.93082035633977,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "chair-car__family-boundary-a",
+            "patternId": "chair-car",
+            "status": "limited",
+            "reasons": [
+              "foot-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.000043469990690381266,
+            "footTargetErrorMm": 66.94970117095635,
+            "handTargetErrorMm": 1.5549927521022735e-13,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "chair-car__family-boundary-b",
+            "patternId": "chair-car",
+            "status": "limited",
+            "reasons": [
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.000043469990690381266,
+            "footTargetErrorMm": 2.989366980140908e-13,
+            "handTargetErrorMm": 195.37119617985277,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "chair-edge__grip-far",
+            "patternId": "chair-edge",
+            "status": "limited",
+            "reasons": [
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.000043469990690381266,
+            "footTargetErrorMm": 2.486410087150353e-13,
+            "handTargetErrorMm": 68.93082035633994,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "chair-edge__family-boundary-a",
+            "patternId": "chair-edge",
+            "status": "limited",
+            "reasons": [
+              "foot-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.000043469990690381266,
+            "footTargetErrorMm": 66.94970117095635,
+            "handTargetErrorMm": 1.5549927521022735e-13,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "chair-edge__family-boundary-b",
+            "patternId": "chair-edge",
+            "status": "limited",
+            "reasons": [
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.000043469990690381266,
+            "footTargetErrorMm": 2.989366980140908e-13,
+            "handTargetErrorMm": 195.37119617985277,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "chair-reclined__grip-far",
+            "patternId": "chair-reclined",
+            "status": "limited",
+            "reasons": [
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.000043469990829159144,
+            "footTargetErrorMm": 2.8305244335018377e-13,
+            "handTargetErrorMm": 68.93082035633985,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "chair-reclined__family-boundary-a",
+            "patternId": "chair-reclined",
+            "status": "limited",
+            "reasons": [
+              "foot-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.000043469990690381266,
+            "footTargetErrorMm": 66.94970117095635,
+            "handTargetErrorMm": 1.5549927521022735e-13,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "chair-reclined__family-boundary-b",
+            "patternId": "chair-reclined",
+            "status": "limited",
+            "reasons": [
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.000043469990690381266,
+            "footTargetErrorMm": 2.989366980140908e-13,
+            "handTargetErrorMm": 195.37119617985277,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "straddle-horse__grip-far",
+            "patternId": "straddle-horse",
+            "status": "limited",
+            "reasons": [
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.00004346999066262569,
+            "footTargetErrorMm": 1.962615573354719e-13,
+            "handTargetErrorMm": 68.93082035634,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "straddle-horse__family-boundary-b",
+            "patternId": "straddle-horse",
+            "status": "limited",
+            "reasons": [
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.000043469990690381266,
+            "footTargetErrorMm": 1.962615573354719e-13,
+            "handTargetErrorMm": 195.37119617985277,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "straddle-motorcycle__grip-far",
+            "patternId": "straddle-motorcycle",
+            "status": "limited",
+            "reasons": [
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.00004346999077364799,
+            "footTargetErrorMm": 2.0206364052201327e-13,
+            "handTargetErrorMm": 68.93082035633981,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "straddle-motorcycle__family-boundary-b",
+            "patternId": "straddle-motorcycle",
+            "status": "limited",
+            "reasons": [
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.000043469990690381266,
+            "footTargetErrorMm": 1.962615573354719e-13,
+            "handTargetErrorMm": 195.37119617985277,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "straddle-wide-beast__grip-far",
+            "patternId": "straddle-wide-beast",
+            "status": "limited",
+            "reasons": [
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.00004346999066262569,
+            "footTargetErrorMm": 1.8619006149354548e-13,
+            "handTargetErrorMm": 68.93082035634,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "straddle-wide-beast__family-boundary-b",
+            "patternId": "straddle-wide-beast",
+            "status": "limited",
+            "reasons": [
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.000043469990690381266,
+            "footTargetErrorMm": 1.962615573354719e-13,
+            "handTargetErrorMm": 195.37119617985277,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "straddle-dragon__grip-far",
+            "patternId": "straddle-dragon",
+            "status": "limited",
+            "reasons": [
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.00004346999074589242,
+            "footTargetErrorMm": 2.0955000055363632e-13,
+            "handTargetErrorMm": 68.9308203563399,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "straddle-dragon__family-boundary-b",
+            "patternId": "straddle-dragon",
+            "status": "limited",
+            "reasons": [
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.000043469990690381266,
+            "footTargetErrorMm": 1.962615573354719e-13,
+            "handTargetErrorMm": 195.37119617985277,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "side-broom__feet-wide",
+            "patternId": "side-broom",
+            "status": "limited",
+            "reasons": [
+              "foot-target-unreachable",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.00004346999071813684,
+            "footTargetErrorMm": 430.0611103769224,
+            "handTargetErrorMm": 3.1031676915590914e-14,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "side-broom__grip-far",
+            "patternId": "side-broom",
+            "status": "limited",
+            "reasons": [
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.00004346999077364799,
+            "footTargetErrorMm": 1.8041124150158794e-13,
+            "handTargetErrorMm": 68.93082035633999,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "side-broom__family-boundary-a",
+            "patternId": "side-broom",
+            "status": "limited",
+            "reasons": [
+              "foot-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.00004346999066262569,
+            "footTargetErrorMm": 104.92046979934175,
+            "handTargetErrorMm": 1.3154638854204587e-13,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "side-broom__family-boundary-b",
+            "patternId": "side-broom",
+            "status": "limited",
+            "reasons": [
+              "foot-target-unreachable",
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.00004346999080140357,
+            "footTargetErrorMm": 772.9991386243993,
+            "handTargetErrorMm": 195.37119617985263,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "side-edge__feet-wide",
+            "patternId": "side-edge",
+            "status": "limited",
+            "reasons": [
+              "foot-target-unreachable",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.00004346999066262569,
+            "footTargetErrorMm": 406.82819437241335,
+            "handTargetErrorMm": 1.152775633689051e-13,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "side-edge__grip-far",
+            "patternId": "side-edge",
+            "status": "limited",
+            "reasons": [
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.00004346999080140357,
+            "footTargetErrorMm": 3.37661150723213e-13,
+            "handTargetErrorMm": 68.93082035633962,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "side-edge__family-boundary-a",
+            "patternId": "side-edge",
+            "status": "limited",
+            "reasons": [
+              "foot-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.000043469990634870115,
+            "footTargetErrorMm": 104.99185430708313,
+            "handTargetErrorMm": 2.025134393107287e-13,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "side-edge__family-boundary-b",
+            "patternId": "side-edge",
+            "status": "limited",
+            "reasons": [
+              "foot-target-unreachable",
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.00004346999080140357,
+            "footTargetErrorMm": 772.9986263530619,
+            "handTargetErrorMm": 195.37119617985263,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "shoulder-upright__family-boundary-a",
+            "patternId": "shoulder-upright",
+            "status": "limited",
+            "reasons": [
+              "carrier-hand-target-unreachable",
+              "possible-head-body-overlap",
+              "carrier-tilt-proxy-only"
+            ],
+            "boneLengthErrorMm": 0.000043469990690381266,
+            "footTargetErrorMm": null,
+            "handTargetErrorMm": null,
+            "carrierHandTargetErrorMm": 40.94521240143551
+          },
+          {
+            "caseId": "shoulder-back-offset__family-boundary-a",
+            "patternId": "shoulder-back-offset",
+            "status": "limited",
+            "reasons": [
+              "carrier-hand-target-unreachable",
+              "possible-head-body-overlap",
+              "carrier-tilt-proxy-only"
+            ],
+            "boneLengthErrorMm": 0.000043469990690381266,
+            "footTargetErrorMm": null,
+            "handTargetErrorMm": null,
+            "carrierHandTargetErrorMm": 66.16610443154727
+          }
+        ]
+      },
+      {
+        "modelId": "A01",
+        "mode": "continuous",
+        "intensity": "stress",
+        "model": {
+          "kind": "local-vrm",
+          "vertexCount": 58640,
+          "visibleFeet": true,
+          "meshCount": 14,
+          "legLengthM": 0.7519357767091454,
+          "footWeightedVertexCounts": [
+            2656,
+            2656
+          ]
+        },
+        "cases": 36,
+        "byStatus": {
+          "pass": 0,
+          "limited": 36,
+          "unsupported": 0,
+          "fail": 0
+        },
+        "reasonCounts": {
+          "carrier-tilt-proxy-only": 4,
+          "fixed-support-changes-crouch": 4,
+          "foot-target-unreachable": 4,
+          "grip-finger-closure-not-simulated": 13,
+          "hand-target-unreachable": 6,
+          "head-chest-angle-large": 3,
+          "head-neck-angle-large": 10,
+          "head-neck-orientation-limit": 3,
+          "head-torso-yaw-conflict": 2,
+          "possible-head-body-overlap": 2,
+          "seat-and-clothing-contact-unmeasured": 18,
+          "support-contact-not-constrained": 4,
+          "visible-sole-gap-over-10mm": 22
+        },
+        "maxima": {
+          "boneLengthErrorMm": 0.000043469990884670295,
+          "headRotationErrorDegrees": 0.0000024148365394514667,
+          "footTargetErrorMm": 772.9991386243995,
+          "supportErrorMm": 2.220446049250313e-13,
+          "handTargetErrorMm": 195.37119617985314,
+          "handPositionErrorMm": 618.8919028880769,
+          "carrierHandTargetErrorMm": 6.170545761967546e-13,
+          "maxKneeDegrees": 118.86753842820502,
+          "neckAngleDegrees": 86.86681268357947,
+          "headChestAngleDegrees": 122.86681268356477
+        },
+        "byFamily": {
+          "nimbus": {
+            "cases": 4,
+            "byStatus": {
+              "pass": 0,
+              "limited": 4,
+              "unsupported": 0,
+              "fail": 0
+            },
+            "reasonCounts": {
+              "fixed-support-changes-crouch": 4,
+              "head-torso-yaw-conflict": 2,
+              "visible-sole-gap-over-10mm": 4
+            },
+            "maxima": {
+              "boneLengthErrorMm": 0.00004346999080140357,
+              "headRotationErrorDegrees": 0,
+              "footTargetErrorMm": 3.885780586188048e-13,
+              "supportErrorMm": 0,
+              "handTargetErrorMm": 0,
+              "handPositionErrorMm": 0,
+              "carrierHandTargetErrorMm": 0,
+              "maxKneeDegrees": 79.99401254375775,
+              "neckAngleDegrees": 28.658774982600267,
+              "headChestAngleDegrees": 71.0114859140324
+            }
+          },
+          "standing": {
+            "cases": 4,
+            "byStatus": {
+              "pass": 0,
+              "limited": 4,
+              "unsupported": 0,
+              "fail": 0
+            },
+            "reasonCounts": {
+              "head-neck-angle-large": 2,
+              "support-contact-not-constrained": 4
+            },
+            "maxima": {
+              "boneLengthErrorMm": 0.00004346999077364799,
+              "headRotationErrorDegrees": 0.0000024148365394514667,
+              "footTargetErrorMm": 0,
+              "supportErrorMm": 0,
+              "handTargetErrorMm": 0,
+              "handPositionErrorMm": 0,
+              "carrierHandTargetErrorMm": 0,
+              "maxKneeDegrees": 13.27626469303263,
+              "neckAngleDegrees": 66.43755148830955,
+              "headChestAngleDegrees": 66.43755148830955
+            }
+          },
+          "prone": {
+            "cases": 6,
+            "byStatus": {
+              "pass": 0,
+              "limited": 6,
+              "unsupported": 0,
+              "fail": 0
+            },
+            "reasonCounts": {
+              "head-chest-angle-large": 3,
+              "head-neck-angle-large": 6
+            },
+            "maxima": {
+              "boneLengthErrorMm": 0.00004346999085691472,
+              "headRotationErrorDegrees": 0,
+              "footTargetErrorMm": 0,
+              "supportErrorMm": 0,
+              "handTargetErrorMm": 0,
+              "handPositionErrorMm": 0,
+              "carrierHandTargetErrorMm": 0,
+              "maxKneeDegrees": 14.000000000000057,
+              "neckAngleDegrees": 86.86681268357947,
+              "headChestAngleDegrees": 122.86681268356477
+            }
+          },
+          "chair": {
+            "cases": 6,
+            "byStatus": {
+              "pass": 0,
+              "limited": 6,
+              "unsupported": 0,
+              "fail": 0
+            },
+            "reasonCounts": {
+              "foot-target-unreachable": 2,
+              "grip-finger-closure-not-simulated": 5,
+              "head-neck-orientation-limit": 1,
+              "seat-and-clothing-contact-unmeasured": 6,
+              "visible-sole-gap-over-10mm": 6
+            },
+            "maxima": {
+              "boneLengthErrorMm": 0.00004346999080140357,
+              "headRotationErrorDegrees": 0,
+              "footTargetErrorMm": 67.03034374958739,
+              "supportErrorMm": 0,
+              "handTargetErrorMm": 4.079219866531555e-13,
+              "handPositionErrorMm": 0,
+              "carrierHandTargetErrorMm": 0,
+              "maxKneeDegrees": 107.68781107570354,
+              "neckAngleDegrees": 46.16396975765158,
+              "headChestAngleDegrees": 49.14335029233773
+            }
+          },
+          "straddle": {
+            "cases": 8,
+            "byStatus": {
+              "pass": 0,
+              "limited": 8,
+              "unsupported": 0,
+              "fail": 0
+            },
+            "reasonCounts": {
+              "grip-finger-closure-not-simulated": 6,
+              "hand-target-unreachable": 2,
+              "head-neck-orientation-limit": 2,
+              "seat-and-clothing-contact-unmeasured": 8,
+              "visible-sole-gap-over-10mm": 8
+            },
+            "maxima": {
+              "boneLengthErrorMm": 0.000043469990884670295,
+              "headRotationErrorDegrees": 0.0000017075472925031877,
+              "footTargetErrorMm": 3.9350319887992497e-13,
+              "supportErrorMm": 0,
+              "handTargetErrorMm": 195.37119617985292,
+              "handPositionErrorMm": 0,
+              "carrierHandTargetErrorMm": 0,
+              "maxKneeDegrees": 118.86753842820502,
+              "neckAngleDegrees": 54.586449346073834,
+              "headChestAngleDegrees": 73.20757768782764
+            }
+          },
+          "side-sit": {
+            "cases": 4,
+            "byStatus": {
+              "pass": 0,
+              "limited": 4,
+              "unsupported": 0,
+              "fail": 0
+            },
+            "reasonCounts": {
+              "foot-target-unreachable": 2,
+              "grip-finger-closure-not-simulated": 2,
+              "hand-target-unreachable": 2,
+              "seat-and-clothing-contact-unmeasured": 4,
+              "visible-sole-gap-over-10mm": 4
+            },
+            "maxima": {
+              "boneLengthErrorMm": 0.000043469990884670295,
+              "headRotationErrorDegrees": 0,
+              "footTargetErrorMm": 772.9991386243995,
+              "supportErrorMm": 0,
+              "handTargetErrorMm": 195.37119617985314,
+              "handPositionErrorMm": 0,
+              "carrierHandTargetErrorMm": 0,
+              "maxKneeDegrees": 102.94381981835267,
+              "neckAngleDegrees": 17.543246493358957,
+              "headChestAngleDegrees": 41.878804087433636
+            }
+          },
+          "shoulder": {
+            "cases": 4,
+            "byStatus": {
+              "pass": 0,
+              "limited": 4,
+              "unsupported": 0,
+              "fail": 0
+            },
+            "reasonCounts": {
+              "carrier-tilt-proxy-only": 4,
+              "hand-target-unreachable": 2,
+              "head-neck-angle-large": 2,
+              "possible-head-body-overlap": 2
+            },
+            "maxima": {
+              "boneLengthErrorMm": 0.000043469990884670295,
+              "headRotationErrorDegrees": 0,
+              "footTargetErrorMm": 0,
+              "supportErrorMm": 2.220446049250313e-13,
+              "handTargetErrorMm": 0,
+              "handPositionErrorMm": 618.8919028880769,
+              "carrierHandTargetErrorMm": 6.170545761967546e-13,
+              "maxKneeDegrees": 70.28866567221881,
+              "neckAngleDegrees": 57.93789974542222,
+              "headChestAngleDegrees": 57.93789974542222
+            }
+          }
+        },
+        "caseExceptions": 0,
+        "restoreMismatches": 0,
+        "simulatedFrames": 864,
+        "notableLimits": [
+          {
+            "caseId": "chair-edge__family-boundary-a",
+            "patternId": "chair-edge",
+            "status": "limited",
+            "reasons": [
+              "foot-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.00004346999071813684,
+            "footTargetErrorMm": 67.03034374958739,
+            "handTargetErrorMm": 3.448897383752433e-13,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "chair-reclined__family-boundary-a",
+            "patternId": "chair-reclined",
+            "status": "limited",
+            "reasons": [
+              "foot-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.00004346999071813684,
+            "footTargetErrorMm": 67.03034374958739,
+            "handTargetErrorMm": 3.448897383752433e-13,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "straddle-horse__family-boundary-b",
+            "patternId": "straddle-horse",
+            "status": "limited",
+            "reasons": [
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.000043469990884670295,
+            "footTargetErrorMm": 2.9010883917888856e-13,
+            "handTargetErrorMm": 195.37119617985292,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "straddle-wide-beast__family-boundary-b",
+            "patternId": "straddle-wide-beast",
+            "status": "limited",
+            "reasons": [
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.000043469990884670295,
+            "footTargetErrorMm": 2.9010883917888856e-13,
+            "handTargetErrorMm": 195.37119617985292,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "side-broom__family-boundary-b",
+            "patternId": "side-broom",
+            "status": "limited",
+            "reasons": [
+              "foot-target-unreachable",
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.000043469990829159144,
+            "footTargetErrorMm": 772.9991386243995,
+            "handTargetErrorMm": 195.37119617985314,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "side-edge__family-boundary-b",
+            "patternId": "side-edge",
+            "status": "limited",
+            "reasons": [
+              "foot-target-unreachable",
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.000043469990884670295,
+            "footTargetErrorMm": 772.9986263530624,
+            "handTargetErrorMm": 195.37119617985292,
+            "carrierHandTargetErrorMm": null
+          }
+        ]
+      },
+      {
+        "modelId": "A02",
+        "mode": "screen",
+        "intensity": "stress",
+        "model": {
+          "kind": "local-vrm",
+          "vertexCount": 2832,
+          "visibleFeet": false,
+          "meshCount": 22,
+          "legLengthM": 0.43255832551202233,
+          "footWeightedVertexCounts": [
+            0,
+            0
+          ]
+        },
+        "cases": 540,
+        "byStatus": {
+          "pass": 0,
+          "limited": 0,
+          "unsupported": 540,
+          "fail": 0
+        },
+        "reasonCounts": {
+          "carrier-tilt-proxy-only": 60,
+          "fixed-support-changes-crouch": 59,
+          "foot-target-unreachable": 14,
+          "grip-finger-closure-not-simulated": 132,
+          "hand-target-unreachable": 22,
+          "head-chest-angle-large": 24,
+          "head-neck-angle-large": 89,
+          "head-neck-orientation-limit": 3,
+          "head-torso-yaw-conflict": 4,
+          "no-visible-foot-skin": 540,
+          "possible-foot-torso-overlap": 58,
+          "possible-head-body-overlap": 58,
+          "possible-shin-torso-overlap": 58,
+          "seat-and-clothing-contact-unmeasured": 270,
+          "support-contact-not-constrained": 60
+        },
+        "maxima": {
+          "boneLengthErrorMm": 0.0000409758291949891,
+          "headRotationErrorDegrees": 0.0000017075472925031877,
+          "footTargetErrorMm": 456.64607344457403,
+          "supportErrorMm": 4.440892098500626e-13,
+          "handTargetErrorMm": 121.32989997538627,
+          "handPositionErrorMm": 954.9176911294358,
+          "carrierHandTargetErrorMm": 4.935890375251311e-13,
+          "maxKneeDegrees": 127.53887378644609,
+          "neckAngleDegrees": 104.60765762287144,
+          "headChestAngleDegrees": 140.60705905736106
+        },
+        "byFamily": {
+          "nimbus": {
+            "cases": 60,
+            "byStatus": {
+              "pass": 0,
+              "limited": 0,
+              "unsupported": 60,
+              "fail": 0
+            },
+            "reasonCounts": {
+              "fixed-support-changes-crouch": 59,
+              "head-torso-yaw-conflict": 4,
+              "no-visible-foot-skin": 60
+            },
+            "maxima": {
+              "boneLengthErrorMm": 0.00004097582918111131,
+              "headRotationErrorDegrees": 0.0000017075472925031877,
+              "footTargetErrorMm": 2.8338334153712643e-13,
+              "supportErrorMm": 0,
+              "handTargetErrorMm": 0,
+              "handPositionErrorMm": 1.588764278728132e-13,
+              "carrierHandTargetErrorMm": 0,
+              "maxKneeDegrees": 87.59507501536461,
+              "neckAngleDegrees": 44.293664219259284,
+              "headChestAngleDegrees": 70.98849755521256
+            }
+          },
+          "standing": {
+            "cases": 60,
+            "byStatus": {
+              "pass": 0,
+              "limited": 0,
+              "unsupported": 60,
+              "fail": 0
+            },
+            "reasonCounts": {
+              "head-neck-angle-large": 7,
+              "no-visible-foot-skin": 60,
+              "support-contact-not-constrained": 60
+            },
+            "maxima": {
+              "boneLengthErrorMm": 0.0000409758291949891,
+              "headRotationErrorDegrees": 0.0000017075472925031877,
+              "footTargetErrorMm": 0,
+              "supportErrorMm": 0,
+              "handTargetErrorMm": 0,
+              "handPositionErrorMm": 0.646085887830324,
+              "carrierHandTargetErrorMm": 0,
+              "maxKneeDegrees": 25.247892111640397,
+              "neckAngleDegrees": 66.03486000237908,
+              "headChestAngleDegrees": 66.03486000237908
+            }
+          },
+          "prone": {
+            "cases": 90,
+            "byStatus": {
+              "pass": 0,
+              "limited": 0,
+              "unsupported": 90,
+              "fail": 0
+            },
+            "reasonCounts": {
+              "head-chest-angle-large": 24,
+              "head-neck-angle-large": 78,
+              "no-visible-foot-skin": 90
+            },
+            "maxima": {
+              "boneLengthErrorMm": 0.00004097582917417242,
+              "headRotationErrorDegrees": 0.0000017075472925031877,
+              "footTargetErrorMm": 0,
+              "supportErrorMm": 0,
+              "handTargetErrorMm": 0,
+              "handPositionErrorMm": 1.2813490069415588e-13,
+              "carrierHandTargetErrorMm": 0,
+              "maxKneeDegrees": 20,
+              "neckAngleDegrees": 104.60765762287144,
+              "headChestAngleDegrees": 140.60705905736106
+            }
+          },
+          "chair": {
+            "cases": 90,
+            "byStatus": {
+              "pass": 0,
+              "limited": 0,
+              "unsupported": 90,
+              "fail": 0
+            },
+            "reasonCounts": {
+              "foot-target-unreachable": 3,
+              "grip-finger-closure-not-simulated": 60,
+              "hand-target-unreachable": 6,
+              "head-neck-orientation-limit": 1,
+              "no-visible-foot-skin": 90,
+              "seat-and-clothing-contact-unmeasured": 90
+            },
+            "maxima": {
+              "boneLengthErrorMm": 0.00004097582918111131,
+              "headRotationErrorDegrees": 0.0000017075472925031877,
+              "footTargetErrorMm": 53.826311347906845,
+              "supportErrorMm": 0,
+              "handTargetErrorMm": 121.3298999753862,
+              "handPositionErrorMm": 0,
+              "carrierHandTargetErrorMm": 0,
+              "maxKneeDegrees": 106.72242829524573,
+              "neckAngleDegrees": 51.68875505044479,
+              "headChestAngleDegrees": 66.79492043418949
+            }
+          },
+          "straddle": {
+            "cases": 120,
+            "byStatus": {
+              "pass": 0,
+              "limited": 0,
+              "unsupported": 120,
+              "fail": 0
+            },
+            "reasonCounts": {
+              "foot-target-unreachable": 4,
+              "grip-finger-closure-not-simulated": 64,
+              "hand-target-unreachable": 8,
+              "head-neck-orientation-limit": 1,
+              "no-visible-foot-skin": 120,
+              "seat-and-clothing-contact-unmeasured": 120
+            },
+            "maxima": {
+              "boneLengthErrorMm": 0.00004097582918111131,
+              "headRotationErrorDegrees": 0.0000017075472925031877,
+              "footTargetErrorMm": 17.57217761684313,
+              "supportErrorMm": 0,
+              "handTargetErrorMm": 121.3298999753862,
+              "handPositionErrorMm": 0,
+              "carrierHandTargetErrorMm": 0,
+              "maxKneeDegrees": 127.53887378644609,
+              "neckAngleDegrees": 45.7393363759987,
+              "headChestAngleDegrees": 64.35897510087317
+            }
+          },
+          "side-sit": {
+            "cases": 60,
+            "byStatus": {
+              "pass": 0,
+              "limited": 0,
+              "unsupported": 60,
+              "fail": 0
+            },
+            "reasonCounts": {
+              "foot-target-unreachable": 7,
+              "grip-finger-closure-not-simulated": 8,
+              "hand-target-unreachable": 4,
+              "head-neck-orientation-limit": 1,
+              "no-visible-foot-skin": 60,
+              "seat-and-clothing-contact-unmeasured": 60
+            },
+            "maxima": {
+              "boneLengthErrorMm": 0.000040975829188050206,
+              "headRotationErrorDegrees": 0.0000017075472925031877,
+              "footTargetErrorMm": 456.64607344457403,
+              "supportErrorMm": 0,
+              "handTargetErrorMm": 121.32989997538627,
+              "handPositionErrorMm": 0,
+              "carrierHandTargetErrorMm": 0,
+              "maxKneeDegrees": 104.93176220711389,
+              "neckAngleDegrees": 46.119923781498784,
+              "headChestAngleDegrees": 50.927270945834735
+            }
+          },
+          "shoulder": {
+            "cases": 60,
+            "byStatus": {
+              "pass": 0,
+              "limited": 0,
+              "unsupported": 60,
+              "fail": 0
+            },
+            "reasonCounts": {
+              "carrier-tilt-proxy-only": 60,
+              "hand-target-unreachable": 4,
+              "head-neck-angle-large": 4,
+              "no-visible-foot-skin": 60,
+              "possible-foot-torso-overlap": 58,
+              "possible-head-body-overlap": 58,
+              "possible-shin-torso-overlap": 58
+            },
+            "maxima": {
+              "boneLengthErrorMm": 0.0000409758290770279,
+              "headRotationErrorDegrees": 0.0000017075472925031877,
+              "footTargetErrorMm": 0,
+              "supportErrorMm": 4.440892098500626e-13,
+              "handTargetErrorMm": 0,
+              "handPositionErrorMm": 954.9176911294358,
+              "carrierHandTargetErrorMm": 4.935890375251311e-13,
+              "maxKneeDegrees": 70.35463269480185,
+              "neckAngleDegrees": 65.96972528176428,
+              "headChestAngleDegrees": 65.96972528176428
+            }
+          }
+        },
+        "caseExceptions": 0,
+        "restoreMismatches": 0,
+        "simulatedFrames": 540,
+        "notableLimits": [
+          {
+            "caseId": "chair-car__grip-far",
+            "patternId": "chair-car",
+            "status": "unsupported",
+            "reasons": [
+              "no-visible-foot-skin",
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.00004097582914641684,
+            "footTargetErrorMm": 1.5011122659325205e-13,
+            "handTargetErrorMm": 42.80756280967558,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "chair-car__family-boundary-a",
+            "patternId": "chair-car",
+            "status": "unsupported",
+            "reasons": [
+              "no-visible-foot-skin",
+              "foot-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.000040975829153355736,
+            "footTargetErrorMm": 53.826311347906845,
+            "handTargetErrorMm": 1.1188630228279524e-13,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "chair-car__family-boundary-b",
+            "patternId": "chair-car",
+            "status": "unsupported",
+            "reasons": [
+              "no-visible-foot-skin",
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.00004097582912560016,
+            "footTargetErrorMm": 1.624353417151118e-13,
+            "handTargetErrorMm": 121.3298999753862,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "chair-edge__grip-far",
+            "patternId": "chair-edge",
+            "status": "unsupported",
+            "reasons": [
+              "no-visible-foot-skin",
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.000040975829153355736,
+            "footTargetErrorMm": 6.206335383118183e-14,
+            "handTargetErrorMm": 42.80756280967551,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "chair-edge__family-boundary-a",
+            "patternId": "chair-edge",
+            "status": "unsupported",
+            "reasons": [
+              "no-visible-foot-skin",
+              "foot-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.000040975829153355736,
+            "footTargetErrorMm": 53.826311347906845,
+            "handTargetErrorMm": 1.1188630228279524e-13,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "chair-edge__family-boundary-b",
+            "patternId": "chair-edge",
+            "status": "unsupported",
+            "reasons": [
+              "no-visible-foot-skin",
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.00004097582912560016,
+            "footTargetErrorMm": 1.624353417151118e-13,
+            "handTargetErrorMm": 121.3298999753862,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "chair-reclined__grip-far",
+            "patternId": "chair-reclined",
+            "status": "unsupported",
+            "reasons": [
+              "no-visible-foot-skin",
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.00004097582912560016,
+            "footTargetErrorMm": 1.249000902703301e-13,
+            "handTargetErrorMm": 42.80756280967552,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "chair-reclined__family-boundary-a",
+            "patternId": "chair-reclined",
+            "status": "unsupported",
+            "reasons": [
+              "no-visible-foot-skin",
+              "foot-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.000040975829153355736,
+            "footTargetErrorMm": 53.826311347906845,
+            "handTargetErrorMm": 1.1188630228279524e-13,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "chair-reclined__family-boundary-b",
+            "patternId": "chair-reclined",
+            "status": "unsupported",
+            "reasons": [
+              "no-visible-foot-skin",
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.00004097582912560016,
+            "footTargetErrorMm": 1.624353417151118e-13,
+            "handTargetErrorMm": 121.3298999753862,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "straddle-horse__grip-far",
+            "patternId": "straddle-horse",
+            "status": "unsupported",
+            "reasons": [
+              "no-visible-foot-skin",
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.00004097582912560016,
+            "footTargetErrorMm": 1.0477500027681816e-13,
+            "handTargetErrorMm": 42.80756280967561,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "straddle-horse__family-boundary-b",
+            "patternId": "straddle-horse",
+            "status": "unsupported",
+            "reasons": [
+              "no-visible-foot-skin",
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.00004097582912560016,
+            "footTargetErrorMm": 6.206335383118183e-14,
+            "handTargetErrorMm": 121.3298999753862,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "straddle-motorcycle__grip-far",
+            "patternId": "straddle-motorcycle",
+            "status": "unsupported",
+            "reasons": [
+              "no-visible-foot-skin",
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.00004097582911172237,
+            "footTargetErrorMm": 6.206335383118183e-14,
+            "handTargetErrorMm": 42.807562809675616,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "straddle-motorcycle__family-boundary-b",
+            "patternId": "straddle-motorcycle",
+            "status": "unsupported",
+            "reasons": [
+              "no-visible-foot-skin",
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.00004097582912560016,
+            "footTargetErrorMm": 6.206335383118183e-14,
+            "handTargetErrorMm": 121.3298999753862,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "straddle-wide-beast__grip-far",
+            "patternId": "straddle-wide-beast",
+            "status": "unsupported",
+            "reasons": [
+              "no-visible-foot-skin",
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.00004097582912560016,
+            "footTargetErrorMm": 8.777083671441753e-14,
+            "handTargetErrorMm": 42.80756280967561,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "straddle-wide-beast__family-boundary-b",
+            "patternId": "straddle-wide-beast",
+            "status": "unsupported",
+            "reasons": [
+              "no-visible-foot-skin",
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.00004097582912560016,
+            "footTargetErrorMm": 6.206335383118183e-14,
+            "handTargetErrorMm": 121.3298999753862,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "straddle-dragon__grip-far",
+            "patternId": "straddle-dragon",
+            "status": "unsupported",
+            "reasons": [
+              "no-visible-foot-skin",
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.00004097582912560016,
+            "footTargetErrorMm": 2.172217384091364e-13,
+            "handTargetErrorMm": 42.80756280967556,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "straddle-dragon__family-boundary-b",
+            "patternId": "straddle-dragon",
+            "status": "unsupported",
+            "reasons": [
+              "no-visible-foot-skin",
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.00004097582912560016,
+            "footTargetErrorMm": 6.206335383118183e-14,
+            "handTargetErrorMm": 121.3298999753862,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "side-broom__feet-wide",
+            "patternId": "side-broom",
+            "status": "unsupported",
+            "reasons": [
+              "no-visible-foot-skin",
+              "foot-target-unreachable",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.000040975829153355736,
+            "footTargetErrorMm": 263.69623942547116,
+            "handTargetErrorMm": 1.1775693440128312e-13,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "side-broom__grip-far",
+            "patternId": "side-broom",
+            "status": "unsupported",
+            "reasons": [
+              "no-visible-foot-skin",
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.000040975829153355736,
+            "footTargetErrorMm": 1.2432050435751765e-13,
+            "handTargetErrorMm": 42.807562809675574,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "side-broom__family-boundary-a",
+            "patternId": "side-broom",
+            "status": "unsupported",
+            "reasons": [
+              "no-visible-foot-skin",
+              "foot-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.000040975829132539054,
+            "footTargetErrorMm": 72.42002457026996,
+            "handTargetErrorMm": 1.0569008315563938e-13,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "side-broom__family-boundary-b",
+            "patternId": "side-broom",
+            "status": "unsupported",
+            "reasons": [
+              "no-visible-foot-skin",
+              "foot-target-unreachable",
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.00004097582912560016,
+            "footTargetErrorMm": 456.64607344457403,
+            "handTargetErrorMm": 121.32989997538627,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "side-edge__seat-high",
+            "patternId": "side-edge",
+            "status": "unsupported",
+            "reasons": [
+              "no-visible-foot-skin",
+              "foot-target-unreachable",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.00004097582918111131,
+            "footTargetErrorMm": 25.99270990211254,
+            "handTargetErrorMm": 1.3947004136484322e-13,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "side-edge__feet-wide",
+            "patternId": "side-edge",
+            "status": "unsupported",
+            "reasons": [
+              "no-visible-foot-skin",
+              "foot-target-unreachable",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.00004097582912560016,
+            "footTargetErrorMm": 249.55463523780435,
+            "handTargetErrorMm": 8.582937747229195e-14,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "side-edge__grip-far",
+            "patternId": "side-edge",
+            "status": "unsupported",
+            "reasons": [
+              "no-visible-foot-skin",
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.00004097582912560016,
+            "footTargetErrorMm": 2.1420849872268349e-13,
+            "handTargetErrorMm": 42.807562809675495,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "side-edge__family-boundary-a",
+            "patternId": "side-edge",
+            "status": "unsupported",
+            "reasons": [
+              "no-visible-foot-skin",
+              "foot-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.000040975829188050206,
+            "footTargetErrorMm": 72.4468138761789,
+            "handTargetErrorMm": 1.0569008315563938e-13,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "side-edge__family-boundary-b",
+            "patternId": "side-edge",
+            "status": "unsupported",
+            "reasons": [
+              "no-visible-foot-skin",
+              "foot-target-unreachable",
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.00004097582916029463,
+            "footTargetErrorMm": 456.6460643032806,
+            "handTargetErrorMm": 121.32989997538614,
+            "carrierHandTargetErrorMm": null
+          }
+        ]
+      },
+      {
+        "modelId": "A02",
+        "mode": "continuous",
+        "intensity": "stress",
+        "model": {
+          "kind": "local-vrm",
+          "vertexCount": 2832,
+          "visibleFeet": false,
+          "meshCount": 22,
+          "legLengthM": 0.43255832551202233,
+          "footWeightedVertexCounts": [
+            0,
+            0
+          ]
+        },
+        "cases": 36,
+        "byStatus": {
+          "pass": 0,
+          "limited": 0,
+          "unsupported": 36,
+          "fail": 0
+        },
+        "reasonCounts": {
+          "carrier-tilt-proxy-only": 4,
+          "fixed-support-changes-crouch": 4,
+          "foot-target-unreachable": 7,
+          "grip-finger-closure-not-simulated": 13,
+          "hand-target-unreachable": 2,
+          "head-chest-angle-large": 3,
+          "head-neck-angle-large": 10,
+          "head-neck-orientation-limit": 2,
+          "head-torso-yaw-conflict": 2,
+          "no-visible-foot-skin": 36,
+          "possible-foot-torso-overlap": 4,
+          "possible-head-body-overlap": 4,
+          "possible-shin-torso-overlap": 4,
+          "seat-and-clothing-contact-unmeasured": 18,
+          "support-contact-not-constrained": 4
+        },
+        "maxima": {
+          "boneLengthErrorMm": 0.000040975829201927993,
+          "headRotationErrorDegrees": 0,
+          "footTargetErrorMm": 456.6460734445743,
+          "supportErrorMm": 2.2247786310271854e-13,
+          "handTargetErrorMm": 121.32989997538633,
+          "handPositionErrorMm": 0,
+          "carrierHandTargetErrorMm": 5.545908510953291e-13,
+          "maxKneeDegrees": 113.96864930323167,
+          "neckAngleDegrees": 90.45795581529887,
+          "headChestAngleDegrees": 126.45795581529892
+        },
+        "byFamily": {
+          "nimbus": {
+            "cases": 4,
+            "byStatus": {
+              "pass": 0,
+              "limited": 0,
+              "unsupported": 4,
+              "fail": 0
+            },
+            "reasonCounts": {
+              "fixed-support-changes-crouch": 4,
+              "head-torso-yaw-conflict": 2,
+              "no-visible-foot-skin": 4
+            },
+            "maxima": {
+              "boneLengthErrorMm": 0.00004097582918111131,
+              "headRotationErrorDegrees": 0,
+              "footTargetErrorMm": 2.386186135232231e-13,
+              "supportErrorMm": 0,
+              "handTargetErrorMm": 0,
+              "handPositionErrorMm": 0,
+              "carrierHandTargetErrorMm": 0,
+              "maxKneeDegrees": 80.67739182250892,
+              "neckAngleDegrees": 28.548744745373433,
+              "headChestAngleDegrees": 71.0055406994682
+            }
+          },
+          "standing": {
+            "cases": 4,
+            "byStatus": {
+              "pass": 0,
+              "limited": 0,
+              "unsupported": 4,
+              "fail": 0
+            },
+            "reasonCounts": {
+              "head-neck-angle-large": 2,
+              "no-visible-foot-skin": 4,
+              "support-contact-not-constrained": 4
+            },
+            "maxima": {
+              "boneLengthErrorMm": 0.000040975829201927993,
+              "headRotationErrorDegrees": 0,
+              "footTargetErrorMm": 0,
+              "supportErrorMm": 0,
+              "handTargetErrorMm": 0,
+              "handPositionErrorMm": 0,
+              "carrierHandTargetErrorMm": 0,
+              "maxKneeDegrees": 23.529018726247955,
+              "neckAngleDegrees": 66.06969740962447,
+              "headChestAngleDegrees": 66.06969740962447
+            }
+          },
+          "prone": {
+            "cases": 6,
+            "byStatus": {
+              "pass": 0,
+              "limited": 0,
+              "unsupported": 6,
+              "fail": 0
+            },
+            "reasonCounts": {
+              "head-chest-angle-large": 3,
+              "head-neck-angle-large": 6,
+              "no-visible-foot-skin": 6
+            },
+            "maxima": {
+              "boneLengthErrorMm": 0.00004097582918111131,
+              "headRotationErrorDegrees": 0,
+              "footTargetErrorMm": 0,
+              "supportErrorMm": 0,
+              "handTargetErrorMm": 0,
+              "handPositionErrorMm": 0,
+              "carrierHandTargetErrorMm": 0,
+              "maxKneeDegrees": 14.000000000000057,
+              "neckAngleDegrees": 90.45795581529887,
+              "headChestAngleDegrees": 126.45795581529892
+            }
+          },
+          "chair": {
+            "cases": 6,
+            "byStatus": {
+              "pass": 0,
+              "limited": 0,
+              "unsupported": 6,
+              "fail": 0
+            },
+            "reasonCounts": {
+              "foot-target-unreachable": 2,
+              "grip-finger-closure-not-simulated": 5,
+              "head-neck-orientation-limit": 1,
+              "no-visible-foot-skin": 6,
+              "seat-and-clothing-contact-unmeasured": 6
+            },
+            "maxima": {
+              "boneLengthErrorMm": 0.000040975829188050206,
+              "headRotationErrorDegrees": 0,
+              "footTargetErrorMm": 53.838362327035476,
+              "supportErrorMm": 0,
+              "handTargetErrorMm": 3.267180239406185e-13,
+              "handPositionErrorMm": 0,
+              "carrierHandTargetErrorMm": 0,
+              "maxKneeDegrees": 104.83884806978068,
+              "neckAngleDegrees": 51.73733338622395,
+              "headChestAngleDegrees": 66.95528142832704
+            }
+          },
+          "straddle": {
+            "cases": 8,
+            "byStatus": {
+              "pass": 0,
+              "limited": 0,
+              "unsupported": 8,
+              "fail": 0
+            },
+            "reasonCounts": {
+              "foot-target-unreachable": 3,
+              "grip-finger-closure-not-simulated": 6,
+              "head-neck-orientation-limit": 1,
+              "no-visible-foot-skin": 8,
+              "seat-and-clothing-contact-unmeasured": 8
+            },
+            "maxima": {
+              "boneLengthErrorMm": 0.000040975829188050206,
+              "headRotationErrorDegrees": 0,
+              "footTargetErrorMm": 17.57884435010099,
+              "supportErrorMm": 0,
+              "handTargetErrorMm": 3.4219371797089427e-13,
+              "handPositionErrorMm": 0,
+              "carrierHandTargetErrorMm": 0,
+              "maxKneeDegrees": 113.96864930323167,
+              "neckAngleDegrees": 46.69486021584456,
+              "headChestAngleDegrees": 65.31598855759631
+            }
+          },
+          "side-sit": {
+            "cases": 4,
+            "byStatus": {
+              "pass": 0,
+              "limited": 0,
+              "unsupported": 4,
+              "fail": 0
+            },
+            "reasonCounts": {
+              "foot-target-unreachable": 2,
+              "grip-finger-closure-not-simulated": 2,
+              "hand-target-unreachable": 2,
+              "no-visible-foot-skin": 4,
+              "seat-and-clothing-contact-unmeasured": 4
+            },
+            "maxima": {
+              "boneLengthErrorMm": 0.00004097582918111131,
+              "headRotationErrorDegrees": 0,
+              "footTargetErrorMm": 456.6460734445743,
+              "supportErrorMm": 0,
+              "handTargetErrorMm": 121.32989997538633,
+              "handPositionErrorMm": 0,
+              "carrierHandTargetErrorMm": 0,
+              "maxKneeDegrees": 104.93176220711396,
+              "neckAngleDegrees": 9.697736792718635,
+              "headChestAngleDegrees": 34.03351512378708
+            }
+          },
+          "shoulder": {
+            "cases": 4,
+            "byStatus": {
+              "pass": 0,
+              "limited": 0,
+              "unsupported": 4,
+              "fail": 0
+            },
+            "reasonCounts": {
+              "carrier-tilt-proxy-only": 4,
+              "head-neck-angle-large": 2,
+              "no-visible-foot-skin": 4,
+              "possible-foot-torso-overlap": 4,
+              "possible-head-body-overlap": 4,
+              "possible-shin-torso-overlap": 4
+            },
+            "maxima": {
+              "boneLengthErrorMm": 0.00004097582907008901,
+              "headRotationErrorDegrees": 0,
+              "footTargetErrorMm": 0,
+              "supportErrorMm": 2.2247786310271854e-13,
+              "handTargetErrorMm": 0,
+              "handPositionErrorMm": 0,
+              "carrierHandTargetErrorMm": 5.545908510953291e-13,
+              "maxKneeDegrees": 70.28866567221876,
+              "neckAngleDegrees": 65.96972528176428,
+              "headChestAngleDegrees": 65.96972528176428
+            }
+          }
+        },
+        "caseExceptions": 0,
+        "restoreMismatches": 0,
+        "simulatedFrames": 864,
+        "notableLimits": [
+          {
+            "caseId": "chair-car__family-boundary-a",
+            "patternId": "chair-car",
+            "status": "unsupported",
+            "reasons": [
+              "no-visible-foot-skin",
+              "foot-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.000040975829188050206,
+            "footTargetErrorMm": 53.838362327035476,
+            "handTargetErrorMm": 1.8332342329761702e-13,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "chair-edge__family-boundary-a",
+            "patternId": "chair-edge",
+            "status": "unsupported",
+            "reasons": [
+              "no-visible-foot-skin",
+              "foot-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.000040975829188050206,
+            "footTargetErrorMm": 53.838362327035476,
+            "handTargetErrorMm": 1.8332342329761702e-13,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "side-broom__family-boundary-b",
+            "patternId": "side-broom",
+            "status": "unsupported",
+            "reasons": [
+              "no-visible-foot-skin",
+              "foot-target-unreachable",
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.00004097582917417242,
+            "footTargetErrorMm": 456.6460734445743,
+            "handTargetErrorMm": 121.32989997538631,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "side-edge__family-boundary-b",
+            "patternId": "side-edge",
+            "status": "unsupported",
+            "reasons": [
+              "no-visible-foot-skin",
+              "foot-target-unreachable",
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.00004097582917417242,
+            "footTargetErrorMm": 456.6460643032808,
+            "handTargetErrorMm": 121.32989997538633,
+            "carrierHandTargetErrorMm": null
+          }
+        ]
+      },
+      {
+        "modelId": "A03",
+        "mode": "screen",
+        "intensity": "stress",
+        "model": {
+          "kind": "local-vrm",
+          "vertexCount": 90152,
+          "visibleFeet": true,
+          "meshCount": 21,
+          "legLengthM": 0.8881276023663113,
+          "footWeightedVertexCounts": [
+            3152,
+            3152
+          ]
+        },
+        "cases": 540,
+        "byStatus": {
+          "pass": 14,
+          "limited": 526,
+          "unsupported": 0,
+          "fail": 0
+        },
+        "reasonCounts": {
+          "carrier-hand-target-unreachable": 2,
+          "carrier-tilt-proxy-only": 60,
+          "fixed-support-changes-crouch": 58,
+          "foot-target-unreachable": 10,
+          "grip-finger-closure-not-simulated": 132,
+          "hand-target-unreachable": 23,
+          "head-chest-angle-large": 18,
+          "head-neck-angle-large": 90,
+          "head-neck-orientation-limit": 2,
+          "head-torso-yaw-conflict": 4,
+          "possible-head-body-overlap": 5,
+          "seat-and-clothing-contact-unmeasured": 270,
+          "support-contact-not-constrained": 60,
+          "visible-sole-gap-over-10mm": 10
+        },
+        "maxima": {
+          "boneLengthErrorMm": 0.00005925576793130993,
+          "headRotationErrorDegrees": 0.0000017075472925031877,
+          "footTargetErrorMm": 943.0048896970252,
+          "supportErrorMm": 4.4430599737083416e-13,
+          "handTargetErrorMm": 225.2097372554128,
+          "handPositionErrorMm": 494.9811901691525,
+          "carrierHandTargetErrorMm": 136.44929415952853,
+          "maxKneeDegrees": 130.11892342953766,
+          "neckAngleDegrees": 100.28791281869857,
+          "headChestAngleDegrees": 136.28728696573737
+        },
+        "byFamily": {
+          "nimbus": {
+            "cases": 60,
+            "byStatus": {
+              "pass": 2,
+              "limited": 58,
+              "unsupported": 0,
+              "fail": 0
+            },
+            "reasonCounts": {
+              "fixed-support-changes-crouch": 58,
+              "head-torso-yaw-conflict": 4
+            },
+            "maxima": {
+              "boneLengthErrorMm": 0.00005925576793130993,
+              "headRotationErrorDegrees": 0.0000017075472925031877,
+              "footTargetErrorMm": 5.113040077670329e-7,
+              "supportErrorMm": 0,
+              "handTargetErrorMm": 0,
+              "handPositionErrorMm": 5.102800490722268e-13,
+              "carrierHandTargetErrorMm": 0,
+              "maxKneeDegrees": 86.18796795149278,
+              "neckAngleDegrees": 44.82846685824872,
+              "headChestAngleDegrees": 70.97609822458905
+            }
+          },
+          "standing": {
+            "cases": 60,
+            "byStatus": {
+              "pass": 0,
+              "limited": 60,
+              "unsupported": 0,
+              "fail": 0
+            },
+            "reasonCounts": {
+              "head-neck-angle-large": 6,
+              "support-contact-not-constrained": 60
+            },
+            "maxima": {
+              "boneLengthErrorMm": 0.00005925576787579878,
+              "headRotationErrorDegrees": 0.0000017075472925031877,
+              "footTargetErrorMm": 0,
+              "supportErrorMm": 0,
+              "handTargetErrorMm": 0,
+              "handPositionErrorMm": 0.7689187497307785,
+              "carrierHandTargetErrorMm": 0,
+              "maxKneeDegrees": 16.26644398402749,
+              "neckAngleDegrees": 66.29862200307396,
+              "headChestAngleDegrees": 66.29862200307396
+            }
+          },
+          "prone": {
+            "cases": 90,
+            "byStatus": {
+              "pass": 12,
+              "limited": 78,
+              "unsupported": 0,
+              "fail": 0
+            },
+            "reasonCounts": {
+              "head-chest-angle-large": 18,
+              "head-neck-angle-large": 78
+            },
+            "maxima": {
+              "boneLengthErrorMm": 0.00005925576782028763,
+              "headRotationErrorDegrees": 0.0000017075472925031877,
+              "footTargetErrorMm": 0,
+              "supportErrorMm": 0,
+              "handTargetErrorMm": 0,
+              "handPositionErrorMm": 2.6945789820192467e-13,
+              "carrierHandTargetErrorMm": 0,
+              "maxKneeDegrees": 20.00000006403701,
+              "neckAngleDegrees": 100.28791281869857,
+              "headChestAngleDegrees": 136.28728696573737
+            }
+          },
+          "chair": {
+            "cases": 90,
+            "byStatus": {
+              "pass": 0,
+              "limited": 90,
+              "unsupported": 0,
+              "fail": 0
+            },
+            "reasonCounts": {
+              "foot-target-unreachable": 3,
+              "grip-finger-closure-not-simulated": 60,
+              "hand-target-unreachable": 6,
+              "seat-and-clothing-contact-unmeasured": 90,
+              "visible-sole-gap-over-10mm": 3
+            },
+            "maxima": {
+              "boneLengthErrorMm": 0.00005925576790355436,
+              "headRotationErrorDegrees": 0.0000017075472925031877,
+              "footTargetErrorMm": 78.28364256138724,
+              "supportErrorMm": 0,
+              "handTargetErrorMm": 225.2097372554128,
+              "handPositionErrorMm": 0,
+              "carrierHandTargetErrorMm": 0,
+              "maxKneeDegrees": 108.77569423918405,
+              "neckAngleDegrees": 44.886262753645774,
+              "headChestAngleDegrees": 59.225961073490154
+            }
+          },
+          "straddle": {
+            "cases": 120,
+            "byStatus": {
+              "pass": 0,
+              "limited": 120,
+              "unsupported": 0,
+              "fail": 0
+            },
+            "reasonCounts": {
+              "grip-finger-closure-not-simulated": 64,
+              "hand-target-unreachable": 9,
+              "head-neck-orientation-limit": 2,
+              "seat-and-clothing-contact-unmeasured": 120
+            },
+            "maxima": {
+              "boneLengthErrorMm": 0.00005925576793130993,
+              "headRotationErrorDegrees": 0.0000017075472925031877,
+              "footTargetErrorMm": 5.11301410833288e-7,
+              "supportErrorMm": 0,
+              "handTargetErrorMm": 225.2097372554128,
+              "handPositionErrorMm": 0,
+              "carrierHandTargetErrorMm": 0,
+              "maxKneeDegrees": 130.11892342953766,
+              "neckAngleDegrees": 53.30772724563833,
+              "headChestAngleDegrees": 71.92741632354308
+            }
+          },
+          "side-sit": {
+            "cases": 60,
+            "byStatus": {
+              "pass": 0,
+              "limited": 60,
+              "unsupported": 0,
+              "fail": 0
+            },
+            "reasonCounts": {
+              "foot-target-unreachable": 7,
+              "grip-finger-closure-not-simulated": 8,
+              "hand-target-unreachable": 4,
+              "seat-and-clothing-contact-unmeasured": 60,
+              "visible-sole-gap-over-10mm": 7
+            },
+            "maxima": {
+              "boneLengthErrorMm": 0.00005925576787579878,
+              "headRotationErrorDegrees": 0.0000017075472925031877,
+              "footTargetErrorMm": 943.0048896970252,
+              "supportErrorMm": 0,
+              "handTargetErrorMm": 225.20973725541256,
+              "handPositionErrorMm": 0,
+              "carrierHandTargetErrorMm": 0,
+              "maxKneeDegrees": 107.3906986008549,
+              "neckAngleDegrees": 44.28292335096048,
+              "headChestAngleDegrees": 46.25131954460094
+            }
+          },
+          "shoulder": {
+            "cases": 60,
+            "byStatus": {
+              "pass": 0,
+              "limited": 60,
+              "unsupported": 0,
+              "fail": 0
+            },
+            "reasonCounts": {
+              "carrier-hand-target-unreachable": 2,
+              "carrier-tilt-proxy-only": 60,
+              "hand-target-unreachable": 4,
+              "head-neck-angle-large": 6,
+              "possible-head-body-overlap": 5
+            },
+            "maxima": {
+              "boneLengthErrorMm": 0.000059255767792532055,
+              "headRotationErrorDegrees": 0.0000017075472925031877,
+              "footTargetErrorMm": 0,
+              "supportErrorMm": 4.4430599737083416e-13,
+              "handTargetErrorMm": 0,
+              "handPositionErrorMm": 494.9811901691525,
+              "carrierHandTargetErrorMm": 136.44929415952853,
+              "maxKneeDegrees": 70.35463275919558,
+              "neckAngleDegrees": 66.00494233847115,
+              "headChestAngleDegrees": 66.00494233847115
+            }
+          }
+        },
+        "caseExceptions": 0,
+        "restoreMismatches": 0,
+        "simulatedFrames": 540,
+        "notableLimits": [
+          {
+            "caseId": "chair-car__grip-far",
+            "patternId": "chair-car",
+            "status": "limited",
+            "reasons": [
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.00005925576776477648,
+            "footTargetErrorMm": 5.110880273978515e-7,
+            "handTargetErrorMm": 79.45844753465676,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "chair-car__family-boundary-a",
+            "patternId": "chair-car",
+            "status": "limited",
+            "reasons": [
+              "foot-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.0000592557676259986,
+            "footTargetErrorMm": 78.28364256138724,
+            "handTargetErrorMm": 3.2167311906303633e-13,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "chair-car__family-boundary-b",
+            "patternId": "chair-car",
+            "status": "limited",
+            "reasons": [
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.0000592557676259986,
+            "footTargetErrorMm": 5.11003943080318e-7,
+            "handTargetErrorMm": 225.2097372554128,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "chair-edge__grip-far",
+            "patternId": "chair-edge",
+            "status": "limited",
+            "reasons": [
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.000059255767792532055,
+            "footTargetErrorMm": 5.110420648900608e-7,
+            "handTargetErrorMm": 79.45844753465609,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "chair-edge__family-boundary-a",
+            "patternId": "chair-edge",
+            "status": "limited",
+            "reasons": [
+              "foot-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.0000592557676259986,
+            "footTargetErrorMm": 78.28364256138724,
+            "handTargetErrorMm": 3.2167311906303633e-13,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "chair-edge__family-boundary-b",
+            "patternId": "chair-edge",
+            "status": "limited",
+            "reasons": [
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.0000592557676259986,
+            "footTargetErrorMm": 5.11003943080318e-7,
+            "handTargetErrorMm": 225.2097372554128,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "chair-reclined__grip-far",
+            "patternId": "chair-reclined",
+            "status": "limited",
+            "reasons": [
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.000059255767737020903,
+            "footTargetErrorMm": 5.110883324893145e-7,
+            "handTargetErrorMm": 79.4584475346565,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "chair-reclined__family-boundary-a",
+            "patternId": "chair-reclined",
+            "status": "limited",
+            "reasons": [
+              "foot-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.0000592557676259986,
+            "footTargetErrorMm": 78.28364256138724,
+            "handTargetErrorMm": 3.2167311906303633e-13,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "chair-reclined__family-boundary-b",
+            "patternId": "chair-reclined",
+            "status": "limited",
+            "reasons": [
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.0000592557676259986,
+            "footTargetErrorMm": 5.11003943080318e-7,
+            "handTargetErrorMm": 225.2097372554128,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "straddle-horse__grip-far",
+            "patternId": "straddle-horse",
+            "status": "limited",
+            "reasons": [
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.000059255767848043206,
+            "footTargetErrorMm": 5.111514788583881e-7,
+            "handTargetErrorMm": 79.45844753465653,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "straddle-horse__family-boundary-b",
+            "patternId": "straddle-horse",
+            "status": "limited",
+            "reasons": [
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.0000592557676259986,
+            "footTargetErrorMm": 5.111413638095079e-7,
+            "handTargetErrorMm": 225.2097372554128,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "straddle-motorcycle__grip-far",
+            "patternId": "straddle-motorcycle",
+            "status": "limited",
+            "reasons": [
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.00005925576770926533,
+            "footTargetErrorMm": 5.111084036033617e-7,
+            "handTargetErrorMm": 79.45844753465653,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "straddle-motorcycle__family-boundary-b",
+            "patternId": "straddle-motorcycle",
+            "status": "limited",
+            "reasons": [
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.0000592557676259986,
+            "footTargetErrorMm": 5.111413638095079e-7,
+            "handTargetErrorMm": 225.2097372554128,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "straddle-wide-beast__grip-far",
+            "patternId": "straddle-wide-beast",
+            "status": "limited",
+            "reasons": [
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.00005925576770926533,
+            "footTargetErrorMm": 5.112760205753486e-7,
+            "handTargetErrorMm": 79.45844753465664,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "straddle-wide-beast__family-boundary-b",
+            "patternId": "straddle-wide-beast",
+            "status": "limited",
+            "reasons": [
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.0000592557676259986,
+            "footTargetErrorMm": 5.111413638095079e-7,
+            "handTargetErrorMm": 225.2097372554128,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "straddle-dragon__grip-far",
+            "patternId": "straddle-dragon",
+            "status": "limited",
+            "reasons": [
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.00005925576770926533,
+            "footTargetErrorMm": 5.112027306596851e-7,
+            "handTargetErrorMm": 79.45844753465632,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "straddle-dragon__family-boundary-b",
+            "patternId": "straddle-dragon",
+            "status": "limited",
+            "reasons": [
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.0000592557676259986,
+            "footTargetErrorMm": 5.111413638095079e-7,
+            "handTargetErrorMm": 225.2097372554128,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "side-broom__feet-wide",
+            "patternId": "side-broom",
+            "status": "limited",
+            "reasons": [
+              "foot-target-unreachable",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.00005925576776477648,
+            "footTargetErrorMm": 536.5926186660712,
+            "handTargetErrorMm": 1.4152622167509189e-13,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "side-broom__grip-far",
+            "patternId": "side-broom",
+            "status": "limited",
+            "reasons": [
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.000059255767792532055,
+            "footTargetErrorMm": 5.112169040821856e-7,
+            "handTargetErrorMm": 79.45844753465653,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "side-broom__family-boundary-a",
+            "patternId": "side-broom",
+            "status": "limited",
+            "reasons": [
+              "foot-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.00005925576768150975,
+            "footTargetErrorMm": 110.71428558181721,
+            "handTargetErrorMm": 3.555971567816234e-13,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "side-broom__family-boundary-b",
+            "patternId": "side-broom",
+            "status": "limited",
+            "reasons": [
+              "foot-target-unreachable",
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.00005925576770926533,
+            "footTargetErrorMm": 943.0047535618654,
+            "handTargetErrorMm": 225.20973725541256,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "side-edge__seat-high",
+            "patternId": "side-edge",
+            "status": "limited",
+            "reasons": [
+              "foot-target-unreachable",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.00005925576776477648,
+            "footTargetErrorMm": 30.209992738002004,
+            "handTargetErrorMm": 1.6653345369377348e-13,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "side-edge__feet-wide",
+            "patternId": "side-edge",
+            "status": "limited",
+            "reasons": [
+              "foot-target-unreachable",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.00005925576776477648,
+            "footTargetErrorMm": 509.68081606842287,
+            "handTargetErrorMm": 2.31492981972618e-13,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "side-edge__grip-far",
+            "patternId": "side-edge",
+            "status": "limited",
+            "reasons": [
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.000059255767792532055,
+            "footTargetErrorMm": 5.112214035409705e-7,
+            "handTargetErrorMm": 79.4584475346564,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "side-edge__family-boundary-a",
+            "patternId": "side-edge",
+            "status": "limited",
+            "reasons": [
+              "foot-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.000059255767737020903,
+            "footTargetErrorMm": 110.78140535058706,
+            "handTargetErrorMm": 7.044344449510711e-14,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "side-edge__family-boundary-b",
+            "patternId": "side-edge",
+            "status": "limited",
+            "reasons": [
+              "foot-target-unreachable",
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.00005925576770926533,
+            "footTargetErrorMm": 943.0048896970252,
+            "handTargetErrorMm": 225.2097372554125,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "shoulder-upright__family-boundary-a",
+            "patternId": "shoulder-upright",
+            "status": "limited",
+            "reasons": [
+              "carrier-hand-target-unreachable",
+              "possible-head-body-overlap",
+              "carrier-tilt-proxy-only"
+            ],
+            "boneLengthErrorMm": 0.00005925576768150975,
+            "footTargetErrorMm": null,
+            "handTargetErrorMm": null,
+            "carrierHandTargetErrorMm": 106.35478652512155
+          },
+          {
+            "caseId": "shoulder-back-offset__family-boundary-a",
+            "patternId": "shoulder-back-offset",
+            "status": "limited",
+            "reasons": [
+              "carrier-hand-target-unreachable",
+              "possible-head-body-overlap",
+              "carrier-tilt-proxy-only"
+            ],
+            "boneLengthErrorMm": 0.00005925576768150975,
+            "footTargetErrorMm": null,
+            "handTargetErrorMm": null,
+            "carrierHandTargetErrorMm": 136.44929415952853
+          }
+        ]
+      },
+      {
+        "modelId": "A03",
+        "mode": "continuous",
+        "intensity": "stress",
+        "model": {
+          "kind": "local-vrm",
+          "vertexCount": 90152,
+          "visibleFeet": true,
+          "meshCount": 21,
+          "legLengthM": 0.8881276023663113,
+          "footWeightedVertexCounts": [
+            3152,
+            3152
+          ]
+        },
+        "cases": 36,
+        "byStatus": {
+          "pass": 0,
+          "limited": 36,
+          "unsupported": 0,
+          "fail": 0
+        },
+        "reasonCounts": {
+          "carrier-tilt-proxy-only": 4,
+          "fixed-support-changes-crouch": 4,
+          "foot-target-unreachable": 5,
+          "grip-finger-closure-not-simulated": 13,
+          "hand-target-unreachable": 6,
+          "head-chest-angle-large": 3,
+          "head-neck-angle-large": 10,
+          "head-neck-orientation-limit": 2,
+          "head-torso-yaw-conflict": 2,
+          "seat-and-clothing-contact-unmeasured": 18,
+          "support-contact-not-constrained": 4,
+          "visible-sole-gap-over-10mm": 5
+        },
+        "maxima": {
+          "boneLengthErrorMm": 0.000059255767986821084,
+          "headRotationErrorDegrees": 0,
+          "footTargetErrorMm": 943.0048896970256,
+          "supportErrorMm": 2.220446049250313e-13,
+          "handTargetErrorMm": 225.20973725541324,
+          "handPositionErrorMm": 498.2504426023009,
+          "carrierHandTargetErrorMm": 4.577566798522238e-13,
+          "maxKneeDegrees": 116.21082760963958,
+          "neckAngleDegrees": 86.1381196176421,
+          "headChestAngleDegrees": 122.13811961763558
+        },
+        "byFamily": {
+          "nimbus": {
+            "cases": 4,
+            "byStatus": {
+              "pass": 0,
+              "limited": 4,
+              "unsupported": 0,
+              "fail": 0
+            },
+            "reasonCounts": {
+              "fixed-support-changes-crouch": 4,
+              "head-torso-yaw-conflict": 2
+            },
+            "maxima": {
+              "boneLengthErrorMm": 0.00005925576787579878,
+              "headRotationErrorDegrees": 0,
+              "footTargetErrorMm": 5.112885321782173e-7,
+              "supportErrorMm": 0,
+              "handTargetErrorMm": 0,
+              "handPositionErrorMm": 0,
+              "carrierHandTargetErrorMm": 0,
+              "maxKneeDegrees": 80.06875141729057,
+              "neckAngleDegrees": 28.6172427479084,
+              "headChestAngleDegrees": 70.99456490685677
+            }
+          },
+          "standing": {
+            "cases": 4,
+            "byStatus": {
+              "pass": 0,
+              "limited": 4,
+              "unsupported": 0,
+              "fail": 0
+            },
+            "reasonCounts": {
+              "head-neck-angle-large": 2,
+              "support-contact-not-constrained": 4
+            },
+            "maxima": {
+              "boneLengthErrorMm": 0.00005925576790355436,
+              "headRotationErrorDegrees": 0,
+              "footTargetErrorMm": 0,
+              "supportErrorMm": 0,
+              "handTargetErrorMm": 0,
+              "handPositionErrorMm": 0,
+              "carrierHandTargetErrorMm": 0,
+              "maxKneeDegrees": 14.550684497396873,
+              "neckAngleDegrees": 66.39932577574773,
+              "headChestAngleDegrees": 66.39932577574773
+            }
+          },
+          "prone": {
+            "cases": 6,
+            "byStatus": {
+              "pass": 0,
+              "limited": 6,
+              "unsupported": 0,
+              "fail": 0
+            },
+            "reasonCounts": {
+              "head-chest-angle-large": 3,
+              "head-neck-angle-large": 6
+            },
+            "maxima": {
+              "boneLengthErrorMm": 0.000059255767986821084,
+              "headRotationErrorDegrees": 0,
+              "footTargetErrorMm": 0,
+              "supportErrorMm": 0,
+              "handTargetErrorMm": 0,
+              "handPositionErrorMm": 0,
+              "carrierHandTargetErrorMm": 0,
+              "maxKneeDegrees": 14.000000063930884,
+              "neckAngleDegrees": 86.1381196176421,
+              "headChestAngleDegrees": 122.13811961763558
+            }
+          },
+          "chair": {
+            "cases": 6,
+            "byStatus": {
+              "pass": 0,
+              "limited": 6,
+              "unsupported": 0,
+              "fail": 0
+            },
+            "reasonCounts": {
+              "foot-target-unreachable": 3,
+              "grip-finger-closure-not-simulated": 5,
+              "seat-and-clothing-contact-unmeasured": 6,
+              "visible-sole-gap-over-10mm": 3
+            },
+            "maxima": {
+              "boneLengthErrorMm": 0.000059255767848043206,
+              "headRotationErrorDegrees": 0,
+              "footTargetErrorMm": 78.36692087293429,
+              "supportErrorMm": 0,
+              "handTargetErrorMm": 5.881301029635769e-13,
+              "handPositionErrorMm": 0,
+              "carrierHandTargetErrorMm": 0,
+              "maxKneeDegrees": 107.18563584354783,
+              "neckAngleDegrees": 7.112500254588265,
+              "headChestAngleDegrees": 27.883785243082574
+            }
+          },
+          "straddle": {
+            "cases": 8,
+            "byStatus": {
+              "pass": 0,
+              "limited": 8,
+              "unsupported": 0,
+              "fail": 0
+            },
+            "reasonCounts": {
+              "grip-finger-closure-not-simulated": 6,
+              "hand-target-unreachable": 2,
+              "head-neck-orientation-limit": 2,
+              "seat-and-clothing-contact-unmeasured": 8
+            },
+            "maxima": {
+              "boneLengthErrorMm": 0.00005925576793130993,
+              "headRotationErrorDegrees": 0,
+              "footTargetErrorMm": 5.112760654807191e-7,
+              "supportErrorMm": 0,
+              "handTargetErrorMm": 225.2097372554132,
+              "handPositionErrorMm": 0,
+              "carrierHandTargetErrorMm": 0,
+              "maxKneeDegrees": 116.21082760963958,
+              "neckAngleDegrees": 54.26378007415462,
+              "headChestAngleDegrees": 72.88490841590769
+            }
+          },
+          "side-sit": {
+            "cases": 4,
+            "byStatus": {
+              "pass": 0,
+              "limited": 4,
+              "unsupported": 0,
+              "fail": 0
+            },
+            "reasonCounts": {
+              "foot-target-unreachable": 2,
+              "grip-finger-closure-not-simulated": 2,
+              "hand-target-unreachable": 2,
+              "seat-and-clothing-contact-unmeasured": 4,
+              "visible-sole-gap-over-10mm": 2
+            },
+            "maxima": {
+              "boneLengthErrorMm": 0.00005925576790355436,
+              "headRotationErrorDegrees": 0,
+              "footTargetErrorMm": 943.0048896970256,
+              "supportErrorMm": 0,
+              "handTargetErrorMm": 225.20973725541324,
+              "handPositionErrorMm": 0,
+              "carrierHandTargetErrorMm": 0,
+              "maxKneeDegrees": 107.39069860085503,
+              "neckAngleDegrees": 17.221638720016347,
+              "headChestAngleDegrees": 41.55769585605275
+            }
+          },
+          "shoulder": {
+            "cases": 4,
+            "byStatus": {
+              "pass": 0,
+              "limited": 4,
+              "unsupported": 0,
+              "fail": 0
+            },
+            "reasonCounts": {
+              "carrier-tilt-proxy-only": 4,
+              "hand-target-unreachable": 2,
+              "head-neck-angle-large": 2
+            },
+            "maxima": {
+              "boneLengthErrorMm": 0.00005925576782028763,
+              "headRotationErrorDegrees": 0,
+              "footTargetErrorMm": 0,
+              "supportErrorMm": 2.220446049250313e-13,
+              "handTargetErrorMm": 0,
+              "handPositionErrorMm": 498.2504426023009,
+              "carrierHandTargetErrorMm": 4.577566798522238e-13,
+              "maxKneeDegrees": 70.28866573385396,
+              "neckAngleDegrees": 57.796610070861526,
+              "headChestAngleDegrees": 57.796610070861526
+            }
+          }
+        },
+        "caseExceptions": 0,
+        "restoreMismatches": 0,
+        "simulatedFrames": 864,
+        "notableLimits": [
+          {
+            "caseId": "chair-car__family-boundary-a",
+            "patternId": "chair-car",
+            "status": "limited",
+            "reasons": [
+              "foot-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.00005925576782028763,
+            "footTargetErrorMm": 78.36692087293429,
+            "handTargetErrorMm": 4.248620764879982e-13,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "chair-edge__family-boundary-a",
+            "patternId": "chair-edge",
+            "status": "limited",
+            "reasons": [
+              "foot-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.00005925576782028763,
+            "footTargetErrorMm": 78.36692087293429,
+            "handTargetErrorMm": 4.248620764879982e-13,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "chair-reclined__family-boundary-a",
+            "patternId": "chair-reclined",
+            "status": "limited",
+            "reasons": [
+              "foot-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.00005925576782028763,
+            "footTargetErrorMm": 78.36692087293429,
+            "handTargetErrorMm": 4.248620764879982e-13,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "straddle-horse__family-boundary-b",
+            "patternId": "straddle-horse",
+            "status": "limited",
+            "reasons": [
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.000059255767848043206,
+            "footTargetErrorMm": 5.11141572682963e-7,
+            "handTargetErrorMm": 225.2097372554132,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "straddle-wide-beast__family-boundary-b",
+            "patternId": "straddle-wide-beast",
+            "status": "limited",
+            "reasons": [
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "boneLengthErrorMm": 0.000059255767848043206,
+            "footTargetErrorMm": 5.11141572682963e-7,
+            "handTargetErrorMm": 225.2097372554132,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "side-broom__family-boundary-b",
+            "patternId": "side-broom",
+            "status": "limited",
+            "reasons": [
+              "foot-target-unreachable",
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.000059255767848043206,
+            "footTargetErrorMm": 943.0047535618655,
+            "handTargetErrorMm": 225.20973725541305,
+            "carrierHandTargetErrorMm": null
+          },
+          {
+            "caseId": "side-edge__family-boundary-b",
+            "patternId": "side-edge",
+            "status": "limited",
+            "reasons": [
+              "foot-target-unreachable",
+              "hand-target-unreachable",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "boneLengthErrorMm": 0.00005925576790355436,
+            "footTargetErrorMm": 943.0048896970256,
+            "handTargetErrorMm": 225.20973725541324,
+            "carrierHandTargetErrorMm": null
+          }
+        ]
+      }
+    ],
+    "pageErrorCount": 0,
+    "nonGetRequestCount": 0,
+    "executionErrorCount": 0,
+    "independentFindingCount": 0,
+    "reassessment": {
+      "changes": 0,
+      "items": []
+    },
+    "observedPatternFits": [
+      {
+        "modelId": "A01",
+        "scope": "Observed cases without numerical target/angle/proxy limits; unmeasured contacts and visual acceptance remain separate. This does not define a continuous safe parameter interval.",
+        "patterns": [
+          {
+            "patternId": "nimbus-surf",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 0,
+            "baselineStatus": "limited",
+            "baselineReasons": [
+              "fixed-support-changes-crouch",
+              "visible-sole-gap-over-10mm"
+            ],
+            "exampleCaseIds": []
+          },
+          {
+            "patternId": "nimbus-low",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 0,
+            "baselineStatus": "limited",
+            "baselineReasons": [
+              "fixed-support-changes-crouch",
+              "visible-sole-gap-over-10mm"
+            ],
+            "exampleCaseIds": []
+          },
+          {
+            "patternId": "standing-hover",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 27,
+            "baselineStatus": "limited",
+            "baselineReasons": [
+              "support-contact-not-constrained"
+            ],
+            "exampleCaseIds": [
+              "standing-hover__base",
+              "standing-hover__knee-straight",
+              "standing-hover__knee-soft",
+              "standing-hover__support-up",
+              "standing-hover__support-down",
+              "standing-hover__support-left"
+            ]
+          },
+          {
+            "patternId": "standing-braced",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 27,
+            "baselineStatus": "limited",
+            "baselineReasons": [
+              "support-contact-not-constrained"
+            ],
+            "exampleCaseIds": [
+              "standing-braced__base",
+              "standing-braced__knee-straight",
+              "standing-braced__knee-soft",
+              "standing-braced__support-up",
+              "standing-braced__support-down",
+              "standing-braced__support-left"
+            ]
+          },
+          {
+            "patternId": "prone-glider",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 4,
+            "baselineStatus": "limited",
+            "baselineReasons": [
+              "head-neck-angle-large"
+            ],
+            "exampleCaseIds": [
+              "prone-glider__support-up",
+              "prone-glider__look-down",
+              "prone-glider__stress-support-up",
+              "prone-glider__stress-look-down"
+            ]
+          },
+          {
+            "patternId": "prone-manta",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 4,
+            "baselineStatus": "limited",
+            "baselineReasons": [
+              "head-neck-angle-large"
+            ],
+            "exampleCaseIds": [
+              "prone-manta__support-up",
+              "prone-manta__look-down",
+              "prone-manta__stress-support-up",
+              "prone-manta__stress-look-down"
+            ]
+          },
+          {
+            "patternId": "prone-streamlined",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 4,
+            "baselineStatus": "limited",
+            "baselineReasons": [
+              "head-neck-angle-large"
+            ],
+            "exampleCaseIds": [
+              "prone-streamlined__support-up",
+              "prone-streamlined__look-down",
+              "prone-streamlined__stress-support-up",
+              "prone-streamlined__stress-look-down"
+            ]
+          },
+          {
+            "patternId": "chair-car",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 0,
+            "baselineStatus": "limited",
+            "baselineReasons": [
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "exampleCaseIds": []
+          },
+          {
+            "patternId": "chair-edge",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 0,
+            "baselineStatus": "limited",
+            "baselineReasons": [
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "exampleCaseIds": []
+          },
+          {
+            "patternId": "chair-reclined",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 0,
+            "baselineStatus": "limited",
+            "baselineReasons": [
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "exampleCaseIds": []
+          },
+          {
+            "patternId": "straddle-horse",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 0,
+            "baselineStatus": "limited",
+            "baselineReasons": [
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "exampleCaseIds": []
+          },
+          {
+            "patternId": "straddle-motorcycle",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 0,
+            "baselineStatus": "limited",
+            "baselineReasons": [
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "exampleCaseIds": []
+          },
+          {
+            "patternId": "straddle-wide-beast",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 0,
+            "baselineStatus": "limited",
+            "baselineReasons": [
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "exampleCaseIds": []
+          },
+          {
+            "patternId": "straddle-dragon",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 0,
+            "baselineStatus": "limited",
+            "baselineReasons": [
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "exampleCaseIds": []
+          },
+          {
+            "patternId": "side-broom",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 0,
+            "baselineStatus": "limited",
+            "baselineReasons": [
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "exampleCaseIds": []
+          },
+          {
+            "patternId": "side-edge",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 0,
+            "baselineStatus": "limited",
+            "baselineReasons": [
+              "seat-and-clothing-contact-unmeasured",
+              "visible-sole-gap-over-10mm"
+            ],
+            "exampleCaseIds": []
+          },
+          {
+            "patternId": "shoulder-upright",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 3,
+            "baselineStatus": "limited",
+            "baselineReasons": [
+              "possible-head-body-overlap",
+              "carrier-tilt-proxy-only"
+            ],
+            "exampleCaseIds": [
+              "shoulder-upright__seat-far",
+              "shoulder-upright__carrier-small",
+              "shoulder-upright__family-boundary-b"
+            ]
+          },
+          {
+            "patternId": "shoulder-back-offset",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 24,
+            "baselineStatus": "limited",
+            "baselineReasons": [
+              "carrier-tilt-proxy-only"
+            ],
+            "exampleCaseIds": [
+              "shoulder-back-offset__base",
+              "shoulder-back-offset__seat-far",
+              "shoulder-back-offset__support-up",
+              "shoulder-back-offset__support-down",
+              "shoulder-back-offset__support-left",
+              "shoulder-back-offset__support-right"
+            ]
+          }
+        ]
+      },
+      {
+        "modelId": "A02",
+        "scope": "Observed cases without numerical target/angle/proxy limits; unmeasured contacts and visual acceptance remain separate. This does not define a continuous safe parameter interval.",
+        "patterns": [
+          {
+            "patternId": "nimbus-surf",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 0,
+            "baselineStatus": "unsupported",
+            "baselineReasons": [
+              "no-visible-foot-skin",
+              "fixed-support-changes-crouch"
+            ],
+            "exampleCaseIds": []
+          },
+          {
+            "patternId": "nimbus-low",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 0,
+            "baselineStatus": "unsupported",
+            "baselineReasons": [
+              "no-visible-foot-skin",
+              "fixed-support-changes-crouch"
+            ],
+            "exampleCaseIds": []
+          },
+          {
+            "patternId": "standing-hover",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 0,
+            "baselineStatus": "unsupported",
+            "baselineReasons": [
+              "no-visible-foot-skin",
+              "support-contact-not-constrained"
+            ],
+            "exampleCaseIds": []
+          },
+          {
+            "patternId": "standing-braced",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 0,
+            "baselineStatus": "unsupported",
+            "baselineReasons": [
+              "no-visible-foot-skin",
+              "support-contact-not-constrained"
+            ],
+            "exampleCaseIds": []
+          },
+          {
+            "patternId": "prone-glider",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 0,
+            "baselineStatus": "unsupported",
+            "baselineReasons": [
+              "no-visible-foot-skin",
+              "head-neck-angle-large"
+            ],
+            "exampleCaseIds": []
+          },
+          {
+            "patternId": "prone-manta",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 0,
+            "baselineStatus": "unsupported",
+            "baselineReasons": [
+              "no-visible-foot-skin",
+              "head-neck-angle-large"
+            ],
+            "exampleCaseIds": []
+          },
+          {
+            "patternId": "prone-streamlined",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 0,
+            "baselineStatus": "unsupported",
+            "baselineReasons": [
+              "no-visible-foot-skin",
+              "head-neck-angle-large"
+            ],
+            "exampleCaseIds": []
+          },
+          {
+            "patternId": "chair-car",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 0,
+            "baselineStatus": "unsupported",
+            "baselineReasons": [
+              "no-visible-foot-skin",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "exampleCaseIds": []
+          },
+          {
+            "patternId": "chair-edge",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 0,
+            "baselineStatus": "unsupported",
+            "baselineReasons": [
+              "no-visible-foot-skin",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "exampleCaseIds": []
+          },
+          {
+            "patternId": "chair-reclined",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 0,
+            "baselineStatus": "unsupported",
+            "baselineReasons": [
+              "no-visible-foot-skin",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "exampleCaseIds": []
+          },
+          {
+            "patternId": "straddle-horse",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 0,
+            "baselineStatus": "unsupported",
+            "baselineReasons": [
+              "no-visible-foot-skin",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "exampleCaseIds": []
+          },
+          {
+            "patternId": "straddle-motorcycle",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 0,
+            "baselineStatus": "unsupported",
+            "baselineReasons": [
+              "no-visible-foot-skin",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "exampleCaseIds": []
+          },
+          {
+            "patternId": "straddle-wide-beast",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 0,
+            "baselineStatus": "unsupported",
+            "baselineReasons": [
+              "no-visible-foot-skin",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "exampleCaseIds": []
+          },
+          {
+            "patternId": "straddle-dragon",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 0,
+            "baselineStatus": "unsupported",
+            "baselineReasons": [
+              "no-visible-foot-skin",
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "exampleCaseIds": []
+          },
+          {
+            "patternId": "side-broom",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 0,
+            "baselineStatus": "unsupported",
+            "baselineReasons": [
+              "no-visible-foot-skin",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "exampleCaseIds": []
+          },
+          {
+            "patternId": "side-edge",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 0,
+            "baselineStatus": "unsupported",
+            "baselineReasons": [
+              "no-visible-foot-skin",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "exampleCaseIds": []
+          },
+          {
+            "patternId": "shoulder-upright",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 0,
+            "baselineStatus": "unsupported",
+            "baselineReasons": [
+              "no-visible-foot-skin",
+              "possible-head-body-overlap",
+              "possible-shin-torso-overlap",
+              "possible-foot-torso-overlap",
+              "carrier-tilt-proxy-only"
+            ],
+            "exampleCaseIds": []
+          },
+          {
+            "patternId": "shoulder-back-offset",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 0,
+            "baselineStatus": "unsupported",
+            "baselineReasons": [
+              "no-visible-foot-skin",
+              "possible-head-body-overlap",
+              "possible-shin-torso-overlap",
+              "possible-foot-torso-overlap",
+              "carrier-tilt-proxy-only"
+            ],
+            "exampleCaseIds": []
+          }
+        ]
+      },
+      {
+        "modelId": "A03",
+        "scope": "Observed cases without numerical target/angle/proxy limits; unmeasured contacts and visual acceptance remain separate. This does not define a continuous safe parameter interval.",
+        "patterns": [
+          {
+            "patternId": "nimbus-surf",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 28,
+            "baselineStatus": "limited",
+            "baselineReasons": [
+              "fixed-support-changes-crouch"
+            ],
+            "exampleCaseIds": [
+              "nimbus-surf__base",
+              "nimbus-surf__crouch-shallow",
+              "nimbus-surf__crouch-deep",
+              "nimbus-surf__support-up",
+              "nimbus-surf__support-down",
+              "nimbus-surf__support-left"
+            ]
+          },
+          {
+            "patternId": "nimbus-low",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 28,
+            "baselineStatus": "limited",
+            "baselineReasons": [
+              "fixed-support-changes-crouch"
+            ],
+            "exampleCaseIds": [
+              "nimbus-low__base",
+              "nimbus-low__crouch-shallow",
+              "nimbus-low__crouch-deep",
+              "nimbus-low__support-up",
+              "nimbus-low__support-down",
+              "nimbus-low__support-left"
+            ]
+          },
+          {
+            "patternId": "standing-hover",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 27,
+            "baselineStatus": "limited",
+            "baselineReasons": [
+              "support-contact-not-constrained"
+            ],
+            "exampleCaseIds": [
+              "standing-hover__base",
+              "standing-hover__knee-straight",
+              "standing-hover__knee-soft",
+              "standing-hover__support-up",
+              "standing-hover__support-down",
+              "standing-hover__support-left"
+            ]
+          },
+          {
+            "patternId": "standing-braced",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 27,
+            "baselineStatus": "limited",
+            "baselineReasons": [
+              "support-contact-not-constrained"
+            ],
+            "exampleCaseIds": [
+              "standing-braced__base",
+              "standing-braced__knee-straight",
+              "standing-braced__knee-soft",
+              "standing-braced__support-up",
+              "standing-braced__support-down",
+              "standing-braced__support-left"
+            ]
+          },
+          {
+            "patternId": "prone-glider",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 4,
+            "baselineStatus": "limited",
+            "baselineReasons": [
+              "head-neck-angle-large"
+            ],
+            "exampleCaseIds": [
+              "prone-glider__support-up",
+              "prone-glider__look-down",
+              "prone-glider__stress-support-up",
+              "prone-glider__stress-look-down"
+            ]
+          },
+          {
+            "patternId": "prone-manta",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 4,
+            "baselineStatus": "limited",
+            "baselineReasons": [
+              "head-neck-angle-large"
+            ],
+            "exampleCaseIds": [
+              "prone-manta__support-up",
+              "prone-manta__look-down",
+              "prone-manta__stress-support-up",
+              "prone-manta__stress-look-down"
+            ]
+          },
+          {
+            "patternId": "prone-streamlined",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 4,
+            "baselineStatus": "limited",
+            "baselineReasons": [
+              "head-neck-angle-large"
+            ],
+            "exampleCaseIds": [
+              "prone-streamlined__support-up",
+              "prone-streamlined__look-down",
+              "prone-streamlined__stress-support-up",
+              "prone-streamlined__stress-look-down"
+            ]
+          },
+          {
+            "patternId": "chair-car",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 27,
+            "baselineStatus": "limited",
+            "baselineReasons": [
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "exampleCaseIds": [
+              "chair-car__base",
+              "chair-car__seat-low",
+              "chair-car__seat-high",
+              "chair-car__support-up",
+              "chair-car__support-down",
+              "chair-car__support-left"
+            ]
+          },
+          {
+            "patternId": "chair-edge",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 27,
+            "baselineStatus": "limited",
+            "baselineReasons": [
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "exampleCaseIds": [
+              "chair-edge__base",
+              "chair-edge__seat-low",
+              "chair-edge__seat-high",
+              "chair-edge__support-up",
+              "chair-edge__support-down",
+              "chair-edge__support-left"
+            ]
+          },
+          {
+            "patternId": "chair-reclined",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 27,
+            "baselineStatus": "limited",
+            "baselineReasons": [
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "exampleCaseIds": [
+              "chair-reclined__base",
+              "chair-reclined__seat-low",
+              "chair-reclined__seat-high",
+              "chair-reclined__support-up",
+              "chair-reclined__support-down",
+              "chair-reclined__support-left"
+            ]
+          },
+          {
+            "patternId": "straddle-horse",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 28,
+            "baselineStatus": "limited",
+            "baselineReasons": [
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "exampleCaseIds": [
+              "straddle-horse__base",
+              "straddle-horse__seat-low",
+              "straddle-horse__seat-high",
+              "straddle-horse__support-up",
+              "straddle-horse__support-down",
+              "straddle-horse__support-left"
+            ]
+          },
+          {
+            "patternId": "straddle-motorcycle",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 27,
+            "baselineStatus": "limited",
+            "baselineReasons": [
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "exampleCaseIds": [
+              "straddle-motorcycle__base",
+              "straddle-motorcycle__seat-low",
+              "straddle-motorcycle__seat-high",
+              "straddle-motorcycle__support-up",
+              "straddle-motorcycle__support-down",
+              "straddle-motorcycle__support-left"
+            ]
+          },
+          {
+            "patternId": "straddle-wide-beast",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 27,
+            "baselineStatus": "limited",
+            "baselineReasons": [
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "exampleCaseIds": [
+              "straddle-wide-beast__base",
+              "straddle-wide-beast__seat-low",
+              "straddle-wide-beast__seat-high",
+              "straddle-wide-beast__support-up",
+              "straddle-wide-beast__support-down",
+              "straddle-wide-beast__support-left"
+            ]
+          },
+          {
+            "patternId": "straddle-dragon",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 27,
+            "baselineStatus": "limited",
+            "baselineReasons": [
+              "grip-finger-closure-not-simulated",
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "exampleCaseIds": [
+              "straddle-dragon__base",
+              "straddle-dragon__seat-low",
+              "straddle-dragon__seat-high",
+              "straddle-dragon__support-up",
+              "straddle-dragon__support-down",
+              "straddle-dragon__support-left"
+            ]
+          },
+          {
+            "patternId": "side-broom",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 26,
+            "baselineStatus": "limited",
+            "baselineReasons": [
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "exampleCaseIds": [
+              "side-broom__base",
+              "side-broom__seat-low",
+              "side-broom__seat-high",
+              "side-broom__support-up",
+              "side-broom__support-down",
+              "side-broom__support-left"
+            ]
+          },
+          {
+            "patternId": "side-edge",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 25,
+            "baselineStatus": "limited",
+            "baselineReasons": [
+              "seat-and-clothing-contact-unmeasured"
+            ],
+            "exampleCaseIds": [
+              "side-edge__base",
+              "side-edge__seat-low",
+              "side-edge__support-up",
+              "side-edge__support-down",
+              "side-edge__support-left",
+              "side-edge__support-right"
+            ]
+          },
+          {
+            "patternId": "shoulder-upright",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 23,
+            "baselineStatus": "limited",
+            "baselineReasons": [
+              "carrier-tilt-proxy-only"
+            ],
+            "exampleCaseIds": [
+              "shoulder-upright__base",
+              "shoulder-upright__seat-far",
+              "shoulder-upright__support-up",
+              "shoulder-upright__support-down",
+              "shoulder-upright__support-left",
+              "shoulder-upright__support-right"
+            ]
+          },
+          {
+            "patternId": "shoulder-back-offset",
+            "testedCases": 30,
+            "casesWithoutTargetLimits": 24,
+            "baselineStatus": "limited",
+            "baselineReasons": [
+              "carrier-tilt-proxy-only"
+            ],
+            "exampleCaseIds": [
+              "shoulder-back-offset__base",
+              "shoulder-back-offset__seat-far",
+              "shoulder-back-offset__support-up",
+              "shoulder-back-offset__support-down",
+              "shoulder-back-offset__support-left",
+              "shoulder-back-offset__support-right"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "fixture": {
+    "runnerCompleted": true,
+    "sourceChangedDuringRun": false,
+    "sourceHashes": {
+      "scripts/replay-pose-patterns.mjs": "9843620643e51db26fb04d12e8455ff45e05ce1182b7c92ef4d5d64f2f4d75e2",
+      "src/pose-patterns.mjs": "5f80b5bb9a411ba25d4b2143c0fe88e69fbc477f08b4b5cb90f7dc9e9e43701c",
+      "demo/pattern-engine.mjs": "567d27fdd7b1c1b33fd3224d00ada2d94b05d6dcbfcae14eb8763e5ea1c99321",
+      "demo/pattern-assessment.mjs": "e4028a6d5f1c74dc6ff2a5c9ca04499f6e23299364b0068da808e1bc09db931a",
+      "demo/host-input.mjs": "bb9d635876505a58c8f0438fcbb566c89b17094d7db5fb8adede6be4ed95648e",
+      "demo/skin-diagnostics.mjs": "ad0f0fd31332215f95a96f979b702ae3c2ee1e312aded47381b547b07827a921",
+      "src/index.mjs": "6808d9c28df53279ab286ed922c4871009bf5940b4d18e4722fba911b6714698",
+      "src/nimbus-pose.mjs": "0df9bc1daaf82ebce4be0e2c900e4db6eafdf085944191bbc88796ade4251b6e",
+      "src/supported-seat.mjs": "038db8f80ed1f10975a6b79c7c2225aa7ef550e477c6e7903c699f3790997e25",
+      "src/shoulder-ride.mjs": "e7293e820863eb9487fbd9c1ddb48afed4a9c677655e52ef9e73ae5e4511e0af",
+      "src/standing.mjs": "3ebe955dda28b08fe834895a810171a7d731d43ae4043824e65814c53ce5e410",
+      "src/vendor/render-pose.mjs": "077da6f171060fb414ff34899a4184029b3ee60a233f2be981da26f3fe34808d",
+      "src/vendor/torso-support.mjs": "b3bc14249e9b95beb5e077694d655e6f1534731ec4845908f7b668c0a92d0272",
+      "src/vendor/fixture.mjs": "a536382eb9a643d39d5fda09d7d377380b50c9f753545e65e1c787576b90ecfa",
+      "package-lock.json": "012c2cba1b9183ea5ecb3b70012de8a585e69df45da2d92196b884d00d044f36"
+    },
+    "summary": {
+      "totalCases": 972,
+      "solveFrames": 23328,
+      "byStatus": {
+        "pass": 117,
+        "limited": 855,
+        "unsupported": 0,
+        "fail": 0
+      },
+      "byFamily": {
+        "nimbus": {
+          "cases": 108,
+          "byStatus": {
+            "pass": 0,
+            "limited": 108,
+            "unsupported": 0,
+            "fail": 0
+          }
+        },
+        "standing": {
+          "cases": 108,
+          "byStatus": {
+            "pass": 0,
+            "limited": 108,
+            "unsupported": 0,
+            "fail": 0
+          }
+        },
+        "prone": {
+          "cases": 162,
+          "byStatus": {
+            "pass": 117,
+            "limited": 45,
+            "unsupported": 0,
+            "fail": 0
+          }
+        },
+        "chair": {
+          "cases": 162,
+          "byStatus": {
+            "pass": 0,
+            "limited": 162,
+            "unsupported": 0,
+            "fail": 0
+          }
+        },
+        "straddle": {
+          "cases": 216,
+          "byStatus": {
+            "pass": 0,
+            "limited": 216,
+            "unsupported": 0,
+            "fail": 0
+          }
+        },
+        "side-sit": {
+          "cases": 108,
+          "byStatus": {
+            "pass": 0,
+            "limited": 108,
+            "unsupported": 0,
+            "fail": 0
+          }
+        },
+        "shoulder": {
+          "cases": 108,
+          "byStatus": {
+            "pass": 0,
+            "limited": 108,
+            "unsupported": 0,
+            "fail": 0
+          }
+        }
+      },
+      "solverExceptions": 0,
+      "caseExceptions": 0,
+      "restoreExceptions": 0,
+      "engineRestoreMismatches": 0,
+      "actorRestoreMismatches": 0,
+      "carrierRestoreMismatches": 0,
+      "reasonCounts": {
+        "fixed-support-changes-crouch": 108,
+        "support-contact-not-constrained": 108,
+        "head-neck-angle-large": 45,
+        "grip-finger-closure-not-simulated": 234,
+        "seat-and-clothing-contact-unmeasured": 486,
+        "hand-target-unreachable": 33,
+        "foot-target-unreachable": 9,
+        "visible-sole-gap-over-10mm": 9,
+        "possible-head-body-overlap": 54,
+        "possible-shin-torso-overlap": 32,
+        "possible-foot-torso-overlap": 17,
+        "carrier-tilt-proxy-only": 108,
+        "carrier-hand-target-unreachable": 2
+      },
+      "durationSeconds": 9.4365995,
+      "visualReview": "not-performed",
+      "realVrmVerification": "not-performed"
+    }
+  },
+  "visualReview": {
+    "status": "selected-images-reviewed",
+    "reviewedImageCount": 121,
+    "allNumericCasesVisuallyReviewed": false,
+    "notes": "Selected local captures were reviewed independently. Per-image paths and detailed private notes stay local-assets.",
+    "byStage": {
+      "original-run": {
+        "uniqueImages": 75,
+        "byModel": {
+          "A01": 53,
+          "A02": 10,
+          "A03": 12
+        },
+        "explicitVisualFailureImages": 8
+      },
+      "refined-probe": {
+        "uniqueImages": 2,
+        "byModel": {
+          "A03": 2
+        },
+        "explicitVisualFailureImages": 0
+      },
+      "refined-run": {
+        "uniqueImages": 44,
+        "byModel": {
+          "A01": 12,
+          "A02": 10,
+          "A03": 22
+        },
+        "explicitVisualFailureImages": 1
+      }
+    },
+    "refinedReviewedImageCount": 44
+  },
+  "limitations": [
+    "Numerical screening is not visual adoption or full-body contact physics.",
+    "Stress contains standard conditions. Unique model/case counts exclude continuous repetitions.",
+    "A model without visible feet is unsupported for visible-foot screening; its other pose metrics remain available.",
+    "Actual XRift, Quest, tracking, other-user synchronization and clothing contacts remain unverified."
+  ],
+  "sourceRevisionNotes": [
+    {
+      "file": "demo/patterns.mjs",
+      "executedSha256": "94f68383f7dc14c0ef143a628aa19ec89d6965ef9d8289c1f3dc65fe1aa412fd",
+      "currentSha256": "a36313d1c5a3258969200a4b4fc5ac2a8c770275ffc99fb1c26d55e12133d4bc",
+      "change": "After capture, synchronize renderCase supportContactMeasured and assessment with its measured visibleSupport. No pose or runSweep calculation changed."
+    }
+  ]
+}

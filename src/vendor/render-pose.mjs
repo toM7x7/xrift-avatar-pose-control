@@ -84,9 +84,18 @@ export function applyPronePose(rig,{heading=0,orientation=null,rotationOnly=fals
   if(rotationOnly){
     const q=new Quaternion().setFromAxisAngle(left,Math.PI/2).multiply(b.hips.getWorldQuaternion(new Quaternion()));worldQuaternion(b.hips,q)
   }else{
-    for(const [bone,rest] of rig.restLocal){if(bone!==b.hips)bone.position.copy(rest.position);bone.quaternion.copy(rest.quaternion);bone.scale.copy(rest.scale)}
-    b.hips.updateWorldMatrix(true,true)
-    worldQuaternion(b.hips,desiredBasis.multiply(rig.restBasis.clone().invert()).multiply(rig.hipsRest))
+    // A skin palette may omit a non-deforming parent. Its child's inverse bind
+    // then gives a WORLD transform, not a trustworthy LOCAL bind transform.
+    // Reset human rotations in world space, leaving clothing, fingers, face,
+    // omitted parents and authored scales under their original local owners.
+    const roles=['hips','spine','chest','neck','leftUpperLeg','leftLowerLeg','leftFoot','rightUpperLeg','rightLowerLeg','rightFoot','leftUpperArm','leftLowerArm','leftHand','rightUpperArm','rightLowerArm','rightHand']
+    const depth=bone=>{let n=0;for(let p=bone.parent;p;p=p.parent)n++;return n}
+    const human=[...new Set(roles.map(role=>b[role]).filter(Boolean))].sort((a,z)=>depth(a)-depth(z))
+    const bodyRotation=desiredBasis.clone().multiply(rig.restBasis.clone().invert())
+    for(const bone of human){
+      if(bone!==b.hips&&rig.restWorld.has(bone.parent))bone.position.copy(rig.restLocal.get(bone).position)
+      worldQuaternion(bone,bodyRotation.clone().multiply(rig.restRotations.get(bone)))
+    }
     // Share neck extension, then preserve the exact host-produced head orientation.
     if(b.neck){
       // A support-anchored torso has a stable neutral neck. Looking up/down

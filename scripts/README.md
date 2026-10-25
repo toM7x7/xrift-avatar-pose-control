@@ -1,5 +1,15 @@
 # ブラウザでデモを確認する
 
+## 他の乗り姿勢の大量SIM
+
+`npm run replay:patterns`：自作骨格3体格×324条件×24フレームを固定dtで確認し、ignoredの`artifacts/pose-pattern-fixtures.json`へ記録します。実VRMやブラウザは不要です。
+
+実VRMは`/patterns.html`のファイル選択で複数体を読み込んでから、Playwright CLIの`run-code --filename=scripts/simulate-pose-patterns.js`を実行します。モデル名や絶対パスをスクリプトへ埋めません。既定はstress540を1sampleでscreen→各候補の基本＋厳しい条件を最大36件選んで24frame確認→基本2方向＋代表3方向を撮影。匿名モデルと世代・頂点診断を照合し、取り違えを拒否します。全数JSON・画像はignoredの`local-assets/pattern-sim-2026-10-25/`以下とCLI結果へ保持します。
+
+`scripts/summarize-pose-patterns.mjs`は全数JSONとfixture／独立観察の記録から、公開可能な匿名集計だけを出します。元名・作者・画像・各アバターの関節座標は公開集計に含めません。詳細は`docs/experiments/pose-patterns-2026-10-25.md`を参照してください。
+
+## N02の採用再現と既存ブラウザ実験
+
 採用N02のブラウザ不要な再現は `npm run replay:n02`。設定正本 `specs/n02-normal-flight.v1.json` を読み、固定dt1/120秒・自作骨格で校正と全身loopを実行し、`artifacts/n02-normal-flight-v1.json`へ入力・設定・SHA256・数値・限界を記録します。`--output`を変えて比較する時は `npm run replay:n02 -- --output artifacts/n02-repeat.json`。実VRM受入・実XRiftの確認は別です。
 
 先にnpm run devでlocalhostを起動します。Playwright CLIが使える環境で、リポジトリを作業ディレクトリとして実行します。

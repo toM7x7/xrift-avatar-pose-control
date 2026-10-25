@@ -1,0 +1,35 @@
+{
+  "scope": "Same real local VRM; identical explicit inputs, 3 cases x24 frames x2 yield modes; anonymous metrics only",
+  "model": {
+    "kind": "local-vrm",
+    "vertexCount": 90152,
+    "meshCount": 21,
+    "visibleFeet": true,
+    "footWeightedVertexCounts": [
+      3152,
+      3152
+    ],
+    "legLengthM": 0.8881276023663113,
+    "soleOffsetM": 0.08569566486403346,
+    "skinCullingPolicy": "disabled-for-posed-lab-skins"
+  },
+  "cases": [
+    "chair-car__base",
+    "prone-glider__base",
+    "shoulder-back-offset__base"
+  ],
+  "framesPerRun": 72,
+  "exactCaseEquality": true,
+  "frameStatuses": {
+    "pass": 0,
+    "limited": 3,
+    "unsupported": 0,
+    "fail": 0
+  },
+  "taskStatuses": {
+    "pass": 0,
+    "limited": 3,
+    "unsupported": 0,
+    "fail": 0
+  }
+}

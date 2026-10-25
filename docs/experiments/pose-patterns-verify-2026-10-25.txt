@@ -1,0 +1,945 @@
+
+> xrift-avatar-pose-control@0.1.0 verify
+> npm test && npm run build
+
+
+> xrift-avatar-pose-control@0.1.0 test
+> node --test tests/*.test.mjs
+
+TAP version 13
+# Subtest: different leg/torso/arm proportions and known exporter names preserve head and limb lengths
+ok 1 - different leg/torso/arm proportions and known exporter names preserve head and limb lengths
+  ---
+  duration_ms: 68.163
+  type: 'test'
+  ...
+# Subtest: unrecognized bone names remain unsupported rather than guessing another avatar
+ok 2 - unrecognized bone names remain unsupported rather than guessing another avatar
+  ---
+  duration_ms: 2.5828
+  type: 'test'
+  ...
+# Subtest: synthetic seating puts thighs forward, calves down and arms down for original and rotated anatomical frames
+ok 3 - synthetic seating puts thighs forward, calves down and arms down for original and rotated anatomical frames
+  ---
+  duration_ms: 35.7165
+  type: 'test'
+  ...
+# Subtest: head yaw and pitch rotate about anatomical axes without moving its pivot or touching a camera
+ok 4 - head yaw and pitch rotate about anatomical axes without moving its pivot or touching a camera
+  ---
+  duration_ms: 2.9096
+  type: 'test'
+  ...
+# Subtest: unseated demo input keeps neutral limbs and nonfinite look values do not corrupt the skeleton
+ok 5 - unseated demo input keeps neutral limbs and nonfinite look values do not corrupt the skeleton
+  ---
+  duration_ms: 2.1759
+  type: 'test'
+  ...
+# Subtest: body movement smoothly follows the head and leans toward forward/lateral flight
+ok 6 - body movement smoothly follows the head and leans toward forward/lateral flight
+  ---
+  duration_ms: 1.9235
+  type: 'test'
+  ...
+# Subtest: angle following takes the short route across the pi boundary and settles at rest
+ok 7 - angle following takes the short route across the pi boundary and settles at rest
+  ---
+  duration_ms: 0.517
+  type: 'test'
+  ...
+# Subtest: animated tilted flight preserves head, reachable tracked hands and leg segment lengths
+ok 8 - animated tilted flight preserves head, reachable tracked hands and leg segment lengths
+  ---
+  duration_ms: 83.0121
+  type: 'test'
+  ...
+# Subtest: ground mode leaves host walking pose unchanged and nested airborne render still restores
+ok 9 - ground mode leaves host walking pose unchanged and nested airborne render still restores
+  ---
+  duration_ms: 6.8897
+  type: 'test'
+  ...
+# Subtest: v2 deterministically flips a garment with a missing non-deforming parent, despite good knee metrics
+ok 10 - v2 deterministically flips a garment with a missing non-deforming parent, despite good knee metrics
+  ---
+  duration_ms: 22.98
+  type: 'test'
+  ...
+# Subtest: v2 deterministically folds a leg with an unweighted parent omitted from the joint palette
+ok 11 - v2 deterministically folds a leg with an unweighted parent omitted from the joint palette
+  ---
+  duration_ms: 7.8228
+  type: 'test'
+  ...
+# Subtest: candidate keeps garment transforms and hanging direction while extending the human legs
+ok 12 - candidate keeps garment transforms and hanging direction while extending the human legs
+  ---
+  duration_ms: 9.4067
+  type: 'test'
+  ...
+# Subtest: candidate extends the omitted-parent knee without changing limb length or helper transforms
+ok 13 - candidate extends the omitted-parent knee without changing limb length or helper transforms
+  ---
+  duration_ms: 8.2586
+  type: 'test'
+  ...
+# Subtest: primary human joint wins over appended _sub helper, and equally ranked duplicates fail closed
+ok 14 - primary human joint wins over appended _sub helper, and equally ranked duplicates fail closed
+  ---
+  duration_ms: 4.8364
+  type: 'test'
+  ...
+# Subtest: garment and knee regression stays corrected under scaled/rotated roots and restores every frame
+ok 15 - garment and knee regression stays corrected under scaled/rotated roots and restores every frame
+  ---
+  duration_ms: 128.4637
+  type: 'test'
+  ...
+# Subtest: adopted profile matches the canonical JSON and is deeply immutable, including nested sequence controls
+ok 16 - adopted profile matches the canonical JSON and is deeply immutable, including nested sequence controls
+  ---
+  duration_ms: 1.8236
+  type: 'test'
+  ...
+# Subtest: ride options copy all adopted dynamics and vary only the three calibrations, attitude toggle and initial heading
+ok 17 - ride options copy all adopted dynamics and vary only the three calibrations, attitude toggle and initial heading
+  ---
+  duration_ms: 1.9202
+  type: 'test'
+  ...
+# Subtest: caller edits or extra fields cannot alter the adopted configuration or another options result
+ok 18 - caller edits or extra fields cannot alter the adopted configuration or another options result
+  ---
+  duration_ms: 0.425
+  type: 'test'
+  ...
+# Subtest: the fourteen-second sequence preserves every adopted control and boundary without inherited controls
+ok 19 - the fourteen-second sequence preserves every adopted control and boundary without inherited controls
+  ---
+  duration_ms: 0.6935
+  type: 'test'
+  ...
+# Subtest: sequence results are independent snapshots and missing or invalid time starts with the hover hold
+ok 20 - sequence results are independent snapshots and missing or invalid time starts with the hover hold
+  ---
+  duration_ms: 0.3001
+  type: 'test'
+  ...
+# Subtest: v3 restores seated bones during the outer render when a nested camera finishes
+ok 21 - v3 restores seated bones during the outer render when a nested camera finishes
+  ---
+  duration_ms: 24.3125
+  type: 'test'
+  ...
+# Subtest: nested camera renders keep all body copies upright and restore only after the outer render
+ok 22 - nested camera renders keep all body copies upright and restore only after the outer render
+  ---
+  duration_ms: 12.3801
+  type: 'test'
+  ...
+# Subtest: a failing pre-existing nested render callback does not end the outer pose transaction
+ok 23 - a failing pre-existing nested render callback does not end the outer pose transaction
+  ---
+  duration_ms: 6.1252
+  type: 'test'
+  ...
+# Subtest: two bridges targeting different skin palettes of one body apply only once
+ok 24 - two bridges targeting different skin palettes of one body apply only once
+  ---
+  duration_ms: 7.2351
+  type: 'test'
+  ...
+# Subtest: support stance distributes yaw through pelvis, chest and neck instead of assigning ninety degrees to the head
+ok 25 - support stance distributes yaw through pelvis, chest and neck instead of assigning ninety degrees to the head
+  ---
+  duration_ms: 45.3883
+  type: 'test'
+  ...
+# Subtest: acceleration, braking and turning move actual hips and center of mass while the same supplied foot anchors stay fixed
+ok 26 - acceleration, braking and turning move actual hips and center of mass while the same supplied foot anchors stay fixed
+  ---
+  duration_ms: 19.1106
+  type: 'test'
+  ...
+# Subtest: head priority retains host head position and honestly leaves a requested center-of-mass offset unsatisfied
+ok 27 - head priority retains host head position and honestly leaves a requested center-of-mass offset unsatisfied
+  ---
+  duration_ms: 8.1218
+  type: 'test'
+  ...
+# Subtest: large head turns adapt the chest within its policy and flag the remaining neck conflict without overriding head tracking
+ok 28 - large head turns adapt the chest within its policy and flag the remaining neck conflict without overriding head tracking
+  ---
+  duration_ms: 5.0514
+  type: 'test'
+  ...
+# Subtest: far foot targets and extreme COM goals report misses instead of stretching limbs, clamping away the goal, or moving the anchors
+ok 29 - far foot targets and extreme COM goals report misses instead of stretching limbs, clamping away the goal, or moving the anchors
+  ---
+  duration_ms: 7.294
+  type: 'test'
+  ...
+# Subtest: load and support diagnostics derive from the posed COM proxy and acceleration rather than echoing requested load
+ok 30 - load and support diagnostics derive from the posed COM proxy and acceleration rather than echoing requested load
+  ---
+  duration_ms: 5.3618
+  type: 'test'
+  ...
+# Subtest: measured sole offset changes the ZMP contact plane and COM height while ankle IK targets remain unchanged
+ok 31 - measured sole offset changes the ZMP contact plane and COM height while ankle IK targets remain unchanged
+  ---
+  duration_ms: 11.3486
+  type: 'test'
+  ...
+# Subtest: mean hip height and a knee pose policy avoid deep braking squats while retaining fixed feet and reporting unmet goals
+ok 32 - mean hip height and a knee pose policy avoid deep braking squats while retaining fixed feet and reporting unmet goals
+  ---
+  duration_ms: 14.4371
+  type: 'test'
+  ...
+# Subtest: N02 places spread ankles on one plane with deep knees and distributed oblique torso yaw, preserving head at three sizes
+ok 33 - N02 places spread ankles on one plane with deep knees and distributed oblique torso yaw, preserving head at three sizes
+  ---
+  duration_ms: 48.6892
+  type: 'test'
+  ...
+# Subtest: N02 makes a measurable change from board: deeper knees, wider stance and raised balancing hands
+ok 34 - N02 makes a measurable change from board: deeper knees, wider stance and raised balancing hands
+  ---
+  duration_ms: 9.6736
+  type: 'test'
+  ...
+# Subtest: crouch and stance width provide independent visible variation without bone stretch
+ok 35 - crouch and stance width provide independent visible variation without bone stretch
+  ---
+  duration_ms: 8.2094
+  type: 'test'
+  ...
+# Subtest: reachable tracked hands retain world positions and orientations after sideways posing
+ok 36 - reachable tracked hands retain world positions and orientations after sideways posing
+  ---
+  duration_ms: 5.9205
+  type: 'test'
+  ...
+# Subtest: balance arms descend through elbows to hands with lead/trail asymmetry, palms down and neutral wrists
+ok 37 - balance arms descend through elbows to hands with lead/trail asymmetry, palms down and neutral wrists
+  ---
+  duration_ms: 10.4547
+  type: 'test'
+  ...
+# Subtest: finger-root palm frames work without bone-name assumptions and remain consistent with reversed bind axes
+ok 38 - finger-root palm frames work without bone-name assumptions and remain consistent with reversed bind axes
+  ---
+  duration_ms: 7.9726
+  type: 'test'
+  ...
+# Subtest: fixed unreachable ankle plane reports error while preserving head and limb lengths
+ok 39 - fixed unreachable ankle plane reports error while preserving head and limb lengths
+  ---
+  duration_ms: 3.9623
+  type: 'test'
+  ...
+# Subtest: wide feet and deep crouch report incompatible requested knee angle even when ankle targets are reached
+ok 40 - wide feet and deep crouch report incompatible requested knee angle even when ankle targets are reached
+  ---
+  duration_ms: 9.5135
+  type: 'test'
+  ...
+# Subtest: non-finite tuning uses finite defaults and pose snapshots restore exactly
+ok 41 - non-finite tuning uses finite defaults and pose snapshots restore exactly
+  ---
+  duration_ms: 3.891
+  type: 'test'
+  ...
+# Subtest: omitted knee parents, garment joints and changed proportions preserve their authored lengths and auxiliary transforms
+ok 42 - omitted knee parents, garment joints and changed proportions preserve their authored lengths and auxiliary transforms
+  ---
+  duration_ms: 17.6294
+  type: 'test'
+  ...
+# Subtest: pitched and banked support keeps feet on its normal while the head stays world-up and the torso shares the tilt
+ok 43 - pitched and banked support keeps feet on its normal while the head stays world-up and the torso shares the tilt
+  ---
+  duration_ms: 116.6928
+  type: 'test'
+  ...
+# Subtest: equal tilt at different world altitude and yaw has the same local posture and normal COM height
+ok 44 - equal tilt at different world altitude and yaw has the same local posture and normal COM height
+  ---
+  duration_ms: 10.6212
+  type: 'test'
+  ...
+# Subtest: a level yaw-only support frame preserves the existing acceleration-driven planar body lean
+ok 45 - a level yaw-only support frame preserves the existing acceleration-driven planar body lean
+  ---
+  duration_ms: 7.8092
+  type: 'test'
+  ...
+# Subtest: COM, ZMP, arms and hull world outputs are restored from support coordinates
+ok 46 - COM, ZMP, arms and hull world outputs are restored from support coordinates
+  ---
+  duration_ms: 4.6256
+  type: 'test'
+  ...
+# Subtest: head priority preserves world head position on a tilted support, and tracked hand orientation stays host-owned
+ok 47 - head priority preserves world head position on a tilted support, and tracked hand orientation stays host-owned
+  ---
+  duration_ms: 5.6856
+  type: 'test'
+  ...
+# Subtest: invalid or zero support frames reject without leaking transformed bones, and invalid targets restore after conversion
+ok 48 - invalid or zero support frames reject without leaking transformed bones, and invalid targets restore after conversion
+  ---
+  duration_ms: 5.7982
+  type: 'test'
+  ...
+# Subtest: render transactions restore tilted body poses after nested renders without changing the camera
+ok 49 - render transactions restore tilted body poses after nested renders without changing the camera
+  ---
+  duration_ms: 8.922
+  type: 'test'
+  ...
+# Subtest: world-up diagnostics detect a banked input head even when pose rotation preservation is perfect
+ok 50 - world-up diagnostics detect a banked input head even when pose rotation preservation is perfect
+  ---
+  duration_ms: 5.9691
+  type: 'test'
+  ...
+# Subtest: invalid unilateral support remains null after the frame result is returned to world space
+ok 51 - invalid unilateral support remains null after the frame result is returned to world space
+  ---
+  duration_ms: 6.3879
+  type: 'test'
+  ...
+# Subtest: upward load compression couples knees, pelvis and chest; unloading reverses it without double-adding crouch
+ok 52 - upward load compression couples knees, pelvis and chest; unloading reverses it without double-adding crouch
+  ---
+  duration_ms: 74.253
+  type: 'test'
+  ...
+# Subtest: world altitude translates body and sole contact plane equally while COM height and local posture stay invariant
+ok 53 - world altitude translates body and sole contact plane equally while COM height and local posture stay invariant
+  ---
+  duration_ms: 14.896
+  type: 'test'
+  ...
+# Subtest: supported ZMP uses effective gravity instead of the fixed planar gravity
+ok 54 - supported ZMP uses effective gravity instead of the fixed planar gravity
+  ---
+  duration_ms: 7.4849
+  type: 'test'
+  ...
+# Subtest: low load and signed negative adhesion return null support diagnostics and an explicit reason
+ok 55 - low load and signed negative adhesion return null support diagnostics and an explicit reason
+  ---
+  duration_ms: 9.2704
+  type: 'test'
+  ...
+# Subtest: zero or invalid force inputs never produce a divide-by-zero support success
+ok 56 - zero or invalid force inputs never produce a divide-by-zero support success
+  ---
+  duration_ms: 8.3303
+  type: 'test'
+  ...
+# Subtest: heavy combined crouch respects the existing knee policy, while tracked hands retain input ownership
+ok 57 - heavy combined crouch respects the existing knee policy, while tracked hands retain input ownership
+  ---
+  duration_ms: 8.3169
+  type: 'test'
+  ...
+# Subtest: a smooth compression input yields a continuous supported body response without foot motion
+ok 58 - a smooth compression input yields a continuous supported body response without foot motion
+  ---
+  duration_ms: 67.2791
+  type: 'test'
+  ...
+# Subtest: numerical success explicitly leaves visual review pending
+ok 59 - numerical success explicitly leaves visual review pending
+  ---
+  duration_ms: 1.4337
+  type: 'test'
+  ...
+# Subtest: invisible feet cannot pass a numerical foot-support screen
+ok 60 - invisible feet cannot pass a numerical foot-support screen
+  ---
+  duration_ms: 0.4213
+  type: 'test'
+  ...
+# Subtest: restoration and nonfinite failures dominate unsupported geometry
+ok 61 - restoration and nonfinite failures dominate unsupported geometry
+  ---
+  duration_ms: 1.3494
+  type: 'test'
+  ...
+# Subtest: unreachable targets and unconstrained support stay limited
+ok 62 - unreachable targets and unconstrained support stay limited
+  ---
+  duration_ms: 0.3494
+  type: 'test'
+  ...
+# Subtest: nonfinite nested metrics fail even when the solver finite flag is true
+ok 63 - nonfinite nested metrics fail even when the solver finite flag is true
+  ---
+  duration_ms: 0.2286
+  type: 'test'
+  ...
+# Subtest: a torso outside a finite support never passes an aligned-only contact screen
+ok 64 - a torso outside a finite support never passes an aligned-only contact screen
+  ---
+  duration_ms: 0.9016
+  type: 'test'
+  ...
+# Subtest: standing support nose-up and right-bank signs agree with the reported surface
+ok 65 - standing support nose-up and right-bank signs agree with the reported surface
+  ---
+  duration_ms: 52.9677
+  type: 'test'
+  ...
+# Subtest: body pitch stays an independent legacy control rather than becoming a support angle
+ok 66 - body pitch stays an independent legacy control rather than becoming a support angle
+  ---
+  duration_ms: 12.8555
+  type: 'test'
+  ...
+# Subtest: shoulder support targets match the final carrier shoulders after its arm solve
+ok 67 - shoulder support targets match the final carrier shoulders after its arm solve
+  ---
+  duration_ms: 20.6483
+  type: 'test'
+  ...
+# Subtest: Nimbus calibration leaves heading to the support frame exactly once
+ok 68 - Nimbus calibration leaves heading to the support frame exactly once
+  ---
+  duration_ms: 25.855
+  type: 'test'
+  ...
+# Subtest: head-neck and head-chest angles measure their own anatomical joints
+ok 69 - head-neck and head-chest angles measure their own anatomical joints
+  ---
+  duration_ms: 11.3723
+  type: 'test'
+  ...
+# Subtest: repeated family samples restore both skeletons and carrier transforms exactly
+ok 70 - repeated family samples restore both skeletons and carrier transforms exactly
+  ---
+  duration_ms: 54.399
+  type: 'test'
+  ...
+# Subtest: lab skin culling policy changes visibility ownership without changing solved bone metrics
+ok 71 - lab skin culling policy changes visibility ownership without changing solved bone metrics
+  ---
+  duration_ms: 9.4147
+  type: 'test'
+  ...
+# Subtest: explicit humanoid map accepts arbitrary authored node names
+ok 72 - explicit humanoid map accepts arbitrary authored node names
+  ---
+  duration_ms: 18.63
+  type: 'test'
+  ...
+# Subtest: standing and prone share outermost render restoration and can switch presets
+ok 73 - standing and prone share outermost render restoration and can switch presets
+  ---
+  duration_ms: 22.9682
+  type: 'test'
+  ...
+# Subtest: shared body palettes apply once, disabled poses do nothing, and bad preset restores safely
+ok 74 - shared body palettes apply once, disabled poses do nothing, and bad preset restores safely
+  ---
+  duration_ms: 7.3442
+  type: 'test'
+  ...
+# Subtest: eighteen candidate intents cover the seven families and the entire base catalog is frozen
+ok 75 - eighteen candidate intents cover the seven families and the entire base catalog is frozen
+  ---
+  duration_ms: 3.6675
+  type: 'test'
+  ...
+# Subtest: standard and stress are deterministic 324/540 cases with unique real input settings per pattern
+ok 76 - standard and stress are deterministic 324/540 cases with unique real input settings per pattern
+  ---
+  duration_ms: 37.3474
+  type: 'test'
+  ...
+# Subtest: returned cases are independent deep merged copies and preserve unchanged base leg parameters
+ok 77 - returned cases are independent deep merged copies and preserve unchanged base leg parameters
+  ---
+  duration_ms: 9.1267
+  type: 'test'
+  ...
+# Subtest: host conditions stay out of solver options and never request scaling a real rider
+ok 78 - host conditions stay out of solver options and never request scaling a real rider
+  ---
+  duration_ms: 10.2094
+  type: 'test'
+  ...
+# Subtest: family-specific variations use implemented option contracts and tracked hands switch seated modes
+ok 79 - family-specific variations use implemented option contracts and tracked hands switch seated modes
+  ---
+  duration_ms: 10.4753
+  type: 'test'
+  ...
+# Subtest: prone preserves true parent-bone lengths and limb spans when rotated parents are absent from the palette
+ok 80 - prone preserves true parent-bone lengths and limb spans when rotated parents are absent from the palette
+  ---
+  duration_ms: 41.8431
+  type: 'test'
+  ...
+# Subtest: prone leaves animated clothing, finger and face locals and scales under their original owners
+ok 81 - prone leaves animated clothing, finger and face locals and scales under their original owners
+  ---
+  duration_ms: 6.2193
+  type: 'test'
+  ...
+# Subtest: tracked prone hands retain their input orientation without stretching missing-parent limbs
+ok 82 - tracked prone hands retain their input orientation without stretching missing-parent limbs
+  ---
+  duration_ms: 4.3352
+  type: 'test'
+  ...
+# Subtest: support-fit prone keeps missing-parent lengths, exact head input orientation and caller restoration
+ok 83 - support-fit prone keeps missing-parent lengths, exact head input orientation and caller restoration
+  ---
+  duration_ms: 9.3323
+  type: 'test'
+  ...
+# Subtest: attitude is opt-in and disabled support stays yaw-only with original movement numbers
+ok 84 - attitude is opt-in and disabled support stays yaw-only with original movement numbers
+  ---
+  duration_ms: 24.0857
+  type: 'test'
+  ...
+# Subtest: up/down flight gives public nose-up/down pitch and preserves yaw during vertical-only movement
+ok 85 - up/down flight gives public nose-up/down pitch and preserves yaw during vertical-only movement
+  ---
+  duration_ms: 11.5702
+  type: 'test'
+  ...
+# Subtest: left/right turns mirror bank and normal axes while support quaternions obey the public rotation order
+ok 86 - left/right turns mirror bank and normal axes while support quaternions obey the public rotation order
+  ---
+  duration_ms: 11.6883
+  type: 'test'
+  ...
+# Subtest: tilt is a support attitude and does not create a second movement integrator or mutate its input
+ok 87 - tilt is a support attitude and does not create a second movement integrator or mutate its input
+  ---
+  duration_ms: 14.7757
+  type: 'test'
+  ...
+# Subtest: normal load, tangent demand, ZMP and compression use the same tilted support frame
+ok 88 - normal load, tangent demand, ZMP and compression use the same tilted support frame
+  ---
+  duration_ms: 11.1355
+  type: 'test'
+  ...
+# Subtest: angle limits, angular rates and frame orthonormality remain bounded during force reversals
+ok 89 - angle limits, angular rates and frame orthonormality remain bounded during force reversals
+  ---
+  duration_ms: 13.6806
+  type: 'test'
+  ...
+# Subtest: braking to hover returns pitch, bank, COM and rates to rest without yaw reset
+ok 90 - braking to hover returns pitch, bank, COM and rates to rest without yaw reset
+  ---
+  duration_ms: 18.9365
+  type: 'test'
+  ...
+# Subtest: tilted low/negative loads still return null ZMP with explicit reasons and recover
+ok 91 - tilted low/negative loads still return null ZMP with explicit reasons and recover
+  ---
+  duration_ms: 2.4331
+  type: 'test'
+  ...
+# Subtest: attitude and projected demand agree at 30/60/120fps for a scripted 3D course
+ok 92 - attitude and projected demand agree at 30/60/120fps for a scripted 3D course
+  ---
+  duration_ms: 48.4095
+  type: 'test'
+  ...
+# Subtest: drive force and mass govern acceleration, and the pure step does not mutate inputs
+ok 93 - drive force and mass govern acceleration, and the pure step does not mutate inputs
+  ---
+  duration_ms: 6.476
+  type: 'test'
+  ...
+# Subtest: launch and braking reverse acceleration and COM response, then braking reaches a stable stop
+ok 94 - launch and braking reverse acceleration and COM response, then braking reaches a stable stop
+  ---
+  duration_ms: 26.1811
+  type: 'test'
+  ...
+# Subtest: left and right turns from identical speed give mirrored actual acceleration and balance
+ok 95 - left and right turns from identical speed give mirrored actual acceleration and balance
+  ---
+  duration_ms: 6.7066
+  type: 'test'
+  ...
+# Subtest: constant velocity without force produces no acceleration-driven pose oscillation
+ok 96 - constant velocity without force produces no acceleration-driven pose oscillation
+  ---
+  duration_ms: 23.7822
+  type: 'test'
+  ...
+# Subtest: drag dissipates speed without input and the balance response converges after stopping
+ok 97 - drag dissipates speed without input and the balance response converges after stopping
+  ---
+  duration_ms: 35.8139
+  type: 'test'
+  ...
+# Subtest: near-identical scripted launch turn brake results across common frame rates
+ok 98 - near-identical scripted launch turn brake results across common frame rates
+  ---
+  duration_ms: 22.82
+  type: 'test'
+  ...
+# Subtest: spring COM and acceleration determine approximate ZMP loads and expose support exceedance
+ok 99 - spring COM and acceleration determine approximate ZMP loads and expose support exceedance
+  ---
+  duration_ms: 6.443
+  type: 'test'
+  ...
+# Subtest: nonfinite controls and dt remain finite; catch-up limits are explicitly reported
+ok 100 - nonfinite controls and dt remain finite; catch-up limits are explicitly reported
+  ---
+  duration_ms: 3.282
+  type: 'test'
+  ...
+# Subtest: initial heading is explicit and huge valid tuning values are bounded to a stable finite model
+ok 101 - initial heading is explicit and huge valid tuning values are bounded to a stable finite model
+  ---
+  duration_ms: 10.5273
+  type: 'test'
+  ...
+# Subtest: observed COM height converges smoothly while immutable configuration stays at its calibrated initial value
+ok 102 - observed COM height converges smoothly while immutable configuration stays at its calibrated initial value
+  ---
+  duration_ms: 14.232
+  type: 'test'
+  ...
+# Subtest: height feedback ignores nonfinite observations and reports bounded extreme observations and initialization
+ok 103 - height feedback ignores nonfinite observations and reports bounded extreme observations and initialization
+  ---
+  duration_ms: 18.3349
+  type: 'test'
+  ...
+# Subtest: one-frame delayed synthetic height feedback remains bounded and agrees across frame rates
+ok 104 - one-frame delayed synthetic height feedback remains bounded and agrees across frame rates
+  ---
+  duration_ms: 43.0301
+  type: 'test'
+  ...
+# Subtest: launch then braking with lower observed height stops and returns COM and lean to zero
+ok 105 - launch then braking with lower observed height stops and returns COM and lean to zero
+  ---
+  duration_ms: 6.4505
+  type: 'test'
+  ...
+# Subtest: force-driven ride keeps local foot anchors through translation, turn, braking and nested render restore
+ok 106 - force-driven ride keeps local foot anchors through translation, turn, braking and nested render restore
+  ---
+  duration_ms: 403.0579
+  type: 'test'
+  ...
+# Subtest: anatomical head forward handles authored rest axes and transformed parents
+ok 107 - anatomical head forward handles authored rest axes and transformed parents
+  ---
+  duration_ms: 29.0632
+  type: 'test'
+  ...
+# Subtest: near vertical head direction holds the last horizontal heading and resumes on return
+ok 108 - near vertical head direction holds the last horizontal heading and resumes on return
+  ---
+  duration_ms: 6.9094
+  type: 'test'
+  ...
+# Subtest: missing rig uses seat world yaw plus independent seated look yaw
+ok 109 - missing rig uses seat world yaw plus independent seated look yaw
+  ---
+  duration_ms: 3.0253
+  type: 'test'
+  ...
+# Subtest: N02 and the paired U02 drivers preserve nested render transactions, move with carrier, and stop on disable
+ok 110 - N02 and the paired U02 drivers preserve nested render transactions, move with carrier, and stop on disable
+  ---
+  duration_ms: 53.0003
+  type: 'test'
+  ...
+# Subtest: shoulder support seats the passenger with forward knees and hanging calves at three sizes
+ok 111 - shoulder support seats the passenger with forward knees and hanging calves at three sizes
+  ---
+  duration_ms: 37.4638
+  type: 'test'
+  ...
+# Subtest: head anchoring honestly reports the support error while support anchoring moves the rendered head
+ok 112 - head anchoring honestly reports the support error while support anchoring moves the rendered head
+  ---
+  duration_ms: 7.6667
+  type: 'test'
+  ...
+# Subtest: translated and rotated carrier anchors produce an equivariant pose without changing the carrier points
+ok 113 - translated and rotated carrier anchors produce an equivariant pose without changing the carrier points
+  ---
+  duration_ms: 7.659
+  type: 'test'
+  ...
+# Subtest: unreachable tracked hands report error without stretching limbs or losing head rotation
+ok 114 - unreachable tracked hands report error without stretching limbs or losing head rotation
+  ---
+  duration_ms: 3.0364
+  type: 'test'
+  ...
+# Subtest: omitted knee parents and clothing retain local transforms and all snapshots restore
+ok 115 - omitted knee parents and clothing retain local transforms and all snapshots restore
+  ---
+  duration_ms: 9.9588
+  type: 'test'
+  ...
+# Subtest: invalid carrier anchors and anchor modes fail before modifying passenger bones
+ok 116 - invalid carrier anchors and anchor modes fail before modifying passenger bones
+  ---
+  duration_ms: 2.589
+  type: 'test'
+  ...
+# Subtest: small passenger and tall carrier increase the back offset and expose conservative body proxies
+ok 117 - small passenger and tall carrier increase the back offset and expose conservative body proxies
+  ---
+  duration_ms: 6.8456
+  type: 'test'
+  ...
+# Subtest: automatic leg spread improves small/tall leg clearance but keeps unresolved body overlap visible
+ok 118 - automatic leg spread improves small/tall leg clearance but keeps unresolved body overlap visible
+  ---
+  duration_ms: 5.9098
+  type: 'test'
+  ...
+# Subtest: carrier hands reach reachable shin targets and report unreachable targets without stretching
+ok 119 - carrier hands reach reachable shin targets and report unreachable targets without stretching
+  ---
+  duration_ms: 3.8379
+  type: 'test'
+  ...
+# Subtest: foot diagnostics use posed skin vertices, include foot descendants and deduplicate identical clones
+ok 120 - foot diagnostics use posed skin vertices, include foot descendants and deduplicate identical clones
+  ---
+  duration_ms: 25.2139
+  type: 'test'
+  ...
+# Subtest: declared foot bones without foot-weighted visible geometry return null soles rather than inferred contacts
+ok 121 - declared foot bones without foot-weighted visible geometry return null soles rather than inferred contacts
+  ---
+  duration_ms: 9.4101
+  type: 'test'
+  ...
+# Subtest: foot weights must total more than one half and distinct transformed instances are retained
+ok 122 - foot weights must total more than one half and distinct transformed instances are retained
+  ---
+  duration_ms: 14.5297
+  type: 'test'
+  ...
+# Subtest: visible sole distances use a tilted support normal and remain independent of world height
+ok 123 - visible sole distances use a tilted support normal and remain independent of world height
+  ---
+  duration_ms: 6.8478
+  type: 'test'
+  ...
+# Subtest: seated knees become straight at different body sizes without changing head position/orientation or bone lengths
+ok 124 - seated knees become straight at different body sizes without changing head position/orientation or bone lengths
+  ---
+  duration_ms: 30.4194
+  type: 'test'
+  ...
+# Subtest: moving reachable VR-like head and hands retain their world position and rotation over 180 frames
+ok 125 - moving reachable VR-like head and hands retain their world position and rotation over 180 frames
+  ---
+  duration_ms: 64.3897
+  type: 'test'
+  ...
+# Subtest: unreachable controllers produce reach error without stretching bones or moving head
+ok 126 - unreachable controllers produce reach error without stretching bones or moving head
+  ---
+  duration_ms: 1.6311
+  type: 'test'
+  ...
+# Subtest: render-only correction restores animation, keeps camera unchanged and ceases on leave/dispose
+ok 127 - render-only correction restores animation, keeps camera unchanged and ceases on leave/dispose
+  ---
+  duration_ms: 3.9837
+  type: 'test'
+  ...
+# Subtest: owner selection rejects multiple unclaimed avatars and cannot correct unrelated bystanders
+ok 128 - owner selection rejects multiple unclaimed avatars and cannot correct unrelated bystanders
+  ---
+  duration_ms: 4.811
+  type: 'test'
+  ...
+# Subtest: two simultaneous pose bridges restore independently when removed in either order
+ok 129 - two simultaneous pose bridges restore independently when removed in either order
+  ---
+  duration_ms: 9.483
+  type: 'test'
+  ...
+# Subtest: VR finger curls and facial bone animation are preserved below wrist and head anchors
+ok 130 - VR finger curls and facial bone animation are preserved below wrist and head anchors
+  ---
+  duration_ms: 1.8315
+  type: 'test'
+  ...
+# Subtest: upright body faces the Seat forward direction (-Z) while preserving the host head
+ok 131 - upright body faces the Seat forward direction (-Z) while preserving the host head
+  ---
+  duration_ms: 1.287
+  type: 'test'
+  ...
+# Subtest: experimental seat presets use the public nested-render transaction and restore host bones
+ok 132 - experimental seat presets use the public nested-render transaction and restore host bones
+  ---
+  duration_ms: 29.1055
+  type: 'test'
+  ...
+# Subtest: three waist-supported families retain head rotation and lengths across three sizes, with reachable feet at the reference plane
+ok 133 - three waist-supported families retain head rotation and lengths across three sizes, with reachable feet at the reference plane
+  ---
+  duration_ms: 49.0938
+  type: 'test'
+  ...
+# Subtest: chair puts both feet forward, straddle widens them, and side sitting puts both feet on the selected side
+ok 134 - chair puts both feet forward, straddle widens them, and side sitting puts both feet on the selected side
+  ---
+  duration_ms: 3.9402
+  type: 'test'
+  ...
+# Subtest: explicit tilted frames support the waist exactly, preserve head world up and transport target geometry rigidly
+ok 135 - explicit tilted frames support the waist exactly, preserve head world up and transport target geometry rigidly
+  ---
+  duration_ms: 6.0312
+  type: 'test'
+  ...
+# Subtest: relaxed and grip arms descend through the elbow without wrist twists, while lean changes the torso rather than only the neck
+ok 136 - relaxed and grip arms descend through the elbow without wrist twists, while lean changes the torso rather than only the neck
+  ---
+  duration_ms: 5.3439
+  type: 'test'
+  ...
+# Subtest: unreachable grip and foot settings report misses without stretching bones or moving the waist support
+ok 137 - unreachable grip and foot settings report misses without stretching bones or moving the waist support
+  ---
+  duration_ms: 2.3994
+  type: 'test'
+  ...
+# Subtest: tracked hands retain their input rotations and expose unreachable positions as errors
+ok 138 - tracked hands retain their input rotations and expose unreachable positions as errors
+  ---
+  duration_ms: 2.6231
+  type: 'test'
+  ...
+# Subtest: raw mappings with arbitrary names, reversed bind direction, omitted knee parents and garments remain supported
+ok 139 - raw mappings with arbitrary names, reversed bind direction, omitted knee parents and garments remain supported
+  ---
+  duration_ms: 11.7189
+  type: 'test'
+  ...
+# Subtest: caller snapshots restore exactly and pose application does not install scene hooks
+ok 140 - caller snapshots restore exactly and pose application does not install scene hooks
+  ---
+  duration_ms: 3.2637
+  type: 'test'
+  ...
+# Subtest: bad families or frames reject before mutation and non-finite tuning uses finite defaults
+ok 141 - bad families or frames reject before mutation and non-finite tuning uses finite defaults
+  ---
+  duration_ms: 2.6754
+  type: 'test'
+  ...
+# Subtest: hover compensation holds height, preserves signed initial vertical speed and integrates height at constant speed
+ok 142 - hover compensation holds height, preserves signed initial vertical speed and integrates height at constant speed
+  ---
+  duration_ms: 23.8552
+  type: 'test'
+  ...
+# Subtest: vertical velocity and acceleration are independent: four signed cases use the acceleration to classify load
+ok 143 - vertical velocity and acceleration are independent: four signed cases use the acceleration to classify load
+  ---
+  duration_ms: 1.1901
+  type: 'test'
+  ...
+# Subtest: lift adds force over gravity compensation and mass changes net vertical acceleration without mutating config or input
+ok 144 - lift adds force over gravity compensation and mass changes net vertical acceleration without mutating config or input
+  ---
+  duration_ms: 2.6366
+  type: 'test'
+  ...
+# Subtest: upward braking unloads, downward braking compresses, and both stop and recover at hover
+ok 145 - upward braking unloads, downward braking compresses, and both stop and recover at hover
+  ---
+  duration_ms: 14.5393
+  type: 'test'
+  ...
+# Subtest: positive normal load uses effective gravity for horizontal ZMP and COM equilibrium
+ok 146 - positive normal load uses effective gravity for horizontal ZMP and COM equilibrium
+  ---
+  duration_ms: 10.0365
+  type: 'test'
+  ...
+# Subtest: near-zero and negative normal loads invalidate pressure/ZMP and do not turn adhesion into heavy crouching
+ok 147 - near-zero and negative normal loads invalidate pressure/ZMP and do not turn adhesion into heavy crouching
+  ---
+  duration_ms: 1.5027
+  type: 'test'
+  ...
+# Subtest: support hysteresis suppresses boundary toggles, requires a recovery hold and enters adhesion immediately
+ok 148 - support hysteresis suppresses boundary toggles, requires a recovery hold and enters adhesion immediately
+  ---
+  duration_ms: 0.7766
+  type: 'test'
+  ...
+# Subtest: vertical force release uses drag, brake actively stops, and nonfinite lift remains finite
+ok 149 - vertical force release uses drag, brake actively stops, and nonfinite lift remains finite
+  ---
+  duration_ms: 0.7476
+  type: 'test'
+  ...
+# Subtest: vertical launch coast brake and support/compression recovery agree at 30/60/120fps
+ok 150 - vertical launch coast brake and support/compression recovery agree at 30/60/120fps
+  ---
+  duration_ms: 24.0499
+  type: 'test'
+  ...
+# Subtest: zero lift preserves horizontal regression values and the flat crouch remains separate from vertical compression
+ok 151 - zero lift preserves horizontal regression values and the flat crouch remains separate from vertical compression
+  ---
+  duration_ms: 3.7909
+  type: 'test'
+  ...
+1..151
+# tests 151
+# suites 0
+# pass 151
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1302.2056
+
+> xrift-avatar-pose-control@0.1.0 build
+> npm run typecheck && vite build
+
+
+> xrift-avatar-pose-control@0.1.0 typecheck
+> tsc --noEmit
+
+vite v7.3.1 building client environment for production...
+transforming...
+✓ 33 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                0.54 kB │ gzip:   0.33 kB
+dist/patterns.html                             0.63 kB │ gzip:   0.35 kB
+dist/assets/patterns-D25HjTUU.css              0.12 kB │ gzip:   0.11 kB
+dist/assets/skin-diagnostics-BvpVgyYH.css      1.50 kB │ gzip:   0.72 kB
+dist/assets/patterns-PFdsspYT.js              21.88 kB │ gzip:   8.86 kB
+dist/assets/main-CQihQjO0.js                  32.89 kB │ gzip:  11.91 kB
+dist/assets/skin-diagnostics-CAJsT4ys.js   1,021.62 kB │ gzip: 267.67 kB
+✓ built in 1.74s

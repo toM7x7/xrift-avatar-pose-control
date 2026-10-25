@@ -4,7 +4,7 @@ import {attachPoseDriver,prepareHumanoidRig,inspectHumanoidRigs,prepareRig} from
 import {measureSkinDiagnostics} from './skin-diagnostics.mjs'
 import {createRideDynamics,stepRideDynamics} from '../src/ride-dynamics.mjs'
 import {N02_NORMAL_FLIGHT_PROFILE as n02Profile,createN02RideOptions,sampleN02FlightSequence} from '../src/n02-profile.mjs'
-commonControls('N02 / U02 姿勢実験','筋斗雲のサーフ姿勢と肩車を比較。既定は自作骨格。ローカルVRMは乗る側だけに読み込めます。')
+commonControls('N02 / U02 姿勢実験','筋斗雲のサーフ姿勢と肩車を比較。既定は自作骨格。ローカルVRMは乗る側だけに読み込めます。<br><a href="/patterns.html">ほかの乗り姿勢18候補を試す</a>')
 document.querySelector('#specific').innerHTML=`
 <label>姿勢<select id="preset"><option value="nimbus" selected>N02 筋斗雲・サーフ姿勢</option><option value="shoulder">U02 ユーザーの肩車</option><option value="native">元の座り姿勢</option><option value="upright">直立</option><option value="hover">直立ホバリング</option><option value="board">旧ボード姿勢</option><option value="glider">伏せるグライダー</option></select></label>
 <div id="nimbusControls"><label>足幅<input id="stanceWidth" type="range" min=".6" max="1.4" step=".02" value="${n02Profile.pose.stanceWidth}"></label><label>しゃがみ<input id="crouch" type="range" min="0" max="1" step=".01" value="${n02Profile.pose.crouch}"></label>

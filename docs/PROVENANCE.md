@@ -9,3 +9,5 @@
 - 既存のremote-playerマーカーはホストの慣習で、保証されたアバター取得APIではない。明示的に頭／humanoid mapを渡す経路を優先し、曖昧な対象へ適用しない。
 
 同日、N02通常飛行profile 1.0.0をユーザーの採用基準として追加。概念画像はimage_genによる想像図、公開screenshotsは自作の検証骨格。実VRMのモデル本体・元ファイル名対応・画像はignoredの私有領域へ残し、GitHubには含めない。profileの採用やGitタグはコードのライセンス変更・npm公開・XRift配布を意味しない。
+
+同日、他姿勢の探索へ腰支持IK・候補catalog・大量SIMを追加。`src/vendor/render-pose.mjs`の伏せ姿勢初期化を、親palette欠落に対応するworld回転へ局所修正した。source-manifestは切り出し時の来歴を保持し、今回の実行source hashは実験集計へ別記する。比較シートを含む実VRMの画像と全数ログは私有領域のみ。公開する実験結果は自作骨格と匿名の数値集計であり、VRM作者・元ファイル名・私有画像を含めない。

@@ -12,6 +12,16 @@ rideで特殊な乗り物へ搭乗するときのアバター姿勢を調整す�
 
 clone後は `npm ci` → `npm run verify` → `npm run replay:n02`。replayは私有VRM・ブラウザなしで校正→14秒飛行→0.5秒の停止観測を再現し、`artifacts/n02-normal-flight-v1.json`へ設定と結果を保存します。実XRift／Quest／他者同期の完成とは区別します。
 
+## 他の乗り姿勢を探す
+
+`npm run dev`後、[パターン比較画面](http://127.0.0.1:5228/patterns.html)で手元のVRMを読み込めます。18候補・7系統を比較し、支持の傾斜・見回し・幅・腰高・腕の役割などを変えて探索します。椅子座り／またがり／横座りの腰支持IKを追加しました。
+
+- [大量SIMの結果・見た目・残る限界](docs/experiments/pose-patterns-2026-10-25.md)
+- [候補catalogと条件生成](src/pose-patterns.mjs)：通常324、境界条件込み540。stressは通常条件を含みます。
+- [腰支持の実験契約](docs/specs/SUPPORTED_SEAT_EXPERIMENT_V1.md)
+
+`npm run replay:patterns`は私有素材なしで自作骨格3体格の972条件・23,328フレームを再現します。実VRMは全条件の一次screen→基本／厳しい条件の24フレーム確認→代表画像の目視で探索します。新候補は未採用であり、N02の採用タグとprofileは維持します。`pass`は数値screenのみ、`unsupported`は見える足の判定対象外で、全身姿勢の失敗を一括して意味しません。
+
 ## 起動
 
 ```sh
@@ -64,7 +74,7 @@ driver.dispose()
 
 元の低レベルモジュールも残っていますが、既存standing／proneの別々の描画フックを同じ身体へ混ぜず、新しいattachPoseDriverを入口にしてください。src/reproの旧版は意図的に不具合を残した比較用で、公開APIからはexportしません。
 
-`npm run verify`で単体119件・型の利用例・デモビルドを確認します。`npm run replay:n02`は採用profileで1740フレームと16checkpointを検査します。傾斜14条件と、傾斜OFFで従来の上下14・走行10・旧頭優先22条件を確認。実VRM2体×8状態×3視点をON/OFFで96枚比較しました。低／負荷重のZMP・足荷重比はnullと理由を返すため、利用側は有効性を確認してください。力・近似バランスとIKの連動実験であり、全身の剛体接触や回転点の加速度を解いたものではありません。前段階の実験記録も残し、小型×大型の肩車や太い衣服の干渉は未完です。
+`npm run verify`で単体151件・型の利用例・デモビルドを確認します。`npm run replay:n02`は採用profileで1740フレームと16checkpointを検査します。傾斜14条件と、傾斜OFFで従来の上下14・走行10・旧頭優先22条件を確認。実VRM2体×8状態×3視点をON/OFFで96枚比較しました。低／負荷重のZMP・足荷重比はnullと理由を返すため、利用側は有効性を確認してください。力・近似バランスとIKの連動実験であり、全身の剛体接触や回転点の加速度を解いたものではありません。前段階の実験記録も残し、小型×大型の肩車や太い衣服の干渉は未完です。
 
 - [乗り物・姿勢・VRMの実験指針](docs/EXPERIMENTS.md)
 - [N02の走行・胸腰足・重心feedback](docs/experiments/n02-ride-loop-2026-10-25.md)

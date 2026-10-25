@@ -1,5 +1,7 @@
 # ride姿勢の実験指針
 
+他姿勢への探索は[18候補の大量SIM](experiments/pose-patterns-2026-10-25.md)。`/patterns.html`で実VRMを選び、540条件の一次screenから代表の連続検査と目視へ進む。新候補を採用済みN02と混同しない。自作骨格の再現入口は`npm run replay:patterns`。
+
 再現する基準は採用済みの[N02 通常飛行1.0.0](specs/N02_NORMAL_FLIGHT_V1.md)。`npm run replay:n02`の入力正本はJSONで、デモと共有する。新しい調整はこの基準との差分として記録する。以下は採用までの実験履歴。
 
 最新は[傾く雲と胸腰脚の追従](experiments/n02-tilted-ride-2026-10-25.md)。上下pitch・左右bankの支持面で足裏を合わせ、通常の頭の世界向きを保つ。傾斜ON/OFF・実VRM96枚・自作14条件と旧回帰を分け、法線方向の靴底とCOM高で受け入れる。

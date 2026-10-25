@@ -1,0 +1,34 @@
+{
+  "scope": "Post-capture display metadata synchronization, fresh local VRM load",
+  "modelId": "A03",
+  "caseIds": [
+    "prone-glider__base",
+    "chair-car__base",
+    "shoulder-back-offset__base"
+  ],
+  "frames": 72,
+  "numericCasesWithinTolerance": true,
+  "absoluteNumericTolerance": 1e-8,
+  "exactNumericEquality": false,
+  "maxAbsoluteNumericDifference": 4.547473508864641e-13,
+  "maxDifferencePath": "shoulder-back-offset__base.metrics.headDriftMm",
+  "classificationsUnchanged": true,
+  "display": {
+    "caseId": "nimbus-surf__base",
+    "measured": true,
+    "source": "posed-foot-weighted-vertices",
+    "gaps": [
+      -0.006075946746849703,
+      -0.0060769581002724764
+    ],
+    "assessment": {
+      "status": "limited",
+      "reasons": [
+        "fixed-support-changes-crouch"
+      ],
+      "scope": "numerical-screen-only",
+      "visualReview": "pending"
+    }
+  },
+  "n02AdoptedReplayNumericallyEqual": true
+}
