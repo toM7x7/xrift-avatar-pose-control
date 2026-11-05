@@ -12,6 +12,19 @@ rideで特殊な乗り物へ搭乗するときのアバター姿勢を調整す�
 
 clone後は `npm ci` → `npm run verify` → `npm run replay:n02`。replayは私有VRM・ブラウザなしで校正→14秒飛行→0.5秒の停止観測を再現し、`artifacts/n02-normal-flight-v1.json`へ設定と結果を保存します。実XRift／Quest／他者同期の完成とは区別します。
 
+## 全身の動作を作る（Pose Studio）
+
+乗り姿勢とは別に、「構える→溜める→放つ」のような全身の動作をキーとタイムラインで書き、どの体格にも同じ意図で当てる仕組みを追加しました。題材は両手で溜めて放つ気功波（[charge-wave.v1.json](specs/charge-wave.v1.json)）。
+
+- 体の意図で書くキー：骨盤の沈みとひねり、背骨へ配分する胸の向き、鎖骨、地面に固定する足、両手の組（玉を挟む／押し出す）、指。
+- 肘の回り込みを探して手首・前腕の可動域と皮膚の当たりを守る腕、両手の接触を保つ寄せ、片足ずつの踏み替えと体重移動、キー間の関節空間の計画。
+- 全フレームの品質検査（手首・前腕・膝・足首・足の滑り・重心・皮膚との隙間・角速度）と、両手の組の向きの自動フィット。
+- `npm run dev`後、[Pose Studio](http://127.0.0.1:5228/studio.html)で4画面・キーの残像・数値を見ながら編集できます。手元VRMはブラウザ内だけで読みます。
+
+[仕組み](docs/specs/AUTHORED_ACTIONS_V1.md)・[実験記録（実VRM3体で7〜8/17→17/18）](docs/experiments/charge-wave-2026-11-05.md)。`npm run review:charge-wave`で私有素材なしに再検査できます。実XRift・Quest・他者視点は未確認です。
+
+![charge-waveのキー（自作骨格）](docs/screenshots/charge-wave-fixture-keys-2026-11-05.png)
+
 ## 他の乗り姿勢を探す
 
 `npm run dev`後、[パターン比較画面](http://127.0.0.1:5228/patterns.html)で手元のVRMを読み込めます。18候補・7系統を比較し、支持の傾斜・見回し・幅・腰高・腕の役割などを変えて探索します。椅子座り／またがり／横座りの腰支持IKを追加しました。

@@ -24,3 +24,14 @@ if(inferred.ok&&inferred.bones)prepareHumanoidRig({mesh,bones:inferred.bones})
 inferHumanoidRigs([rig],scene,{near:new Vector3(),maxDistance:3}).forEach(i=>i.rig?.bones.hips)
 const chosen=selectRiderRigWithInference({scene,rigs:[rig],occupantId:'me',localUserId:'me',seatPosition:new Vector3(),exclude:r=>r.mesh===mesh})
 chosen.inference?.result.method
+
+// Authored action clip (charge-wave): sample the timeline and drive it through the same render transaction.
+import {sampleAction,authoringRig,evaluateAction,fitPairAxes,type ActionClip} from '../src/index.mjs'
+declare const clip:ActionClip
+declare const authoredRig:import('../src/vendor/render-pose.mjs').PreparedRig
+const authoredInfo=authoringRig(authoredRig)
+const authoredFrame=sampleAction(clip,authoredInfo,{heldFor:1.2,releasedFor:null,charge:.5})
+const authoredDriver=attachPoseDriver({scene:new Scene(),rig:authoredRig,getOptions:()=>({preset:'authored',frame:authoredFrame,heading:0,headMode:'host'})})
+const authoredReview=evaluateAction(authoredRig,clip,{holdFor:2.6})
+const fitted:[number,number,number]=fitPairAxes(authoredRig,clip.keys.gather).axes
+void authoredDriver;void authoredReview.verdicts;void fitted

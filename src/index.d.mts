@@ -18,10 +18,20 @@ export {INFERENCE_REQUIRED_ROLES,parseBoneName,resolveRoles,validateRoles} from 
 export type {InferenceRole,InferenceRequiredRole,SkeletonInput,RoleResult,ParsedBoneName} from './role-inference.mjs'
 export {skeletonInputOf,inferHumanoidBones,inferHumanoidRigs} from './humanoid-inference.mjs'
 export type {InferredHumanoidBones,InferredRig} from './humanoid-inference.mjs'
-export type Preset='upright'|'hover'|'board'|'glider'|'nimbus'|'shoulder'|'carrierSupport'|'chair'|'straddle'|'side-sit'
+export {applyAuthoredPose,buildColliders,REFERENCE_HIP_HEIGHT} from './authoring/solve.mjs'
+export {authoringRig} from './authoring/rig.mjs'
+export {resolveKey,sampleAction,sampleKey,lerpFrame,releaseDuration} from './authoring/clip.mjs'
+export {evaluateAction,summarize,frameChannels,DEFAULT_THRESHOLDS} from './authoring/quality.mjs'
+export type {Verdict,EvaluatedFrame} from './authoring/quality.mjs'
+export {fitPairAxes,keyCost} from './authoring/fit.mjs'
+export {solveArm,ARM_LIMITS} from './authoring/arm.mjs'
+export {pairTargets,poseFingers,handFrame} from './authoring/hand.mjs'
+export type {ActionClip,ActionClock,PoseKey,PoseFrame,AuthoredPoseMetrics,AuthoredPoseOptions,ArmMetrics,LegMetrics,PairPreset} from './authoring/types.d.mts'
+import type {AuthoredPoseMetrics,AuthoredPoseOptions,PoseFrame} from './authoring/types.d.mts'
+export type Preset='upright'|'hover'|'board'|'glider'|'nimbus'|'shoulder'|'carrierSupport'|'chair'|'straddle'|'side-sit'|'authored'
 export const POSE_PRESETS:Readonly<Record<Preset,object>>
-export type ControlOptions=(StandingOptions&PoseOptions&NimbusOptions&ShoulderRideOptions&ShoulderCarrierOptions&{preset?:Exclude<Preset,'chair'|'straddle'|'side-sit'>})|(SupportedSeatOptions&{preset:'chair'|'straddle'|'side-sit';enabled?:boolean})
+export type ControlOptions=(StandingOptions&PoseOptions&NimbusOptions&ShoulderRideOptions&ShoulderCarrierOptions&{preset?:Exclude<Preset,'chair'|'straddle'|'side-sit'|'authored'>})|(SupportedSeatOptions&{preset:'chair'|'straddle'|'side-sit';enabled?:boolean})|(AuthoredPoseOptions&{preset:'authored';frame:PoseFrame;enabled?:boolean})
 export function prepareHumanoidRig(source:{mesh:SkinnedMesh;bones:Record<string,Bone>}):PreparedRig
-export type ControlMetrics=StandingMetrics|PoseMetrics|NimbusMetrics|ShoulderRideMetrics|ShoulderCarrierMetrics|SupportedSeatMetrics
+export type ControlMetrics=StandingMetrics|PoseMetrics|NimbusMetrics|ShoulderRideMetrics|ShoulderCarrierMetrics|SupportedSeatMetrics|AuthoredPoseMetrics
 export function applyPose(rig:PreparedRig,options?:ControlOptions):ControlMetrics
 export function attachPoseDriver(input:{scene:Scene;rig:PreparedRig;getOptions?:()=>ControlOptions;relatedSkeletons?:Skeleton[]}):{last:ControlMetrics|null;error:string|null;frames:number;restored:boolean;restore:()=>void;dispose:()=>void}
