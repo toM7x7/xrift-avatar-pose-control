@@ -1,5 +1,10 @@
 # Changelog
 
+## MITライセンス — 2026-11-05
+
+- 所有者の選定により`LICENSE`（MIT、Copyright (c) 2026 toM7x7）を追加し、package.jsonのlicenseをUNLICENSEDからMITへ変更。
+- `private: true`はnpm公開を防ぐため維持。N02 profile・タグ・挙動の変更はない。
+
 ## 多姿勢の探索候補 — 2026-10-25
 
 - 手元VRMの比較画面`patterns.html`、7系統・18候補と通常324／境界込み540条件を追加。
