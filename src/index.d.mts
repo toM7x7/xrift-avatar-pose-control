@@ -14,6 +14,10 @@ export {createFlightMotion,stepFlightMotion} from './flight-motion.mjs'
 export {createRideDynamics,stepRideDynamics} from './ride-dynamics.mjs'
 export {N02_NORMAL_FLIGHT_PROFILE,createN02RideOptions,sampleN02FlightSequence} from './n02-profile.mjs'
 export {resolveRiderHeading} from './rider-heading.mjs'
+export {INFERENCE_REQUIRED_ROLES,parseBoneName,resolveRoles,validateRoles} from './role-inference.mjs'
+export type {InferenceRole,InferenceRequiredRole,SkeletonInput,RoleResult,ParsedBoneName} from './role-inference.mjs'
+export {skeletonInputOf,inferHumanoidBones,inferHumanoidRigs} from './humanoid-inference.mjs'
+export type {InferredHumanoidBones,InferredRig} from './humanoid-inference.mjs'
 export type Preset='upright'|'hover'|'board'|'glider'|'nimbus'|'shoulder'|'carrierSupport'|'chair'|'straddle'|'side-sit'
 export const POSE_PRESETS:Readonly<Record<Preset,object>>
 export type ControlOptions=(StandingOptions&PoseOptions&NimbusOptions&ShoulderRideOptions&ShoulderCarrierOptions&{preset?:Exclude<Preset,'chair'|'straddle'|'side-sit'>})|(SupportedSeatOptions&{preset:'chair'|'straddle'|'side-sit';enabled?:boolean})

@@ -1,5 +1,9 @@
 # 初期版とN02/U02実験の状態
 
+## 2026-11-05：骨格の役割推定
+
+名前の別名表で読めない骨格に、名前の流派の表と骨格の形から役割を推定する入口を追加（`resolveRoles`・`inferHumanoidBones`・`inferHumanoidRigs`・`./xrift` の `selectRiderRigWithInference`）。食い違い・左右不明・検査不合格は当てない。合成骨格の全流派・fixture の付け替え（姿勢が元と1e-9m以内で一致）・ローカル実VRM3体（名前を消しても humanoid と14役割一致、19件すべて期待どおり）を確認。158テスト・型・build、`replay:n02` の数値一致。採用ではなく追加の入口で、既定の選択と N02 1.0.0 は不変。実XRift の観察は未完（同じ所有者の筋斗雲アイテムで配布済み）。[実験記録](experiments/role-inference-2026-11-05.md)。
+
 ## 2026-11-05：MITライセンス
 
 所有者がMITを選定し、`LICENSE`（Copyright (c) 2026 toM7x7）を追加。package.jsonはlicense: MIT、private: trueを維持（npm公開しない）。N02 1.0.0のprofile・タグ・挙動は変えていない。[来歴](PROVENANCE.md)。

@@ -1,5 +1,9 @@
 # ブラウザでデモを確認する
 
+## 骨格の役割推定（ローカル実VRM）
+
+`node scripts/check-role-inference-vrms.mjs`：手元の`vrm/`の各VRMで、元の名前・名前を消したもの・足の形を消したものがVRMのhumanoidと14役割一致するか、左右の名前を逆にしたもの・手がかりを消したもの・小さいskinを当てないかを確かめます。ファイル名入りの結果はignoredの`local-assets/role-inference-vrms.json`、画面には匿名ID（ファイル順）だけを出します。
+
 ## 他の乗り姿勢の大量SIM
 
 `npm run replay:patterns`：自作骨格3体格×324条件×24フレームを固定dtで確認し、ignoredの`artifacts/pose-pattern-fixtures.json`へ記録します。実VRMやブラウザは不要です。

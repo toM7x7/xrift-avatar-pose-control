@@ -1,5 +1,11 @@
 # Changelog
 
+## 骨格の役割推定 — 2026-11-05
+
+- `resolveRoles`（名前の流派の表＋骨格の形、three 非依存）、`inferHumanoidBones`／`inferHumanoidRigs`（three の骨格から `prepareHumanoidRig` 用の明示の役割表）、`selectRiderRigWithInference`（`./xrift`、名前で読めないときだけ座席近くを推定）を追加。
+- 名前と形の食い違い・左右不明・検査不合格は当てずに理由を返す。合成骨格・fixture・ローカル実VRM3体で検証。
+- 呼んだときだけ動く入口で、`inspectHumanoidRigs`／`selectRiderRig`・N02 1.0.0 の profile・タグ・採用再現は不変（replay の数値一致を確認）。
+
 ## MITライセンス — 2026-11-05
 
 - 所有者の選定により`LICENSE`（MIT、Copyright (c) 2026 toM7x7）を追加し、package.jsonのlicenseをUNLICENSEDからMITへ変更。

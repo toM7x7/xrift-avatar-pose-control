@@ -13,6 +13,8 @@ export {createFlightMotion,stepFlightMotion} from './flight-motion.mjs'
 export {createRideDynamics,stepRideDynamics} from './ride-dynamics.mjs'
 export {N02_NORMAL_FLIGHT_PROFILE,createN02RideOptions,sampleN02FlightSequence} from './n02-profile.mjs'
 export {resolveRiderHeading} from './rider-heading.mjs'
+export {INFERENCE_REQUIRED_ROLES,parseBoneName,resolveRoles,validateRoles} from './role-inference.mjs'
+export {skeletonInputOf,inferHumanoidBones,inferHumanoidRigs} from './humanoid-inference.mjs'
 export const POSE_PRESETS=Object.freeze({upright:Object.freeze({mode:'standing',kneeBend:0}),hover:Object.freeze({mode:'standing',kneeBend:.09}),board:Object.freeze({mode:'standing',kneeBend:.22,pitch:.12}),glider:Object.freeze({mode:'prone'}),nimbus:Object.freeze({mode:'nimbus'}),shoulder:Object.freeze({mode:'shoulder'}),carrierSupport:Object.freeze({mode:'carrierSupport'}),chair:Object.freeze({mode:'supportedSeat',family:'chair'}),straddle:Object.freeze({mode:'supportedSeat',family:'straddle'}),'side-sit':Object.freeze({mode:'supportedSeat',family:'side-sit'})})
 const required=['hips','head','leftUpperArm','leftLowerArm','leftHand','rightUpperArm','rightLowerArm','rightHand','leftUpperLeg','leftLowerLeg','leftFoot','rightUpperLeg','rightLowerLeg','rightFoot']
 /** Explicit humanoid maps avoid guessing from exporter-dependent bone names. */

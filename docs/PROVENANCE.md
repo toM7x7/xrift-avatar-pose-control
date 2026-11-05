@@ -12,4 +12,6 @@
 
 同日、他姿勢の探索へ腰支持IK・候補catalog・大量SIMを追加。`src/vendor/render-pose.mjs`の伏せ姿勢初期化を、親palette欠落に対応するworld回転へ局所修正した。source-manifestは切り出し時の来歴を保持し、今回の実行source hashは実験集計へ別記する。比較シートを含む実VRMの画像と全数ログは私有領域のみ。公開する実験結果は自作骨格と匿名の数値集計であり、VRM作者・元ファイル名・私有画像を含めない。
 
+2026-11-05、骨格の役割推定（`src/role-inference.mjs`・`src/humanoid-inference.mjs`）を追加。同じ所有者のXRift作業領域の筋斗雲アイテム（items/nimbus-cloud、2026-10-27）で書いたものを移した。第三者のコードは含まない。検証の合成骨格は自作、実VRMの結果は匿名IDの数値だけで、VRM本体・原ファイル名・画像は含めない。
+
 2026-11-05、MITライセンスを追加（上記）。リポジトリ内のコード・文書・自作骨格の画像・image_genの想像図が対象で、依存パッケージ（three / three-vrm / Vite等）は各ライセンスに従う。私有VRM・元ファイル名対応・私有画像はこれまで通りGitHubに含めない。

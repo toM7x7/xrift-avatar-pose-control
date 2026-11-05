@@ -1,5 +1,9 @@
 # 次のスレッドへ
 
+## 2026-11-05：骨格の役割推定
+
+名前で読めない骨格は[役割推定の記録](experiments/role-inference-2026-11-05.md)から。`inferHumanoidBones`で明示の役割表を作り`prepareHumanoidRig`へ渡す。XRiftでは`./xrift`の`selectRiderRigWithInference`。推定が当てなかった理由（`result.reason`）を記録へ残し、自作骨格・実VRM・実XRiftの結果を分ける。
+
 ## 採用版からの統合
 
 N02通常飛行1.0.0を採用。[仕様](specs/N02_NORMAL_FLIGHT_V1.md)と[筋斗雲モデルへの引継ぎ](handoff/NIMBUS_MODEL_INTEGRATION.md)を先に読む。基準は `n02-normal-flight-v1.0.0`。JSONを正本として `npm run replay:n02` で固定dtを再現してから、完成モデルとホストへ接続する。以下の実験履歴を、採用仕様の更新や実XRift確認済みと読み替えない。
