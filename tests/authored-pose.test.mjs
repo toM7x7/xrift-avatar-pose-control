@@ -15,6 +15,8 @@ function body({scale=1,rename=null,shortArms=false}={}){
  return {scene,f,root,rig:prepareRig(inspectHumanoidRigs(scene)[0])}
 }
 const P=b=>b.getWorldPosition(new Vector3())
+// Body metres -> world scale of a rig (the solver's k).
+const r0k=(rig,info)=>info.hipHeight*(P(rig.bones.leftUpperArm).distanceTo(P(rig.bones.leftLowerArm))/info.limbs.left.upperLength)/.95
 const lengths=f=>f.skeleton.bones.filter(b=>b.parent?.isBone).map(b=>P(b).distanceTo(P(b.parent)))
 
 test('detects torso chain, clavicles, toes and five fingers per hand (by name and by shape)',()=>{
@@ -62,14 +64,23 @@ test('keys reach both-hand contact exactly, keep bone lengths and plant the feet
  }
 })
 
-test('short arms: the pair moves toward the shoulders so the hands still meet',()=>{
+test('short arms: an out-of-reach pair retracts straight toward the chest so the hands still meet',()=>{
  const {rig,f}=body({shortArms:true}),info=authoringRig(rig)
- const r=applyAuthoredPose(rig,sampleKey(clip,info,'thrust'),{heading:0})
+ // Push the release pair beyond reach on purpose.
+ const far=structuredClone(clip);far.keys.thrust.hands.pair.center=[0,.04,.85]
+ const key=sampleKey(far,info,'thrust'),asked=(key.hands.left.position[0]+key.hands.right.position[0])/2*r0k(rig,info)+P(f.bones.hips).x
+ const r=applyAuthoredPose(rig,key,{heading:0})
  assert.ok(r.pairShiftMm>10,'shifted '+r.pairShiftMm)
  for(const s of ['left','right'])assert.ok(r.arms[s].reachErrorMm<1)
  const heels=['left','right'].map(s=>new Vector3().fromArray(r.handTargets[s].point))
- assert.ok(heels[0].distanceTo(heels[1])<.06,'thumb heels stay together')
- f.dispose()
+ assert.ok(heels[0].distanceTo(heels[1])<.06,'heels stay together')
+ // A centred pair moves back, not sideways toward one shoulder (no zigzag).
+ const sideways=Math.abs((heels[0].x+heels[1].x)/2-asked)*1000
+ assert.ok(sideways<.25*r.pairShiftMm,`moved ${sideways.toFixed(0)} mm sideways of ${r.pairShiftMm.toFixed(0)} mm`)
+ // The authored release itself is reachable on the reference body.
+ const {rig:rig2,f:f2}=body(),reach=applyAuthoredPose(rig2,sampleKey(clip,authoringRig(rig2),'thrust'),{heading:0})
+ assert.ok(reach.pairShiftMm<5,'release reachable: '+reach.pairShiftMm)
+ f.dispose();f2.dispose()
 })
 
 test('timeline: steps never lift both feet, planted feet do not slide, sampling is deterministic',()=>{

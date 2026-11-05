@@ -24,7 +24,8 @@
     "build": "npm run typecheck && vite build",
     "verify": "npm test && npm run build",
     "review:charge-wave": "node scripts/review-action.mjs specs/charge-wave.v1.json",
-    "fit:charge-wave": "node scripts/fit-clip.mjs specs/charge-wave.v1.json"
+    "fit:charge-wave": "node scripts/fit-clip.mjs specs/charge-wave.v1.json",
+    "review:compat": "node scripts/review-compat.mjs specs/charge-wave.v1.json"
   },
   "peerDependencies": {
     "three": ">=0.183.1 <0.184.0"

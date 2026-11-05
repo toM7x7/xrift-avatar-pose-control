@@ -1,0 +1,108 @@
+---
+name: authored-pose
+description: このリポジトリ（xrift-avatar-pose-control）で、新しい全身の動作（構える→溜める→放つ のようなキー＋タイムライン）を作る・直す・XRiftアイテムへ渡すときの手順。参考画像づくり、specs/<id>.v1.json のキーの書き方、Pose Studio での確認、組の向きのフィット、全タイムライン検査、いろいろな骨格での互換確認、手元VRMでの確認、記録、アイテムへの写し方までを含む。新しいポーズを作る依頼、charge-wave の見た目や品質を直す依頼、「このアバターで構えが出ない」という報告のときに使う。
+---
+
+# 全身の動作を作る（authored actions）
+
+charge-wave（両手で溜めて放つ）を作ったときの流れを、次の動作でもそのまま使える形にしたもの。仕組みの説明は [docs/specs/AUTHORED_ACTIONS_V1.md](../../../docs/specs/AUTHORED_ACTIONS_V1.md)、実例は [specs/charge-wave.v1.json](../../../specs/charge-wave.v1.json) と [docs/experiments/charge-wave-2026-11-05.md](../../../docs/experiments/charge-wave-2026-11-05.md)。
+
+守ること（AGENTS.md と同じ）：私有VRM・その撮影画像はコミットしない（`vrm/` と `local-assets/` は無視される）。既存の作品名・キャラクター名を動作名やファイル名に使わない（「〜らしい構え」は形の特徴で書く）。数値の合格を見た目や実機の合格と書かない。
+
+## 0. 動作を言葉と絵で決める
+
+1. 相（phase）ごとに「体の意図」を書き出す：重心はどこか、腰と胸はどちらへねじれるか、手はどの高さで何をしているか、手首は曲がるか反るか、足はどこに置きどちらへ体重を乗せるか、頭はどこを見るか（XRiftでは頭はホストが持つ）。
+2. 参考画像が要るなら Codex の画像生成で、オリジナルの人物（木製マネキン等）で各相の絵を作り `docs/concepts/<日付>/` へ置く。作品の絵を写さない。
+3. 速さの設計：入り・溜め・放ち・余韻・戻りの秒数。アイテムに渡すなら、アイテムの時間定数（溜め始め・押し出し・余韻・戻り）とクリップの `release[].duration` を一致させる。
+
+## 1. キーを書く（specs/<id>.v1.json）
+
+- 単位は基準体（身長1.65m・腰0.95m）のメートル、角度は度、軸は体の向き基準（+X左・+Y上・+Z前）。
+- `rot` は **[ヨー, ピッチ, ロール]**（ヨー正＝左へ向く、ピッチ正＝前へ倒す、ロール正＝右肩が下がる）。
+- 両手の組 `hands.pair`：`clam`（玉を上下の手で挟む）、`push`（手のひらを前・指を上、親指側の付け根を合わせる）、`flower`（手首を横に並べ、上の手の指は上・下の手の指は下、手のひらを前へ口のように開く。`open`・`gap`・`spread`・`upper`）。
+- **`center` は「腕の長さで拡縮した体のメートル」で、腕の長さの倍数ではない**（`unit:"arm"`）。胸の前0.55mがほぼ腕を伸ばした位置。遠すぎると組全体が後ろへ引き戻されて腕が曲がる（`pairShiftMm` が大きく出る）。
+- 足：`pos`（足首の真下の地面）、`toeOut`、`heel`（かかとを上げる角度）。かかとを上げた後ろ足は母趾球を軸に腰の方へ回る（`pivot`、既定1）。足の `pos` が2cm以上変わると踏み替え（片足ずつ・浮かす前に体重移動）になる。
+- `elbows` は好み（重み付き）、`fingers` は指ごとの曲げ・開き（`wrap:true` で玉に沿う）。
+- `action`：`enter`（`via` で中間キー、`weightIn`＝ホスト姿勢から混ぜ入れる秒数）、`hold`（溜め、`breath`）、`release`（放つ→`hold:"beam"`（反動・震え）→余韻→戻り）。戻りの `weightOut` は **数値（例0.4）にして後半だけでホストへ戻す**。
+- 新しいキーを足したら、`action` の流れ（入り→溜め→放ち→戻り）に沿って並べる。関節空間の計画はこの順に前のキーを引き継いで解く。
+
+## 2. Pose Studio で形を見る
+
+```sh
+npm run dev   # http://127.0.0.1:5228/studio.html
+```
+
+- 4画面（正面・右側面・上・斜め）、キーの残像、手の目標と玉、重心と支持多角形。「このキーで止める」で1キーずつ見る。キーのJSONはその場で編集できる（保存はspecs側へ手で反映）。
+- 骨の読み取りは既定で「XRiftと同じ（ボーン名→骨格の形）」。手元VRMを読み込むと、XRiftで読めるか・どう読んだか（名前／名前＋形／形）・VRM定義との違いが出る。読めないと赤字で理由が出る。
+
+## 3. 組の向きをフィットする
+
+```sh
+npm run fit:<id>     # node scripts/fit-clip.mjs specs/<id>.v1.json
+```
+
+両手の組の向き（`axes`）だけを、手首と前腕が楽で作者の指定に近い向きへ探す。作者の値は `authoredAxes` に残る。探索範囲は `fit.range`・`fit.step`。コストが数十〜数百のまま下がらないときは、組の中心が遠い・手の向きの指定が前腕と逆、を疑う。
+
+## 4. 全タイムラインを検査する
+
+```sh
+npm run review:<id>  # 自作骨格3体格＋短押し、60fps、18項目
+```
+
+合格の目安は全体格で 18/18（警告は理由を説明できるものだけ）。ほかに：
+
+- **1コマの跳び（pop）は60fpsの検査で平均されて見えないことがある。** 240Hzで関節の角速度を見る：`local-assets/` に一時スクリプトを置き、`sampleAction`→`applyAuthoredPose` を dt=1/240 で回して、相の境目の単発の突出を探す。
+- 速さの閾値を上げて通さない。意図して速い相だけ `quality.fastPhases` に入れる。
+
+よく出る原因と直し方（charge-wave で実際に出たもの）：
+
+| 症状 | 原因 | 直し方 |
+|---|---|---|
+| 手首が大きく折れる | 手の向きの指定が前腕の向きと合わない | 組の向きのフィット。手は「前腕の延長＋手首の曲げ」で考える |
+| 肘が反転（8,000°/s） | 手の向きを空間で最短補間すると腕には逆ひねり | 関節空間の計画（自動）。キーを visit 順に並べる |
+| 構えの入り・戻りで上腕が速い | ホスト姿勢との混ぜがキーの移動と重なる／混ぜる回転が180°近い | `weightIn` を長めに、`weightOut` を数値にして後半だけ混ぜる、戻りの ease を sine に |
+| 戻り途中で手首が5cm跳ぶ | キー間で手の基準点（付け根→手のひら中心）が切り替わる | `pointMix`（自動、混ぜて移る） |
+| ビームの出始めに脚が跳ぶ | 反動が1コマで入る | 反動は25msで立ち上がる（自動） |
+| 腕を伸ばしたキーで肘が曲がる | `center` が遠すぎて組が引き戻された | `pairShiftMm` を見て `center` を手前へ |
+| 後ろ足の足首が横に倒れる（22°超） | 外を向いた後ろ足の上で脚が斜めに伸びる | かかとを上げて母趾球で回す（`heel`＋`pivot`）、足の置き場所 |
+| 片足立ちで重心が外れる | 踏み替え中 | 片足立ちの重心は別記録。体重移動の量・踏み替えの順 |
+| 戻りで腕がねじれて跳ぶ（実VRMだけ） | 腕がほぼ伸びたキーは肘の回り込みとねじれが入れ替え可能 | 計画はvisit順に前のキーを引き継いで解く（自動）。それでも出たら Studio の `__studio.plan()` で各キーの回り込み・ねじれを見る |
+
+## 5. いろいろな骨格で確かめる
+
+```sh
+npm run review:compat   # node scripts/review-compat.mjs specs/<id>.v1.json
+```
+
+自作骨格を、Blender/Rigify・Mixamo・Unreal・VRChat(Cats)・MMD・名前なしの命名、指・首・上胸・鎖骨・つま先の欠け、ねじれ骨、-Z向き、骨軸の回転で作り直し、アイテムと同じ `selectActorRig`（名前→名前の流派＋骨格の形）で見つけて全タイムラインを解く。**同じ骨格の変種は基準と0.01mm以内で同じ姿勢**、構造の違う変種は未達1mm未満が条件。21/21 にする。
+
+## 6. 手元の実VRMで確かめる
+
+```sh
+node scripts/studio-capture.mjs --vrm vrm/<file>.vrm [--vrm ...] --read host --keys charge,thrust --evaluate --tag <name> --out local-assets/<dir>
+```
+
+- `--read host` で XRift と同じ読み方。`read ready/<方法>` が出ること、VRM定義との違いが無いことを見る。
+- 撮影は `local-assets/` へ（コミットしない）。体格の違う複数体で、数値と見た目を分けて記録する。
+- 手足にスキンの重みが無いアバターは皮膚の当たりを比率で推定するので、その警告は見た目で判断する。
+
+## 7. 記録する
+
+- `docs/experiments/<id>-<日付>.md`：入力条件、前後の数値（自作骨格・互換・実VRMを分ける）、判断、未確認（実XRift・Quest・他者視点）。
+- `CHANGELOG.md`・`docs/STATUS.md`・`docs/NEXT_THREAD.md`、仕組みを足したら `docs/specs/AUTHORED_ACTIONS_V1.md`。
+- 変更後は `npm run verify`（テスト・型・build）。N02 を触っていなくても `npm run replay:n02` の一致を見る。
+
+## 8. XRiftアイテムへ渡す
+
+- アイテムはこのリポジトリを直接 import しない。写す（例：items/ki-charge-orb の `scripts/sync-pose-lib.mjs`。写したファイルのハッシュを `SOURCE.json` に残し、`--check` で照合）。写すもの：`src/vendor/render-pose*`・`torso-support*`・`src/authoring/*`・`src/adapters/xrift*`・`src/humanoid-inference*`・`src/role-inference*`・`specs/<id>.v1.json`。
+- アバターは `selectActorRig({scene,userId,isLocal,feet})`：他人は `remote-player-<id>` 印（ホストの慣習で、SDKの約束ではない）、自分はどの印にも入っていない骨格。読めないときは当てずに `diagnosis` をコンソールへ（ユーザーがコピーして送れる形）。
+- 描画のたびに当てて戻す（`scene.onBeforeRender`／`onAfterRender`、入れ子の描画は深さで数える）。頭はホスト（`headMode:'host'`）。VRの人には当てない（手は追跡される）。
+- アイテムの時計とクリップの時計：入りと溜めはアイテムの時間に伸び縮みさせてよいが、放ってから先（押し出し・余韻・戻り）の秒数は一致させ、テストで固定する。
+
+## 終わりの条件
+
+- [ ] 自作骨格3体格＋短押しで18/18（警告は説明つき）、240Hzで単発の跳びなし
+- [ ] `review:compat` 21/21
+- [ ] 手元VRMで XRift と同じ読み方で読める・見た目を確認（撮影はローカルのみ）
+- [ ] `npm run verify` 通過、`replay:n02` 一致
+- [ ] 実験記録・CHANGELOG・STATUS・NEXT_THREAD を更新、未確認を書いた

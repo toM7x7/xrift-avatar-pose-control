@@ -1,5 +1,14 @@
 # Changelog
 
+## 構えの磨き込みと骨格の互換 — 2026-11-05 午後
+
+- `selectActorRig`（`./xrift`）：立ったままの動作用にアバターを探す入口。名前の表→読めなければ名前の流派＋骨格の形の推定。読めないときは理由・全ボーン名を返す。Blender式の名前（`upper_armL`）のアバターで構えが出なかった問題の修正。
+- `createDetailedPoseFixture(options)`（命名7流派＋名前なし・部位の欠け・ねじれ骨・-Z向き・骨軸の回転、既定は従来と同じ体）、`npm run review:compat`（21変種）、Pose Studioの「骨の読み取り」と`__studio.plan()`、`studio-capture --read`。
+- charge-wave：深い溜め（骨盤−38°・胸−68°）、`flower`の放ち（胸の高さで腕を伸ばす）、前足への踏み込みと後ろ足の母趾球の回転。自作骨格は全体格18/18。
+- 解き方：両手の組の寄せをまっすぐに、手の基準点の混ぜ（`pointMix`）、反動の立ち上がり、`weightOut`の数値指定、キーの計画を動作順に引き継ぐ、かかとを上げた後ろ足の`pivot`、つま先の骨が無い体の足の滑りを母趾球で測る。
+- 作り方の手順をスキルに：`.claude/skills/authored-pose/SKILL.md`。
+- N02 1.0.0・既存プリセット・`inspectHumanoidRigs`／`selectRiderRig`は変更なし。
+
 ## 全身の動作（authored actions）と charge-wave — 2026-11-05
 
 - `src/authoring/`：体の意図で書くキー（骨盤・背骨の配分・鎖骨・足・両手の組・指）、肘の回り込みを探す腕IK（手首・前腕の可動域、皮膚の当たり、連続性）、地面に固定する足と骨盤の自動上下、両手の接触を保つ寄せ、指の曲げと開き。

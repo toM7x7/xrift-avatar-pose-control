@@ -31,6 +31,12 @@ export function frameChannels(result){
  * hostPose(t): sets the host animation for time t (idle, look-around...). Optional.
  * Returns {frames:[{t,phase,channels}], worst:{...}, verdicts:[{metric,value,limit,status,at}]}
  */
+/** The ball of the foot: the toe joint, or without a toe bone the solver's estimated toe point carried by the foot. */
+function ballOfFoot(rig,info,side,out){
+ const toes=info.toes[side];if(toes)return toes.getWorldPosition(out)
+ const foot=rig.bones[side+'Foot'],local=info.legs[side].toeLocal.clone().applyQuaternion(rig.restBasis).applyQuaternion(rig.restRotations.get(foot).clone().invert())
+ foot.updateWorldMatrix(true,false);return foot.localToWorld(out.copy(local))
+}
 export function evaluateAction(rig,clip,{fps=60,holdFor=2.6,beamFor=1,heading=0,origin=null,hostPose=null,charge=1,options={}}={}){
  const info=authoringRig(rig),dt=1/fps,total=holdFor+releaseDuration(clip,beamFor)+.1
  const thresholds={...DEFAULT_THRESHOLDS,...(clip.quality??{})},state={}
@@ -48,7 +54,7 @@ export function evaluateAction(rig,clip,{fps=60,holdFor=2.6,beamFor=1,heading=0,
   // Static balance is judged on double support only; single-support frames are reported apart.
   if(SIDES.some(s=>(result.legs?.[s]?.liftMm??0)>5)){channels.singleSupportComMarginMm=channels.comMarginMm;delete channels.comMarginMm}
   // Planted feet must not slide: measured at the ball of the foot (stable under heel lifts), skipping stepping frames.
-  const feet=SIDES.map(s=>(info.toes[s]??rig.bones[s+'Foot']).getWorldPosition(new Vector3()))
+  const feet=SIDES.map(s=>ballOfFoot(rig,info,s,new Vector3()))
   const lifted=SIDES.map(s=>(result.legs?.[s]?.liftMm??0)>.5)
   if(prevFeet&&frame.weight>=1&&frames.at(-1)?.weight>=1){
    const slides=feet.map((p,j)=>lifted[j]||prevFeet.lifted[j]?0:Math.hypot(p.x-prevFeet.p[j].x,p.z-prevFeet.p[j].z)*1000)

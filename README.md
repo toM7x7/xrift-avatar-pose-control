@@ -21,7 +21,7 @@ clone後は `npm ci` → `npm run verify` → `npm run replay:n02`。replayは�
 - 全フレームの品質検査（手首・前腕・膝・足首・足の滑り・重心・皮膚との隙間・角速度）と、両手の組の向きの自動フィット。
 - `npm run dev`後、[Pose Studio](http://127.0.0.1:5228/studio.html)で4画面・キーの残像・数値を見ながら編集できます。手元VRMはブラウザ内だけで読みます。
 
-[仕組み](docs/specs/AUTHORED_ACTIONS_V1.md)・[実験記録（実VRM3体で7〜8/17→17/18）](docs/experiments/charge-wave-2026-11-05.md)。`npm run review:charge-wave`で私有素材なしに再検査できます。実XRift・Quest・他者視点は未確認です。
+[仕組み](docs/specs/AUTHORED_ACTIONS_V1.md)・[実験記録（実VRM3体で7〜8/17→17/18）](docs/experiments/charge-wave-2026-11-05.md)。`npm run review:charge-wave`で私有素材なしに再検査でき、`npm run review:compat`でいろいろな骨格（Blender式・Unreal・VRChat・MMD・名前なしなど21通り）に当たるか確かめられます。新しい動作の作り方は[スキル](.claude/skills/authored-pose/SKILL.md)にまとめています。実XRift・Quest・他者視点は未確認です。
 
 ![charge-waveのキー（自作骨格）](docs/screenshots/charge-wave-fixture-keys-2026-11-05.png)
 
