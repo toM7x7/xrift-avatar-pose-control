@@ -1,5 +1,9 @@
 # 次のスレッドへ
 
+## 2026-11-05 午後：骨格の互換と構えの磨き込み
+
+新しい動作を作るときは [.claude/skills/authored-pose/SKILL.md](../.claude/skills/authored-pose/SKILL.md) の順で。`npm run review:charge-wave`（18/18）と`npm run review:compat`（21/21）で数値を再現してから触る。残り：A02の推定の当たり・重心の扱い（スキンの重みが無い体の比率推定）、実XRiftでBlender式のアバターが本当に読めるか、他人の画面での再生。
+
 ## 2026-11-05：全身の動作（charge-wave）
 
 [仕組み](specs/AUTHORED_ACTIONS_V1.md)と[実験記録](experiments/charge-wave-2026-11-05.md)から。`npm run review:charge-wave`で数値を再現し、Pose Studioで見た目を確かめてから触る。残りは構えに入る速さ（約2,000°/s）、押し出しの尺屈、A02（手足の重みなし）の扱い、実XRiftでの所有者の特定と他人への再生。

@@ -2,6 +2,8 @@
 
 ## 2026-11-05：全身の動作を作る仕組みと気功波
 
+2026-11-05午後：`selectActorRig`で名前の表に無いアバター（Blender式・Unreal・VRChat・MMD・名前なし）も推定して構えを当てる。自作骨格21変種で互換を確認（同じ骨格は同じ姿勢）。charge-waveの溜め・放ちを磨き、自作骨格は全体格18/18、実VRMはA01/A03が警告のみ、A02（胴の重みなし）は推定の当たりと重心が不合格で見た目は破綻なし。作り方は`.claude/skills/authored-pose/SKILL.md`。
+
 キーとタイムラインで全身の動作を書く`applyAuthoredPose`／`sampleAction`、品質検査`evaluateAction`、両手の組の向きのフィット`fitPairAxes`、Pose Studio（`/studio.html`）を追加。題材の charge-wave は自作骨格3体格と実VRM3体で検査し、A01/A03は17/18（初版7〜8/17）。165テスト・型・build、`replay:n02`の結果は変わらず。数値の検査と目視の確認は分けて記録。実XRift・Quest・他者は未確認。[実験記録](experiments/charge-wave-2026-11-05.md)。
 
 ## 2026-11-05：骨格の役割推定

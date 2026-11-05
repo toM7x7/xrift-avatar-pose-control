@@ -4,23 +4,23 @@ export type Side='left'|'right'
 export type FingerName='thumb'|'index'|'middle'|'ring'|'little'
 export interface FingerPose{curl?:number;spread?:number}
 export type HandFingers=Partial<Record<FingerName|'all',FingerPose>>&{wrap?:boolean|number}
-export interface PairPreset{type:'clam'|'push';anchor?:'body'|'pelvis'|'chest'|'shoulders';center?:Vec3;axes?:Vec3;authoredAxes?:Vec3;unit?:'body'|'arm';radius?:number;upper?:Side;open?:number;skin?:number;twist?:number;fan?:number;tilt?:number;gap?:number;fit?:{range?:Vec3;step?:Vec3;prior?:number}}
+export interface PairPreset{type:'clam'|'push'|'flower';anchor?:'body'|'pelvis'|'chest'|'shoulders';center?:Vec3;axes?:Vec3;authoredAxes?:Vec3;unit?:'body'|'arm';radius?:number;upper?:Side;open?:number;skin?:number;twist?:number;fan?:number;tilt?:number;gap?:number;fit?:{range?:Vec3;step?:Vec3;prior?:number}}
 export interface HandTargetSpec{position:Vec3;fingers:Vec3;palm:Vec3;point?:'palmCenter'|'heel'|'pinkyHeel'|'thumbHeel'|'wrist'}
 /** One authored key pose (body metres for a 1.65 m figure, degrees, anatomical X=left Y=up Z=forward). */
 export interface PoseKey{
  pelvis?:{offset?:Vec3;rot?:Vec3};torso?:{rot?:Vec3;weights?:number[]};head?:{mode?:'host'|'body';rot?:Vec3;neck?:number}
  clavicles?:Partial<Record<Side,[number,number]>>
- feet?:Partial<Record<Side,{pos?:[number,number];toeOut?:number;heel?:number}>>
+ feet?:Partial<Record<Side,{pos?:[number,number];toeOut?:number;heel?:number;pivot?:number}>>
  knees?:{out?:number};legs?:{maxExtension?:number;maxKnee?:number}
  hands?:{mode?:'authored'|'host';pair?:PairPreset}&Partial<Record<Side,HandTargetSpec>>
  elbows?:Partial<Record<Side,Vec3>>&{weight?:number;raise?:number}
  fingers?:Partial<Record<Side|'both',HandFingers>>
 }
-export interface ReleaseStep{to?:string;duration?:number;ease?:string;phase?:string;weightOut?:boolean;hold?:'beam';fallback?:number;recoil?:{decay:number;pelvis:number;pitch:number;crouch:number};tremor?:{frequency:number;amplitude:number}}
+export interface ReleaseStep{to?:string;duration?:number;ease?:string;phase?:string;weightOut?:boolean|number;hold?:'beam';fallback?:number;recoil?:{decay:number;pelvis:number;pitch:number;crouch:number};tremor?:{frequency:number;amplitude:number}}
 export interface ActionClip{id:string;version:string;title?:string;keys:Record<string,PoseKey>;action:{enter:{from:string;to:string;duration:number;ease?:string;weightIn?:number};hold:{from:string;to:string;duration:number;ease?:string;breath?:{period:number;amplitude:number}};release:ReleaseStep[]};quality?:Record<string,unknown>}
 type SideRecord<T>={left:T;right:T}
 /** Resolved solver frame: numbers only, hand targets resolved in body metres. */
-export interface PoseFrame{weight?:number;phase?:string;pelvis:{offset:number[];rot:number[]};torso:{rot:number[];weights?:number[]};head:{mode:'host'|'body';rot:number[];neck:number};clavicles:SideRecord<number[]>;feet:SideRecord<{pos:number[];toeOut:number;heel:number;lift?:number}>;knees:{out:number};legs:{maxExtension:number;maxKnee:number};elbows:SideRecord<number[]>&{weight:number;raise:number};hands:{mode:string;pair?:boolean;left?:{position:number[];point:string;q:number[]};right?:{position:number[];point:string;q:number[]}};fingers:SideRecord<Record<FingerName,{curl:number;spread:number}>>}
+export interface PoseFrame{weight?:number;phase?:string;pelvis:{offset:number[];rot:number[]};torso:{rot:number[];weights?:number[]};head:{mode:'host'|'body';rot:number[];neck:number};clavicles:SideRecord<number[]>;feet:SideRecord<{pos:number[];toeOut:number;heel:number;pivot?:number;lift?:number}>;knees:{out:number};legs:{maxExtension:number;maxKnee:number};elbows:SideRecord<number[]>&{weight:number;raise:number};hands:{mode:string;pair?:boolean;left?:{position:number[];point:string;pointMix?:Record<string,number>;q:number[]};right?:{position:number[];point:string;pointMix?:Record<string,number>;q:number[]}};fingers:SideRecord<Record<FingerName,{curl:number;spread:number}>>}
 export interface ActionClock{heldFor:number;releasedFor:number|null;charge?:number;beamFor?:number}
 export interface ArmMetrics{swivel:number;cost:number;planBlend:number;reachErrorMm:number;elbowFlexDeg:number;pronationDeg:number;requestedPronationDeg:number;residualTwistDeg:number;wristFlexDeg:number;wristDeviationDeg:number;elbowDirection:number[];elbowWorld:number[];elbowClearanceMm:number|null;elbowNearest:string|null}
 export interface LegMetrics{kneeFlexDeg:number;ankleDorsiflexionDeg:number;ankleLateralLeanDeg:number;kneeInwardDeg:number;footReachErrorMm:number;heelLiftDeg:number;liftMm:number}

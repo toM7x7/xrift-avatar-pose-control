@@ -107,10 +107,26 @@ export function applyAuthoredPose(rig,pose,options={}){
  for(const [side,sign] of SIDES){
   const spec=pose.feet?.[side]??{},pos=Array.isArray(spec.pos)?spec.pos:[sign*.11,0]
   const ground=body(new Vector3(finite(pos[0]),0,finite(pos[1])))
-  const yawQ=heading.clone().multiply(new Quaternion().setFromAxisAngle(UP,sign*finite(spec.toeOut,8)*DEG))
+  let yawQ=heading.clone().multiply(new Quaternion().setFromAxisAngle(UP,sign*finite(spec.toeOut,8)*DEG))
   const heel=clamp(finite(spec.heel,0),0,70)*DEG,lift=Math.max(0,finite(spec.lift,0))*k
   const leg=info.legs[side],toeOffset=leg.toeLocal.clone().multiplyScalar(scale)
   const restAnkle=ground.clone().add(new Vector3(0,info.ankleHeight*scale+lift,0))
+  // A back foot up on its ball pivots on the ball toward the hip, as in a lunge: the ball stays planted and the
+  // heel swings out so the shin does not tip over the side of the foot. Grows with the heel lift (full at 25°);
+  // feet.<side>.pivot 0..1 scales it (default 1), at most 50°.
+  const pivot=clamp(finite(spec.pivot,1),0,1)*clamp(heel/(25*DEG),0,1)
+  if(pivot>0){
+   const ball=restAnkle.clone().add(toeOffset.clone().applyQuaternion(yawQ))
+   b.hips.updateWorldMatrix(false,true)
+   const toHip=point(b[side+'UpperLeg']).sub(ball).setY(0),forward=new Vector3(0,0,1).applyQuaternion(yawQ).setY(0)
+   // Only a back foot (the hip ahead of the ball), fading in over the first 12 cm so a stepping foot never pops.
+   const ahead=clamp(toHip.dot(bodyDir(new Vector3(0,0,1)))/(.12*k),0,1)
+   if(ahead>0&&toHip.lengthSq()>1e-8&&forward.lengthSq()>1e-8){
+    const turn=new Quaternion().setFromAxisAngle(UP,clamp(signedAngle(forward,toHip,UP),-50*DEG,50*DEG)*pivot*ahead)
+    yawQ=turn.clone().multiply(yawQ)
+    for(const p of [restAnkle,ground])p.sub(ball).applyQuaternion(turn).add(ball)
+   }
+  }
   const toeJoint=restAnkle.clone().add(toeOffset.clone().applyQuaternion(yawQ))
   const lateral=new Vector3(1,0,0).applyQuaternion(yawQ)
   const ankle=toeJoint.clone().add(restAnkle.clone().sub(toeJoint).applyAxisAngle(lateral,heel))
@@ -165,7 +181,8 @@ export function applyAuthoredPose(rig,pose,options={}){
   else if(pose.hands?.[side]){
    const t=pose.hands[side],hand=info.hands[side]
    const q=heading.clone().multiply(Array.isArray(t.q)?new Quaternion().fromArray(t.q).normalize():new Quaternion())
-   const pt=hand.points[t.point]??new Vector3()
+   // pointMix (between keys with different contact points) blends the point offsets.
+   const pt=t.pointMix?Object.entries(t.pointMix).reduce((acc,[name,w])=>hand.points[name]?acc.addScaledVector(hand.points[name],w):acc,new Vector3()):hand.points[t.point]??new Vector3()
    const at=body(v3(t.position))
    target={wrist:at.clone().sub(pt.clone().multiplyScalar(scale).applyQuaternion(q)),hand:q,point:at}
   }
@@ -177,14 +194,16 @@ export function applyAuthoredPose(rig,pose,options={}){
  if(!hostHands&&pose.hands?.pair&&handTargets.left&&handTargets.right){
   const shift=new Vector3()
   for(let i=0;i<6;i++){
-   let worst=0,dir=null
+   // Retract along the excess-weighted mean of the out-of-reach arms, so a centred pair goes straight back
+   // toward the chest instead of zigzagging between the two shoulders.
+   let worst=0;const dir=new Vector3()
    for(const [side] of SIDES){
     const s=point(b[side+'UpperArm']),reach=(info.limbs[side].upperLength+info.limbs[side].foreLength)*scale*.975
     const d=handTargets[side].wrist.clone().sub(s),excess=d.length()-reach
-    if(excess>worst){worst=excess;dir=d.normalize()}
+    if(excess>0){dir.addScaledVector(d.normalize(),excess);worst=Math.max(worst,excess)}
    }
-   if(!dir||worst<1e-4)break
-   const step=dir.multiplyScalar(-(worst+1e-4))
+   if(worst<1e-4||dir.lengthSq()<1e-12)break
+   const step=dir.normalize().multiplyScalar(-(worst+1e-4))
    shift.add(step);for(const [side] of SIDES){handTargets[side].wrist.add(step);handTargets[side].point.add(step)}
   }
   pairShiftMm=shift.length()*1000
