@@ -1,5 +1,13 @@
 # Changelog
 
+## 全身の動作（authored actions）と charge-wave — 2026-11-05
+
+- `src/authoring/`：体の意図で書くキー（骨盤・背骨の配分・鎖骨・足・両手の組・指）、肘の回り込みを探す腕IK（手首・前腕の可動域、皮膚の当たり、連続性）、地面に固定する足と骨盤の自動上下、両手の接触を保つ寄せ、指の曲げと開き。
+- タイムライン：中間キー、片足ずつの踏み替えと体重移動、円柱座標の手の移動、キー間の関節空間の計画、反動と震え。
+- 品質：全フレーム検査（`evaluateAction`）、両手の組の向きのフィット（`fitPairAxes`）、`npm run review:charge-wave`／`fit:charge-wave`。
+- 詳細な自作骨格（指・鎖骨・上胸・つま先）、Pose Studio（`/studio.html`）、`scripts/studio-capture.mjs`。
+- `attachPoseDriver`の`preset:'authored'`。既存のプリセット・N02 1.0.0は変更なし。
+
 ## 骨格の役割推定 — 2026-11-05
 
 - `resolveRoles`（名前の流派の表＋骨格の形、three 非依存）、`inferHumanoidBones`／`inferHumanoidRigs`（three の骨格から `prepareHumanoidRig` 用の明示の役割表）、`selectRiderRigWithInference`（`./xrift`、名前で読めないときだけ座席近くを推定）を追加。

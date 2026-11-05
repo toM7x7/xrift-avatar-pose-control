@@ -1,5 +1,9 @@
 # 次のスレッドへ
 
+## 2026-11-05：全身の動作（charge-wave）
+
+[仕組み](specs/AUTHORED_ACTIONS_V1.md)と[実験記録](experiments/charge-wave-2026-11-05.md)から。`npm run review:charge-wave`で数値を再現し、Pose Studioで見た目を確かめてから触る。残りは構えに入る速さ（約2,000°/s）、押し出しの尺屈、A02（手足の重みなし）の扱い、実XRiftでの所有者の特定と他人への再生。
+
 ## 2026-11-05：骨格の役割推定
 
 名前で読めない骨格は[役割推定の記録](experiments/role-inference-2026-11-05.md)から。`inferHumanoidBones`で明示の役割表を作り`prepareHumanoidRig`へ渡す。XRiftでは`./xrift`の`selectRiderRigWithInference`。推定が当てなかった理由（`result.reason`）を記録へ残し、自作骨格・実VRM・実XRiftの結果を分ける。

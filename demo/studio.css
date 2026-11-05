@@ -1,0 +1,28 @@
+*{box-sizing:border-box}
+body.studio{margin:0;background:#e7ebe6;color:#183e36;font:14px/1.6 system-ui,sans-serif}
+.studio main{display:grid;grid-template-columns:minmax(0,1fr) 380px;height:100vh}
+.studio #viewport{position:relative;min-width:0;min-height:420px;background:#e7ebe6}
+.studio #viewport::after{content:"正面　　　　　　　　　　　　　　　右側面\A\A上　　　　　　　　　　　　　　　　　斜め（ドラッグで回転）";white-space:pre;position:absolute;inset:6px auto auto 10px;font-size:11px;color:#5c7168;pointer-events:none;display:none}
+.studio canvas{display:block}
+.studio aside{overflow:auto;padding:22px 22px 40px;background:#faf9f3;border-left:1px solid #c8d2c8}
+.studio .eyebrow{font-size:11px;letter-spacing:.14em;color:#627c70;margin:0}
+.studio h1{font-size:21px;line-height:1.3;margin:6px 0 14px}
+.studio h2{font-size:14px;margin:4px 0 8px;color:#2e705b}
+.studio section{border-top:1px solid #d6ddd5;padding:12px 0}
+.studio label{display:block;margin:8px 0;font-size:13px}
+.studio select,.studio input[type=number],.studio textarea{width:100%;padding:7px;color:inherit;background:white;border:1px solid #b7c7ba;border-radius:5px}
+.studio textarea{font:11px/1.5 ui-monospace,monospace;white-space:pre;tab-size:1}
+.studio input[type=range]{width:100%;accent-color:#256f57}
+.studio button{cursor:pointer;padding:7px 11px;border:1px solid #2e705b;border-radius:5px;color:white;background:#2e705b;margin:3px 5px 3px 0;font:inherit}
+.studio button.ghost{background:white;color:#2e705b}
+.studio .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.studio .row label{flex:1}
+.studio .marks{position:relative;height:16px;font-size:10px;color:#5c7168}.studio .marks span{position:absolute;transform:translateX(-50%);white-space:nowrap}
+.studio .clock{font:12px ui-monospace,monospace;color:#2e705b;margin:4px 0}
+.studio .toggles label{display:inline-block;margin:4px 12px 4px 0}
+.studio .note{font-size:12px;color:#5c7168}.studio .error{color:#b03a2e;font-size:12px;min-height:1em}
+.studio table.metrics{width:100%;border-collapse:collapse;font-size:12px}
+.studio table.metrics th{text-align:left;font-weight:500;padding:2px 6px 2px 0;color:#355a50}
+.studio table.metrics td{text-align:right;font-variant-numeric:tabular-nums;padding:2px 0}
+.studio tr.ok td{color:#1f7a4d}.studio tr.warn td{color:#a8650b}.studio tr.bad td{color:#b03a2e;font-weight:600}
+.studio canvas#graph{width:100%;height:120px;background:white;border:1px solid #d6ddd5;margin-top:8px}
+@media(max-width:860px){.studio main{height:auto;grid-template-columns:1fr}.studio #viewport{height:70vh}}

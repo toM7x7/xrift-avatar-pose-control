@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "license": "MIT",
-  "description": "Render-time avatar pose control experiments for XRift rides",
+  "description": "Render-time avatar pose control experiments for XRift rides and authored full-body actions",
   "exports": {
     ".": {
       "types": "./src/index.d.mts",
@@ -22,7 +22,9 @@
     "replay:patterns": "node scripts/replay-pose-patterns.mjs",
     "typecheck": "tsc --noEmit",
     "build": "npm run typecheck && vite build",
-    "verify": "npm test && npm run build"
+    "verify": "npm test && npm run build",
+    "review:charge-wave": "node scripts/review-action.mjs specs/charge-wave.v1.json",
+    "fit:charge-wave": "node scripts/fit-clip.mjs specs/charge-wave.v1.json"
   },
   "peerDependencies": {
     "three": ">=0.183.1 <0.184.0"

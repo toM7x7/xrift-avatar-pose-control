@@ -1,0 +1,839 @@
+{
+  "id": "charge-wave",
+  "version": "0.1.0",
+  "status": "draft",
+  "title": "溜めて放つ両手の気功波",
+  "units": {
+    "length": "body metres for a 1.65 m reference figure (hips 0.95 m), scaled by each avatar's hip height",
+    "angle": "degrees",
+    "axes": "anatomical: +X left, +Y up, +Z forward, relative to the body heading"
+  },
+  "notes": "Original two-handed charge-and-release move. Feet stay on the same spots from gather to the end so they never slide; the pelvis, torso, clavicles and head carry the motion.",
+  "keys": {
+    "ready": {
+      "pelvis": {
+        "offset": [
+          0,
+          -0.01,
+          0
+        ],
+        "rot": [
+          0,
+          2,
+          0
+        ]
+      },
+      "torso": {
+        "rot": [
+          0,
+          3,
+          0
+        ]
+      },
+      "head": {
+        "mode": "host",
+        "neck": 0.5
+      },
+      "feet": {
+        "left": {
+          "pos": [
+            0.11,
+            0.01
+          ],
+          "toeOut": 8
+        },
+        "right": {
+          "pos": [
+            -0.11,
+            -0.01
+          ],
+          "toeOut": 8
+        }
+      },
+      "hands": {
+        "left": {
+          "position": [
+            0.21,
+            0.8,
+            0.03
+          ],
+          "fingers": [
+            0.05,
+            -1,
+            0.15
+          ],
+          "palm": [
+            -1,
+            0,
+            0
+          ],
+          "point": "palmCenter"
+        },
+        "right": {
+          "position": [
+            -0.21,
+            0.8,
+            0.03
+          ],
+          "fingers": [
+            -0.05,
+            -1,
+            0.15
+          ],
+          "palm": [
+            1,
+            0,
+            0
+          ],
+          "point": "palmCenter"
+        }
+      },
+      "elbows": {
+        "left": [
+          0.3,
+          -0.6,
+          -0.75
+        ],
+        "right": [
+          -0.3,
+          -0.6,
+          -0.75
+        ],
+        "weight": 0.5
+      },
+      "fingers": {
+        "left": {
+          "all": {
+            "curl": 30,
+            "spread": 2
+          },
+          "thumb": {
+            "curl": 15
+          }
+        },
+        "right": {
+          "all": {
+            "curl": 30,
+            "spread": 2
+          },
+          "thumb": {
+            "curl": 15
+          }
+        }
+      }
+    },
+    "join": {
+      "pelvis": {
+        "offset": [
+          0,
+          -0.08,
+          0
+        ],
+        "rot": [
+          -10,
+          5,
+          0
+        ]
+      },
+      "torso": {
+        "rot": [
+          -18,
+          10,
+          2
+        ]
+      },
+      "head": {
+        "mode": "host",
+        "neck": 0.5
+      },
+      "clavicles": {
+        "left": [
+          10,
+          2
+        ],
+        "right": [
+          6,
+          2
+        ]
+      },
+      "feet": {
+        "left": {
+          "pos": [
+            0.23,
+            0.16
+          ],
+          "toeOut": 18
+        },
+        "right": {
+          "pos": [
+            -0.25,
+            -0.22
+          ],
+          "toeOut": 42
+        }
+      },
+      "knees": {
+        "out": 10
+      },
+      "hands": {
+        "pair": {
+          "type": "clam",
+          "anchor": "chest",
+          "unit": "arm",
+          "center": [
+            -0.04,
+            -0.16,
+            0.3
+          ],
+          "authoredAxes": [
+            -20,
+            30,
+            0
+          ],
+          "axes": [
+            -53.9,
+            58.5,
+            25.2
+          ],
+          "radius": 0.06,
+          "upper": "left",
+          "fit": {
+            "range": [
+              60,
+              40,
+              40
+            ],
+            "step": [
+              15,
+              10,
+              10
+            ]
+          }
+        }
+      },
+      "elbows": {
+        "left": [
+          0.5,
+          -0.7,
+          -0.5
+        ],
+        "right": [
+          -0.5,
+          -0.7,
+          -0.5
+        ],
+        "weight": 0.4
+      },
+      "fingers": {
+        "left": {
+          "wrap": true,
+          "all": {
+            "spread": 4
+          },
+          "thumb": {
+            "curl": 10,
+            "spread": 8
+          }
+        },
+        "right": {
+          "wrap": true,
+          "all": {
+            "spread": 4
+          },
+          "thumb": {
+            "curl": 10,
+            "spread": 8
+          }
+        }
+      }
+    },
+    "gather": {
+      "pelvis": {
+        "offset": [
+          -0.02,
+          -0.15,
+          -0.02
+        ],
+        "rot": [
+          -25,
+          10,
+          2
+        ]
+      },
+      "torso": {
+        "rot": [
+          -50,
+          22,
+          8
+        ]
+      },
+      "head": {
+        "mode": "host",
+        "neck": 0.55
+      },
+      "clavicles": {
+        "left": [
+          14,
+          2
+        ],
+        "right": [
+          -8,
+          2
+        ]
+      },
+      "feet": {
+        "left": {
+          "pos": [
+            0.23,
+            0.16
+          ],
+          "toeOut": 18
+        },
+        "right": {
+          "pos": [
+            -0.25,
+            -0.22
+          ],
+          "toeOut": 42
+        }
+      },
+      "knees": {
+        "out": 10
+      },
+      "hands": {
+        "pair": {
+          "type": "clam",
+          "anchor": "pelvis",
+          "center": [
+            -0.25,
+            0.05,
+            0.13
+          ],
+          "axes": [
+            -94.4,
+            42.2,
+            -10.4
+          ],
+          "radius": 0.065,
+          "upper": "left",
+          "fit": {
+            "range": [
+              75,
+              45,
+              60
+            ],
+            "step": [
+              15,
+              15,
+              20
+            ]
+          },
+          "authoredAxes": [
+            -35,
+            -5,
+            0
+          ]
+        }
+      },
+      "elbows": {
+        "left": [
+          0.1,
+          -0.5,
+          -0.85
+        ],
+        "right": [
+          -0.55,
+          -0.35,
+          -0.75
+        ],
+        "weight": 0.4
+      },
+      "fingers": {
+        "left": {
+          "wrap": true,
+          "all": {
+            "spread": 6
+          },
+          "thumb": {
+            "curl": 10,
+            "spread": 10
+          }
+        },
+        "right": {
+          "wrap": true,
+          "all": {
+            "spread": 6
+          },
+          "thumb": {
+            "curl": 10,
+            "spread": 10
+          }
+        }
+      }
+    },
+    "charge": {
+      "pelvis": {
+        "offset": [
+          -0.03,
+          -0.19,
+          -0.04
+        ],
+        "rot": [
+          -30,
+          12,
+          3
+        ]
+      },
+      "torso": {
+        "rot": [
+          -62,
+          26,
+          10
+        ]
+      },
+      "head": {
+        "mode": "host",
+        "neck": 0.6
+      },
+      "clavicles": {
+        "left": [
+          16,
+          4
+        ],
+        "right": [
+          -12,
+          5
+        ]
+      },
+      "feet": {
+        "left": {
+          "pos": [
+            0.23,
+            0.16
+          ],
+          "toeOut": 18
+        },
+        "right": {
+          "pos": [
+            -0.25,
+            -0.22
+          ],
+          "toeOut": 42
+        }
+      },
+      "knees": {
+        "out": 12
+      },
+      "hands": {
+        "pair": {
+          "type": "clam",
+          "anchor": "pelvis",
+          "center": [
+            -0.27,
+            0.07,
+            0.07
+          ],
+          "axes": [
+            -109.4,
+            38.7,
+            -17
+          ],
+          "radius": 0.075,
+          "upper": "left",
+          "fit": {
+            "range": [
+              75,
+              45,
+              60
+            ],
+            "step": [
+              15,
+              15,
+              20
+            ]
+          },
+          "authoredAxes": [
+            -45,
+            -8,
+            0
+          ]
+        }
+      },
+      "elbows": {
+        "left": [
+          0.05,
+          -0.5,
+          -0.86
+        ],
+        "right": [
+          -0.5,
+          -0.3,
+          -0.8
+        ],
+        "weight": 0.4
+      },
+      "fingers": {
+        "left": {
+          "wrap": true,
+          "all": {
+            "spread": 9
+          },
+          "thumb": {
+            "curl": 8,
+            "spread": 14
+          }
+        },
+        "right": {
+          "wrap": true,
+          "all": {
+            "spread": 9
+          },
+          "thumb": {
+            "curl": 8,
+            "spread": 14
+          }
+        }
+      }
+    },
+    "thrust": {
+      "pelvis": {
+        "offset": [
+          0,
+          -0.12,
+          0.07
+        ],
+        "rot": [
+          -4,
+          6,
+          0
+        ]
+      },
+      "torso": {
+        "rot": [
+          2,
+          14,
+          0
+        ]
+      },
+      "head": {
+        "mode": "host",
+        "neck": 0.5
+      },
+      "clavicles": {
+        "left": [
+          16,
+          3
+        ],
+        "right": [
+          16,
+          3
+        ]
+      },
+      "feet": {
+        "left": {
+          "pos": [
+            0.23,
+            0.16
+          ],
+          "toeOut": 18
+        },
+        "right": {
+          "pos": [
+            -0.25,
+            -0.22
+          ],
+          "toeOut": 42,
+          "heel": 22
+        }
+      },
+      "knees": {
+        "out": 10
+      },
+      "hands": {
+        "pair": {
+          "type": "push",
+          "anchor": "chest",
+          "center": [
+            0,
+            0,
+            0.6
+          ],
+          "axes": [
+            0.3,
+            7.4,
+            6.2
+          ],
+          "fan": 10,
+          "tilt": 18,
+          "gap": 0.035,
+          "fit": {
+            "range": [
+              8,
+              6,
+              5
+            ],
+            "step": [
+              4,
+              3,
+              2.5
+            ]
+          },
+          "authoredAxes": [
+            0,
+            0,
+            0
+          ],
+          "unit": "arm"
+        }
+      },
+      "elbows": {
+        "left": [
+          0.55,
+          -0.8,
+          -0.2
+        ],
+        "right": [
+          -0.55,
+          -0.8,
+          -0.2
+        ],
+        "weight": 0.25
+      },
+      "fingers": {
+        "left": {
+          "all": {
+            "curl": 14,
+            "spread": 14
+          },
+          "thumb": {
+            "curl": 6,
+            "spread": 4
+          }
+        },
+        "right": {
+          "all": {
+            "curl": 14,
+            "spread": 14
+          },
+          "thumb": {
+            "curl": 6,
+            "spread": 4
+          }
+        }
+      }
+    },
+    "follow": {
+      "pelvis": {
+        "offset": [
+          0,
+          -0.1,
+          0.05
+        ],
+        "rot": [
+          -3,
+          5,
+          0
+        ]
+      },
+      "torso": {
+        "rot": [
+          1,
+          9,
+          0
+        ]
+      },
+      "head": {
+        "mode": "host",
+        "neck": 0.5
+      },
+      "clavicles": {
+        "left": [
+          8,
+          1
+        ],
+        "right": [
+          8,
+          1
+        ]
+      },
+      "feet": {
+        "left": {
+          "pos": [
+            0.23,
+            0.16
+          ],
+          "toeOut": 18
+        },
+        "right": {
+          "pos": [
+            -0.25,
+            -0.22
+          ],
+          "toeOut": 42,
+          "heel": 10
+        }
+      },
+      "knees": {
+        "out": 10
+      },
+      "hands": {
+        "pair": {
+          "type": "push",
+          "anchor": "chest",
+          "center": [
+            0,
+            -0.04,
+            0.5
+          ],
+          "axes": [
+            1.6,
+            7.4,
+            6.2
+          ],
+          "fan": 8,
+          "tilt": 28,
+          "gap": 0.04,
+          "fit": {
+            "range": [
+              8,
+              6,
+              5
+            ],
+            "step": [
+              4,
+              3,
+              2.5
+            ]
+          },
+          "authoredAxes": [
+            0,
+            0,
+            0
+          ],
+          "unit": "arm"
+        }
+      },
+      "elbows": {
+        "left": [
+          0.65,
+          -0.75,
+          -0.1
+        ],
+        "right": [
+          -0.65,
+          -0.75,
+          -0.1
+        ],
+        "weight": 0.35
+      },
+      "fingers": {
+        "left": {
+          "all": {
+            "curl": 26,
+            "spread": 8
+          },
+          "thumb": {
+            "curl": 6,
+            "spread": 4
+          }
+        },
+        "right": {
+          "all": {
+            "curl": 26,
+            "spread": 8
+          },
+          "thumb": {
+            "curl": 6,
+            "spread": 4
+          }
+        }
+      }
+    }
+  },
+  "action": {
+    "enter": {
+      "from": "ready",
+      "to": "gather",
+      "duration": 0.65,
+      "ease": "inOutSine",
+      "weightIn": 0.2,
+      "via": [
+        {
+          "to": "join",
+          "at": 0.45,
+          "ease": "inOutCubic"
+        }
+      ]
+    },
+    "hold": {
+      "from": "gather",
+      "to": "charge",
+      "duration": 2.4,
+      "ease": "inOutSine",
+      "breath": {
+        "period": 0.9,
+        "amplitude": 1
+      }
+    },
+    "release": [
+      {
+        "to": "thrust",
+        "duration": 0.16,
+        "ease": "outCubic",
+        "phase": "thrust"
+      },
+      {
+        "hold": "beam",
+        "fallback": 1,
+        "recoil": {
+          "decay": 4,
+          "pelvis": 0.04,
+          "pitch": 4,
+          "crouch": 0.015
+        },
+        "tremor": {
+          "frequency": 9,
+          "amplitude": 0.004
+        }
+      },
+      {
+        "to": "follow",
+        "duration": 0.45,
+        "ease": "inOutSine",
+        "phase": "follow"
+      },
+      {
+        "to": "ready",
+        "duration": 0.6,
+        "ease": "inOutCubic",
+        "weightOut": true,
+        "phase": "recover"
+      }
+    ]
+  },
+  "quality": {
+    "wristExtensionDeg": 75,
+    "wristFlexionDeg": 75,
+    "wristDeviationDeg": 35,
+    "pronationDeg": 85,
+    "residualTwistDeg": 10,
+    "handReachErrorMm": 5,
+    "handFrameErrorDeg": 3,
+    "skinClearanceMm": -5,
+    "kneeFlexDeg": 125,
+    "ankleDorsiflexionDeg": 38,
+    "ankleLateralLeanDeg": 22,
+    "kneeInwardDeg": 12,
+    "footSlideMm": 2,
+    "comMarginMm": 20,
+    "neckTwistDeg": 75,
+    "jointSpeedDegPerS": 1400,
+    "swivelJumpDeg": 45,
+    "fastPhases": {
+      "thrust": {
+        "jointSpeedDegPerS": 3500,
+        "note": "intentional 0.16 s snap from the hip to the front"
+      }
+    }
+  }
+}
