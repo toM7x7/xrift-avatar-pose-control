@@ -85,3 +85,7 @@ driver.dispose()
 - [次のスレッドへ渡す文](docs/NEXT_THREAD.md)
 - [現状と確認範囲](docs/STATUS.md)
 - [来歴・ライセンス](docs/PROVENANCE.md)
+
+## ライセンス
+
+MIT（[LICENSE](LICENSE)、Copyright (c) 2026 toM7x7）。依存パッケージは各ライセンスに従います。`package.json`の`private: true`はnpm公開を防ぐためのもので、npm公開やXRiftへの配布を意味しません。私有VRM・私有画像はリポジトリに含めません。
