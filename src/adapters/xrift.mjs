@@ -1,4 +1,5 @@
 import {Vector3} from 'three'
+import {inferHumanoidRigs} from '../humanoid-inference.mjs'
 
 export function within(object,ancestor){for(let node=object;node;node=node.parent)if(node===ancestor)return true;return false}
 function family(rigs){const byHips=new Map();for(const rig of rigs)if(rig.supported){const old=byHips.get(rig.bones.hips);if(!old||rig.skeleton.bones.length>old.skeleton.bones.length)byHips.set(rig.bones.hips,rig)}return [...byHips.values()]}
@@ -34,4 +35,19 @@ export function selectRiderRig({scene,rigs,occupantId,localUserId,seatPosition})
   if(!seatPosition||rig.bones.hips.getWorldPosition(new Vector3()).distanceTo(seatPosition)>1.4)return {status:'waiting-for-seat',rig:null,source,relatedSkeletons:[]}
   const scope=rigScope(rig),relatedSkeletons=[...new Set(rigs.filter(r=>within(r.mesh,scope)).map(r=>r.skeleton))]
   return {status:'ready',rig,source,relatedSkeletons}
+}
+/**
+ * Opt-in: selectRiderRig, then, only when no name-readable rig is usable (unsupported-or-loading / waiting-for-seat),
+ * infer roles for unreadable skeletons near the seat and select again. Inferred hips must also be within 1.4m of the seat.
+ * exclude: skeletons that are never riders (e.g. the vehicle's own). Refusals keep the original status; attempts explain why.
+ */
+export function selectRiderRigWithInference({scene,rigs,occupantId,localUserId,seatPosition,exclude=()=>false,inferRadius=3}){
+  const found=selectRiderRig({scene,rigs,occupantId,localUserId,seatPosition})
+  if(!seatPosition||(found.status!=='unsupported-or-loading'&&found.status!=='waiting-for-seat'))return {...found,inference:null,attempts:[]}
+  const attempts=inferHumanoidRigs(rigs,scene,{exclude,near:seatPosition,maxDistance:inferRadius})
+  const usable=attempts.filter(a=>a.rig&&a.rig.bones.hips.getWorldPosition(new Vector3()).distanceTo(seatPosition)<=1.4)
+  if(!usable.length)return {...found,inference:null,attempts}
+  const again=selectRiderRig({scene,rigs:[...rigs,...usable.map(a=>a.rig)],occupantId,localUserId,seatPosition})
+  if(again.status!=='ready')return {...found,inference:null,attempts}
+  return {...again,inference:usable.find(a=>a.rig===again.rig)??null,attempts}
 }

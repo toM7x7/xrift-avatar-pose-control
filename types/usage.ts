@@ -1,6 +1,7 @@
 import {Scene,SkinnedMesh,Bone,Vector3} from 'three'
 import {attachPoseDriver,prepareHumanoidRig,applyPose,createRideDynamics,stepRideDynamics} from '../src/index.mjs'
-import {selectRiderRig} from '../src/adapters/xrift.mjs'
+import {selectRiderRig,selectRiderRigWithInference} from '../src/adapters/xrift.mjs'
+import {resolveRoles,inferHumanoidBones,inferHumanoidRigs,skeletonInputOf} from '../src/index.mjs'
 const scene=new Scene(),mesh=new SkinnedMesh(),bones:Record<string,Bone>={},rig=prepareHumanoidRig({mesh,bones})
 applyPose(rig,{preset:'hover',preserveHands:true})
 applyPose(rig,{preset:'nimbus',stanceWidth:1,crouch:.45})
@@ -16,3 +17,10 @@ applyPose(rig,{preset:'nimbus',anchorMode:'support',supportSoleOffsetM:.05,footT
 applyPose(rig,{preset:'shoulder',carrierAnchors:{leftShoulder:new Vector3(.2,1.38,0),rightShoulder:new Vector3(-.2,1.38,0),head:new Vector3(0,1.54,0)},anchorMode:'support'})
 attachPoseDriver({scene,rig,getOptions:()=>({preset:'glider',enabled:true})}).dispose()
 selectRiderRig({scene,rigs:[rig],occupantId:'me',localUserId:'me',seatPosition:new Vector3()})
+const roles=resolveRoles(skeletonInputOf(mesh.skeleton,[mesh]))
+if(roles.ok&&roles.roles.hips!==undefined)roles.roles.hips.toFixed()
+const inferred=inferHumanoidBones({mesh})
+if(inferred.ok&&inferred.bones)prepareHumanoidRig({mesh,bones:inferred.bones})
+inferHumanoidRigs([rig],scene,{near:new Vector3(),maxDistance:3}).forEach(i=>i.rig?.bones.hips)
+const chosen=selectRiderRigWithInference({scene,rigs:[rig],occupantId:'me',localUserId:'me',seatPosition:new Vector3(),exclude:r=>r.mesh===mesh})
+chosen.inference?.result.method
