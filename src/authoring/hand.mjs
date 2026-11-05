@@ -87,6 +87,18 @@ export function pairTargets(preset,hands,unit=1){
    const n=new Vector3(1,0,0).addScaledVector(f,-f.x).normalize() // palm faces forward
    out[side]={point:'thumbHeel',position:new Vector3(0,0,s*gap/2),fingers:f,palm:n}
   }
+ }else if(preset.type==='flower'){
+  // Release with stacked hands: heels of the palms together, palms forward, the upper hand's fingers up and the
+  // lower hand's fingers down, both opened forward by `open` like a mouth around the beam. Anatomically the upper
+  // forearm is pronated and the lower one supinated, both wrists extended.
+  // The wrists meet side by side (`spread`, body metres between the heels), each forearm from its own side.
+  const open=(preset.open??20)*DEG,fan=(preset.fan??4)*DEG,gap=preset.gap??.01,spread=preset.spread??.045,upper=preset.upper??'left'
+  for(const [side,s] of [['left',1],['right',-1]]){
+   const u=side===upper?1:-1
+   const f=new Vector3(Math.sin(open),u*Math.cos(open)*Math.cos(fan),s*Math.cos(open)*Math.sin(fan)).normalize()
+   const n=new Vector3(1,0,0).addScaledVector(f,-f.x).normalize() // palm faces forward, tipped toward the opening
+   out[side]={point:'heel',position:new Vector3(0,u*gap/2,s*spread/2),fingers:f,palm:n}
+  }
  }else throw new TypeError('Unknown hand pair preset')
  return out
 }

@@ -1,7 +1,8 @@
 // Capture the Pose Studio (4 views) at chosen keys / times, on the built-in
 // test bodies and optionally on local VRMs, with GPU Chrome. VRM captures
 // are written to local-assets/ (git-ignored); fixture captures to the output dir.
-// Usage: node scripts/studio-capture.mjs [--vrm path ...] [--out dir] [--keys a,b] [--times 0.3,2.6] [--evaluate]
+// Usage: node scripts/studio-capture.mjs [--vrm path ...] [--read host|vrm] [--out dir] [--keys a,b] [--times 0.3,2.6] [--evaluate]
+// --read host (default) reads bones the way an XRift item does (names, then names + skeleton shape); vrm uses the VRM humanoid map.
 import {chromium} from 'playwright'
 import {mkdirSync,writeFileSync,existsSync} from 'node:fs'
 import {join,basename,resolve} from 'node:path'
@@ -18,7 +19,8 @@ const exe=join(process.env.LOCALAPPDATA??'','ms-playwright','chromium-1243','chr
 const browser=await chromium.launch({executablePath:existsSync(exe)?exe:undefined,args:['--use-angle=d3d11','--ignore-gpu-blocklist','--enable-gpu']})
 const page=await browser.newPage({viewport:{width:1500,height:960},deviceScaleFactor:1})
 const errors=[];page.on('pageerror',e=>errors.push(String(e)));page.on('console',m=>{if(m.type()==='error')errors.push(m.text())})
-await page.goto('http://127.0.0.1:5228/studio.html')
+const read=opt('read','host')
+await page.goto('http://127.0.0.1:5228/studio.html?read='+read)
 await page.waitForFunction(()=>!!window.__studio?.result,null,{timeout:30000})
 const report={},bodies=[{label:'fixture',load:null},...vrms.map((p,i)=>({label:'A0'+(i+1),load:p}))]
 for(const body of bodies){
@@ -36,6 +38,6 @@ for(const body of bodies){
  if(evaluate)entry.evaluation=await page.evaluate(()=>window.__studio.evaluate())
 }
 writeFileSync(join(out,`${tag}-report.json`),JSON.stringify({report,errors},null,1))
-for(const [label,e] of Object.entries(report)){console.log('==',label,e.info.label,'fingers',e.info.fingers.left.length,'radii',Object.values(e.info.radii).map(r=>r.source[0]).join(''));if(e.evaluation){console.log(' score',e.evaluation.score,'speed',e.evaluation.maxSpeed.value.toFixed(0),e.evaluation.maxSpeed.bone);for(const v of e.evaluation.verdicts)if(v.status!=='pass')console.log(' ',v.status,v.metric,v.value?.toFixed(1),'/',v.limit,'@',v.at?.toFixed(2))}}
+for(const [label,e] of Object.entries(report)){console.log('==',label,e.info.label,'read',e.info.read?`${e.info.read.status}/${e.info.read.method??'-'} used ${e.info.read.used}${e.info.read.mismatch?.length?' mismatch '+e.info.read.mismatch.join(';'):''}${e.info.read.reason?' reason '+e.info.read.reason:''}`:'-','fingers',e.info.fingers.left.length,'radii',Object.values(e.info.radii).map(r=>r.source[0]).join(''));if(e.evaluation){console.log(' score',e.evaluation.score,'speed',e.evaluation.maxSpeed.value.toFixed(0),e.evaluation.maxSpeed.bone);for(const v of e.evaluation.verdicts)if(v.status!=='pass')console.log(' ',v.status,v.metric,v.value?.toFixed(1),'/',v.limit,'@',v.at?.toFixed(2))}}
 if(errors.length)console.log('errors',errors.slice(0,5))
 await browser.close()

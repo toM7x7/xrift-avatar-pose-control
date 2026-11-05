@@ -9,6 +9,7 @@ import {VRMLoaderPlugin,VRMUtils} from '@pixiv/three-vrm'
 import {createDetailedPoseFixture} from '../src/vendor/detailed-fixture.mjs'
 import {inspectHumanoidRigs,prepareRig,captureBones,restoreBones} from '../src/vendor/render-pose.mjs'
 import {prepareHumanoidRig} from '../src/index.mjs'
+import {selectActorRig} from '../src/adapters/xrift.mjs'
 import {authoringRig} from '../src/authoring/rig.mjs'
 import {applyAuthoredPose,buildColliders} from '../src/authoring/solve.mjs'
 import {sampleAction,sampleKey,releaseDuration,resolvedKeys} from '../src/authoring/clip.mjs'
@@ -29,20 +30,32 @@ views.forEach(v=>v.place?.(v.camera))
 
 // --- state ---------------------------------------------------------------
 let clip=structuredClone(baseClip),actor=null,rig=null,info=null,state={},result=null,lastFrame=null
-const S={time:0,playing:true,speed:1,holdFor:2.6,beamFor:1,charge:1,mode:'timeline',key:'gather',staticKey:null,manual:null,guides:true,colliders:false,balance:true,onion:true,focus:{center:new THREE.Vector3(0,.9,0),size:1.1}}
+const S={read:new URLSearchParams(location.search).get('read')==='vrm'?'vrm':'host',time:0,playing:true,speed:1,holdFor:2.6,beamFor:1,charge:1,mode:'timeline',key:'gather',staticKey:null,manual:null,guides:true,colliders:false,balance:true,onion:true,focus:{center:new THREE.Vector3(0,.9,0),size:1.1}}
 const total=()=>S.holdFor+releaseDuration(clip,S.beamFor)+.2
 
 // --- actors ----------------------------------------------------------------
 const roles=['hips','spine','chest','upperChest','neck','head','leftShoulder','rightShoulder','leftUpperArm','leftLowerArm','leftHand','rightUpperArm','rightLowerArm','rightHand','leftUpperLeg','leftLowerLeg','leftFoot','leftToes','rightUpperLeg','rightLowerLeg','rightFoot','rightToes']
 function disposeObject(root){root.traverse(o=>{o.geometry?.dispose?.();for(const m of [o.material].flat().filter(Boolean)){for(const v of Object.values(m))if(v?.isTexture)v.dispose();m.dispose()}})}
+// How the solver reads the skeleton. 'host' = the way an XRift item does (selectActorRig: bone names, then
+// names + skeleton shape), 'vrm' = the VRM humanoid definition. A VRM unreadable the host way falls back to its
+// definition so the studio keeps working, and says that the avatar would not be posed in XRift.
+function bindRig(){
+ const rigs=inspectHumanoidRigs(actor.root)
+ let viaVrm=null
+ if(actor.vrm){const mesh=rigs.map(r=>r.mesh).find(m=>roles.slice(0,3).every(r=>!actor.bones[r]||m.skeleton.bones.includes(actor.bones[r])))??rigs[0]?.mesh;const map=Object.fromEntries(Object.entries(actor.bones).filter(([,b])=>b&&mesh.skeleton.bones.includes(b)));viaVrm={mesh,map}}
+ const host=selectActorRig({scene:actor.root,rigs,userId:'studio',isLocal:true,feet:actor.root.getWorldPosition(new THREE.Vector3())})
+ actor.read={mode:S.read,status:host.status,method:host.roles?.method??null,dialect:host.roles?.dialect??null,reason:host.diagnosis?.reason??null,conflicts:host.diagnosis?.conflicts??[],mismatch:[]}
+ if(viaVrm&&host.rig)actor.read.mismatch=Object.entries(viaVrm.map).filter(([role,b])=>host.rig.bones[role]&&host.rig.bones[role]!==b).map(([role,b])=>`${role}: ${host.rig.bones[role].name} ≠ ${b.name}`)
+ if(S.read==='host'&&host.rig){rig=prepareRig(host.rig);actor.read.used='host'}
+ else if(viaVrm){rig=prepareHumanoidRig({mesh:viaVrm.mesh,bones:viaVrm.map});actor.read.used='vrm'}
+ else{rig=prepareRig(rigs.find(r=>r.supported));actor.read.used='names'}
+ info=authoringRig(rig);state={}
+}
 function setActor(next){
  if(actor){scene.remove(actor.root);actor.dispose()}
  actor=next;scene.add(actor.root);actor.root.updateWorldMatrix(true,true)
  const neutral=[];actor.root.traverse(o=>{if(o.isBone)neutral.push({o,p:o.position.clone(),q:o.quaternion.clone(),s:o.scale.clone()})});actor.neutral=neutral
- const rigs=inspectHumanoidRigs(actor.root)
- if(actor.vrm){const mesh=rigs.map(r=>r.mesh).find(m=>roles.slice(0,3).every(r=>!actor.bones[r]||m.skeleton.bones.includes(actor.bones[r])))??rigs[0]?.mesh;const map=Object.fromEntries(Object.entries(actor.bones).filter(([,b])=>b&&mesh.skeleton.bones.includes(b)));rig=prepareHumanoidRig({mesh,bones:map})}
- else rig=prepareRig(rigs.find(r=>r.supported))
- info=authoringRig(rig);state={}
+ bindRig()
  const box=new THREE.Box3().setFromObject(actor.root),size=box.getSize(new THREE.Vector3())
  S.focus={center:new THREE.Vector3(0,size.y*.5,0),size:Math.max(.6,size.y*.62)}
  orbit.target.copy(S.focus.center);persp.position.copy(S.focus.center).add(new THREE.Vector3(1.6,.55,2.3).multiplyScalar(size.y/1.6))
@@ -120,6 +133,7 @@ function updateGuides(r){
 // --- panel -----------------------------------------------------------------
 panel.innerHTML=`<p class="eyebrow">XRIFT / POSE STUDIO</p><h1>${clip.title}</h1>
 <section><label>体<select id="model"><option value="standard">自作骨格・標準</option><option value="small">自作骨格・小型 0.68倍</option><option value="tall">自作骨格・大型 1.25倍</option></select></label>
+<label>骨の読み取り<select id="read"><option value="host">XRiftと同じ（ボーン名→骨格の形）</option><option value="vrm">VRMの人型定義</option></select></label>
 <label class="file">手元のVRM（複数可・外部送信なし）<input id="vrm" type="file" accept=".vrm" multiple></label><label id="vrmPick" hidden>VRMを切り替える<select id="vrmList"></select></label><p id="rigInfo" class="note"></p></section>
 <section><div class="row"><button id="play">⏸ 一時停止</button><select id="speed"><option value="1">1倍</option><option value=".5">0.5倍</option><option value=".25">0.25倍</option><option value=".1">0.1倍</option></select><button id="step">1コマ</button></div>
 <input id="time" type="range" min="0" max="1" step=".001" value="0"><div id="marks" class="marks"></div><p id="clock" class="clock"></p>
@@ -155,11 +169,17 @@ let vrmFiles=[]
 async function pickVRM(i){try{$('rigInfo').textContent='読み込み中…';await loadVRM(vrmFiles[i])}catch(e){$('rigInfo').textContent=String(e)}}
 $('vrm').onchange=async e=>{vrmFiles=[...e.target.files];$('vrmList').replaceChildren(...vrmFiles.map((f,i)=>new Option(f.name,i)));$('vrmPick').hidden=vrmFiles.length<2;await pickVRM(0)}
 $('vrmList').onchange=e=>pickVRM(Number(e.target.value))
+$('read').value=S.read
+$('read').onchange=e=>{S.read=e.target.value;if(actor){bindRig();buildOnion();describeRig()}}
 function drawMarks(){const T=total(),marks=[['押す',0],['溜め完了',clip.action.enter.duration+clip.action.hold.duration],['離す',S.holdFor],['ビーム終',S.holdFor+clip.action.release[0].duration+S.beamFor]];$('marks').innerHTML=marks.map(([l,t])=>`<span style="left:${Math.min(100,t/T*100)}%">${l}</span>`).join('')}
 drawMarks()
 function describeRig(){
  const h=info.hands,fingers=s=>h[s].fingers.map(f=>f.name[0].toUpperCase()).join('')||'なし'
- $('rigInfo').textContent=`${actor.label}：胴の鎖 ${info.torso.length} 骨・鎖骨 ${Object.values(info.shoulders).filter(Boolean).length}・指 左${fingers('left')}/右${fingers('right')}・つま先 ${Object.values(info.toes).filter(Boolean).length}・皮膚の断面 ${Object.values(info.radii).filter(r=>r.source==='skin').length}/${Object.keys(info.radii).length}`
+ const r=actor.read,how={names:'ボーン名',structure:'骨格の形','names+structure':'ボーン名＋骨格の形'}[r?.method]??r?.method
+ const xrift=!r?'':r.status==='ready'?`XRiftでの読み取り：${how}${r.dialect?`（${r.dialect}）`:''}で読める`:`XRiftでの読み取り：読めない（${r.reason??r.status}）→ 本番では構えが出ません`
+ const used=r?.used==='vrm'?'・この画面はVRMの人型定義で表示':''
+ $('rigInfo').textContent=`${actor.label}：胴の鎖 ${info.torso.length} 骨・鎖骨 ${Object.values(info.shoulders).filter(Boolean).length}・指 左${fingers('left')}/右${fingers('right')}・つま先 ${Object.values(info.toes).filter(Boolean).length}・皮膚の断面 ${Object.values(info.radii).filter(r=>r.source==='skin').length}/${Object.keys(info.radii).length}。${xrift}${used}${r?.mismatch?.length?`・VRM定義との違い ${r.mismatch.join(' / ')}`:''}`
+ $('rigInfo').classList.toggle('error',!!r&&r.status!=='ready')
 }
 const NOW=[['pelvisHeightM','骨盤の高さ m',null],['comMarginMm','重心の余裕 mm','comMarginMm','min'],['neckTwistDeg','首のひねり°','neckTwistDeg','abs'],['leftWristFlexDeg','左手首 屈(+)/伸(-)°','wristExtensionDeg','ext'],['rightWristFlexDeg','右手首 屈/伸°','wristExtensionDeg','ext'],['leftPronationDeg','左前腕 回内(+)/回外(-)°','pronationDeg','abs'],['rightPronationDeg','右前腕 回内/回外°','pronationDeg','abs'],['leftWristDeviationDeg','左手首 橈屈(+)/尺屈(-)°','wristDeviationDeg','abs'],['rightWristDeviationDeg','右手首 橈/尺°','wristDeviationDeg','abs'],['leftSkinClearanceMm','左腕と胴の隙間 mm','skinClearanceMm','min'],['rightSkinClearanceMm','右腕と胴の隙間 mm','skinClearanceMm','min'],['leftReachErrorMm','左手の未達 mm','handReachErrorMm','max'],['rightReachErrorMm','右手の未達 mm','handReachErrorMm','max'],['leftKneeFlexDeg','左膝°','kneeFlexDeg','max'],['rightKneeFlexDeg','右膝°','kneeFlexDeg','max'],['rightAnkleDorsiflexionDeg','右足首 背屈°','ankleDorsiflexionDeg','max']]
 function statusOf(value,limitKey,kind){const limit={...DEFAULT_THRESHOLDS,...clip.quality}[limitKey];if(!Number.isFinite(value)||limit==null)return '';if(kind==='min')return value>=limit?'ok':'bad';if(kind==='abs')return Math.abs(value)<=limit?'ok':'bad';if(kind==='ext')return -value<=limit?'ok':'bad';return value<=limit?'ok':'bad'}
@@ -238,5 +258,8 @@ window.__studio={
  setTime(t){S.time=t;S.manual=null;S.staticKey=null},setStatic(name){S.staticKey=name},pause(){S.playing=false},play(){S.playing=true},
  setClip(next){clip=structuredClone(next);invalidate();showKeyJson()},setKey(name,key){clip.keys[name]=key;invalidate();if(S.key===name)showKeyJson()},
  setOverlay(o){Object.assign(S,o)},evaluate(opts={}){const e=evaluateAction(rig,clip,{holdFor:S.holdFor,beamFor:S.beamFor,hostPose:hostIdle,...opts});return {score:e.score,verdicts:e.verdicts,maxSpeed:e.maxSpeed,maxJump:e.maxJump,frames:e.frames.length}},
- info:()=>({label:actor?.label,torso:info.torso.map(b=>b.name),fingers:Object.fromEntries(['left','right'].map(s=>[s,info.hands[s].fingers.map(f=>f.name+':'+f.bones[0].name)])),radii:Object.fromEntries(Object.entries(info.radii).map(([k,r])=>[k,{lateral:r.lateral,front:r.front,back:r.back,source:r.source}])),hipHeight:info.hipHeight,legLength:info.legLength,palm:info.hands.left.palmLength}),
+ /** Joint-space plan per key (forearm roll, elbow swivel, wrist) on the current body, in degrees. */
+ plan:()=>Object.fromEntries(Object.entries(resolvedKeys(clip,info)).map(([k,v])=>[k,Object.fromEntries(Object.entries(v.armPlan??{}).map(([s,p])=>[s,{pronation:+(p.pronation/Math.PI*180).toFixed(1),swivel:+(p.swivel/Math.PI*180).toFixed(1),flex:+(p.flex/Math.PI*180).toFixed(1),dev:+(p.dev/Math.PI*180).toFixed(1)}]))])),
+ setRead(mode){S.read=mode==='vrm'?'vrm':'host';$('read').value=S.read;if(actor){bindRig();buildOnion();describeRig()}},
+ info:()=>({label:actor?.label,read:actor?.read,torso:info.torso.map(b=>b.name),fingers:Object.fromEntries(['left','right'].map(s=>[s,info.hands[s].fingers.map(f=>f.name+':'+f.bones[0].name)])),radii:Object.fromEntries(Object.entries(info.radii).map(([k,r])=>[k,{lateral:r.lateral,front:r.front,back:r.back,source:r.source}])),hipHeight:info.hipHeight,legLength:info.legLength,palm:info.hands.left.palmLength}),
 }

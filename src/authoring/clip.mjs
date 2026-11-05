@@ -31,7 +31,7 @@ function anchorFrame(key,anchor,info){
 export function resolveKey(key,info){
  const out={pelvis:{offset:arr(key.pelvis?.offset),rot:arr(key.pelvis?.rot)},torso:{rot:arr(key.torso?.rot)},head:{mode:key.head?.mode??'host',rot:arr(key.head?.rot),neck:finite(key.head?.neck,.5)},
   clavicles:Object.fromEntries(SIDES.map(s=>[s,arr(key.clavicles?.[s],2)])),
-  feet:Object.fromEntries(SIDES.map((s,i)=>{const f=key.feet?.[s]??{};return [s,{pos:arr(f.pos??[i?-.11:.11,0],2),toeOut:finite(f.toeOut,8),heel:finite(f.heel,0)}]})),
+  feet:Object.fromEntries(SIDES.map((s,i)=>{const f=key.feet?.[s]??{};return [s,{pos:arr(f.pos??[i?-.11:.11,0],2),toeOut:finite(f.toeOut,8),heel:finite(f.heel,0),pivot:finite(f.pivot,1)}]})),
   knees:{out:finite(key.knees?.out,8)},legs:{maxExtension:finite(key.legs?.maxExtension,.985),maxKnee:finite(key.legs?.maxKnee,128)},
   elbows:{weight:finite(key.elbows?.weight,.6),raise:finite(key.elbows?.raise,.25),...Object.fromEntries(SIDES.map((s,i)=>[s,key.elbows?.[s]?arr(key.elbows[s]):[i?-.45:.45,-.85,-.25]]))},
   hands:{mode:key.hands?.mode??'authored'},fingers:{}}
@@ -85,7 +85,13 @@ function lerpHand(a,b,t,axisA,axisB){
  const r=lerp(ra,rb,t)+bulge,ang=aa+d*t,y=lerp(pa.y,pb.y,t)
  const pos=new Vector3(Math.sin(ang)*r,y,Math.cos(ang)*r).add(axis)
  const q=new Quaternion().fromArray(a.q).slerp(new Quaternion().fromArray(b.q),t)
- return {position:pos.toArray(),point:t<.5?a.point:b.point,q:q.toArray()}
+ const out={position:pos.toArray(),point:t<.5?a.point:b.point,q:q.toArray()}
+ const mixA=a.pointMix??{[a.point]:1},mixB=b.pointMix??{[b.point]:1}
+ if(Object.keys(mixA).length>1||Object.keys(mixB).length>1||a.point!==b.point){
+  const mix={};for(const [k,w] of Object.entries(mixA))mix[k]=(mix[k]??0)+w*(1-t);for(const [k,w] of Object.entries(mixB))mix[k]=(mix[k]??0)+w*t
+  out.pointMix=mix
+ }
+ return out
 }
 export function lerpFrame(a,b,t){
  const out=lerpTree({...a,hands:undefined},{...b,hands:undefined},t)
@@ -106,7 +112,7 @@ export function lerpFrame(a,b,t){
   if(stance){const w=.55*Math.sin(Math.PI*clamp(u*1.15,0,1));out.pelvis.offset[0]=lerp(out.pelvis.offset[0],stance[0],w);out.pelvis.offset[2]=lerp(out.pelvis.offset[2],stance[1],w*.6)}
  })
  for(const s of SIDES){
-  // Different contact points (e.g. palm centre → pinky heel) are blended through the wrist-space frame by the solver; keep the destination's point once past halfway.
+  // Different contact points (e.g. palm heel → palm centre) blend their offsets (pointMix), so the wrist never jumps.
   out.hands[s]=lerpHand(a.hands[s],b.hands[s],t,axisA,axisB)
  }
  out.head.mode=t<.5?a.head.mode:b.head.mode
@@ -151,7 +157,8 @@ export function sampleAction(clip,info,clock){
    const dur=Math.max(0,finite(clock.beamFor,step.fallback??.8))
    if(t<dur){
     // Recoil: the beam pushes back on the body, strongest at its start.
-    const r=step.recoil?Math.exp(-t*step.recoil.decay)*charge:0,f=lerpFrame(from,from,0)
+    // It builds over ~25 ms instead of kicking the pelvis in a single frame.
+    const r=step.recoil?(1-Math.exp(-t/.025))*Math.exp(-t*step.recoil.decay)*charge:0,f=lerpFrame(from,from,0)
     if(r){f.pelvis.offset[2]-=step.recoil.pelvis*r;f.torso.rot[1]-=step.recoil.pitch*r;f.pelvis.offset[1]-=step.recoil.crouch*r}
     const wobble=step.tremor?Math.sin(t*step.tremor.frequency*2*Math.PI)*step.tremor.amplitude*charge:0
     if(wobble){for(const s of SIDES)if(f.hands[s])f.hands[s].position[1]+=wobble}
@@ -163,7 +170,10 @@ export function sampleAction(clip,info,clock){
   if(t<dur){
    const u=ease(step.ease,t/dur)
    const f=lerpFrame(from,target,u)
-   const w=step.weightOut!=null?lerp(1,0,clamp(t/dur,0,1)**1.2):lerp(weight,1,clamp(t/dur*4,0,1))
+   // weightOut: true fades over the whole step; a number fades only after that fraction of it, once the
+   // recovering pose is close to the host's (a long blend between far-apart rotations is ambiguous).
+   const fadeFrom=typeof step.weightOut==='number'?clamp(step.weightOut,0,.95):null
+   const w=step.weightOut==null?lerp(weight,1,clamp(t/dur*4,0,1)):fadeFrom==null?lerp(1,0,clamp(t/dur,0,1)**1.2):1-ease('inOutSine',clamp((t/dur-fadeFrom)/(1-fadeFrom),0,1))
    return {...f,weight:step.weightOut!=null?w:Math.max(w,weight),phase:step.phase??step.to}
   }
   t-=dur;from=target;weight=step.weightOut!=null?0:1
@@ -174,7 +184,7 @@ const resolvedCache=new WeakMap()
 export function resolvedKeys(clip,info){
  let byInfo=resolvedCache.get(clip);if(!byInfo){byInfo=new WeakMap();resolvedCache.set(clip,byInfo)}
  let keys=byInfo.get(info)
- if(!keys){keys=Object.fromEntries(Object.entries(clip.keys).map(([name,key])=>[name,resolveKey(key,info)]));if(info.rig)planArms(info,keys);byInfo.set(info,keys)}
+ if(!keys){keys=Object.fromEntries(Object.entries(clip.keys).map(([name,key])=>[name,resolveKey(key,info)]));if(info.rig)planArms(info,keys,visitOrder(clip));byInfo.set(info,keys)}
  return keys
 }
 /** Total duration of the release tail for a given beam duration. */
@@ -182,16 +192,29 @@ export function releaseDuration(clip,beamFor){return clip.action.release.reduce(
 /** Static sample of one key (for editors/thumbnails). */
 export function sampleKey(clip,info,name){return {...resolvedKeys(clip,info)[name],weight:1,phase:name}}
 
-/** Solve every key once on this rig and remember each arm's forearm roll and elbow swivel. */
-function planArms(info,keys){
+/**
+ * Solve every key once on this rig and remember each arm's forearm roll and elbow swivel. Keys are solved in the
+ * order the action visits them, each seeded with the previous key's arms, so a nearly straight arm (where swivel
+ * and roll trade off freely) takes the solution next to its neighbour instead of an arbitrary one. A key visited
+ * twice (the rest key at both ends) keeps its last, return-trip solution.
+ */
+function planArms(info,keys,order=Object.keys(keys)){
  const rig=info.rig,snap=captureBones(rig.skeleton)
+ let previous=null
  try{
-  for(const frame of Object.values(keys)){
-   if(!frame.hands?.left&&!frame.hands?.right)continue
-   const r=applyAuthoredPose(rig,{...frame,weight:1},{heading:0,headMode:'body',state:{}})
+  for(const name of order){
+   const frame=keys[name];if(!frame||(!frame.hands?.left&&!frame.hands?.right))continue
+   const state={arms:previous??undefined}
+   const r=applyAuthoredPose(rig,{...frame,armPlan:undefined,weight:1},{heading:0,headMode:'body',state})
    frame.armPlan={}
    for(const s of SIDES){const a=r.arms?.[s];if(a)frame.armPlan[s]={pronation:a.requestedPronationDeg*Math.PI/180,swivel:a.swivel,flex:a.wristFlexDeg*Math.PI/180,dev:a.wristDeviationDeg*Math.PI/180,blend:0}}
+   previous=state.arms
    restoreBones(snap);rig.skeleton.update()
   }
  }finally{restoreBones(snap);rig.skeleton.update()}
+}
+/** The keys in the order an action visits them (enter, hold, release), then any others. */
+function visitOrder(clip){
+ const A=clip.action??{},seq=[A.enter?.from,...(A.enter?.via??[]).map(v=>v.to),A.enter?.to,A.hold?.from,A.hold?.to,...(A.release??[]).map(s=>s.to)].filter(Boolean)
+ return [...seq,...Object.keys(clip.keys).filter(k=>!seq.includes(k))]
 }

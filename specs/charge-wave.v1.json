@@ -159,17 +159,17 @@
       "feet": {
         "left": {
           "pos": [
-            0.23,
-            0.16
+            0.25,
+            0.22
           ],
-          "toeOut": 18
+          "toeOut": 15
         },
         "right": {
           "pos": [
-            -0.25,
-            -0.22
+            -0.27,
+            -0.27
           ],
-          "toeOut": 42
+          "toeOut": 46
         }
       },
       "knees": {
@@ -250,19 +250,19 @@
     "gather": {
       "pelvis": {
         "offset": [
-          -0.02,
-          -0.15,
-          -0.02
+          -0.03,
+          -0.17,
+          -0.03
         ],
         "rot": [
-          -25,
+          -30,
           10,
           2
         ]
       },
       "torso": {
         "rot": [
-          -50,
+          -58,
           22,
           8
         ]
@@ -284,17 +284,17 @@
       "feet": {
         "left": {
           "pos": [
-            0.23,
-            0.16
+            0.25,
+            0.22
           ],
-          "toeOut": 18
+          "toeOut": 15
         },
         "right": {
           "pos": [
-            -0.25,
-            -0.22
+            -0.27,
+            -0.27
           ],
-          "toeOut": 42
+          "toeOut": 46
         }
       },
       "knees": {
@@ -305,14 +305,14 @@
           "type": "clam",
           "anchor": "pelvis",
           "center": [
-            -0.25,
+            -0.26,
             0.05,
-            0.13
+            0.06
           ],
           "axes": [
-            -94.4,
-            42.2,
-            -10.4
+            -111.1,
+            37.8,
+            -22.2
           ],
           "radius": 0.065,
           "upper": "left",
@@ -374,26 +374,26 @@
     "charge": {
       "pelvis": {
         "offset": [
-          -0.03,
-          -0.19,
-          -0.04
+          -0.05,
+          -0.2,
+          -0.05
         ],
         "rot": [
-          -30,
+          -38,
           12,
           3
         ]
       },
       "torso": {
         "rot": [
-          -62,
-          26,
+          -68,
+          24,
           10
         ]
       },
       "head": {
         "mode": "host",
-        "neck": 0.6
+        "neck": 0.62
       },
       "clavicles": {
         "left": [
@@ -408,17 +408,17 @@
       "feet": {
         "left": {
           "pos": [
-            0.23,
-            0.16
+            0.25,
+            0.22
           ],
-          "toeOut": 18
+          "toeOut": 15
         },
         "right": {
           "pos": [
-            -0.25,
-            -0.22
+            -0.27,
+            -0.27
           ],
-          "toeOut": 42
+          "toeOut": 46
         }
       },
       "knees": {
@@ -429,14 +429,14 @@
           "type": "clam",
           "anchor": "pelvis",
           "center": [
-            -0.27,
-            0.07,
-            0.07
+            -0.28,
+            0.06,
+            0
           ],
           "axes": [
-            -109.4,
-            38.7,
-            -17
+            -123.9,
+            34.8,
+            -27.4
           ],
           "radius": 0.075,
           "upper": "left",
@@ -498,20 +498,20 @@
     "thrust": {
       "pelvis": {
         "offset": [
-          0,
-          -0.12,
-          0.07
+          0.03,
+          -0.14,
+          0.1
         ],
         "rot": [
-          -4,
-          6,
+          -2,
+          8,
           0
         ]
       },
       "torso": {
         "rot": [
           2,
-          14,
+          12,
           0
         ]
       },
@@ -521,29 +521,29 @@
       },
       "clavicles": {
         "left": [
-          16,
+          20,
           3
         ],
         "right": [
-          16,
+          20,
           3
         ]
       },
       "feet": {
         "left": {
           "pos": [
-            0.23,
-            0.16
+            0.25,
+            0.22
           ],
-          "toeOut": 18
+          "toeOut": 15
         },
         "right": {
           "pos": [
-            -0.25,
-            -0.22
+            -0.27,
+            -0.27
           ],
-          "toeOut": 42,
-          "heel": 22
+          "toeOut": 46,
+          "heel": 30
         }
       },
       "knees": {
@@ -551,39 +551,39 @@
       },
       "hands": {
         "pair": {
-          "type": "push",
+          "type": "flower",
           "anchor": "chest",
+          "unit": "arm",
           "center": [
             0,
-            0,
-            0.6
+            0.04,
+            0.55
           ],
           "axes": [
-            0.3,
-            7.4,
-            6.2
+            -0.2,
+            8,
+            26.9
           ],
-          "fan": 10,
-          "tilt": 18,
-          "gap": 0.035,
-          "fit": {
-            "range": [
-              8,
-              6,
-              5
-            ],
-            "step": [
-              4,
-              3,
-              2.5
-            ]
-          },
           "authoredAxes": [
             0,
             0,
             0
           ],
-          "unit": "arm"
+          "open": 22,
+          "gap": 0.012,
+          "upper": "left",
+          "fit": {
+            "range": [
+              24,
+              18,
+              24
+            ],
+            "step": [
+              6,
+              6,
+              6
+            ]
+          }
         }
       },
       "elbows": {
@@ -602,22 +602,22 @@
       "fingers": {
         "left": {
           "all": {
-            "curl": 14,
-            "spread": 14
+            "curl": 16,
+            "spread": 16
           },
           "thumb": {
             "curl": 6,
-            "spread": 4
+            "spread": 18
           }
         },
         "right": {
           "all": {
-            "curl": 14,
-            "spread": 14
+            "curl": 16,
+            "spread": 16
           },
           "thumb": {
             "curl": 6,
-            "spread": 4
+            "spread": 18
           }
         }
       }
@@ -625,13 +625,13 @@
     "follow": {
       "pelvis": {
         "offset": [
-          0,
-          -0.1,
-          0.05
+          0.02,
+          -0.11,
+          0.09
         ],
         "rot": [
-          -3,
-          5,
+          -2,
+          6,
           0
         ]
       },
@@ -659,18 +659,18 @@
       "feet": {
         "left": {
           "pos": [
-            0.23,
-            0.16
+            0.25,
+            0.22
           ],
-          "toeOut": 18
+          "toeOut": 15
         },
         "right": {
           "pos": [
-            -0.25,
-            -0.22
+            -0.27,
+            -0.27
           ],
-          "toeOut": 42,
-          "heel": 10
+          "toeOut": 46,
+          "heel": 24
         }
       },
       "knees": {
@@ -678,39 +678,39 @@
       },
       "hands": {
         "pair": {
-          "type": "push",
+          "type": "flower",
           "anchor": "chest",
+          "unit": "arm",
           "center": [
             0,
-            -0.04,
-            0.5
+            -0.02,
+            0.47
           ],
           "axes": [
-            1.6,
-            7.4,
-            6.2
+            -15.3,
+            6.4,
+            21.1
           ],
-          "fan": 8,
-          "tilt": 28,
-          "gap": 0.04,
-          "fit": {
-            "range": [
-              8,
-              6,
-              5
-            ],
-            "step": [
-              4,
-              3,
-              2.5
-            ]
-          },
           "authoredAxes": [
             0,
             0,
             0
           ],
-          "unit": "arm"
+          "open": 30,
+          "gap": 0.02,
+          "upper": "left",
+          "fit": {
+            "range": [
+              24,
+              18,
+              24
+            ],
+            "step": [
+              6,
+              6,
+              6
+            ]
+          }
         }
       },
       "elbows": {
@@ -729,22 +729,22 @@
       "fingers": {
         "left": {
           "all": {
-            "curl": 26,
+            "curl": 30,
             "spread": 8
           },
           "thumb": {
-            "curl": 6,
-            "spread": 4
+            "curl": 8,
+            "spread": 8
           }
         },
         "right": {
           "all": {
-            "curl": 26,
+            "curl": 30,
             "spread": 8
           },
           "thumb": {
-            "curl": 6,
-            "spread": 4
+            "curl": 8,
+            "spread": 8
           }
         }
       }
@@ -756,12 +756,12 @@
       "to": "gather",
       "duration": 0.65,
       "ease": "inOutSine",
-      "weightIn": 0.2,
+      "weightIn": 0.3,
       "via": [
         {
           "to": "join",
-          "at": 0.45,
-          "ease": "inOutCubic"
+          "at": 0.5,
+          "ease": "outSine"
         }
       ]
     },
@@ -805,8 +805,8 @@
       {
         "to": "ready",
         "duration": 0.6,
-        "ease": "inOutCubic",
-        "weightOut": true,
+        "ease": "inOutSine",
+        "weightOut": 0.6,
         "phase": "recover"
       }
     ]
