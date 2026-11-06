@@ -196,13 +196,15 @@ export function sampleKey(clip,info,name){return {...resolvedKeys(clip,info)[nam
  * Solve every key once on this rig and remember each arm's forearm roll and elbow swivel. Keys are solved in the
  * order the action visits them, each seeded with the previous key's arms, so a nearly straight arm (where swivel
  * and roll trade off freely) takes the solution next to its neighbour instead of an arbitrary one. A key visited
- * twice (the rest key at both ends) keeps its last, return-trip solution.
+ * twice (the rest key at both ends) keeps its first solution: the rest pose solved on its own, not the return trip
+ * dragged over from the release (which can leave a hanging arm rolled outward and the forearm turned back).
  */
 function planArms(info,keys,order=Object.keys(keys)){
- const rig=info.rig,snap=captureBones(rig.skeleton)
+ const rig=info.rig,snap=captureBones(rig.skeleton),done=new Set()
  let previous=null
  try{
   for(const name of order){
+   if(done.has(name))continue;done.add(name)
    const frame=keys[name];if(!frame||(!frame.hands?.left&&!frame.hands?.right))continue
    const state={arms:previous??undefined}
    const r=applyAuthoredPose(rig,{...frame,armPlan:undefined,weight:1},{heading:0,headMode:'body',state})

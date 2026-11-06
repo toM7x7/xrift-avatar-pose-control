@@ -4,7 +4,7 @@ import {readFileSync} from 'node:fs'
 import {Scene,Group,Vector3,Quaternion} from 'three'
 import {createDetailedPoseFixture} from '../src/vendor/detailed-fixture.mjs'
 import {inspectHumanoidRigs,prepareRig,captureBones,restoreBones} from '../src/vendor/render-pose.mjs'
-import {attachPoseDriver,authoringRig,applyAuthoredPose,sampleAction,sampleKey,evaluateAction,fitPairAxes,solveArm,handFrame} from '../src/index.mjs'
+import {attachPoseDriver,authoringRig,applyAuthoredPose,sampleAction,sampleKey,evaluateAction,fitPairAxes,solveArm,handFrame,humeralRotation,ARM_LIMITS} from '../src/index.mjs'
 
 const clip=JSON.parse(readFileSync(new URL('../specs/charge-wave.v1.json',import.meta.url),'utf8'))
 function body({scale=1,rename=null,shortArms=false}={}){
@@ -110,5 +110,63 @@ test('pair fitting lowers the anatomical cost of a hand pair key',()=>{
  const {rig,f}=body(),key=structuredClone(clip.keys.gather);key.hands.pair.axes=key.hands.pair.authoredAxes
  const fit=fitPairAxes(rig,key,{range:[60,30,30],step:[20,15,15]})
  assert.ok(fit.cost<fit.before*.2,JSON.stringify(fit))
+ f.dispose()
+})
+
+test('shoulder rotation reads anatomically: plain = 0, forearm turned out/up = external, elbow across the body = ±180°',()=>{
+ const V=(x,y,z)=>new Vector3(x,y,z).normalize()
+ // Arm hanging, forearm folded forward: plain rotation. Folded outward: external.
+ assert.ok(Math.abs(humeralRotation(V(0,-1,0),V(0,0,1),'right'))<1)
+ assert.ok(Math.abs(humeralRotation(V(0,-1,0),V(-1,0,0),'right')-90)<1,'right forearm out = external')
+ assert.ok(Math.abs(humeralRotation(V(0,-1,0),V(1,0,0),'left')-90)<1,'left forearm out = external (mirrored)')
+ // Arm reaching forward: forearm toward the midline is plain, up is external, down is internal, outward is impossible.
+ assert.ok(Math.abs(humeralRotation(V(0,0,1),V(1,0,0),'right'))<1)
+ assert.ok(Math.abs(humeralRotation(V(0,0,1),V(0,1,0),'right')-90)<1)
+ assert.ok(Math.abs(humeralRotation(V(0,0,1),V(0,-1,0),'right')+90)<1)
+ assert.ok(Math.abs(humeralRotation(V(0,0,1),V(-1,0,0),'right'))>170)
+})
+
+test('arms stay within the shoulder, forearm and wrist ranges in every key; the hand never twists at the wrist',()=>{
+ const {rig,f}=body(),info=authoringRig(rig)
+ for(const key of ['ready','join','gather','charge','thrust','follow']){
+  f.idle(0);f.mesh.updateWorldMatrix(true,true)
+  const snap=captureBones(f.skeleton),r=applyAuthoredPose(rig,sampleKey(clip,info,key),{heading:.4,headMode:'body'})
+  for(const s of ['left','right']){
+   const a=r.arms[s]
+   assert.ok(a.humeralRotationDeg<=ARM_LIMITS.externalRotation+1&&a.humeralRotationDeg>=-ARM_LIMITS.internalRotation-1,`${key} ${s} shoulder ${a.humeralRotationDeg}`)
+   assert.ok(a.requestedPronationDeg<=ARM_LIMITS.pronation+1&&a.requestedPronationDeg>=-ARM_LIMITS.supination-1,`${key} ${s} forearm ${a.requestedPronationDeg}`)
+   assert.ok(Math.abs(a.residualTwistDeg)<1,`${key} ${s} wrist twist ${a.residualTwistDeg}`)
+   // Wrist twist measured on the bones: hand vs forearm about the forearm axis, against the bind pose.
+   const lower=rig.bones[s+'LowerArm'],hand=rig.bones[s+'Hand'],axis=P(hand).sub(P(lower)).normalize()
+   const rel=lower.getWorldQuaternion(new Quaternion()).invert().multiply(hand.getWorldQuaternion(new Quaternion()))
+   const bind=rig.restRotations.get(lower).clone().invert().multiply(rig.restRotations.get(hand))
+   const d=rel.multiply(bind.invert()),ax=axis.clone().applyQuaternion(lower.getWorldQuaternion(new Quaternion()).invert())
+   const twist=Math.abs(2*Math.atan2(d.x*ax.x+d.y*ax.y+d.z*ax.z,d.w))*180/Math.PI
+   assert.ok(Math.min(twist,360-twist)<2,`${key} ${s} bone wrist twist ${twist}`)
+  }
+  // Release: both elbows point down, none across the body or up.
+  if(key==='thrust'||key==='follow')for(const s of ['left','right'])assert.ok(r.arms[s].elbowDirection[1]<-.5,`${key} ${s} elbow ${r.arms[s].elbowDirection}`)
+  restoreBones(snap);f.skeleton.update()
+ }
+ f.dispose()
+})
+
+test('an unreachable hand frame bends the wrist only as far as it goes, instead of wringing the arm',()=>{
+ const {rig,f}=body(),info=authoringRig(rig)
+ const sh=P(rig.bones.rightUpperArm),mid=sh.clone().add(P(rig.bones.leftUpperArm)).multiplyScalar(.5)
+ // Right hand at the chest, palm forward, fingers straight down: no arm can show this within its ranges.
+ const r=solveArm(rig,info,'right',{wrist:mid.clone().add(new Vector3(-.02,-.15,.42)),hand:handFrame(new Vector3(0,-1,0),new Vector3(0,0,1))},{elbowHint:new Vector3(-.45,-.85,-.25).normalize()})
+ // The limits are soft costs: an impossible request may lean a few degrees past one, never round the far side.
+ assert.ok(r.humeralRotationDeg<=ARM_LIMITS.externalRotation+5&&r.humeralRotationDeg>=-ARM_LIMITS.internalRotation-5,'shoulder '+r.humeralRotationDeg)
+ assert.ok(r.wristLimitedDeg>1,'the shown hand gave way '+r.wristLimitedDeg)
+ const lower=rig.bones.rightLowerArm,hand=rig.bones.rightHand
+ const fore=P(hand).sub(P(lower)).normalize(),fingers=P(info.hands.right.fingers[2].bones[0]).sub(P(hand)).normalize()
+ assert.ok(Math.acos(fore.dot(fingers))*180/Math.PI<ARM_LIMITS.extension+15,'wrist bend within its cone')
+ f.dispose()
+})
+
+test('the rest key keeps its own plain arms (not the return trip from the release)',()=>{
+ const {rig,f}=body(),info=authoringRig(rig),plan=sampleKey(clip,info,'ready').armPlan
+ for(const s of ['left','right'])assert.ok(Math.abs(plan[s].pronation*180/Math.PI)<30,`${s} ready forearm ${plan[s].pronation*180/Math.PI}`)
  f.dispose()
 })

@@ -10,16 +10,18 @@ import {sampleAction,releaseDuration} from './clip.mjs'
 import {DEG} from './math.mjs'
 
 const SIDES=['left','right']
-export const DEFAULT_THRESHOLDS=Object.freeze({wristExtensionDeg:75,wristFlexionDeg:75,wristDeviationDeg:30,pronationDeg:85,residualTwistDeg:10,handReachErrorMm:5,handFrameErrorDeg:3,skinClearanceMm:-5,kneeFlexDeg:125,ankleDorsiflexionDeg:38,ankleLateralLeanDeg:22,kneeInwardDeg:12,footSlideMm:2,comMarginMm:20,neckTwistDeg:75,jointSpeedDegPerS:1400,swivelJumpDeg:45})
+export const DEFAULT_THRESHOLDS=Object.freeze({wristExtensionDeg:75,wristFlexionDeg:75,wristDeviationDeg:30,pronationDeg:85,residualTwistDeg:10,externalRotationDeg:90,internalRotationDeg:75,wristLimitedDeg:15,handReachErrorMm:5,handFrameErrorDeg:3,skinClearanceMm:-5,kneeFlexDeg:125,ankleDorsiflexionDeg:38,ankleLateralLeanDeg:22,kneeInwardDeg:12,footSlideMm:2,comMarginMm:20,neckTwistDeg:75,jointSpeedDegPerS:1400,swivelJumpDeg:45})
 
 /** Flatten one frame's solver result into scalar channels a reviewer can plot. */
 export function frameChannels(result){
  const c={pelvisHeightM:result.pelvisHeightM,pelvisAutoDropMm:result.pelvisAutoDropMm,comMarginMm:result.comMarginMm,neckTwistDeg:result.neckTwistDeg,chestYawDeg:result.chestYawDeg,chestPitchDeg:result.chestPitchDeg,weight:result.weight}
  for(const s of SIDES){
   const a=result.arms?.[s],l=result.legs?.[s],h=result.handClearance?.[s]
-  if(a){c[s+'ReachErrorMm']=a.reachErrorMm;c[s+'WristFlexDeg']=a.wristFlexDeg;c[s+'WristDeviationDeg']=a.wristDeviationDeg;c[s+'PronationDeg']=a.requestedPronationDeg;c[s+'ResidualTwistDeg']=a.residualTwistDeg;c[s+'ElbowFlexDeg']=a.elbowFlexDeg;c[s+'Swivel']=a.swivel}
+  if(a){c[s+'ReachErrorMm']=a.reachErrorMm;c[s+'WristFlexDeg']=a.wristFlexDeg;c[s+'WristDeviationDeg']=a.wristDeviationDeg;c[s+'PronationDeg']=a.requestedPronationDeg;c[s+'ResidualTwistDeg']=a.residualTwistDeg;c[s+'ElbowFlexDeg']=a.elbowFlexDeg;c[s+'Swivel']=a.swivel;c[s+'WristLimitedDeg']=a.wristLimitedDeg
+   if(Number.isFinite(a.humeralRotationDeg))c[s+'HumeralRotationDeg']=a.humeralRotationDeg}
   // Hand frame vs. key target only counts where the joint-space plan is not steering the hand.
-  if(result.handFrameErrorDeg?.[s]!=null&&!(a?.planBlend>.05))c[s+'HandFrameErrorDeg']=result.handFrameErrorDeg[s]
+  // The part the wrist's range took away is reported as WristLimitedDeg, not as a solver error.
+  if(result.handFrameErrorDeg?.[s]!=null&&!(a?.planBlend>.05))c[s+'HandFrameErrorDeg']=Math.max(0,result.handFrameErrorDeg[s]-(a?.wristLimitedDeg??0))
   if(h)c[s+'SkinClearanceMm']=Math.min(...Object.values(h).map(v=>v.mm??Infinity))
   if(l){c[s+'KneeFlexDeg']=l.kneeFlexDeg;c[s+'AnkleDorsiflexionDeg']=l.ankleDorsiflexionDeg;c[s+'AnkleLateralLeanDeg']=l.ankleLateralLeanDeg;c[s+'KneeInwardDeg']=l.kneeInwardDeg}
  }
@@ -77,8 +79,8 @@ export function summarize(frames,thresholdsIn=DEFAULT_THRESHOLDS){
  const thresholds={...thresholdsIn}
  const full=frames.filter(f=>f.weight>=.999)
  const worst=(key,pick=Math.max,set=full)=>{let v=null,at=null;for(const f of set){const x=f.channels[key];if(!Number.isFinite(x))continue;if(v==null||pick(x,v)===x&&x!==v){v=x;at=f.t}}return {value:v,at}}
- const both=(stem,pick)=>{const a=worst('left'+stem,pick),b=worst('right'+stem,pick);if(a.value==null)return b;if(b.value==null)return a;return pick(a.value,b.value)===a.value?{...a,side:'left'}:{...b,side:'right'}}
- const absMax=stem=>{const a=worst('left'+stem,Math.max),b=worst('left'+stem,Math.min),c=worst('right'+stem,Math.max),d=worst('right'+stem,Math.min);return [a,b,c,d].filter(x=>x.value!=null).reduce((m,x)=>Math.abs(x.value)>Math.abs(m.value??0)?x:m,{value:null})}
+ const both=(stem,pick,set=full)=>{const a=worst('left'+stem,pick,set),b=worst('right'+stem,pick,set);if(a.value==null)return b;if(b.value==null)return a;return pick(a.value,b.value)===a.value?{...a,side:'left'}:{...b,side:'right'}}
+ const absMax=stem=>{const a=worst('left'+stem,Math.max),b=worst('left'+stem,Math.min),c=worst('right'+stem,Math.max),d=worst('right'+stem,Math.min);return [a,b,c,d].filter(x=>x.value!=null).reduce((m,x)=>m.value==null||Math.abs(x.value)>Math.abs(m.value)?x:m,{value:null})}
  const fast=new Set(Object.keys(thresholds.fastPhases??{})),slow=frames.filter(f=>!fast.has(f.phase))
  const neck=[worst('neckTwistDeg',Math.max),worst('neckTwistDeg',Math.min)].filter(x=>x.value!=null).reduce((m,x)=>Math.abs(x.value)>Math.abs(m.value??0)?x:m,{value:null,at:null})
  const ext=both('WristFlexDeg',Math.min),flex=both('WristFlexDeg',Math.max)
@@ -88,6 +90,9 @@ export function summarize(frames,thresholdsIn=DEFAULT_THRESHOLDS){
   ['wristDeviationDeg',absMax('WristDeviationDeg').value==null?null:Math.abs(absMax('WristDeviationDeg').value),absMax('WristDeviationDeg').at,'max'],
   ['pronationDeg',absMax('PronationDeg').value==null?null:Math.abs(absMax('PronationDeg').value),absMax('PronationDeg').at,'max'],
   ['residualTwistDeg',absMax('ResidualTwistDeg').value==null?null:Math.abs(absMax('ResidualTwistDeg').value),absMax('ResidualTwistDeg').at,'max'],
+  ['externalRotationDeg',both('HumeralRotationDeg',Math.max).value,both('HumeralRotationDeg',Math.max).at,'max'],
+  ['internalRotationDeg',both('HumeralRotationDeg',Math.min).value==null?null:-both('HumeralRotationDeg',Math.min).value,both('HumeralRotationDeg',Math.min).at,'max'],
+  ['wristLimitedDeg',both('WristLimitedDeg',Math.max).value,both('WristLimitedDeg',Math.max).at,'max'],
   ['handReachErrorMm',both('ReachErrorMm',Math.max).value,both('ReachErrorMm',Math.max).at,'max'],
   ['handFrameErrorDeg',both('HandFrameErrorDeg',Math.max).value,both('HandFrameErrorDeg',Math.max).at,'max'],
   ['skinClearanceMm',both('SkinClearanceMm',Math.min).value,both('SkinClearanceMm',Math.min).at,'min'],
@@ -100,7 +105,9 @@ export function summarize(frames,thresholdsIn=DEFAULT_THRESHOLDS){
   ['neckTwistDeg',neck.value==null?null:Math.abs(neck.value),neck.at,'max'],
   ['jointSpeedDegPerS',worst('jointSpeedDegPerS',Math.max,slow).value,worst('jointSpeedDegPerS',Math.max,slow).at,'max'],
   ...Object.entries(thresholds.fastPhases??{}).map(([phase,limits])=>{const set=frames.filter(f=>f.phase===phase),w=worst('jointSpeedDegPerS',Math.max,set);thresholds['jointSpeedDegPerS@'+phase]=limits.jointSpeedDegPerS;return ['jointSpeedDegPerS@'+phase,w.value,w.at,'max']}),
-  ['swivelJumpDeg',both('SwivelJumpDeg',Math.max).value,both('SwivelJumpDeg',Math.max).at,'max'],
+  // An intentional snap (fastPhases) turns the elbow fast too; it gets its own limit there.
+  ['swivelJumpDeg',both('SwivelJumpDeg',Math.max,slow.filter(f=>f.weight>=.999)).value,both('SwivelJumpDeg',Math.max,slow.filter(f=>f.weight>=.999)).at,'max'],
+  ...Object.entries(thresholds.fastPhases??{}).filter(([,limits])=>limits.swivelJumpDeg!=null).map(([phase,limits])=>{const set=full.filter(f=>f.phase===phase),w=both('SwivelJumpDeg',Math.max,set);thresholds['swivelJumpDeg@'+phase]=limits.swivelJumpDeg;return ['swivelJumpDeg@'+phase,w.value,w.at,'max']}),
  ]
  const verdicts=rows.map(([metric,value,at,kind])=>{
   const limit=thresholds[metric];if(value==null||limit==null)return {metric,value,limit,at,status:'n/a'}

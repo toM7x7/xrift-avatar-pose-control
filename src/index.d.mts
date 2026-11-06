@@ -24,7 +24,7 @@ export {resolveKey,sampleAction,sampleKey,lerpFrame,releaseDuration} from './aut
 export {evaluateAction,summarize,frameChannels,DEFAULT_THRESHOLDS} from './authoring/quality.mjs'
 export type {Verdict,EvaluatedFrame} from './authoring/quality.mjs'
 export {fitPairAxes,keyCost} from './authoring/fit.mjs'
-export {solveArm,ARM_LIMITS} from './authoring/arm.mjs'
+export {solveArm,ARM_LIMITS,humeralRotation} from './authoring/arm.mjs'
 export {pairTargets,poseFingers,handFrame} from './authoring/hand.mjs'
 export type {ActionClip,ActionClock,PoseKey,PoseFrame,AuthoredPoseMetrics,AuthoredPoseOptions,ArmMetrics,LegMetrics,PairPreset} from './authoring/types.d.mts'
 import type {AuthoredPoseMetrics,AuthoredPoseOptions,PoseFrame} from './authoring/types.d.mts'
