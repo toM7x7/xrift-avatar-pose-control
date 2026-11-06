@@ -89,12 +89,15 @@ export function pairTargets(preset,hands,unit=1){
   }
  }else if(preset.type==='flower'){
   // Release with stacked hands: heels of the palms together, palms forward, the upper hand's fingers up and the
-  // lower hand's fingers down, both opened forward by `open` like a mouth around the beam. Anatomically the upper
-  // forearm is pronated and the lower one supinated, both wrists extended.
+  // lower hand's fingers down, opened forward by `open` / `lowerOpen` like a mouth around the beam. Anatomically the
+  // upper forearm is pronated and the lower one supinated, both wrists extended.
   // The wrists meet side by side (`spread`, body metres between the heels), each forearm from its own side.
-  const open=(preset.open??20)*DEG,fan=(preset.fan??4)*DEG,gap=preset.gap??.01,spread=preset.spread??.045,upper=preset.upper??'left'
+  // lowerOpen: the lower hand opens further by default. Its palm faces forward-up and its fingers forward-down, as a
+  // supinated forearm and a moderately extended wrist give; fingers straight down with the palm forward would need
+  // the forearm turned past its range or the elbow raised across the body.
+  const fan=(preset.fan??4)*DEG,gap=preset.gap??.01,spread=preset.spread??.045,upper=preset.upper??'left'
   for(const [side,s] of [['left',1],['right',-1]]){
-   const u=side===upper?1:-1
+   const u=side===upper?1:-1,open=(u>0?preset.open??20:preset.lowerOpen??preset.open??20)*DEG
    const f=new Vector3(Math.sin(open),u*Math.cos(open)*Math.cos(fan),s*Math.cos(open)*Math.sin(fan)).normalize()
    const n=new Vector3(1,0,0).addScaledVector(f,-f.x).normalize() // palm faces forward, tipped toward the opening
    out[side]={point:'heel',position:new Vector3(0,u*gap/2,s*spread/2),fingers:f,palm:n}

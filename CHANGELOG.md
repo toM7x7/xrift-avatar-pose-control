@@ -1,5 +1,16 @@
 # Changelog
 
+## 腕の可動域（肩の回旋・手首）と放ちの手 — 2026-11-06
+
+- 腕の解き方に肩の回旋（上腕のねじれ、外旋90°・内旋75°）の範囲を追加（`humeralRotation`、`ARM_LIMITS.externalRotation/internalRotation`）。これまで肩はどれだけねじっても罰が無く、放ちの下の手で右肘が体の内側・上を向く（±180°で人には不可能）解や、ほぼ伸びた腕を上腕ごと回して前腕で打ち消す「絞った雑巾」の腕が選ばれていた。
+- 手首が届かない向きを求められたら、手首をねじらず範囲の端まで曲げて手の向きの方を譲る（`clampWrist`、既定オン）。譲った角度は `wristLimitedDeg`。
+- `flower` に `lowerOpen`（下の手の開き）。下の手は手のひらを前上・指を前下へ。指を真下・手のひらを前は、どの肘でも人の範囲では作れない（前腕を150°以上回すか、肘を体の内側へ上げるしかない）。charge-wave は放ち 30°/62°、追い 36°/60°。
+- 肘の当たり：服を含む皮膚から2cmまでのめり込みは軽い罰、それより深い分は上限付き。パーカーの裾に1cm触れないために腕全体をねじる解が選ばれていた。
+- 関節空間の計画：2度通るキー（ready）は最初に単独で解いた解を使う（放ちから引きずった戻りの解ではなく）。キー間の遷移中は計画の肘の向きに強く従う（1コマで追いつく跳びの防止）。
+- 品質：`externalRotationDeg`・`internalRotationDeg`・`wristLimitedDeg` を追加。手の向きの誤差から手首の範囲で譲った分を除く。`fastPhases` で `swivelJumpDeg` も相ごとに指定可（charge-wave の thrust は70°）。0のねじれが n/a になる集計の不具合を修正。
+- 診断：`scripts/arm-anatomy.mjs`（骨から実測した手首のねじれ・前腕の回内外・上腕のねじれ・手首角）、`scripts/hand-closeup.mjs`（両手の拡大4面）、Pose Studio の `__studio.applyKey`・`traceKey`・`framesBetween`。
+- N02 1.0.0・既存プリセット・`inspectHumanoidRigs`／`selectRiderRig` は変更なし。
+
 ## 構えの磨き込みと骨格の互換 — 2026-11-05 午後
 
 - `selectActorRig`（`./xrift`）：立ったままの動作用にアバターを探す入口。名前の表→読めなければ名前の流派＋骨格の形の推定。読めないときは理由・全ボーン名を返す。Blender式の名前（`upper_armL`）のアバターで構えが出なかった問題の修正。

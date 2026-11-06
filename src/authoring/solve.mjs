@@ -208,12 +208,14 @@ export function applyAuthoredPose(rig,pose,options={}){
   }
   pairShiftMm=shift.length()*1000
  }
+ // Upper-torso frame for the shoulder-rotation limit (the stance may turn the chest away from the feet).
+ const thorax={forward:bodyDir(new Vector3(0,0,1).applyQuaternion(topA)),left:bodyDir(new Vector3(1,0,0).applyQuaternion(topA))}
  for(const [side,sign] of SIDES){
   const target=handTargets[side]
   if(!target){armMetrics[side]=null;continue}
   const hintA=pose.elbows?.[side]?v3(pose.elbows[side]).normalize():new Vector3(sign*.45,-.85,-.25).normalize()
   const prev=state.arms[side]
-  armMetrics[side]=solveArm(rig,info,side,target,{elbowHint:bodyDir(hintA),elbowWeight,colliders,previousSwivel:prev?.swivel,previousPronation:pose.armPlan?.[side]?.pronation??prev?.pronation,plan:pose.armPlan?.[side],forward:bodyDir(new Vector3(0,0,1)),twistSplit:finite(options.twistSplit,1),elbowRaise:finite(pose.elbows?.raise,.25)})
+  armMetrics[side]=solveArm(rig,info,side,target,{elbowHint:bodyDir(hintA),elbowWeight,colliders,previousSwivel:prev?.swivel,previousPronation:pose.armPlan?.[side]?.pronation??prev?.pronation,plan:pose.armPlan?.[side],forward:bodyDir(new Vector3(0,0,1)),twistSplit:finite(options.twistSplit,1),elbowRaise:finite(pose.elbows?.raise,.25),trace:options.traceArms?.[side],thorax,clampWrist:options.clampWrist})
   state.arms[side]={swivel:armMetrics[side].swivel,pronation:armMetrics[side].requestedPronationDeg*DEG}
  }
 

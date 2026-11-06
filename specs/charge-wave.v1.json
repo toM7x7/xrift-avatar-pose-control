@@ -191,8 +191,8 @@
             0
           ],
           "axes": [
-            -53.9,
-            58.5,
+            -55,
+            58.9,
             25.2
           ],
           "radius": 0.06,
@@ -310,9 +310,9 @@
             0.06
           ],
           "axes": [
-            -111.1,
-            37.8,
-            -22.2
+            -109.4,
+            47.2,
+            -10.4
           ],
           "radius": 0.065,
           "upper": "left",
@@ -434,9 +434,9 @@
             0
           ],
           "axes": [
-            -123.9,
-            34.8,
-            -27.4
+            -124.4,
+            42.6,
+            -19.3
           ],
           "radius": 0.075,
           "upper": "left",
@@ -560,16 +560,17 @@
             0.55
           ],
           "axes": [
-            -0.2,
-            8,
-            26.9
+            -12,
+            17.1,
+            -26.9
           ],
           "authoredAxes": [
             0,
             0,
             0
           ],
-          "open": 22,
+          "open": 30,
+          "lowerOpen": 62,
           "gap": 0.012,
           "upper": "left",
           "fit": {
@@ -687,16 +688,17 @@
             0.47
           ],
           "axes": [
-            -15.3,
-            6.4,
-            21.1
+            -14,
+            11.3,
+            -2.9
           ],
           "authoredAxes": [
             0,
             0,
             0
           ],
-          "open": 30,
+          "open": 36,
+          "lowerOpen": 60,
           "gap": 0.02,
           "upper": "left",
           "fit": {
@@ -832,8 +834,12 @@
     "fastPhases": {
       "thrust": {
         "jointSpeedDegPerS": 3500,
-        "note": "intentional 0.16 s snap from the hip to the front"
+        "note": "intentional 0.16 s snap from the hip to the front; the lower arm turns from an inward-rotated hold to an outward-rotated release",
+        "swivelJumpDeg": 70
       }
-    }
+    },
+    "wristLimitedDeg": 15,
+    "externalRotationDeg": 90,
+    "internalRotationDeg": 75
   }
 }
