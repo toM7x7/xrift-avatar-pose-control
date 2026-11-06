@@ -1,5 +1,9 @@
 # 次のスレッドへ
 
+## 2026-11-06：腕の可動域
+
+腕を触る前に `node scripts/arm-anatomy.mjs --vrm <手元VRM> ...`（骨から実測）と `node scripts/hand-closeup.mjs` で今の腕を見る。解き方が報告する値（`requestedPronationDeg` など）だけでは、肩のねじれや当たり判定由来のねじれは見えない。残り：A02の比率推定の当たり・重心、実XRiftで他人から見た腕。
+
 ## 2026-11-05 午後：骨格の互換と構えの磨き込み
 
 新しい動作を作るときは [.claude/skills/authored-pose/SKILL.md](../.claude/skills/authored-pose/SKILL.md) の順で。`npm run review:charge-wave`（18/18）と`npm run review:compat`（21/21）で数値を再現してから触る。残り：A02の推定の当たり・重心の扱い（スキンの重みが無い体の比率推定）、実XRiftでBlender式のアバターが本当に読めるか、他人の画面での再生。

@@ -255,9 +255,17 @@ requestAnimationFrame(frame)
 // Automation hooks for captures and experiments (local only).
 window.__studio={
  get result(){return result},get frame(){return lastFrame},get clip(){return clip},
+ /** The bound body and its measured anatomy (diagnostics: scripts/arm-anatomy.mjs). */
+ get rig(){return rig},get rigInfo(){return info},
+ /** Pose the body at a key and leave the bones posed until the next frame (measure in the same task). */
+ applyKey(name,probeState={}){hostIdle(performance.now()/1000);return applyAuthoredPose(rig,sampleKey(clip,info,name),{heading:0,state:probeState})},
  setTime(t){S.time=t;S.manual=null;S.staticKey=null},setStatic(name){S.staticKey=name},pause(){S.playing=false},play(){S.playing=true},
  setClip(next){clip=structuredClone(next);invalidate();showKeyJson()},setKey(name,key){clip.keys[name]=key;invalidate();if(S.key===name)showKeyJson()},
  setOverlay(o){Object.assign(S,o)},evaluate(opts={}){const e=evaluateAction(rig,clip,{holdFor:S.holdFor,beamFor:S.beamFor,hostPose:hostIdle,...opts});return {score:e.score,verdicts:e.verdicts,maxSpeed:e.maxSpeed,maxJump:e.maxJump,frames:e.frames.length}},
+ /** Every elbow candidate the arm solver scored for one key (diagnostics). */
+ traceKey(name,side,withPlan=true){hostIdle(performance.now()/1000);const trace={left:[],right:[]},f=sampleKey(clip,info,name);applyAuthoredPose(rig,withPlan?f:{...f,armPlan:undefined},{heading:0,state:{},traceArms:trace});return trace[side].map(t=>({phi:t.phi*180/Math.PI,cost:t.cost,pron:t.r.pron0*180/Math.PI,hum:t.r.humeral,flex:t.r.flex*180/Math.PI,dev:t.r.dev*180/Math.PI,elbowFlex:t.r.elbowFlex*180/Math.PI,o:t.r.o.toArray(),clearMm:t.clearance?t.clearance.distance*1000:null,clearKey:t.clearance?.key??null}))},
+ /** Per-frame channels of a full evaluation between t0 and t1 (diagnostics). */
+ framesBetween(t0,t1,opts={}){const e=evaluateAction(rig,clip,{holdFor:S.holdFor,beamFor:S.beamFor,hostPose:hostIdle,...opts});return e.frames.filter(f=>f.t>=t0&&f.t<=t1)},
  /** Joint-space plan per key (forearm roll, elbow swivel, wrist) on the current body, in degrees. */
  plan:()=>Object.fromEntries(Object.entries(resolvedKeys(clip,info)).map(([k,v])=>[k,Object.fromEntries(Object.entries(v.armPlan??{}).map(([s,p])=>[s,{pronation:+(p.pronation/Math.PI*180).toFixed(1),swivel:+(p.swivel/Math.PI*180).toFixed(1),flex:+(p.flex/Math.PI*180).toFixed(1),dev:+(p.dev/Math.PI*180).toFixed(1)}]))])),
  setRead(mode){S.read=mode==='vrm'?'vrm':'host';$('read').value=S.read;if(actor){bindRig();buildOnion();describeRig()}},

@@ -4,11 +4,47 @@
 // to show the requested hand frame, then scores joint limits, skin clearance,
 // a soft elbow preference and continuity with the previous frame.
 import {Quaternion,Vector3} from 'three'
-import {DEG,UP,clamp,frameYZ,frameToWorld,point,setWorldRotation} from './math.mjs'
+import {DEG,UP,clamp,frameYZ,frameToWorld,point,setWorldRotation,signedAngle} from './math.mjs'
 
-export const ARM_LIMITS=Object.freeze({flexion:75,extension:70,radial:22,ulnar:35,pronation:80,supination:85,elbowFlexion:150})
+// externalRotation/internalRotation: the upper arm's roll about its own axis (shoulder rotation), see humeralRotation().
+export const ARM_LIMITS=Object.freeze({flexion:75,extension:70,radial:22,ulnar:35,pronation:80,supination:85,elbowFlexion:150,externalRotation:90,internalRotation:75})
 const Y=new Vector3(0,1,0)
 const wrapAngle=a=>Math.atan2(Math.sin(a),Math.cos(a))
+const FORWARD=Object.freeze(new Vector3(0,0,1)),LEFT=Object.freeze(new Vector3(1,0,0))
+
+/**
+ * Shoulder (humeral) rotation of an arm, degrees, + = external (the folded forearm turns outward/up), - = internal.
+ * d: upper-arm direction (shoulder → elbow), bend: the direction the forearm folds toward (front of the elbow),
+ * thorax: {forward, left} of the upper torso. Neutral is where the forearm folds with the arm in its plain rotation:
+ * forward when the arm hangs down or is raised sideways, toward the midline when the arm points forward.
+ * An elbow that points across the body or up while the arm reaches forward reads as about ±180°: no shoulder does that.
+ */
+export function humeralRotation(d,bend,side,thorax){
+ const fwd=thorax?.forward??FORWARD,medial=(thorax?.left??LEFT).clone().multiplyScalar(side==='left'?-1:1)
+ const ref=fwd.clone().addScaledVector(medial,1.5*Math.max(0,d.dot(fwd)))
+ ref.addScaledVector(d,-ref.dot(d))
+ if(ref.lengthSq()<1e-8)ref.copy(medial).addScaledVector(d,-medial.dot(d))
+ if(ref.lengthSq()<1e-8)return 0
+ return (side==='left'?-1:1)*signedAngle(ref.normalize(),bend,d)/DEG
+}
+
+/**
+ * The hand frame the wrist can actually show: no twist beyond the forearm's roll (pronation limits), flexion and
+ * deviation within the wrist's range. Returns H itself when it is already reachable.
+ */
+function reachableHand(Ff,H,hand,pN,fN,tN,residual,flex,dev){
+ const L=ARM_LIMITS,flexC=clamp(flex,-L.extension*DEG,L.flexion*DEG),devC=clamp(dev,-L.ulnar*DEG,L.radial*DEG)
+ if(Math.abs(residual)<.5*DEG&&flexC===flex&&devC===dev)return H
+ // Wrist rotation in the forearm frame; drop its twist about the forearm axis (the wrist cannot twist).
+ const W=Ff.clone().invert().multiply(H).multiply(hand.toForearm.clone().invert())
+ const fl=fN.clone().applyQuaternion(W)
+ // Clamp the finger direction to the wrist's cone, keeping the side it bends to.
+ const target=fN.clone().multiplyScalar(Math.cos(Math.hypot(flexC,devC)))
+ const side=pN.clone().multiplyScalar(Math.tan(flexC)).addScaledVector(tN,Math.tan(devC))
+ const fl2=flexC===flex&&devC===dev?fl:side.lengthSq()>1e-12?target.addScaledVector(side.normalize(),Math.sin(Math.hypot(flexC,devC))).normalize():fN.clone()
+ const swing=new Quaternion().setFromUnitVectors(fN,fl2)
+ return Ff.clone().multiply(swing).multiply(hand.toForearm)
+}
 
 /** Signed clearance (m) of p from an elliptic capsule; negative = inside the skin. */
 export function clearance(p,c){
@@ -52,7 +88,9 @@ function analyze(info,side,s,wc,L1,L2,n,e1,e2,h,along,phi,H,opts){
  const Hl=Ff.clone().invert().multiply(H),fl=new Vector3(0,1,0).applyQuaternion(Hl)
  const flex=Math.atan2(fl.dot(pN),fl.dot(fN)),dev=Math.atan2(fl.dot(tN),fl.dot(fN))
  const elbowFlex=Math.acos(clamp(u.dot(a),-1,1))
- return {phi,o,elbow,u,a,Fu,Ff0,rho,pron,pron0,residual:pron0-pron,flex,dev,elbowFlex,H}
+ // Shoulder roll: the front of the elbow (where the forearm folds) relative to the arm's plain rotation.
+ const humeral=humeralRotation(u,new Vector3(0,0,1).applyQuaternion(Fu),side,opts.thorax)
+ return {phi,o,elbow,u,a,Fu,Ff0,Ff,rho,pron,pron0,residual:pron0-pron,flex,dev,elbowFlex,humeral,H,pN,fN,tN}
 }
 
 function cost(r,opts,colliders){
@@ -61,15 +99,30 @@ function cost(r,opts,colliders){
  const lim=(v,pos,neg)=>v>=0?v/pos:-v/neg,over=(v,pos,neg)=>Math.max(0,v-pos,-v-neg)
  let c=lim(flex,L.flexion,L.extension)**2+lim(dev,L.radial,L.ulnar)**2+.6*lim(pron,L.pronation,L.supination)**2
  c+=4*(over(flex,L.flexion,L.extension)/10)**2+4*(over(dev,L.radial,L.ulnar)/10)**2+4*(over(pron,L.pronation,L.supination)/10)**2
+ // Shoulder rotation has a range too: without this an elbow may turn across the body or up to save the wrist, or a
+ // nearly straight arm may roll the whole upper arm round and undo it with the forearm (a wrung-out arm).
+ const hum=r.humeral
+ c+=.6*lim(hum,L.externalRotation,L.internalRotation)**2+4*(over(hum,L.externalRotation,L.internalRotation)/10)**2
  if(opts.elbowHint)c+=(opts.elbowWeight??.6)*(1-r.o.dot(opts.elbowHint))
  const high=r.o.dot(UP);if(high>(opts.elbowRaise??.25))c+=2.5*(high-(opts.elbowRaise??.25))**2
  if(colliders?.length){
-  const margin=opts.margin??.015
-  for(const p of [r.elbow,r.elbow.clone().lerp(opts.shoulder,.5),r.elbow.clone().lerp(opts.wrist,.5)]){const d=minClearance(p,colliders,opts.skipCollider).distance;if(d<margin)c+=25*((margin-d)/Math.max(margin,.01))**2}
+  // Comfort gap (margin) costs a little; real penetration (past `sink`, default 2 cm into the measured skin, which
+  // includes loose clothing such as a hoodie hem) costs a lot, up to a cap. An arm resting against the body is normal; twisting
+  // the whole arm to keep a sleeve off the clothes is not.
+  const margin=opts.margin??.015,sink=opts.sink??.02
+  for(const p of [r.elbow,r.elbow.clone().lerp(opts.shoulder,.5),r.elbow.clone().lerp(opts.wrist,.5)]){
+   const d=minClearance(p,colliders,opts.skipCollider).distance
+   if(d<margin)c+=.8*Math.min(1,(margin-d)/(margin+sink))**2
+   // Saturates (at 8) so that a penetration no elbow direction can avoid (a hanging arm against a body whose width
+   // is only estimated) cannot pick the swivel by millimetres and wring the arm.
+   if(d<-sink)c+=8*(1-Math.exp(-(((-sink-d)/.015)**2)))
+  }
  }
  if(Number.isFinite(opts.previousSwivel)){const d=wrapAngle(r.phi-opts.previousSwivel)/(30*DEG);c+=(opts.continuity??.8)*d*d}
  // Joint-space plan between keys: stay near the planned elbow swivel and forearm roll.
- if(opts.plan){const ds=wrapAngle(r.phi-opts.plan.swivel)/(40*DEG),dp=(r.pron0-opts.plan.pronation)/(35*DEG);c+=(opts.planWeight??1.2)*(ds*ds+dp*dp)}
+ // Mid-transition (blend near 1) the plan pulls harder, so the solver follows the planned path instead of lagging in
+ // its old valley and catching up in one frame.
+ if(opts.plan){const ds=wrapAngle(r.phi-opts.plan.swivel)/(40*DEG),dp=(r.pron0-opts.plan.pronation)/(35*DEG);c+=(opts.planWeight??1.2)*(1+2*clamp(opts.plan.blend??0,0,1))*(ds*ds+dp*dp)}
  return c
 }
 
@@ -91,7 +144,7 @@ export function solveArm(rig,info,side,target,opts={}){
  const H=target.hand,local={...opts,shoulder:s,wrist:wc}
  const samples=opts.samples??36
  let best=null,bestCost=Infinity
- const consider=phi=>{const r=analyze(info,side,s,wc,L1,L2,n,e1,e2,h,along,phi,H,local),c=cost(r,local,opts.colliders);if(c<bestCost){bestCost=c;best=r}return c}
+ const consider=phi=>{const r=analyze(info,side,s,wc,L1,L2,n,e1,e2,h,along,phi,H,local),c=cost(r,local,opts.colliders);opts.trace?.push({phi,cost:c,r,clearance:opts.trace&&opts.colliders?.length?minClearance(r.elbow,opts.colliders,opts.skipCollider):null});if(c<bestCost){bestCost=c;best=r}return c}
  // Continuity first: with a previous swivel, follow the nearest valley (±window) instead
  // of jumping to a distant global minimum; first frames search the whole circle.
  // If the local valley turns bad (a joint limit is being crossed), switch to the
@@ -112,7 +165,9 @@ export function solveArm(rig,info,side,target,opts={}){
  const r=best,limb=info.limbs[side],hand=info.hands[side],split=clamp(opts.twistSplit??1,0,1)
  setWorldRotation(upper,frameToWorld(rig,upper,r.Fu,limb.upperRest))
  setWorldRotation(lower,frameToWorld(rig,lower,r.Ff0.clone().multiply(new Quaternion().setFromAxisAngle(Y,r.rho*split)),limb.foreRest))
- setWorldRotation(handBone,frameToWorld(rig,handBone,r.H,hand.rest))
+ // The hand shows what the wrist can do (opts.clampWrist === false keeps the requested frame, twist included).
+ const shown=opts.clampWrist===false?r.H:reachableHand(r.Ff,r.H,hand,r.pN,r.fN,r.tN,r.residual,r.flex,r.dev)
+ setWorldRotation(handBone,frameToWorld(rig,handBone,shown,hand.rest))
  const reached=point(handBone)
  const clearanceElbow=opts.colliders?.length?minClearance(r.elbow,opts.colliders,opts.skipCollider):{distance:null,key:null}
  return {
@@ -120,7 +175,9 @@ export function solveArm(rig,info,side,target,opts={}){
   reachErrorMm:reached.distanceTo(target.wrist)*1000,
   elbowFlexDeg:r.elbowFlex/DEG,
   pronationDeg:r.pron/DEG,requestedPronationDeg:r.pron0/DEG,residualTwistDeg:r.residual/DEG,
-  wristFlexDeg:r.flex/DEG,wristDeviationDeg:r.dev/DEG,
+  wristFlexDeg:r.flex/DEG,wristDeviationDeg:r.dev/DEG,humeralRotationDeg:r.humeral,
+  // How far the shown hand turned away from the requested one to stay within the wrist's range.
+  wristLimitedDeg:shown===r.H?0:2*Math.acos(clamp(Math.abs(shown.dot(r.H)),0,1))/DEG,
   elbowDirection:r.o.toArray(),elbowWorld:r.elbow.toArray(),
   elbowClearanceMm:clearanceElbow.distance==null?null:clearanceElbow.distance*1000,elbowNearest:clearanceElbow.key,
  }
