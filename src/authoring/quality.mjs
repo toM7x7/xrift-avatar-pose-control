@@ -7,10 +7,11 @@ import {captureBones,restoreBones} from '../vendor/render-pose.mjs'
 import {applyAuthoredPose} from './solve.mjs'
 import {authoringRig} from './rig.mjs'
 import {sampleAction,releaseDuration} from './clip.mjs'
+import {applyHeld,timelineDuration,timelineParams} from './prop.mjs'
 import {DEG} from './math.mjs'
 
 const SIDES=['left','right']
-export const DEFAULT_THRESHOLDS=Object.freeze({wristExtensionDeg:75,wristFlexionDeg:75,wristDeviationDeg:30,pronationDeg:85,residualTwistDeg:10,externalRotationDeg:90,internalRotationDeg:75,wristLimitedDeg:15,handReachErrorMm:5,handFrameErrorDeg:3,skinClearanceMm:-5,kneeFlexDeg:125,ankleDorsiflexionDeg:38,ankleLateralLeanDeg:22,kneeInwardDeg:12,footSlideMm:2,comMarginMm:20,neckTwistDeg:75,jointSpeedDegPerS:1400,swivelJumpDeg:45})
+export const DEFAULT_THRESHOLDS=Object.freeze({wristExtensionDeg:75,wristFlexionDeg:75,wristDeviationDeg:30,pronationDeg:85,residualTwistDeg:10,externalRotationDeg:90,internalRotationDeg:75,wristLimitedDeg:15,handReachErrorMm:5,propShortfallMm:5,handFrameErrorDeg:3,skinClearanceMm:-5,kneeFlexDeg:125,ankleDorsiflexionDeg:38,ankleLateralLeanDeg:22,kneeInwardDeg:12,footSlideMm:2,comMarginMm:20,neckTwistDeg:75,jointSpeedDegPerS:1400,swivelJumpDeg:45})
 
 /** Flatten one frame's solver result into scalar channels a reviewer can plot. */
 export function frameChannels(result){
@@ -40,8 +41,29 @@ function ballOfFoot(rig,info,side,out){
  foot.updateWorldMatrix(true,false);return foot.localToWorld(out.copy(local))
 }
 export function evaluateAction(rig,clip,{fps=60,holdFor=2.6,beamFor=1,heading=0,origin=null,hostPose=null,charge=1,options={}}={}){
- const info=authoringRig(rig),dt=1/fps,total=holdFor+releaseDuration(clip,beamFor)+.1
- const thresholds={...DEFAULT_THRESHOLDS,...(clip.quality??{})},state={}
+ const info=authoringRig(rig),total=holdFor+releaseDuration(clip,beamFor)+.1,state={}
+ return evaluateTimeline(rig,clip,{fps,total,hostPose,solve(t){
+  const clock=t<holdFor?{heldFor:t,releasedFor:null,charge}:{heldFor:holdFor,releasedFor:t-holdFor,charge,beamFor}
+  const frame=sampleAction(clip,info,clock)
+  return {frame,result:applyAuthoredPose(rig,frame,{heading,origin,state,...options})}
+ }})
+}
+/**
+ * Evaluate a held-prop clip (clip.prop, clip.phases, clip.timeline — see prop.mjs) over its scripted timeline:
+ * the upper body is solved over the host's legs every frame, exactly like the render-time driver of an item.
+ * Extra channels: propShortfallMm (how far the prop had to move to stay in the holding hand).
+ */
+export function evaluateHeld(rig,clip,{fps=60,heading=0,origin=null,hostPose=null,options={}}={}){
+ const total=timelineDuration(clip),state={}
+ return evaluateTimeline(rig,clip,{fps,total,hostPose,solve(t){
+  const held=applyHeld(rig,clip,timelineParams(clip,t),{heading,origin,state,...options})
+  return {frame:held.frame,result:held.metrics,channels:{propShortfallMm:held.shortfallMm}}
+ }})
+}
+/** The shared loop: host pose, solve, measure, restore — once per frame at a fixed dt. */
+function evaluateTimeline(rig,clip,{fps=60,total,hostPose=null,solve}){
+ const info=authoringRig(rig),dt=1/fps
+ const thresholds={...DEFAULT_THRESHOLDS,...(clip.quality??{})}
  const frames=[],posedBones=new Set()
  let prevFeet=null,prevLocal=null,prevSwivel={},maxSlide=0,maxSpeed={value:0,bone:null,t:0},maxJump={value:0,side:null,t:0}
  for(let i=0;i*dt<=total;i++){
@@ -49,10 +71,8 @@ export function evaluateAction(rig,clip,{fps=60,holdFor=2.6,beamFor=1,heading=0,
   if(hostPose)hostPose(t)
   rig.mesh.updateWorldMatrix(true,true)
   const snapshot=captureBones(rig.skeleton)
-  const clock=t<holdFor?{heldFor:t,releasedFor:null,charge}:{heldFor:holdFor,releasedFor:t-holdFor,charge,beamFor}
-  const frame=sampleAction(clip,info,clock)
-  const result=applyAuthoredPose(rig,frame,{heading,origin,state,...options})
-  const channels=frameChannels(result)
+  const {frame,result,channels:extra}=solve(t)
+  const channels={...frameChannels(result),...(extra??{})}
   // Static balance is judged on double support only; single-support frames are reported apart.
   if(SIDES.some(s=>(result.legs?.[s]?.liftMm??0)>5)){channels.singleSupportComMarginMm=channels.comMarginMm;delete channels.comMarginMm}
   // Planted feet must not slide: measured at the ball of the foot (stable under heel lifts), skipping stepping frames.
@@ -94,6 +114,7 @@ export function summarize(frames,thresholdsIn=DEFAULT_THRESHOLDS){
   ['internalRotationDeg',both('HumeralRotationDeg',Math.min).value==null?null:-both('HumeralRotationDeg',Math.min).value,both('HumeralRotationDeg',Math.min).at,'max'],
   ['wristLimitedDeg',both('WristLimitedDeg',Math.max).value,both('WristLimitedDeg',Math.max).at,'max'],
   ['handReachErrorMm',both('ReachErrorMm',Math.max).value,both('ReachErrorMm',Math.max).at,'max'],
+  ['propShortfallMm',worst('propShortfallMm').value,worst('propShortfallMm').at,'max'],
   ['handFrameErrorDeg',both('HandFrameErrorDeg',Math.max).value,both('HandFrameErrorDeg',Math.max).at,'max'],
   ['skinClearanceMm',both('SkinClearanceMm',Math.min).value,both('SkinClearanceMm',Math.min).at,'min'],
   ['kneeFlexDeg',both('KneeFlexDeg',Math.max).value,both('KneeFlexDeg',Math.max).at,'max'],

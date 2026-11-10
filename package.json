@@ -25,7 +25,10 @@
     "verify": "npm test && npm run build",
     "review:charge-wave": "node scripts/review-action.mjs specs/charge-wave.v1.json",
     "fit:charge-wave": "node scripts/fit-clip.mjs specs/charge-wave.v1.json",
-    "review:compat": "node scripts/review-compat.mjs specs/charge-wave.v1.json"
+    "review:compat": "node scripts/review-compat.mjs specs/charge-wave.v1.json",
+    "review:pump-gun": "node scripts/review-held.mjs specs/pump-gun.v1.json --poses",
+    "fit:pump-gun": "node scripts/fit-hold.mjs specs/pump-gun.v1.json",
+    "review:compat:pump-gun": "node scripts/review-compat.mjs specs/pump-gun.v1.json"
   },
   "peerDependencies": {
     "three": ">=0.183.1 <0.184.0"

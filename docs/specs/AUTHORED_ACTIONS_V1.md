@@ -68,6 +68,19 @@ XRiftアイテムは`selectActorRig`（`./xrift`）でアバターを見つけ�
 - `npm run review:compat`：自作骨格を21通り（命名7流派＋名前なし、指・首・上胸・鎖骨・つま先の欠け、ねじれ骨、-Z向き、骨軸の回転）に作り直し、同じ入口で見つけて全タイムラインを解く。同じ骨格の変種は基準と同じ姿勢（0.01mm以内）であることを確かめる。
 - Pose Studioの「骨の読み取り」：手元VRMをXRiftと同じ読み方で読めるか、VRM定義と同じ骨を選んだかを表示。
 
-## 7. 境界
+## 7. 持ち物を持つ動作（held prop）
+
+立ち止まって全身で構える動作とは別に、歩きながら両手で物を持つための仕組みです（`src/authoring/prop.mjs`、題材は [pump-gun.v1.json](../../specs/pump-gun.v1.json)）。
+
+- **上半身だけ**：`applyAuthoredPose(..., {lowerBody:'host'})`。骨盤と脚はホストの歩行・走り・ジャンプのまま。背骨はホストの骨盤の向きから作者の胸の向きへ配分し、鎖骨・腕・指を当てる。
+- **持ち物が主、手が従**：持ち物を体の座標に置く（`keys.<構え>.hold`：握る手のソケットを肩から `position`、向き `aim`。`unit:"arm"` で腕の長さに合わせる）。手の目標は持ち物のソケット（`prop.sockets`：位置・指の向き・手のひらの向き、`travel`＝動く向き、`turn`＝回る角度、`slip`＝握りの上で手が滑る割合）から作る。持ち物の座標は X=左・Y=上・Z=先端、実寸のメートル。
+- **振り付けは曲線**：`phases.<相>` に `pump`（支える手がソケットの `travel` を進む量）・`reach`（もう一つのソケットへ手を伸ばす量。弧を描いて持ち物をよける）・`lift`・`turn`・`stance`（2つの構えの混ぜ）・`trigger`（引き金の指）・`recoil`・`weight`、繰り返す相は `cycle`（1周期の曲線と、手がついて行く割合 `follow`）。利用側は自分の機構の「相と進み具合」を `heldParams(clip, phase, u, {cycle, pitch, recoil, high})` に渡す。検査は `timeline` に並べた相を同じ曲線で通す。
+- **視線**：`pitch`（度、上が正）で持ち物が回り、握る手は肩を中心に振れる（`pitchFollow`・`pitchSwing`）。下を見たとき手が腹に入らないよう持つ位置を逃がす（`lookDown`）。胸も一部倒す（`prop.torsoPitchShare`）。
+- **高い構え**：`high`（0..1）で `keys.high` の持ち方へ混ぜる。持っている本人が自分の目で見ているときだけ、利用側が上げる想定（他人の画面では腰だめのまま）。装填の構えの間は効かない。
+- **体ごとの調整**（`holdFit`、体とクリップごとに一度）：持ち物は実寸なので小さい体では支える手が届かない。①`prop.fit.scaleBelow` を下回る体では持ち物を体格の比で縮める（`minScale` まで）②胸をさらに回す（6°刻み・18°まで）③胸へ寄せる（1.5cm刻み・18cmまで）の順で、確認姿勢の全部で両腕が届き、肘が14°以上曲がっている最小の調整を選ぶ。
+- **解く**：`applyHeld(rig, clip, params, {heading, origin, groundY, state})` が1フレーム解き、持ち物のワールド姿勢（`prop`）と大きさ（`scale`）を返す。握る手が届かなかったぶんは持ち物の方が手へ寄る（`shortfallMm`）。`modelForward:'-z'`（既定）は three.js／glTF の「-Z が前」の模型用。
+- **検査**：`evaluateHeld`、`npm run review:pump-gun`（3体格＋静止姿勢の腕の数値）、`npm run fit:pump-gun`（持つ位置の格子探索）、`npm run review:compat:pump-gun`（骨格21変種）。
+
+## 8. 境界
 
 描画の姿勢だけを扱います。XRiftでの所有者の特定・同期・入力・カメラは利用側。VRでは手が追跡されるので、腕は`preserveHands`でホストの手へ届かせ、腕を上書きしない使い方を想定しています。剛体の接触や転倒を解く物理ではありません。

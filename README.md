@@ -25,6 +25,10 @@ clone後は `npm ci` → `npm run verify` → `npm run replay:n02`。replayは�
 
 ![charge-waveのキー（自作骨格）](docs/screenshots/charge-wave-fixture-keys-2026-11-05.png)
 
+歩きながら両手で持つ物（下半身はホストの歩行のまま、両手は持ち物の決まった場所へ）は `src/authoring/prop.mjs`。題材は塩を撃つポンプ式の玩具（[pump-gun.v1.json](specs/pump-gun.v1.json)）：構える・ポンプを引く・連射・フタを開けて足す。体格に合わせて持つ位置と持ち物の大きさを調整します。[仕組み（7章）](docs/specs/AUTHORED_ACTIONS_V1.md)・[実験記録（9回の試行、実VRM3体で手の未達0mm）](docs/experiments/pump-gun-2026-11-10.md)。`npm run review:pump-gun`・`npm run review:compat:pump-gun`。
+
+![pump-gun（木製人形、外からと本人の目）](docs/screenshots/pump-gun-mannequin-2026-11-10.jpg)
+
 ## 他の乗り姿勢を探す
 
 `npm run dev`後、[パターン比較画面](http://127.0.0.1:5228/patterns.html)で手元のVRMを読み込めます。18候補・7系統を比較し、支持の傾斜・見回し・幅・腰高・腕の役割などを変えて探索します。椅子座り／またがり／横座りの腰支持IKを追加しました。

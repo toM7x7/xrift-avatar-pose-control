@@ -2,7 +2,8 @@
 // make avatars (bone-name dialects, missing parts, twist bones, -Z bind, rolled bone axes), each found the way an
 // XRift item finds it (selectActorRig: names first, then names + skeleton shape near the feet), then the whole
 // press→hold→release timeline is evaluated. Naming-only variants must pose exactly like the reference body.
-// Usage: node scripts/review-compat.mjs [specs/charge-wave.v1.json] [--json artifacts/<id>-compat.json]
+// A held-prop clip (clip.prop, see src/authoring/prop.mjs) is staged with its still poses and its scripted timeline.
+// Usage: node scripts/review-compat.mjs [specs/charge-wave.v1.json | specs/pump-gun.v1.json] [--json artifacts/<id>-compat.json]
 import {readFileSync,writeFileSync,mkdirSync} from 'node:fs'
 import {Scene,Group,Vector3} from 'three'
 import {createDetailedPoseFixture} from '../src/vendor/detailed-fixture.mjs'
@@ -11,7 +12,8 @@ import {selectActorRig} from '../src/adapters/xrift.mjs'
 import {authoringRig} from '../src/authoring/rig.mjs'
 import {applyAuthoredPose} from '../src/authoring/solve.mjs'
 import {sampleAction} from '../src/authoring/clip.mjs'
-import {evaluateAction} from '../src/authoring/quality.mjs'
+import {evaluateAction,evaluateHeld} from '../src/authoring/quality.mjs'
+import {HELD_REST,applyHeld} from '../src/authoring/prop.mjs'
 
 export const COMPAT_VARIANTS=[
  // [id, fixture options, same skeleton as the reference (pose must match exactly)]
@@ -24,6 +26,7 @@ export const COMPAT_VARIANTS=[
 ]
 const ROLES=['hips','head','leftUpperArm','leftLowerArm','leftHand','rightUpperArm','rightLowerArm','rightHand','leftUpperLeg','leftLowerLeg','leftFoot','rightUpperLeg','rightLowerLeg','rightFoot']
 const SAMPLES=[[.3,null],[.65,null],[1.6,null],[3,null],[3,.1],[3,.6],[3,1.4]]
+const HELD_SAMPLES=[{},{pump:1},{pump:.5,recoil:1,trigger:1},{reach:.5,stance:.5},{reach:1,stance:1},{reach:1,stance:1,lift:1,turn:1},{pitch:40},{pitch:-35}]
 
 /** Stage one variant at a feet point, select it like an item does, and sample a few clock points. */
 export function stageVariant(clip,options,{feet=new Vector3(.4,0,-.7),scale=1}={}){
@@ -33,9 +36,13 @@ export function stageVariant(clip,options,{feet=new Vector3(.4,0,-.7),scale=1}={
  const selection=selectActorRig({scene,userId:'me',isLocal:true,feet})
  if(selection.status!=='ready')return {f,scene,selection}
  const rolesCorrect=ROLES.every(role=>selection.rig.bones[role]===f.bones[role]),rig=prepareRig(selection.rig),info=authoringRig(rig),state={}
- const samples=SAMPLES.map(([heldFor,releasedFor])=>{
+ const pose=clip.prop
+  // A held prop is posed over the host's own legs, so it faces the way the host stands (+Z here), not a heading of its own.
+  ?params=>applyHeld(rig,clip,{...HELD_REST,...params},{heading:0,origin:feet,groundY:feet.y,state}).metrics
+  :([heldFor,releasedFor])=>applyAuthoredPose(rig,sampleAction(clip,info,{heldFor,releasedFor,charge:1,beamFor:1.2}),{heading:Math.PI,origin:feet,groundY:feet.y,headMode:'host',state})
+ const samples=(clip.prop?HELD_SAMPLES:SAMPLES).map(sample=>{
   f.idle(0);scene.updateMatrixWorld(true)
-  const metrics=applyAuthoredPose(rig,sampleAction(clip,info,{heldFor,releasedFor,charge:1,beamFor:1.2}),{heading:Math.PI,origin:feet,groundY:feet.y,headMode:'host',state})
+  const metrics=pose(sample)
   return {joints:Object.fromEntries(ROLES.map(role=>[role,f.bones[role].getWorldPosition(new Vector3())])),metrics}
  })
  return {f,scene,selection,rolesCorrect,rig,info,samples}
@@ -43,13 +50,13 @@ export function stageVariant(clip,options,{feet=new Vector3(.4,0,-.7),scale=1}={
 export function deviationMm(a,b){let d=0;a.samples.forEach((s,i)=>{for(const role of ROLES)d=Math.max(d,s.joints[role].distanceTo(b.samples[i].joints[role]))});return d*1000}
 
 if(import.meta.url===`file:///${process.argv[1].replace(/\\/g,'/').replace(/^\//,'')}`){
- const args=process.argv.slice(2),jsonAt=args.indexOf('--json'),path=args.find((a,i)=>!a.startsWith('--')&&i!==jsonAt+1)??'specs/charge-wave.v1.json'
+ const args=process.argv.slice(2),jsonAt=args.indexOf('--json'),path=args.find((a,i)=>!a.startsWith('--')&&(jsonAt<0||i!==jsonAt+1))??'specs/charge-wave.v1.json'
  const clip=JSON.parse(readFileSync(path,'utf8')),reference=stageVariant(clip,{}),rows=[]
  let failed=0
  for(const [id,options,same] of COMPAT_VARIANTS){
   const v=stageVariant(clip,options)
   if(v.selection.status!=='ready'){failed++;rows.push({id,status:v.selection.status,diagnosis:v.selection.diagnosis});console.log(id.padEnd(22),'NOT POSED',v.selection.status,v.selection.diagnosis?.reason??'');v.f.dispose();continue}
-  const e=evaluateAction(v.rig,clip,{hostPose:t=>v.f.idle(t),holdFor:2.6,beamFor:1,charge:.91})
+  const e=clip.prop?evaluateHeld(v.rig,clip,{hostPose:t=>v.f.idle(t),heading:0,origin:new Vector3(.4,0,-.7)}):evaluateAction(v.rig,clip,{hostPose:t=>v.f.idle(t),holdFor:2.6,beamFor:1,charge:.91})
   const dev=deviationMm(v,reference),reach=Math.max(...v.samples.flatMap(s=>Object.values(s.metrics.arms).map(a=>a?.reachErrorMm??0)))
   const ok=v.rolesCorrect&&reach<1&&(!same||dev<.01)
   if(!ok)failed++

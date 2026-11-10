@@ -6,3 +6,5 @@ export const DEFAULT_THRESHOLDS:Readonly<Record<string,number>>
 export function frameChannels(result:AuthoredPoseMetrics):Record<string,number>
 export function summarize(frames:EvaluatedFrame[],thresholds?:Record<string,unknown>):{verdicts:Verdict[];score:string}
 export function evaluateAction(rig:PreparedRig,clip:ActionClip,options?:{fps?:number;holdFor?:number;beamFor?:number;heading?:number;origin?:unknown;hostPose?:((t:number)=>void)|null;charge?:number;options?:AuthoredPoseOptions}):{frames:EvaluatedFrame[];verdicts:Verdict[];score:string;maxSlide:number;maxSpeed:{value:number;bone:string|null;t:number};maxJump:{value:number;side:string|null;t:number};thresholds:Record<string,unknown>;total:number}
+/** Evaluate a held-prop clip (clip.prop / clip.phases / clip.timeline) over its scripted timeline, upper body over the host's legs. */
+export function evaluateHeld(rig:PreparedRig,clip:object,options?:{fps?:number;heading?:number;origin?:unknown;hostPose?:((t:number)=>void)|null;options?:AuthoredPoseOptions}):ReturnType<typeof evaluateAction>

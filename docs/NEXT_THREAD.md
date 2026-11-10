@@ -1,5 +1,9 @@
 # 次のスレッドへ
 
+## 2026-11-10：持ち物を持つ動作（pump-gun）
+
+[実験記録](experiments/pump-gun-2026-11-10.md)と[仕組み（7章）](specs/AUTHORED_ACTIONS_V1.md)から。`npm run review:pump-gun`（17/17・17/17・16/17）と `npm run review:compat:pump-gun`（21/21）で数値を再現してから触る。持つ位置を変えるときは `npm run fit:pump-gun -- --x a:b:step --y ... --z ...` で関節の余裕を見てから。見た目は items/shio-machinegun の検証ページ（`node scripts/pose-look.mjs [--vrm <手元VRM>]`、撮影は非公開）。残り：実XRift（一人称で自分の腕が見えるか、カメラモード、他者視点、Quest）、歩行中のホスト姿勢の上での揺れ、Pose Studio が持ち物のクリップを表示できない、大きい体の高い構えで下を見たときの尺屈。
+
 ## 2026-11-06：腕の可動域
 
 腕を触る前に `node scripts/arm-anatomy.mjs --vrm <手元VRM> ...`（骨から実測）と `node scripts/hand-closeup.mjs` で今の腕を見る。解き方が報告する値（`requestedPronationDeg` など）だけでは、肩のねじれや当たり判定由来のねじれは見えない。残り：A02の比率推定の当たり・重心、実XRiftで他人から見た腕。

@@ -1,5 +1,14 @@
 # Changelog
 
+## 持ち物を持つ動作（上半身だけ・両手を持ち物へ）とポンプ式の玩具 — 2026-11-10
+
+- `applyAuthoredPose` に `lowerBody:'host'`：骨盤と脚はホストの歩行のまま、背骨・鎖骨・腕・指だけを当てる。既定の全身の解き方は変更なし。`bodyScale(rig)`（体の単位）を公開。
+- `src/authoring/prop.mjs`：持ち物を体の座標に置き、持ち物のソケット（位置・指と手のひらの向き・動く向き・回る角度・握りの上での滑り）から両手の目標を作る `placeProp`／`socketTarget`／`sampleHeld`／`applyHeld`／`propWorld`。相ごとの振り付けは曲線（`heldParams`・`timelineParams`）。体ごとの調整 `holdFit`（持ち物を縮める→胸を回す→胸へ寄せる）。自分の目で見るときの高い構え（`high`）。
+- `evaluateHeld`（`evaluateAction` とループを共有）と品質の項目 `propShortfallMm`。`scripts/review-held.mjs`・`scripts/fit-hold.mjs`、`npm run review:pump-gun`／`fit:pump-gun`／`review:compat:pump-gun`。
+- `scripts/review-compat.mjs`：持ち物のクリップにも対応。`--json` を付けないとスペックの指定が無視されて常に charge-wave を検査していたのを修正。
+- 題材 `specs/pump-gun.v1.json`（構える・ポンプを引く・連射・フタを開けて足す）：自作骨格 17/17・17/17・16/17、互換 21/21、実VRM3体＋木製人形で全相の手の未達 0.00mm。[実験記録](docs/experiments/pump-gun-2026-11-10.md)。
+- N02 1.0.0・charge-wave（22/22）・既存プリセットは変更なし。テスト187件。
+
 ## 腕の可動域（肩の回旋・手首）と放ちの手 — 2026-11-06
 
 - 腕の解き方に肩の回旋（上腕のねじれ、外旋90°・内旋75°）の範囲を追加（`humeralRotation`、`ARM_LIMITS.externalRotation/internalRotation`）。これまで肩はどれだけねじっても罰が無く、放ちの下の手で右肘が体の内側・上を向く（±180°で人には不可能）解や、ほぼ伸びた腕を上腕ごと回して前腕で打ち消す「絞った雑巾」の腕が選ばれていた。
