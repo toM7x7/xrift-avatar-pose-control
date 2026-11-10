@@ -4,6 +4,8 @@
 // automatic pelvis drop/raise, knees tracking the toes, swivel-searched arms
 // reaching two-hand contact targets, and fingers. Mutates only the rig; the
 // caller owns the restore transaction (attachPoseDriver does that).
+// lowerBody:'host' keeps the host's pelvis and legs (walking, running, jumping
+// go on) and poses only the spine, clavicles, arms and fingers over them.
 import {Quaternion,Vector3} from 'three'
 import {authoringRig} from './rig.mjs'
 import {solveArm,minClearance} from './arm.mjs'
@@ -19,11 +21,11 @@ function hostHandFrame(rig,info,side){
  const bone=rig.bones[side+'Hand'],w=bone.getWorldQuaternion(new Quaternion())
  return w.multiply(rig.restRotations.get(bone).clone().invert()).multiply(rig.restBasis).multiply(info.hands[side].rest)
 }
-function collectPosed(rig,info){
- const b=rig.bones,set=new Set([b.hips,...info.torso,b.neck,b.head].filter(Boolean))
+function collectPosed(rig,info,upperOnly=false){
+ const b=rig.bones,set=new Set([upperOnly?null:b.hips,...info.torso,b.neck,b.head].filter(Boolean))
  for(const [s] of SIDES){
-  for(const r of ['UpperArm','LowerArm','Hand','UpperLeg','LowerLeg','Foot'])set.add(b[s+r])
-  if(info.shoulders[s])set.add(info.shoulders[s]);if(info.toes[s])set.add(info.toes[s])
+  for(const r of upperOnly?['UpperArm','LowerArm','Hand']:['UpperArm','LowerArm','Hand','UpperLeg','LowerLeg','Foot'])set.add(b[s+r])
+  if(info.shoulders[s])set.add(info.shoulders[s]);if(info.toes[s]&&!upperOnly)set.add(info.toes[s])
   for(const f of info.hands[s].fingers)f.bones.forEach(x=>set.add(x))
  }
  const depth=bone=>{let n=0;for(let p=bone.parent;p;p=p.parent)n++;return n}
@@ -44,22 +46,31 @@ export function buildColliders(rig,info,scale){
  return out
 }
 
+/** World metres per bind unit (`scale`) and per body metre (`k`) for this rig as it stands now. */
+export function bodyScale(rig,info=authoringRig(rig)){
+ const b=rig.bones,scale=point(b.leftUpperArm).distanceTo(point(b.leftLowerArm))/info.limbs.left.upperLength
+ return {scale,k:info.hipHeight*scale/REFERENCE_HIP_HEIGHT}
+}
+/** The world rotation of a bone as an anatomical frame (X left, Y up, Z forward where the rest pose faced forward). */
+const anatomicalWorld=(rig,bone)=>bone.getWorldQuaternion(new Quaternion()).multiply(rig.restRotations.get(bone).clone().invert()).multiply(rig.restBasis)
+
 /**
  * pose: resolved frame (body metres, degrees, anatomical X=left Y=up Z=forward).
  * options: {heading (rad, 0 = facing +Z), origin (world ground point), groundY,
  *   headMode ('host' keeps the host head rotation), state (mutable object for continuity),
- *   twistSplit, colliders (default true), preserveHands (VR: reach the host hands)}
+ *   twistSplit, colliders (default true), preserveHands (VR: reach the host hands),
+ *   lowerBody ('host' keeps the host's pelvis and legs and poses only the upper body over them)}
  */
 export function applyAuthoredPose(rig,pose,options={}){
  const info=authoringRig(rig),b=rig.bones,state=options.state??{}
  const weight=clamp(finite(pose.weight,1),0,1)
- const posed=collectPosed(rig,info)
+ const upperOnly=(options.lowerBody??pose.lowerBody)==='host'
+ const posed=collectPosed(rig,info,upperOnly)
  const host=new Map(posed.map(bone=>[bone,{q:bone.quaternion.clone(),p:bone.position.clone()}]))
  const hostHead={p:point(b.head),q:b.head.getWorldQuaternion(new Quaternion())}
  const preserveHands=options.preserveHands||pose.hands?.mode==='host'
  const hostHands=preserveHands?Object.fromEntries(SIDES.map(([s])=>[s,{wrist:point(b[s+'Hand']),hand:hostHandFrame(rig,info,s)}])):null
- const scale=point(b.leftUpperArm).distanceTo(point(b.leftLowerArm))/info.limbs.left.upperLength
- const k=info.hipHeight*scale/REFERENCE_HIP_HEIGHT
+ const {scale,k}=bodyScale(rig,info)
  const heading=new Quaternion().setFromAxisAngle(UP,finite(options.heading,0))
  const hostAnkle=Math.min(point(b.leftFoot).y,point(b.rightFoot).y)
  const groundY=Number.isFinite(options.groundY)?options.groundY:options.origin?v3(options.origin).y:hostAnkle-info.ankleHeight*scale
@@ -70,12 +81,14 @@ export function applyAuthoredPose(rig,pose,options={}){
  // Reset translations of posed bones to the bind layout (host may have moved them).
  for(const bone of posed)if(bone!==b.hips&&rig.restWorld.has(bone.parent))bone.position.copy(rig.restLocal.get(bone).position)
 
- // 1. Pelvis.
- const pelvisA=rot(pose.pelvis?.rot)
- setWorldRotation(b.hips,anatomicalToWorld(rig,b.hips,heading,pelvisA))
- const pelvisOffset=v3(pose.pelvis?.offset)
- const pelvisTarget=body(pelvisOffset).add(new Vector3(0,info.hipHeight*scale,0))
- setWorldPosition(b.hips,pelvisTarget)
+ // 1. Pelvis. Over a host lower body the pelvis stays where the host put it; the spine starts from its rotation.
+ const pelvisA=upperOnly?heading.clone().invert().multiply(anatomicalWorld(rig,b.hips)):rot(pose.pelvis?.rot)
+ if(!upperOnly){
+  setWorldRotation(b.hips,anatomicalToWorld(rig,b.hips,heading,pelvisA))
+  const pelvisOffset=v3(pose.pelvis?.offset)
+  const pelvisTarget=body(pelvisOffset).add(new Vector3(0,info.hipHeight*scale,0))
+  setWorldPosition(b.hips,pelvisTarget)
+ }
 
  // 2. Torso chain: slerp from pelvis toward the authored chest rotation.
  const torsoA=rot(pose.torso?.rot),n=info.torso.length,weights=pose.torso?.weights
@@ -104,7 +117,15 @@ export function applyAuthoredPose(rig,pose,options={}){
  // 5. Feet planted on the ground; pelvis drops if a foot is out of reach, rises if a knee folds too far.
  const maxExt=clamp(finite(pose.legs?.maxExtension,.985),.8,.9995),maxKnee=clamp(finite(pose.legs?.maxKnee,128),60,165)*DEG
  const feet={}
- for(const [side,sign] of SIDES){
+ // Host lower body: the feet are where the host animation has them (only measured, for balance and slide).
+ if(upperOnly)for(const [side] of SIDES){
+  const foot=b[side+'Foot'],ankle=point(foot),forward=new Vector3(0,0,1).applyQuaternion(anatomicalWorld(rig,foot)).setY(0)
+  if(forward.lengthSq()<1e-8)forward.copy(bodyDir(new Vector3(0,0,1)));forward.normalize()
+  const yawQ=new Quaternion().setFromUnitVectors(new Vector3(0,0,1),forward),lateral=new Vector3(1,0,0).applyQuaternion(yawQ)
+  const toeJoint=info.toes[side]?point(info.toes[side]):ankle.clone().add(info.legs[side].toeLocal.clone().multiplyScalar(scale).applyQuaternion(yawQ))
+  feet[side]={ground:new Vector3(ankle.x,groundY,ankle.z),yawQ,heel:0,lift:Math.max(0,ankle.y-groundY-info.ankleHeight*scale*1.6),ankle,toeJoint,lateral,forward}
+ }
+ for(const [side,sign] of upperOnly?[]:SIDES){
   const spec=pose.feet?.[side]??{},pos=Array.isArray(spec.pos)?spec.pos:[sign*.11,0]
   const ground=body(new Vector3(finite(pos[0]),0,finite(pos[1])))
   let yawQ=heading.clone().multiply(new Quaternion().setFromAxisAngle(UP,sign*finite(spec.toeOut,8)*DEG))
@@ -133,7 +154,7 @@ export function applyAuthoredPose(rig,pose,options={}){
   feet[side]={ground,yawQ,heel,lift,ankle,toeJoint,lateral,forward:new Vector3(0,0,1).applyQuaternion(yawQ)}
  }
  let pelvisDropM=0
- {
+ if(!upperOnly){
   let drop=0,raise=0
   for(const [side] of SIDES){
    const hip=point(b[side+'UpperLeg']),leg=info.legs[side],L1=leg.thighLength*scale,L2=leg.shinLength*scale
@@ -145,9 +166,9 @@ export function applyAuthoredPose(rig,pose,options={}){
   pelvisDropM=drop>0?drop:-raise
   if(pelvisDropM)setWorldPosition(b.hips,point(b.hips).add(new Vector3(0,-pelvisDropM,0)))
  }
- const legMetrics={}
+ const legMetrics={left:null,right:null}
  const kneeOut=finite(pose.knees?.out,8)
- for(const [side,sign] of SIDES){
+ for(const [side,sign] of upperOnly?[]:SIDES){
   const f=feet[side],leg=info.legs[side],thigh=b[side+'UpperLeg'],shin=b[side+'LowerLeg'],foot=b[side+'Foot']
   const hip=point(thigh),L1=leg.thighLength*scale,L2=leg.shinLength*scale
   const dir=f.ankle.clone().sub(hip),dist=dir.length(),dc=clamp(dist,Math.abs(L1-L2)+1e-4,(L1+L2)*(1-1e-4));dir.normalize()
@@ -226,7 +247,7 @@ export function applyAuthoredPose(rig,pose,options={}){
  // 8. Blend with the host pose (enter/exit). Local-space slerp, root to leaves.
  if(weight<1){
   for(const bone of posed){const h=host.get(bone);bone.quaternion.copy(h.q.clone().slerp(bone.quaternion,weight));bone.position.copy(h.p.clone().lerp(bone.position,weight))}
-  b.hips.updateWorldMatrix(true,true)
+  ;(upperOnly?info.torso[0]??b.hips:b.hips).updateWorldMatrix(true,true)
  }
  rig.skeleton.update()
  const metrics=measureAuthoredPose(rig,info,{scale,k,heading,origin,groundY,feet,colliders:options.colliders===false?[]:buildColliders(rig,info,scale),armMetrics,legMetrics,fingerMetrics,handTargets,hostHead,headMode,pelvisDropM,weight})
