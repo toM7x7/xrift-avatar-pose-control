@@ -3,6 +3,7 @@
 // animation), so a hand looks the same on every avatar that has finger bones.
 import {Matrix4,Quaternion,Vector3} from 'three'
 import {DEG,clamp,setWorldRotation} from './math.mjs'
+import {worldQuaternionOf} from '../world.mjs'
 
 const NAMES=['thumb','index','middle','ring','little']
 // Share of the total curl taken by proximal / intermediate / distal joints.
@@ -18,7 +19,7 @@ export function poseFingers(rig,info,side,fingers){
  if(!fingers)return {posed:0}
  const hand=rig.bones[side+'Hand'],h=info.hands[side]
  if(!h.fingers.length)return {posed:0,reason:'no-finger-bones'}
- const handW=hand.getWorldQuaternion(new Quaternion())
+ const handW=worldQuaternionOf(hand,new Quaternion())
  // World ← bind delta of the hand: bind-space directions map through it.
  const delta=handW.clone().multiply(rig.restRotations.get(hand).clone().invert())
  const toWorld=v=>v.clone().applyQuaternion(rig.restBasis).applyQuaternion(delta)

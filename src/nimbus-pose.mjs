@@ -1,11 +1,12 @@
 import {Matrix4,Quaternion,Vector3} from 'three'
 import {applyStandingPose} from './standing.mjs'
 import {captureBones,restoreBones} from './vendor/render-pose.mjs'
+import {intoLocal,settle,skinUpdate,solving,worldPositionOf,worldQuaternionOf} from './world.mjs'
 
-const point=bone=>bone.getWorldPosition(new Vector3())
+const point=bone=>worldPositionOf(bone,new Vector3())
 const safe=(value,fallback,min,max)=>Number.isFinite(value)?Math.max(min,Math.min(max,value)):fallback
 const sides=[[1,'left'],[-1,'right']]
-function worldRotation(bone,q){const parent=bone.parent?.getWorldQuaternion(new Quaternion())??new Quaternion();bone.quaternion.copy(parent.invert().multiply(q));bone.updateWorldMatrix(true,true)}
+function worldRotation(bone,q){const parent=(bone.parent?worldQuaternionOf(bone.parent,new Quaternion()):new Quaternion());bone.quaternion.copy(parent.invert().multiply(q));settle(bone,true,true)}
 function segmentFrame(direction,lateral){
  const y=direction.clone().normalize(),x=lateral.clone().addScaledVector(y,-lateral.dot(y))
  if(x.lengthSq()<1e-10){x.set(0,0,1);x.addScaledVector(y,-x.dot(y));if(x.lengthSq()<1e-10){x.set(1,0,0);x.addScaledVector(y,-x.dot(y))}}
@@ -34,21 +35,22 @@ function measureWorldSupport(rig,result,origin,q,source){
 }
 
 /** With a support frame, solve in its orthonormal coordinates then restore every world output. */
-export function applyNimbusPose(rig,options={}){
+export function applyNimbusPose(rig,options){return solving(rig,()=>nimbusPose(rig,options))}
+function nimbusPose(rig,options={}){
  if(!options.supportFrame){
   const result=applyNimbusPoseInFrame(rig,options),origin=new Vector3(0,result.contactPlaneY,0),q=new Quaternion().setFromAxisAngle(up,result.cloudHeading)
   return measureWorldSupport(rig,result,origin,q,'legacy-horizontal-world-projection')
  }
  const origin=coordinate(options.supportFrame.position),q=supportQuaternion(options.supportFrame.quaternion),inverse=q.clone().invert(),localPoint=value=>coordinate(value).sub(origin).applyQuaternion(inverse),worldPoint=value=>new Vector3().fromArray(value).applyQuaternion(q).add(origin).toArray(),worldDirection=value=>new Vector3().fromArray(value).applyQuaternion(q).toArray()
- const snapshot=captureBones(rig.skeleton),originalHead=point(rig.bones.head),originalHeadQ=rig.bones.head.getWorldQuaternion(new Quaternion())
+ const snapshot=captureBones(rig.skeleton),originalHead=point(rig.bones.head),originalHeadQ=worldQuaternionOf(rig.bones.head,new Quaternion())
  try{
-  const hipPosition=point(rig.bones.hips).sub(origin).applyQuaternion(inverse),hipRotation=rig.bones.hips.getWorldQuaternion(new Quaternion()).premultiply(inverse)
+  const hipPosition=point(rig.bones.hips).sub(origin).applyQuaternion(inverse),hipRotation=worldQuaternionOf(rig.bones.hips,new Quaternion()).premultiply(inverse)
   worldRotation(rig.bones.hips,hipRotation);translate(rig.bones.hips,hipPosition.sub(point(rig.bones.hips)))
   const localTargets=options.footTargetsWorld?.map(localPoint),result=applyNimbusPoseInFrame(rig,{...options,heading:0,footTargetsWorld:localTargets,supportHeight:Number.isFinite(options.supportHeight)?options.supportHeight:options.supportSoleOffsetM??0,_supportWorldUp:up.clone().applyQuaternion(inverse),_contactPlaneY:0})
-  const hip=point(rig.bones.hips).applyQuaternion(q).add(origin),rotation=rig.bones.hips.getWorldQuaternion(new Quaternion()).premultiply(q)
-  worldRotation(rig.bones.hips,rotation);translate(rig.bones.hips,hip.sub(point(rig.bones.hips)));rig.skeleton.update()
+  const hip=point(rig.bones.hips).applyQuaternion(q).add(origin),rotation=worldQuaternionOf(rig.bones.hips,new Quaternion()).premultiply(q)
+  worldRotation(rig.bones.hips,rotation);translate(rig.bones.hips,hip.sub(point(rig.bones.hips)));skinUpdate(rig.skeleton)
   result.headWorld=worldPoint(result.headWorld);result.feetWorld=result.feetWorld.map(worldPoint);result.footTargetsWorld=result.footTargetsWorld.map(worldPoint);result.bodyBalance.hipsWorld=worldPoint(result.bodyBalance.hipsWorld)
-  result.headDriftMm=point(rig.bones.head).distanceTo(originalHead)*1000;result.headRotationErrorDegrees=degrees(rig.bones.head.getWorldQuaternion(new Quaternion()).angleTo(originalHeadQ))
+  result.headDriftMm=point(rig.bones.head).distanceTo(originalHead)*1000;result.headRotationErrorDegrees=degrees(worldQuaternionOf(rig.bones.head,new Quaternion()).angleTo(originalHeadQ))
   result.ankleNormalHeightSpreadMm=result.ankleHeightSpreadMm;result.ankleHeightSpreadMm=Math.abs(result.feetWorld[0][1]-result.feetWorld[1][1])*1000
   result.supportHeight=(result.footTargetsWorld[0][1]+result.footTargetsWorld[1][1])*.5;result.contactPlaneY=origin.y
   result.cloudHeading=yawOf(q);result.bodyHeading=yawOf(anatomical(rig,'hips'));result.bodyBalance.coordinateSpace='support-frame';result.bodyBalance.uprightBlendPolicy={pelvis:.30,chest:.65,neck:.85}
@@ -62,7 +64,7 @@ export function applyNimbusPose(rig,options={}){
   if(proxy.zeroMomentPointWorld)proxy.zeroMomentPointWorld=worldPoint(proxy.zeroMomentPointWorld)
   proxy.footHullWorld=proxy.footHull2D.map(([x,z])=>worldPoint([x,0,z]));proxy.coordinateSpace='support-frame';proxy.contactPlaneY=origin.y
   return measureWorldSupport(rig,result,origin,q,'explicit-support-frame')
- }catch(error){restoreBones(snapshot);rig.skeleton.update();throw error}
+ }catch(error){restoreBones(snapshot);skinUpdate(rig.skeleton);throw error}
 }
 function alignSegment(rig,role,direction,lateral){const rest=rig.legFrames[role];worldRotation(rig.bones[role],segmentFrame(direction,lateral).multiply(rest.frame.clone().invert()).multiply(rest.rotation))}
 const armReferences=new WeakMap()
@@ -85,7 +87,7 @@ function armReference(rig,side){
  return references[side]={frames,palm,finger,handFrame:segmentFrame(finger,palm),forearmFrame:segmentFrame(origin.clone().sub(restPoint(rig.bones[side+'LowerArm'])),palm),lowerToHand:rig.restRotations.get(rig.bones[side+'LowerArm']).clone().invert().multiply(rig.restRotations.get(hand)),palmReferenceSource}
 }
 function alignArm(rig,role,direction,normal,reference){worldRotation(rig.bones[role],segmentFrame(direction,normal).multiply(reference.frames[role].clone().invert()).multiply(rig.restRotations.get(rig.bones[role])))}
-function aim(bone,child,target){const start=point(bone),from=point(child).sub(start),to=target.clone().sub(start);if(from.lengthSq()<1e-12||to.lengthSq()<1e-12)return;worldRotation(bone,new Quaternion().setFromUnitVectors(from.normalize(),to.normalize()).multiply(bone.getWorldQuaternion(new Quaternion())))}
+function aim(bone,child,target){const start=point(bone),from=point(child).sub(start),to=target.clone().sub(start);if(from.lengthSq()<1e-12||to.lengthSq()<1e-12)return;worldRotation(bone,new Quaternion().setFromUnitVectors(from.normalize(),to.normalize()).multiply(worldQuaternionOf(bone,new Quaternion())))}
 function solve(upper,lower,end,target,pole,applyUpper,applyLower){
  const start=point(upper),l1=start.distanceTo(point(lower)),l2=point(lower).distanceTo(point(end)),direction=target.clone().sub(start),epsilon=Math.min(l1,l2)*1e-5
  if(l1<1e-8||l2<1e-8)throw new Error('Nimbus requires nonzero limb lengths')
@@ -102,9 +104,9 @@ const up=new Vector3(0,1,0)
 const rad=degrees=>degrees*Math.PI/180
 const degrees=radians=>radians*180/Math.PI
 const wrap=angle=>Math.atan2(Math.sin(angle),Math.cos(angle))
-function translate(bone,delta){const p=point(bone).add(delta);bone.position.copy(bone.parent?bone.parent.worldToLocal(p):p);bone.updateWorldMatrix(true,true)}
+function translate(bone,delta){const p=point(bone).add(delta);bone.position.copy(bone.parent?intoLocal(bone.parent,p):p);settle(bone,true,true)}
 function coordinate(value){const v=value?.isVector3?value.clone():Array.isArray(value)&&value.length===3?new Vector3(...value):null;if(!v||!v.toArray().every(Number.isFinite))throw new TypeError('Nimbus foot targets must be finite world points');return v}
-function anatomical(rig,role){const bone=rig.bones[role];return bone.getWorldQuaternion(new Quaternion()).multiply(rig.restRotations.get(bone).clone().invert()).multiply(rig.restBasis)}
+function anatomical(rig,role){const bone=rig.bones[role];return worldQuaternionOf(bone,new Quaternion()).multiply(rig.restRotations.get(bone).clone().invert()).multiply(rig.restBasis)}
 function setAnatomical(rig,role,q){const bone=rig.bones[role];if(bone&&rig.restRotations.has(bone))worldRotation(bone,q.clone().multiply(rig.restBasis.clone().invert()).multiply(rig.restRotations.get(bone)))}
 function yawOf(q,fallback=0){const forward=new Vector3(0,0,1).applyQuaternion(q);return Math.hypot(forward.x,forward.z)>1e-6?Math.atan2(forward.x,forward.z):fallback}
 function pitchOf(q){const bodyUp=up.clone().applyQuaternion(q),forward=new Vector3(0,0,1).applyAxisAngle(up,yawOf(q));return Math.atan2(bodyUp.dot(forward),bodyUp.y)}
@@ -119,7 +121,7 @@ function poseArms(rig,{preserveHands,hands,lateral,forward}){
   const before=solve(upper,lower,hand,target,pole,d=>{const lowerDirection=target.clone().sub(shoulder).sub(d);normal.crossVectors(d,lowerDirection).multiplyScalar(-sign).normalize();alignArm(rig,side+'UpperArm',d,normal,reference)},d=>worldRotation(lower,segmentFrame(d,new Vector3(0,-1,0)).multiply(reference.forearmFrame.clone().invert()).multiply(rig.restRotations.get(lower))))
   const elbow=point(lower),wrist=point(hand),finger=wrist.clone().sub(elbow).normalize(),handRotation=segmentFrame(finger,new Vector3(0,-1,0)).multiply(reference.handFrame.clone().invert()).multiply(rig.restRotations.get(hand))
   worldRotation(hand,handRotation)
-  const delta=handRotation.clone().multiply(rig.restRotations.get(hand).clone().invert()),actualPalm=reference.palm.clone().applyQuaternion(delta),actualFinger=reference.finger.clone().applyQuaternion(delta),armError=Math.max(Math.abs(shoulder.distanceTo(elbow)-before[0]),Math.abs(elbow.distanceTo(wrist)-before[1])),neutralHand=lower.getWorldQuaternion(new Quaternion()).multiply(reference.lowerToHand)
+  const delta=handRotation.clone().multiply(rig.restRotations.get(hand).clone().invert()),actualPalm=reference.palm.clone().applyQuaternion(delta),actualFinger=reference.finger.clone().applyQuaternion(delta),armError=Math.max(Math.abs(shoulder.distanceTo(elbow)-before[0]),Math.abs(elbow.distanceTo(wrist)-before[1])),neutralHand=worldQuaternionOf(lower,new Quaternion()).multiply(reference.lowerToHand)
   armBalance.push({side,shoulderWorld:shoulder.toArray(),elbowWorld:elbow.toArray(),handWorld:wrist.toArray(),palmNormalWorld:actualPalm.toArray(),fingerDirectionWorld:actualFinger.toArray(),elbowFlexionDegrees:180-degrees(shoulder.clone().sub(elbow).angleTo(wrist.clone().sub(elbow))),palmDownDot:actualPalm.dot(up.clone().negate()),wristBendDegrees:degrees(actualFinger.angleTo(finger)),wristBindDeviationDegrees:degrees(handRotation.angleTo(neutralHand)),handBelowShoulderM:shoulder.y-wrist.y,elbowAboveHandM:elbow.y-wrist.y,boneLengthErrorMm:armError*1000,palmReferenceSource:reference.palmReferenceSource})
  }
  return armBalance
@@ -144,7 +146,7 @@ function hullMargin(hull,p){return Math.min(...hull.map((a,i)=>{const z=hull[(i+
 function applyNimbusPoseInFrame(rig,{heading=0,stanceWidth=1,crouch=.45,preserveHands=false,pitch=0,roll=0,supportHeight,supportSoleOffsetM=0,maxKneeDegrees=100,anchorMode='head',footTargetsWorld,balance={},_supportWorldUp=null,_contactPlaneY=null}={}){
  if(!['head','support'].includes(anchorMode))throw new TypeError('Unknown Nimbus anchor mode')
  if(footTargetsWorld&&(!Array.isArray(footTargetsWorld)||footTargetsWorld.length!==2))throw new TypeError('Nimbus needs exactly two foot targets')
- const explicit=footTargetsWorld?footTargetsWorld.map(coordinate):null,b=rig.bones,originalHead=point(b.head),originalHeadQ=b.head.getWorldQuaternion(new Quaternion()),hands=preserveHands?Object.fromEntries(sides.map(([,side])=>[side,{p:point(b[side+'Hand']),q:b[side+'Hand'].getWorldQuaternion(new Quaternion()),pole:point(b[side+'LowerArm'])}])):null
+ const explicit=footTargetsWorld?footTargetsWorld.map(coordinate):null,b=rig.bones,originalHead=point(b.head),originalHeadQ=worldQuaternionOf(b.head,new Quaternion()),hands=preserveHands?Object.fromEntries(sides.map(([,side])=>[side,{p:point(b[side+'Hand']),q:worldQuaternionOf(b[side+'Hand'],new Quaternion()),pole:point(b[side+'LowerArm'])}])):null
  const verticalAcceleration=Number.isFinite(balance.verticalAcceleration)?balance.verticalAcceleration:0,effectiveGravityMps2=Number.isFinite(balance.effectiveGravityMps2)?balance.effectiveGravityMps2:9.81+verticalAcceleration,normalLoadRatio=Number.isFinite(balance.normalLoadRatio)?balance.normalLoadRatio:effectiveGravityMps2/9.81
  const supportState=['supported','low-load','adhesion'].includes(balance.supportState)?balance.supportState:normalLoadRatio<0?'adhesion':normalLoadRatio<.15?'low-load':'supported'
  const zmpValid=supportState==='supported'&&effectiveGravityMps2>1e-4&&normalLoadRatio>0&&balance.zmpValid!==false,zmpInvalidReason=zmpValid?null:typeof balance.zmpInvalidReason==='string'&&balance.zmpInvalidReason?balance.zmpInvalidReason:supportState==='adhesion'?'adhesion-support-mode':supportState==='low-load'?'low-normal-load':effectiveGravityMps2<=1e-4||normalLoadRatio<=0?'nonpositive-effective-gravity':'caller-invalidated-zmp'
@@ -216,7 +218,7 @@ function applyNimbusPoseInFrame(rig,{heading=0,stanceWidth=1,crouch=.45,preserve
    hipBalanceLimited ||= accepted<1
   }
  }else solveBody()
- rig.skeleton.update()
+ skinUpdate(rig.skeleton)
  const knee=side=>180-degrees(point(b[side+'UpperLeg']).sub(point(b[side+'LowerLeg'])).angleTo(point(b[side+'Foot']).sub(point(b[side+'LowerLeg'])))),feet=sides.map(([,side])=>point(b[side+'Foot'])),knees=sides.map(([,side])=>knee(side)),errors=feet.map((p,i)=>p.distanceTo(targets[i])*1000),kneeTargetErrorDegrees=Math.max(...knees.map((actual,i)=>Math.abs(actual-requestedKnees[i]))),footTargetErrorMm=Math.max(...errors),poseLimitReasons=[]
  const chestYaw=yawOf(anatomical(rig,b.chest?'chest':b.spine?'spine':'hips'),chestHeading),hipYaw=yawOf(anatomical(rig,'hips'),pelvisHeading),neckYaw=yawOf(anatomical(rig,b.neck?'neck':b.chest?'chest':b.spine?'spine':'hips'),neckHeading),neckYawDegrees=Math.abs(degrees(wrap(headYaw-neckYaw))),headChestYawDegrees=Math.abs(degrees(wrap(headYaw-chestYaw))),hipChestYawDegrees=Math.abs(degrees(wrap(hipYaw-chestYaw)))
  if(!explicit&&generated.some(t=>t.crouchReachLimited))poseLimitReasons.push('stance-exceeds-crouch-reach')
@@ -237,5 +239,5 @@ function applyNimbusPoseInFrame(rig,{heading=0,stanceWidth=1,crouch=.45,preserve
  if(anchorMode==='support'&&comError.length()>.01)poseLimitReasons.push('center-of-mass-target-unmet')
  if(margin!==null&&margin<0)poseLimitReasons.push('zero-moment-point-outside-support')
  const pelvisPitchDegrees=degrees(pitchOf(anatomical(rig,'hips'))),chestPitchDegrees=degrees(pitchOf(anatomical(rig,b.chest?'chest':b.spine?'spine':'hips')))
- return {headWorld:point(b.head).toArray(),feetWorld:feet.map(p=>p.toArray()),headDriftMm:point(b.head).distanceTo(originalHead)*1000,headRotationErrorDegrees:degrees(b.head.getWorldQuaternion(new Quaternion()).angleTo(originalHeadQ)),handPositionErrorMm:hands?Math.max(...sides.map(([,side])=>point(b[side+'Hand']).distanceTo(hands[side].p)*1000)):null,handRotationErrorDegrees:hands?Math.max(...sides.map(([,side])=>degrees(b[side+'Hand'].getWorldQuaternion(new Quaternion()).angleTo(hands[side].q)))):null,knees,upright:point(b.head).sub(point(b.hips)).normalize().dot(up),supportHeight:anklePlane,contactPlaneY,contactPlaneSource,supportSoleOffsetM:soleOffset,supportMode:anchorMode==='support'?'fixed-foot-targets':explicit||Number.isFinite(supportHeight)?'fixed-ankle-plane':'head-relative-ankle-plane',anchorMode,footTargetsWorld:targets.map(target=>target.toArray()),footTargetErrorMm,footTargetErrorsMm:errors,ankleHeightSpreadMm:Math.abs(feet[0].y-feet[1].y)*1000,contactPlaneErrorMm:Math.max(...feet.map((p,i)=>Math.abs(p.y-targets[i].y)*1000)),targetPlaneHeightSpreadMm:Math.abs(targets[0].y-targets[1].y)*1000,stanceWorldM:feet[0].distanceTo(feet[1]),boneLengthErrorMm:maxLegLengthError*1000,bodyHeading,cloudHeading,stanceWidth:width,crouch:depth,requestedKneeDegrees,requestedKneesDegrees:requestedKnees,kneeTargetErrorDegrees,poseLimited:poseLimitReasons.length>0,poseLimitReasons,armBalance,bodyBalance:{source:'bind-anatomical-frames',pelvisPitchDegrees,chestPitchDegrees,hipChestPitchDegrees:chestPitchDegrees-pelvisPitchDegrees,hipHeightPolicy:'mean-requested-height-with-knee-policy',maxKneeDegrees:kneePolicyMax,kneePolicyExceeded:hipPolicyConflict||knees.some(k=>k>kneePolicyMax+.1),hipBalanceLimited,pelvisYawDegrees:degrees(wrap(hipYaw-cloudHeading)),chestYawDegrees:degrees(wrap(chestYaw-cloudHeading)),footYawDegrees:62,neckYawDegrees,headChestYawDegrees,hipChestYawDegrees,neckPolicyExceeded:neckYawDegrees>20.01,chestPolicyLimited:Math.abs(wrap(desiredChest-chestHeading))>.001,leanForward,leanSide,hipsWorld:point(b.hips).toArray()},verticalBody:{verticalAcceleration,normalLoadRatio,effectiveGravityMps2,supportState,baseCrouch,verticalCompression,combinedCrouch:depth,compressionLimited:verticalCompression!==(balance.verticalCompression??0)||depth!==baseCrouch+verticalCompression,footConstraintMode:supportState==='supported'?'ordinary-support-proxy':supportState==='adhesion'?'magical-adhesion':'low-load-anchored-proxy'},balanceProxy:{source:'weighted-bone-points-and-foot-rect-proxies',zmpValid,zmpInvalidReason,supportState,normalLoadRatio,effectiveGravityMps2,comHeightM:height,contactPlaneY,contactPlaneSource,centerOfMassWorld:com.toArray(),targetCenterOfMassWorld:[comTarget.x,com.y,comTarget.z],centerOfMassOffset:{forward:com.clone().sub(footCenter).dot(travelForward),side:com.clone().sub(footCenter).dot(travelRight)},centerOfMassErrorMm:comError.length()*1000,zeroMomentPointWorld:zmp?.toArray()??null,loadRatio:zmpValid?{front:actualFront,rear:1-actualFront}:null,requestedLoadRatio:zmpValid?{front:loadFront,rear:1-loadFront}:null,loadRatioError:zmpValid?Math.abs(actualFront-loadFront):null,unclampedFrontLoadRatio:rawFront,supportMarginM:margin,supportExceeded:margin===null?null:margin<0,footHull2D:hull}}
+ return {headWorld:point(b.head).toArray(),feetWorld:feet.map(p=>p.toArray()),headDriftMm:point(b.head).distanceTo(originalHead)*1000,headRotationErrorDegrees:degrees(worldQuaternionOf(b.head,new Quaternion()).angleTo(originalHeadQ)),handPositionErrorMm:hands?Math.max(...sides.map(([,side])=>point(b[side+'Hand']).distanceTo(hands[side].p)*1000)):null,handRotationErrorDegrees:hands?Math.max(...sides.map(([,side])=>degrees(worldQuaternionOf(b[side+'Hand'],new Quaternion()).angleTo(hands[side].q)))):null,knees,upright:point(b.head).sub(point(b.hips)).normalize().dot(up),supportHeight:anklePlane,contactPlaneY,contactPlaneSource,supportSoleOffsetM:soleOffset,supportMode:anchorMode==='support'?'fixed-foot-targets':explicit||Number.isFinite(supportHeight)?'fixed-ankle-plane':'head-relative-ankle-plane',anchorMode,footTargetsWorld:targets.map(target=>target.toArray()),footTargetErrorMm,footTargetErrorsMm:errors,ankleHeightSpreadMm:Math.abs(feet[0].y-feet[1].y)*1000,contactPlaneErrorMm:Math.max(...feet.map((p,i)=>Math.abs(p.y-targets[i].y)*1000)),targetPlaneHeightSpreadMm:Math.abs(targets[0].y-targets[1].y)*1000,stanceWorldM:feet[0].distanceTo(feet[1]),boneLengthErrorMm:maxLegLengthError*1000,bodyHeading,cloudHeading,stanceWidth:width,crouch:depth,requestedKneeDegrees,requestedKneesDegrees:requestedKnees,kneeTargetErrorDegrees,poseLimited:poseLimitReasons.length>0,poseLimitReasons,armBalance,bodyBalance:{source:'bind-anatomical-frames',pelvisPitchDegrees,chestPitchDegrees,hipChestPitchDegrees:chestPitchDegrees-pelvisPitchDegrees,hipHeightPolicy:'mean-requested-height-with-knee-policy',maxKneeDegrees:kneePolicyMax,kneePolicyExceeded:hipPolicyConflict||knees.some(k=>k>kneePolicyMax+.1),hipBalanceLimited,pelvisYawDegrees:degrees(wrap(hipYaw-cloudHeading)),chestYawDegrees:degrees(wrap(chestYaw-cloudHeading)),footYawDegrees:62,neckYawDegrees,headChestYawDegrees,hipChestYawDegrees,neckPolicyExceeded:neckYawDegrees>20.01,chestPolicyLimited:Math.abs(wrap(desiredChest-chestHeading))>.001,leanForward,leanSide,hipsWorld:point(b.hips).toArray()},verticalBody:{verticalAcceleration,normalLoadRatio,effectiveGravityMps2,supportState,baseCrouch,verticalCompression,combinedCrouch:depth,compressionLimited:verticalCompression!==(balance.verticalCompression??0)||depth!==baseCrouch+verticalCompression,footConstraintMode:supportState==='supported'?'ordinary-support-proxy':supportState==='adhesion'?'magical-adhesion':'low-load-anchored-proxy'},balanceProxy:{source:'weighted-bone-points-and-foot-rect-proxies',zmpValid,zmpInvalidReason,supportState,normalLoadRatio,effectiveGravityMps2,comHeightM:height,contactPlaneY,contactPlaneSource,centerOfMassWorld:com.toArray(),targetCenterOfMassWorld:[comTarget.x,com.y,comTarget.z],centerOfMassOffset:{forward:com.clone().sub(footCenter).dot(travelForward),side:com.clone().sub(footCenter).dot(travelRight)},centerOfMassErrorMm:comError.length()*1000,zeroMomentPointWorld:zmp?.toArray()??null,loadRatio:zmpValid?{front:actualFront,rear:1-actualFront}:null,requestedLoadRatio:zmpValid?{front:loadFront,rear:1-loadFront}:null,loadRatioError:zmpValid?Math.abs(actualFront-loadFront):null,unclampedFrontLoadRatio:rawFront,supportMarginM:margin,supportExceeded:margin===null?null:margin<0,footHull2D:hull}}
 }
