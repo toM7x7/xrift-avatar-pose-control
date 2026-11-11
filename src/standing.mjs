@@ -1,9 +1,10 @@
 import {Quaternion,Vector3} from 'three'
 import {captureBones,restoreBones} from './vendor/render-pose.mjs'
+import {intoLocal,settle,skinUpdate,solving,worldPositionOf,worldQuaternionOf} from './world.mjs'
 
-const point=b=>b.getWorldPosition(new Vector3())
-function worldRotation(b,q){const parent=b.parent?.getWorldQuaternion(new Quaternion())??new Quaternion();b.quaternion.copy(parent.invert().multiply(q));b.updateWorldMatrix(true,true)}
-function aim(b,child,target){const start=point(b),from=point(child).sub(start).normalize(),to=target.clone().sub(start).normalize();worldRotation(b,new Quaternion().setFromUnitVectors(from,to).multiply(b.getWorldQuaternion(new Quaternion())))}
+const point=b=>worldPositionOf(b,new Vector3())
+function worldRotation(b,q){const parent=(b.parent?worldQuaternionOf(b.parent,new Quaternion()):new Quaternion());b.quaternion.copy(parent.invert().multiply(q));settle(b,true,true)}
+function aim(b,child,target){const start=point(b),from=point(child).sub(start).normalize(),to=target.clone().sub(start).normalize();worldRotation(b,new Quaternion().setFromUnitVectors(from,to).multiply(worldQuaternionOf(b,new Quaternion())))}
 function arm(upper,lower,hand,target,pole){
  const start=point(upper),l1=start.distanceTo(point(lower)),l2=point(lower).distanceTo(point(hand)),dir=target.clone().sub(start)
  const d=Math.max(Math.abs(l1-l2)+1e-5,Math.min(dir.length(),l1+l2-1e-5));if(dir.lengthSq()<1e-12)dir.set(0,-1,0);else dir.normalize()
@@ -11,9 +12,10 @@ function arm(upper,lower,hand,target,pole){
  aim(upper,lower,start.clone().addScaledVector(dir,along).addScaledVector(side,height));aim(lower,hand,start.clone().addScaledVector(dir,d))
 }
 /** Head and tracked hands remain host-owned; only the rendered body is changed. */
-export function applyStandingPose(rig,{heading=0,preserveHands=false,pitch=0,roll=0,kneeBend=0,armSwing=0}={}){
- const b=rig.bones,head=point(b.head),headQ=b.head.getWorldQuaternion(new Quaternion())
- const hands=preserveHands?Object.fromEntries(['left','right'].map(s=>[s,{p:point(b[s+'Hand']),q:b[s+'Hand'].getWorldQuaternion(new Quaternion()),pole:point(b[s+'LowerArm'])}])):null
+export function applyStandingPose(rig,options){return solving(rig,()=>standingPose(rig,options))}
+function standingPose(rig,{heading=0,preserveHands=false,pitch=0,roll=0,kneeBend=0,armSwing=0}={}){
+ const b=rig.bones,head=point(b.head),headQ=worldQuaternionOf(b.head,new Quaternion())
+ const hands=preserveHands?Object.fromEntries(['left','right'].map(s=>[s,{p:point(b[s+'Hand']),q:worldQuaternionOf(b[s+'Hand'],new Quaternion()),pole:point(b[s+'LowerArm'])}])):null
  const safe=(value,limit)=>Number.isFinite(value)?Math.max(-limit,Math.min(limit,value)):0
  const yaw=new Quaternion().setFromAxisAngle(new Vector3(0,1,0),heading)
  const q=yaw.clone().multiply(new Quaternion().setFromAxisAngle(new Vector3(0,0,1),safe(roll,.25))).multiply(new Quaternion().setFromAxisAngle(new Vector3(1,0,0),safe(pitch,.3)))
@@ -33,11 +35,11 @@ export function applyStandingPose(rig,{heading=0,preserveHands=false,pitch=0,rol
  const bend=safe(kneeBend,.25),lateral=new Vector3(1,0,0).applyQuaternion(q)
  if(bend)for(const side of ['left','right']){
   const upper=b[side+'UpperLeg'],lower=b[side+'LowerLeg']
-  worldRotation(upper,new Quaternion().setFromAxisAngle(lateral,-bend*.35).multiply(upper.getWorldQuaternion(new Quaternion())))
-  worldRotation(lower,new Quaternion().setFromAxisAngle(lateral,bend).multiply(lower.getWorldQuaternion(new Quaternion())))
+  worldRotation(upper,new Quaternion().setFromAxisAngle(lateral,-bend*.35).multiply(worldQuaternionOf(upper,new Quaternion())))
+  worldRotation(lower,new Quaternion().setFromAxisAngle(lateral,bend).multiply(worldQuaternionOf(lower,new Quaternion())))
  }
  worldRotation(b.head,headQ)
- const hips=point(b.hips).add(head.clone().sub(point(b.head)));b.hips.position.copy(b.hips.parent?b.hips.parent.worldToLocal(hips):hips);b.hips.updateWorldMatrix(true,true)
+ const hips=point(b.hips).add(head.clone().sub(point(b.head)));b.hips.position.copy(b.hips.parent?intoLocal(b.hips.parent,hips):hips);settle(b.hips,true,true)
  for(const [sign,s] of [[1,'left'],[-1,'right']]){
   const shoulder=point(b[s+'UpperArm']),length=shoulder.distanceTo(point(b[s+'LowerArm']))+point(b[s+'LowerArm']).distanceTo(point(b[s+'Hand']))
   const target=hands?.[s].p??shoulder.clone().add(new Vector3(sign*(.11+Math.abs(safe(roll,.25))*.15),-length*.94,.04+safe(armSwing,.02)*sign).applyQuaternion(q))
@@ -45,9 +47,9 @@ export function applyStandingPose(rig,{heading=0,preserveHands=false,pitch=0,rol
   arm(b[s+'UpperArm'],b[s+'LowerArm'],b[s+'Hand'],target,pole)
   if(hands)worldRotation(b[s+'Hand'],hands[s].q)
  }
- rig.skeleton.update()
+ skinUpdate(rig.skeleton)
  const knee=s=>180-point(b[s+'UpperLeg']).sub(point(b[s+'LowerLeg'])).angleTo(point(b[s+'Foot']).sub(point(b[s+'LowerLeg'])))*180/Math.PI
- return {headWorld:point(b.head).toArray(),feetWorld:['left','right'].map(s=>point(b[s+'Foot']).toArray()),headDriftMm:point(b.head).distanceTo(head)*1000,headRotationErrorDegrees:b.head.getWorldQuaternion(new Quaternion()).angleTo(headQ)*180/Math.PI,handPositionErrorMm:hands?Math.max(...['left','right'].map(s=>point(b[s+'Hand']).distanceTo(hands[s].p)*1000)):null,handRotationErrorDegrees:hands?Math.max(...['left','right'].map(s=>b[s+'Hand'].getWorldQuaternion(new Quaternion()).angleTo(hands[s].q)*180/Math.PI)):null,knees:['left','right'].map(knee),upright:point(b.head).sub(point(b.hips)).normalize().dot(new Vector3(0,1,0))}
+ return {headWorld:point(b.head).toArray(),feetWorld:['left','right'].map(s=>point(b[s+'Foot']).toArray()),headDriftMm:point(b.head).distanceTo(head)*1000,headRotationErrorDegrees:worldQuaternionOf(b.head,new Quaternion()).angleTo(headQ)*180/Math.PI,handPositionErrorMm:hands?Math.max(...['left','right'].map(s=>point(b[s+'Hand']).distanceTo(hands[s].p)*1000)):null,handRotationErrorDegrees:hands?Math.max(...['left','right'].map(s=>worldQuaternionOf(b[s+'Hand'],new Quaternion()).angleTo(hands[s].q)*180/Math.PI)):null,knees:['left','right'].map(knee),upright:point(b.head).sub(point(b.hips)).normalize().dot(new Vector3(0,1,0))}
 }
 const scenes=new WeakMap()
 export function installStandingPose(scene,rig,getOptions,related=[]){

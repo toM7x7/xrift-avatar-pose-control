@@ -7,6 +7,7 @@
 // lowerBody:'host' keeps the host's pelvis and legs (walking, running, jumping
 // go on) and poses only the spine, clavicles, arms and fingers over them.
 import {Quaternion,Vector3} from 'three'
+import {settle,skinUpdate,solving,worldQuaternionOf} from '../world.mjs'
 import {authoringRig} from './rig.mjs'
 import {solveArm,minClearance} from './arm.mjs'
 import {poseFingers} from './hand.mjs'
@@ -18,7 +19,7 @@ const v3=a=>Array.isArray(a)?new Vector3(finite(a[0]),finite(a[1]),finite(a[2]))
 const rot=a=>eulerYXZ(...(Array.isArray(a)?a.map(x=>finite(x)):[0,0,0]))
 
 function hostHandFrame(rig,info,side){
- const bone=rig.bones[side+'Hand'],w=bone.getWorldQuaternion(new Quaternion())
+ const bone=rig.bones[side+'Hand'],w=worldQuaternionOf(bone,new Quaternion())
  return w.multiply(rig.restRotations.get(bone).clone().invert()).multiply(rig.restBasis).multiply(info.hands[side].rest)
 }
 function collectPosed(rig,info,upperOnly=false){
@@ -37,7 +38,7 @@ export function buildColliders(rig,info,scale){
  for(const [key,r] of Object.entries(info.radii)){
   const start=point(r.bone),end=point(r.end),axis=end.clone().sub(start),length=axis.length();if(length<1e-6)continue
   axis.divideScalar(length)
-  const w=r.bone.getWorldQuaternion(new Quaternion()).multiply(rig.restRotations.get(r.bone).clone().invert()).multiply(rig.restBasis)
+  const w=worldQuaternionOf(r.bone,new Quaternion()).multiply(rig.restRotations.get(r.bone).clone().invert()).multiply(rig.restBasis)
   const lateral=new Vector3(1,0,0).applyQuaternion(w),front=new Vector3(0,0,1).applyQuaternion(w)
   lateral.addScaledVector(axis,-lateral.dot(axis)).normalize();front.addScaledVector(axis,-front.dot(axis)).addScaledVector(lateral,-front.dot(lateral)).normalize()
   const s0=key==='pelvis'?start.clone().addScaledVector(axis,-length*1.1):start,len=key==='pelvis'?length*2.1:length
@@ -52,7 +53,7 @@ export function bodyScale(rig,info=authoringRig(rig)){
  return {scale,k:info.hipHeight*scale/REFERENCE_HIP_HEIGHT}
 }
 /** The world rotation of a bone as an anatomical frame (X left, Y up, Z forward where the rest pose faced forward). */
-const anatomicalWorld=(rig,bone)=>bone.getWorldQuaternion(new Quaternion()).multiply(rig.restRotations.get(bone).clone().invert()).multiply(rig.restBasis)
+const anatomicalWorld=(rig,bone)=>worldQuaternionOf(bone,new Quaternion()).multiply(rig.restRotations.get(bone).clone().invert()).multiply(rig.restBasis)
 
 /**
  * pose: resolved frame (body metres, degrees, anatomical X=left Y=up Z=forward).
@@ -61,13 +62,14 @@ const anatomicalWorld=(rig,bone)=>bone.getWorldQuaternion(new Quaternion()).mult
  *   twistSplit, colliders (default true), preserveHands (VR: reach the host hands),
  *   lowerBody ('host' keeps the host's pelvis and legs and poses only the upper body over them)}
  */
-export function applyAuthoredPose(rig,pose,options={}){
+export function applyAuthoredPose(rig,pose,options){return solving(rig,()=>authoredPose(rig,pose,options))}
+function authoredPose(rig,pose,options={}){
  const info=authoringRig(rig),b=rig.bones,state=options.state??{}
  const weight=clamp(finite(pose.weight,1),0,1)
  const upperOnly=(options.lowerBody??pose.lowerBody)==='host'
  const posed=collectPosed(rig,info,upperOnly)
  const host=new Map(posed.map(bone=>[bone,{q:bone.quaternion.clone(),p:bone.position.clone()}]))
- const hostHead={p:point(b.head),q:b.head.getWorldQuaternion(new Quaternion())}
+ const hostHead={p:point(b.head),q:worldQuaternionOf(b.head,new Quaternion())}
  const preserveHands=options.preserveHands||pose.hands?.mode==='host'
  const hostHands=preserveHands?Object.fromEntries(SIDES.map(([s])=>[s,{wrist:point(b[s+'Hand']),hand:hostHandFrame(rig,info,s)}])):null
  const {scale,k}=bodyScale(rig,info)
@@ -138,7 +140,7 @@ export function applyAuthoredPose(rig,pose,options={}){
   const pivot=clamp(finite(spec.pivot,1),0,1)*clamp(heel/(25*DEG),0,1)
   if(pivot>0){
    const ball=restAnkle.clone().add(toeOffset.clone().applyQuaternion(yawQ))
-   b.hips.updateWorldMatrix(false,true)
+   settle(b.hips,false,true)
    const toHip=point(b[side+'UpperLeg']).sub(ball).setY(0),forward=new Vector3(0,0,1).applyQuaternion(yawQ).setY(0)
    // Only a back foot (the hip ahead of the ball), fading in over the first 12 cm so a stepping foot never pops.
    const ahead=clamp(toHip.dot(bodyDir(new Vector3(0,0,1)))/(.12*k),0,1)
@@ -247,9 +249,9 @@ export function applyAuthoredPose(rig,pose,options={}){
  // 8. Blend with the host pose (enter/exit). Local-space slerp, root to leaves.
  if(weight<1){
   for(const bone of posed){const h=host.get(bone);bone.quaternion.copy(h.q.clone().slerp(bone.quaternion,weight));bone.position.copy(h.p.clone().lerp(bone.position,weight))}
-  ;(upperOnly?info.torso[0]??b.hips:b.hips).updateWorldMatrix(true,true)
+  ;settle(upperOnly?info.torso[0]??b.hips:b.hips,true,true)
  }
- rig.skeleton.update()
+ skinUpdate(rig.skeleton)
  const metrics=measureAuthoredPose(rig,info,{scale,k,heading,origin,groundY,feet,colliders:options.colliders===false?[]:buildColliders(rig,info,scale),armMetrics,legMetrics,fingerMetrics,handTargets,hostHead,headMode,pelvisDropM,weight})
  metrics.pairShiftMm=pairShiftMm
  return metrics
@@ -298,7 +300,7 @@ export function measureAuthoredPose(rig,info,ctx){
  const handClearance={}
  for(const [s] of SIDES){
   if(!ctx.armMetrics[s]){handClearance[s]=null;continue}
-  const hand=b[s+'Hand'],palm=info.hands[s].points.palmCenter.clone().multiplyScalar(ctx.scale).applyQuaternion(hand.getWorldQuaternion(new Quaternion()).multiply(rig.restRotations.get(hand).clone().invert()).multiply(rig.restBasis).multiply(info.hands[s].rest)).add(P(hand))
+  const hand=b[s+'Hand'],palm=info.hands[s].points.palmCenter.clone().multiplyScalar(ctx.scale).applyQuaternion(worldQuaternionOf(hand,new Quaternion()).multiply(rig.restRotations.get(hand).clone().invert()).multiply(rig.restBasis).multiply(info.hands[s].rest)).add(P(hand))
   const probes=[['wrist',P(hand)],['palm',palm],['forearm',mid(b[s+'LowerArm'],hand)],['elbow',P(b[s+'LowerArm'])]]
   handClearance[s]=Object.fromEntries(probes.map(([name,p])=>{const r=minClearance(p,ctx.colliders);return [name,{mm:Number.isFinite(r.distance)?r.distance*1000:null,against:r.key}]}))
  }
@@ -306,12 +308,12 @@ export function measureAuthoredPose(rig,info,ctx){
  const contact={}
  for(const [s] of SIDES){const t=ctx.handTargets[s];if(!t?.point)continue;const hand=b[s+'Hand'];contact[s+'TargetErrorMm']=P(hand).distanceTo(t.wrist)*1000}
  const handFrameErrorDeg={}
- for(const [s] of SIDES){const t=ctx.handTargets[s];if(!t)continue;const now=b[s+'Hand'].getWorldQuaternion(new Quaternion()).multiply(rig.restRotations.get(b[s+'Hand']).clone().invert()).multiply(rig.restBasis).multiply(info.hands[s].rest);handFrameErrorDeg[s]=now.angleTo(t.hand)/DEG}
- const headQ=b.head.getWorldQuaternion(new Quaternion())
- const chestQ=(info.torso.at(-1)??b.hips).getWorldQuaternion(new Quaternion()).multiply(rig.restRotations.get(info.torso.at(-1)??b.hips).clone().invert()).multiply(rig.restBasis)
+ for(const [s] of SIDES){const t=ctx.handTargets[s];if(!t)continue;const now=worldQuaternionOf(b[s+'Hand'],new Quaternion()).multiply(rig.restRotations.get(b[s+'Hand']).clone().invert()).multiply(rig.restBasis).multiply(info.hands[s].rest);handFrameErrorDeg[s]=now.angleTo(t.hand)/DEG}
+ const headQ=worldQuaternionOf(b.head,new Quaternion())
+ const chestQ=worldQuaternionOf(info.torso.at(-1)??b.hips,new Quaternion()).multiply(rig.restRotations.get(info.torso.at(-1)??b.hips).clone().invert()).multiply(rig.restBasis)
  const headA=headQ.clone().multiply(rig.restRotations.get(b.head).clone().invert()).multiply(rig.restBasis)
  const chestFwd=new Vector3(0,0,1).applyQuaternion(chestQ),headFwd=new Vector3(0,0,1).applyQuaternion(headA)
- const pelvisFwd=new Vector3(0,0,1).applyQuaternion(b.hips.getWorldQuaternion(new Quaternion()).multiply(rig.restRotations.get(b.hips).clone().invert()).multiply(rig.restBasis))
+ const pelvisFwd=new Vector3(0,0,1).applyQuaternion(worldQuaternionOf(b.hips,new Quaternion()).multiply(rig.restRotations.get(b.hips).clone().invert()).multiply(rig.restBasis))
  const bodyFwd=new Vector3(0,0,1).applyQuaternion(ctx.heading)
  return {
   weight:ctx.weight,scale:ctx.scale,bodyUnit:ctx.k,headMode:ctx.headMode,

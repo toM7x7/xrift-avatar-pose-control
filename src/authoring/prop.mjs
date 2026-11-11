@@ -18,6 +18,7 @@ import {REFERENCE_HIP_HEIGHT,applyAuthoredPose,bodyScale} from './solve.mjs'
 import {REFERENCE_ARM,lerpFrame,resolveKey} from './clip.mjs'
 import {authoringRig} from './rig.mjs'
 import {captureBones,restoreBones} from '../vendor/render-pose.mjs'
+import {worldPositionOf} from '../world.mjs'
 
 const SIDES=['left','right']
 const FINGERS=['thumb','index','middle','ring','little']
@@ -228,7 +229,7 @@ export function applyHeld(rig,clip,params,options={}){
  const origin=options.origin?(options.origin.isVector3?options.origin.clone():v3(options.origin)):new Vector3(metrics.hipsWorld[0],metrics.groundY,metrics.hipsWorld[2])
  origin.y=metrics.groundY
  const prop=propWorld(frame.prop,{heading:options.heading,origin,k,modelForward:options.modelForward})
- const side=frame.prop.side,target=metrics.handTargets[side],hand=rig.bones[side+'Hand'].getWorldPosition(new Vector3())
+ const side=frame.prop.side,target=metrics.handTargets[side],hand=worldPositionOf(rig.bones[side+'Hand'],new Vector3())
  let shortfallMm=0
  if(target&&frame.weight>=.999){const d=hand.clone().sub(new Vector3(...target.wrist));shortfallMm=d.length()*1000;if(shortfallMm>.5)prop.position.add(d)}
  return {metrics,frame,prop,shortfallMm,k,fit,scale:frame.propScale}

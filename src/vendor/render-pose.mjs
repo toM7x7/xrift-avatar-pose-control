@@ -1,6 +1,7 @@
 // Render-time correction using public Three.js skeletons; no host stores.
 import {Matrix4,Quaternion,Vector3} from 'three'
 import {prepareTorsoSamples,fitTorsoToSurface,measureTorsoSurface} from './torso-support.mjs'
+import {intoLocal,settle,skinUpdate,solving,worldPositionOf,worldQuaternionOf} from '../world.mjs'
 
 const aliases={hips:['hips','pelvis','chips'],spine:['spine','cspine'],chest:['chest','cchest','spine1'],neck:['neck','cneck'],head:['head','chead'],leftUpperArm:['leftupperarm','leftarm','lupperarm'],leftLowerArm:['leftlowerarm','leftforearm','llowerarm'],leftHand:['lefthand','lhand'],rightUpperArm:['rightupperarm','rightarm','rupperarm'],rightLowerArm:['rightlowerarm','rightforearm','rlowerarm'],rightHand:['righthand','rhand'],leftUpperLeg:['leftupperleg','leftupleg','lupperleg'],leftLowerLeg:['leftlowerleg','leftleg','llowerleg'],leftFoot:['leftfoot','lfoot'],rightUpperLeg:['rightupperleg','rightupleg','rupperleg'],rightLowerLeg:['rightlowerleg','rightleg','rlowerleg'],rightFoot:['rightfoot','rfoot']}
 const required=['hips','head','leftUpperArm','leftLowerArm','leftHand','rightUpperArm','rightLowerArm','rightHand','leftUpperLeg','leftLowerLeg','leftFoot','rightUpperLeg','rightLowerLeg','rightFoot']
@@ -20,11 +21,11 @@ export function inspectHumanoidRigs(scene){
   return [...groups.values()]
 }
 export function captureBones(skeleton){return skeleton.bones.map(bone=>({bone,position:bone.position.clone(),quaternion:bone.quaternion.clone(),scale:bone.scale.clone()}))}
-export function restoreBones(snapshot){const set=new Set(snapshot.map(s=>s.bone));for(const s of snapshot){s.bone.position.copy(s.position);s.bone.quaternion.copy(s.quaternion);s.bone.scale.copy(s.scale)}for(const s of snapshot)if(!set.has(s.bone.parent))s.bone.updateWorldMatrix(true,true)}
-const worldPoint=bone=>bone.getWorldPosition(new Vector3())
-function worldQuaternion(bone,q){const parent=bone.parent?.getWorldQuaternion(new Quaternion())??new Quaternion();bone.quaternion.copy(parent.invert().multiply(q));bone.updateWorldMatrix(true,true)}
-function translateWorld(bone,delta){const p=worldPoint(bone).add(delta);if(bone.parent)bone.parent.worldToLocal(p);bone.position.copy(p);bone.updateWorldMatrix(true,true)}
-function aim(bone,child,target){const p=worldPoint(bone),from=worldPoint(child).sub(p).normalize(),to=target.clone().sub(p).normalize(),q=new Quaternion().setFromUnitVectors(from,to).multiply(bone.getWorldQuaternion(new Quaternion()));worldQuaternion(bone,q)}
+export function restoreBones(snapshot){const set=new Set(snapshot.map(s=>s.bone));for(const s of snapshot){s.bone.position.copy(s.position);s.bone.quaternion.copy(s.quaternion);s.bone.scale.copy(s.scale)}for(const s of snapshot)if(!set.has(s.bone.parent))settle(s.bone,true,true)}
+const worldPoint=bone=>worldPositionOf(bone,new Vector3())
+function worldQuaternion(bone,q){const parent=(bone.parent?worldQuaternionOf(bone.parent,new Quaternion()):new Quaternion());bone.quaternion.copy(parent.invert().multiply(q));settle(bone,true,true)}
+function translateWorld(bone,delta){const p=worldPoint(bone).add(delta);if(bone.parent)intoLocal(bone.parent,p);bone.position.copy(p);settle(bone,true,true)}
+function aim(bone,child,target){const p=worldPoint(bone),from=worldPoint(child).sub(p).normalize(),to=target.clone().sub(p).normalize(),q=new Quaternion().setFromUnitVectors(from,to).multiply(worldQuaternionOf(bone,new Quaternion()));worldQuaternion(bone,q)}
 // A segment direction alone has no roll. Preserve an anatomical lateral axis,
 // rather than inheriting the twist of a seated animation or a nearly straight knee.
 function segmentFrame(direction,lateral){
@@ -75,14 +76,15 @@ export function prepareRig(rig){
   return {...rig,restWorld,restRotations,restLocal,restBasis,hipsRest,headRest,legFrames,footRotations,get torsoSamples(){return torsoSamples??=prepareTorsoSamples(rig,restWorld,restBasis)}}
 }
 
-export function applyPronePose(rig,{heading=0,orientation=null,rotationOnly=false,preserveHands=false,legs={},support=null}={}){
-  const b=rig.bones,headPosition=worldPoint(b.head),headRotation=b.head.getWorldQuaternion(new Quaternion())
-  const hands=preserveHands?Object.fromEntries(['left','right'].map(side=>[side,{position:worldPoint(b[side+'Hand']),quaternion:b[side+'Hand'].getWorldQuaternion(new Quaternion()),pole:worldPoint(b[side+'LowerArm'])}])):null
+export function applyPronePose(rig,options){return solving(rig,()=>pronePose(rig,options))}
+function pronePose(rig,{heading=0,orientation=null,rotationOnly=false,preserveHands=false,legs={},support=null}={}){
+  const b=rig.bones,headPosition=worldPoint(b.head),headRotation=worldQuaternionOf(b.head,new Quaternion())
+  const hands=preserveHands?Object.fromEntries(['left','right'].map(side=>[side,{position:worldPoint(b[side+'Hand']),quaternion:worldQuaternionOf(b[side+'Hand'],new Quaternion()),pole:worldPoint(b[side+'LowerArm'])}])):null
   const q=orientation??new Quaternion().setFromAxisAngle(new Vector3(0,1,0),heading)
   const forward=new Vector3(0,0,1).applyQuaternion(q),left=new Vector3(1,0,0).applyQuaternion(q),down=new Vector3(0,-1,0).applyQuaternion(q)
   const desiredBasis=new Quaternion().setFromRotationMatrix(new Matrix4().makeBasis(left,forward,down))
   if(rotationOnly){
-    const q=new Quaternion().setFromAxisAngle(left,Math.PI/2).multiply(b.hips.getWorldQuaternion(new Quaternion()));worldQuaternion(b.hips,q)
+    const q=new Quaternion().setFromAxisAngle(left,Math.PI/2).multiply(worldQuaternionOf(b.hips,new Quaternion()));worldQuaternion(b.hips,q)
   }else{
     // A skin palette may omit a non-deforming parent. Its child's inverse bind
     // then gives a WORLD transform, not a trustworthy LOCAL bind transform.
@@ -101,7 +103,7 @@ export function applyPronePose(rig,{heading=0,orientation=null,rotationOnly=fals
       // A support-anchored torso has a stable neutral neck. Looking up/down
       // rotates the head without raising the entire supported body each frame.
       const neutral=support?q.clone().multiply(rig.restBasis.clone().invert()).multiply(rig.headRest):headRotation
-      const neck=b.neck.getWorldQuaternion(new Quaternion()).slerp(neutral,support?.neckExtension??.4);worldQuaternion(b.neck,neck)
+      const neck=worldQuaternionOf(b.neck,new Quaternion()).slerp(neutral,support?.neckExtension??.4);worldQuaternion(b.neck,neck)
     }
     worldQuaternion(b.head,headRotation)
   }
@@ -137,12 +139,12 @@ export function applyPronePose(rig,{heading=0,orientation=null,rotationOnly=fals
       worldQuaternion(foot,footBasis.multiply(rig.restBasis.clone().invert()).multiply(rig.footRotations[side]))
     }
   }
-  rig.skeleton.update()
+  skinUpdate(rig.skeleton)
   const knee=side=>{const a=worldPoint(b[side+'UpperLeg']),m=worldPoint(b[side+'LowerLeg']),z=worldPoint(b[side+'Foot']);return 180-a.sub(m).angleTo(z.sub(m))*180/Math.PI}
   const handPositionErrorMm=hands?Math.max(...['left','right'].map(side=>worldPoint(b[side+'Hand']).distanceTo(hands[side].position)*1000)):null
   const supportGripErrorMm=!hands&&support?.grips?Math.max(...['left','right'].map(side=>worldPoint(b[side+'Hand']).distanceTo(support.grips[side])*1000)):null
   const gap=role=>worldPoint(b['left'+role]).sub(worldPoint(b['right'+role])).dot(left)
-  return {headDriftMm:worldPoint(b.head).distanceTo(headPosition)*1000,headRotationErrorDegrees:b.head.getWorldQuaternion(new Quaternion()).angleTo(headRotation)*180/Math.PI,leftKneeDegrees:knee('left'),rightKneeDegrees:knee('right'),ankleLateralGapM:gap('Foot'),kneeLateralGapM:gap('LowerLeg'),handPositionErrorMm,supportGripErrorMm,torsoContact,rotationOnly}
+  return {headDriftMm:worldPoint(b.head).distanceTo(headPosition)*1000,headRotationErrorDegrees:worldQuaternionOf(b.head,new Quaternion()).angleTo(headRotation)*180/Math.PI,leftKneeDegrees:knee('left'),rightKneeDegrees:knee('right'),ankleLateralGapM:gap('Foot'),kneeLateralGapM:gap('LowerLeg'),handPositionErrorMm,supportGripErrorMm,torsoContact,rotationOnly}
 }
 
 /** Explicit rig selection only: never guess which user owns a nearby skeleton. */
@@ -157,12 +159,12 @@ export function installRenderPose(scene,rig,getOptions,onError,relatedSkeletons=
   function onBefore(...args){
     api.restore();before.call(this,...args)
     const options=getOptions();if(disposed||!options.enabled)return
-    const camera=args[2];cameraSnapshot=camera?{camera,position:camera.getWorldPosition(new Vector3()),quaternion:camera.getWorldQuaternion(new Quaternion())}:null
+    const camera=args[2];cameraSnapshot=camera?{camera,position:worldPositionOf(camera,new Vector3()),quaternion:worldQuaternionOf(camera,new Quaternion())}:null
     for(const s of saved){s.position.copy(s.bone.position);s.quaternion.copy(s.bone.quaternion);s.scale.copy(s.bone.scale)}
     snapshot=saved;api.restored=false
     try{api.last=applyPronePose(rig,options);api.frames++}catch(error){api.restore();if(onError)onError(error);else throw error}
   }
-  function onAfter(...args){try{after.call(this,...args)}finally{api.restore();if(cameraSnapshot){const {camera,position,quaternion}=cameraSnapshot;api.cameraPositionDriftMm=camera.getWorldPosition(new Vector3()).distanceTo(position)*1000;api.cameraRotationErrorDegrees=camera.getWorldQuaternion(new Quaternion()).angleTo(quaternion)*180/Math.PI;cameraSnapshot=null}}}
+  function onAfter(...args){try{after.call(this,...args)}finally{api.restore();if(cameraSnapshot){const {camera,position,quaternion}=cameraSnapshot;api.cameraPositionDriftMm=worldPositionOf(camera,new Vector3()).distanceTo(position)*1000;api.cameraRotationErrorDegrees=worldQuaternionOf(camera,new Quaternion()).angleTo(quaternion)*180/Math.PI;cameraSnapshot=null}}}
   scene.onBeforeRender=onBefore;scene.onAfterRender=onAfter
   return api
 }

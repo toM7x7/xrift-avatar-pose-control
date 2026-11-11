@@ -1,16 +1,17 @@
 import {Matrix4,Quaternion,Vector3} from 'three'
 import {applyStandingPose} from './standing.mjs'
+import {intoLocal,settle,skinUpdate,solving,worldPositionOf,worldQuaternionOf} from './world.mjs'
 
-const sides=['left','right'],up=new Vector3(0,1,0),point=b=>b.getWorldPosition(new Vector3())
+const sides=['left','right'],up=new Vector3(0,1,0),point=b=>worldPositionOf(b,new Vector3())
 function coordinate(value,label){
  const result=value?.isVector3?value.clone():Array.isArray(value)&&value.length===3?new Vector3(...value):null
  if(!result||!result.toArray().every(Number.isFinite))throw new TypeError('Invalid carrier anchor: '+label)
  return result
 }
 const safe=(value,fallback,min,max)=>Number.isFinite(value)?Math.max(min,Math.min(max,value)):fallback
-function worldRotation(bone,q){const parent=bone.parent?.getWorldQuaternion(new Quaternion())??new Quaternion();bone.quaternion.copy(parent.invert().multiply(q));bone.updateWorldMatrix(true,true)}
-function translate(bone,delta){const target=point(bone).add(delta);bone.position.copy(bone.parent?bone.parent.worldToLocal(target):target);bone.updateWorldMatrix(true,true)}
-function aim(bone,child,target){const start=point(bone),from=point(child).sub(start).normalize(),to=target.clone().sub(start).normalize();worldRotation(bone,new Quaternion().setFromUnitVectors(from,to).multiply(bone.getWorldQuaternion(new Quaternion())))}
+function worldRotation(bone,q){const parent=(bone.parent?worldQuaternionOf(bone.parent,new Quaternion()):new Quaternion());bone.quaternion.copy(parent.invert().multiply(q));settle(bone,true,true)}
+function translate(bone,delta){const target=point(bone).add(delta);bone.position.copy(bone.parent?intoLocal(bone.parent,target):target);settle(bone,true,true)}
+function aim(bone,child,target){const start=point(bone),from=point(child).sub(start).normalize(),to=target.clone().sub(start).normalize();worldRotation(bone,new Quaternion().setFromUnitVectors(from,to).multiply(worldQuaternionOf(bone,new Quaternion())))}
 function segmentFrame(direction,lateral){const y=direction.clone().normalize(),x=lateral.clone().addScaledVector(y,-lateral.dot(y)).normalize();return new Quaternion().setFromRotationMatrix(new Matrix4().makeBasis(x,y,new Vector3().crossVectors(x,y)))}
 function alignLeg(rig,role,direction,lateral){const rest=rig.legFrames[role];worldRotation(rig.bones[role],segmentFrame(direction,lateral).multiply(rest.frame.clone().invert()).multiply(rest.rotation))}
 function solveArm(upper,lower,hand,target,pole){
@@ -46,7 +47,8 @@ function legTorsoProxies(b,shoulderCenter,carrierScale,passengerScale,lateral,fo
  * support moves the rendered head, never a camera. head preserves the host head
  * and reports the support miss rather than claiming both constraints are met.
  */
-export function applyShoulderRidePose(rig,options={}){
+export function applyShoulderRidePose(rig,options){return solving(rig,()=>shoulderRidePose(rig,options))}
+function shoulderRidePose(rig,options={}){
  const {carrierAnchors,preserveHands=false,anchorMode='support'}=options
  if(!['support','head'].includes(anchorMode))throw new TypeError('Unknown shoulder anchor mode')
  const anchors=Object.fromEntries(['leftShoulder','rightShoulder','head'].map(k=>[k,coordinate(carrierAnchors?.[k],k)]))
@@ -55,8 +57,8 @@ export function applyShoulderRidePose(rig,options={}){
  if(carrierLateral.lengthSq()<1e-10)throw new TypeError('Carrier shoulders must be distinct horizontally')
  carrierLateral.normalize();const carrierForward=new Vector3().crossVectors(carrierLateral,up).normalize(),inferred=Math.atan2(carrierForward.x,carrierForward.z)
  const heading=safe(options.heading,inferred,-Math.PI*100,Math.PI*100),yaw=new Quaternion().setFromAxisAngle(up,heading),lateral=new Vector3(1,0,0).applyQuaternion(yaw),forward=new Vector3(0,0,1).applyQuaternion(yaw)
- const b=rig.bones,originalHead=point(b.head),originalHeadQ=b.head.getWorldQuaternion(new Quaternion()),beforeLengths=lengths(b)
- const hands=preserveHands?Object.fromEntries(sides.map(s=>[s,{p:point(b[s+'Hand']),q:b[s+'Hand'].getWorldQuaternion(new Quaternion()),pole:point(b[s+'LowerArm'])}])):null
+ const b=rig.bones,originalHead=point(b.head),originalHeadQ=worldQuaternionOf(b.head,new Quaternion()),beforeLengths=lengths(b)
+ const hands=preserveHands?Object.fromEntries(sides.map(s=>[s,{p:point(b[s+'Hand']),q:worldQuaternionOf(b[s+'Hand'],new Quaternion()),pole:point(b[s+'LowerArm'])}])):null
  applyStandingPose(rig,{heading,preserveHands:false})
  const scale=point(b.head).distanceTo(point(b.hips))/.64,automaticSpread=Math.max(1,Math.min(1.8,carrierScale/scale)),spread=safe(options.spread,automaticSpread,.45,1.8),seatLift=safe(options.seatLift,.10*scale,-.10*scale,.35*scale),seatBack=safe(options.seatBack,.20*Math.max(scale,carrierScale),0,.45*Math.max(scale,carrierScale))
  const supportTarget=shoulderCenter.clone().addScaledVector(up,seatLift).addScaledVector(forward,-seatBack)
@@ -76,23 +78,24 @@ export function applyShoulderRidePose(rig,options={}){
   solveArm(b[s+'UpperArm'],b[s+'LowerArm'],b[s+'Hand'],target,pole)
   if(hands)worldRotation(b[s+'Hand'],hands[s].q)
  }
- rig.skeleton.update()
+ skinUpdate(rig.skeleton)
  const afterLengths=lengths(b),knee=s=>180-point(b[s+'UpperLeg']).sub(point(b[s+'LowerLeg'])).angleTo(point(b[s+'Foot']).sub(point(b[s+'LowerLeg'])))*180/Math.PI
  const headProxy=headProxies(b,anchors.head,carrierScale,scale,lateral,forward),legProxy=legTorsoProxies(b,shoulderCenter,carrierScale,scale,lateral,forward),bodyProxyWarnings=[]
  if(headProxy.proxyWarning)bodyProxyWarnings.push(headProxy.proxyWarning)
  if(legProxy.shinTorsoProxyClearanceMm<0)bodyProxyWarnings.push('possible-shin-torso-overlap')
  if(legProxy.footTorsoProxyClearanceMm<0)bodyProxyWarnings.push('possible-foot-torso-overlap')
  const bodyProxyClearanceMm=Math.min(headProxy.headTorsoProxyClearanceMm,headProxy.headThighProxyClearanceMm,legProxy.shinTorsoProxyClearanceMm,legProxy.footTorsoProxyClearanceMm)
- return {headWorld:point(b.head).toArray(),feetWorld:sides.map(s=>point(b[s+'Foot']).toArray()),headDriftMm:point(b.head).distanceTo(originalHead)*1000,headRotationErrorDegrees:b.head.getWorldQuaternion(new Quaternion()).angleTo(originalHeadQ)*180/Math.PI,handPositionErrorMm:hands?Math.max(...sides.map(s=>point(b[s+'Hand']).distanceTo(hands[s].p)*1000)):null,handRotationErrorDegrees:hands?Math.max(...sides.map(s=>b[s+'Hand'].getWorldQuaternion(new Quaternion()).angleTo(hands[s].q)*180/Math.PI)):null,knees:sides.map(knee),upright:point(b.head).sub(point(b.hips)).normalize().dot(up),anchorMode,supportTargetWorld:supportTarget.toArray(),hipsWorld:point(b.hips).toArray(),kneesWorld:sides.map(s=>point(b[s+'LowerLeg']).toArray()),supportErrorMm:point(b.hips).distanceTo(supportTarget)*1000,carrierHeadHipDistanceM:point(b.hips).distanceTo(anchors.head),kneeLateralGapM:point(b.leftLowerLeg).sub(point(b.rightLowerLeg)).dot(lateral),maxLimbLengthErrorMm:Math.max(...afterLengths.map((v,i)=>Math.abs(v-beforeLengths[i])*1000)),scale,carrierScale,heading,seatLift,seatBack,spread,automaticSpread,...headProxy,...legProxy,bodyProxyClearanceMm,bodyProxyWarnings}
+ return {headWorld:point(b.head).toArray(),feetWorld:sides.map(s=>point(b[s+'Foot']).toArray()),headDriftMm:point(b.head).distanceTo(originalHead)*1000,headRotationErrorDegrees:worldQuaternionOf(b.head,new Quaternion()).angleTo(originalHeadQ)*180/Math.PI,handPositionErrorMm:hands?Math.max(...sides.map(s=>point(b[s+'Hand']).distanceTo(hands[s].p)*1000)):null,handRotationErrorDegrees:hands?Math.max(...sides.map(s=>worldQuaternionOf(b[s+'Hand'],new Quaternion()).angleTo(hands[s].q)*180/Math.PI)):null,knees:sides.map(knee),upright:point(b.head).sub(point(b.hips)).normalize().dot(up),anchorMode,supportTargetWorld:supportTarget.toArray(),hipsWorld:point(b.hips).toArray(),kneesWorld:sides.map(s=>point(b[s+'LowerLeg']).toArray()),supportErrorMm:point(b.hips).distanceTo(supportTarget)*1000,carrierHeadHipDistanceM:point(b.hips).distanceTo(anchors.head),kneeLateralGapM:point(b.leftLowerLeg).sub(point(b.rightLowerLeg)).dot(lateral),maxLimbLengthErrorMm:Math.max(...afterLengths.map((v,i)=>Math.abs(v-beforeLengths[i])*1000)),scale,carrierScale,heading,seatLift,seatBack,spread,automaticSpread,...headProxy,...legProxy,bodyProxyClearanceMm,bodyProxyWarnings}
 }
 
 /** Explicit carrier pose for the local two-avatar experiment. Hands target the
  * passenger's shins; unreachable targets remain errors without bone stretching.
  */
-export function applyShoulderCarrierPose(rig,{heading=0,shinTargets}={}){
+export function applyShoulderCarrierPose(rig,options){return solving(rig,()=>shoulderCarrierPose(rig,options))}
+function shoulderCarrierPose(rig,{heading=0,shinTargets}={}){
  const targets=Object.fromEntries(sides.map(s=>[s,coordinate(shinTargets?.[s],s+' shin')])),b=rig.bones,before=lengths(b),yaw=new Quaternion().setFromAxisAngle(up,safe(heading,0,-Math.PI*100,Math.PI*100)),lateral=new Vector3(1,0,0).applyQuaternion(yaw),forward=new Vector3(0,0,1).applyQuaternion(yaw)
  const metrics=applyStandingPose(rig,{heading:safe(heading,0,-Math.PI*100,Math.PI*100),preserveHands:false}),scale=point(b.head).distanceTo(point(b.hips))/.64
  for(const [sign,s]of [[1,'left'],[-1,'right']]){const shoulder=point(b[s+'UpperArm']),pole=shoulder.clone().addScaledVector(lateral,sign*.35*scale).addScaledVector(forward,.30*scale).addScaledVector(up,-.10*scale);solveArm(b[s+'UpperArm'],b[s+'LowerArm'],b[s+'Hand'],targets[s],pole)}
- rig.skeleton.update();const after=lengths(b),handTargetErrorsMm=sides.map(s=>point(b[s+'Hand']).distanceTo(targets[s])*1000)
+ skinUpdate(rig.skeleton);const after=lengths(b),handTargetErrorsMm=sides.map(s=>point(b[s+'Hand']).distanceTo(targets[s])*1000)
  return {...metrics,handsWorld:sides.map(s=>point(b[s+'Hand']).toArray()),handTargetErrorsMm,handTargetErrorMm:Math.max(...handTargetErrorsMm),maxLimbLengthErrorMm:Math.max(...after.map((v,i)=>Math.abs(v-before[i])*1000))}
 }

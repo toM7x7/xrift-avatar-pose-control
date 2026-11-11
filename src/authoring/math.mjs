@@ -1,12 +1,13 @@
 // Small, allocation-light helpers shared by the authored-pose solver.
 import {Matrix4,Quaternion,Vector3} from 'three'
+import {intoLocal,settle,worldPositionOf,worldQuaternionOf} from '../world.mjs'
 
 export const DEG=Math.PI/180
 export const UP=Object.freeze(new Vector3(0,1,0))
 export const clamp=(v,lo,hi)=>Math.max(lo,Math.min(hi,v))
 export const finite=(v,fallback=0)=>Number.isFinite(v)?v:fallback
-export const point=(bone,out=new Vector3())=>bone.getWorldPosition(out)
-export const worldQ=(bone,out=new Quaternion())=>bone.getWorldQuaternion(out)
+export const point=(bone,out=new Vector3())=>worldPositionOf(bone,out)
+export const worldQ=(bone,out=new Quaternion())=>worldQuaternionOf(bone,out)
 export const restPoint=(rig,bone)=>new Vector3().setFromMatrixPosition(rig.restWorld.get(bone))
 
 /** Orthonormal frame whose columns are (x, y, z); y is kept exactly, z is the hint made perpendicular. */
@@ -21,12 +22,12 @@ export function axes(q){return {x:new Vector3(1,0,0).applyQuaternion(q),y:new Ve
 
 /** Set a bone's world rotation, keeping its local translation. */
 export function setWorldRotation(bone,q){
- const parent=bone.parent?bone.parent.getWorldQuaternion(new Quaternion()):new Quaternion()
- bone.quaternion.copy(parent.invert().multiply(q));bone.updateWorldMatrix(false,true)
+ const parent=bone.parent?worldQuaternionOf(bone.parent,new Quaternion()):new Quaternion()
+ bone.quaternion.copy(parent.invert().multiply(q));settle(bone,false,true)
 }
 export function setWorldPosition(bone,p){
- const local=p.clone();if(bone.parent){bone.parent.updateWorldMatrix(true,false);bone.parent.worldToLocal(local)}
- bone.position.copy(local);bone.updateWorldMatrix(false,true)
+ const local=p.clone();if(bone.parent){settle(bone.parent,true,false);intoLocal(bone.parent,local)}
+ bone.position.copy(local);settle(bone,false,true)
 }
 /** Anatomical rotation (X left, Y up, Z forward in the rest body basis) → bone world rotation. */
 export function anatomicalToWorld(rig,bone,heading,anat){
