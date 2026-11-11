@@ -98,24 +98,25 @@ export const SCENARIOS=[
 ]
 
 const bonesOf=skeleton=>{const out=new Float64Array(skeleton.bones.length*10);skeleton.bones.forEach((b,i)=>out.set([b.position.x,b.position.y,b.position.z,b.quaternion.x,b.quaternion.y,b.quaternion.z,b.quaternion.w,b.scale.x,b.scale.y,b.scale.z],i*10));return out}
-/** Run one scenario: per frame the posed bones, the solver's result as JSON, and the bones after the host pose is restored. */
+/** Run one scenario: per frame the posed bones, the skinning matrices the solver left, its result as JSON, and the bones after the host pose is restored. */
 export function record(m,[name,build,spec],frames=36){
  const s=stage(m,spec),prepare=build(m,s),out=[]
  for(let i=0;i<frames;i++){
   s.host(i/30)
-  const snapshot=m.captureBones(s.f.skeleton),result=prepare(i)(),posed=bonesOf(s.f.skeleton)
-  if(result?.restore){result.restore();out.push({posed,result:JSON.stringify(result.last),restored:bonesOf(s.f.skeleton)})}
-  else{m.restoreBones(snapshot);out.push({posed,result:JSON.stringify(result),restored:bonesOf(s.f.skeleton)})}
+  const snapshot=m.captureBones(s.f.skeleton),result=prepare(i)(),posed=bonesOf(s.f.skeleton),skin=Float32Array.from(s.f.skeleton.boneMatrices)
+  if(result?.restore){result.restore();out.push({posed,skin,result:JSON.stringify(result.last),restored:bonesOf(s.f.skeleton)})}
+  else{m.restoreBones(snapshot);out.push({posed,skin,result:JSON.stringify(result),restored:bonesOf(s.f.skeleton)})}
  }
  s.f.dispose?.()
  return out
 }
-const sameBits=(a,b)=>{if(a.length!==b.length)return false;const x=new BigUint64Array(a.buffer),y=new BigUint64Array(b.buffer);for(let i=0;i<x.length;i++)if(x[i]!==y[i])return false;return true}
+const sameBits=(a,b)=>{if(a.length!==b.length)return false;const View=a instanceof Float32Array?Uint32Array:BigUint64Array,x=new View(a.buffer),y=new View(b.buffer);for(let i=0;i<x.length;i++)if(x[i]!==y[i])return false;return true}
 /** First frame where two recordings differ, or null. */
 export function firstDifference(a,b){
  if(a.length!==b.length)return {frame:-1,what:'frame count'}
  for(let i=0;i<a.length;i++){
   if(!sameBits(a[i].posed,b[i].posed))return {frame:i,what:'posed bones'}
+  if(!sameBits(a[i].skin,b[i].skin))return {frame:i,what:'skinning matrices'}
   if(a[i].result!==b[i].result)return {frame:i,what:'solver result'}
   if(!sameBits(a[i].restored,b[i].restored))return {frame:i,what:'restored bones'}
  }

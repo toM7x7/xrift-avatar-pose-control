@@ -97,7 +97,7 @@ node scripts/studio-capture.mjs --vrm vrm/<file>.vrm [--vrm ...] --read host --k
 
 ## 8. XRiftアイテムへ渡す
 
-- アイテムはこのリポジトリを直接 import しない。写す（例：items/ki-charge-orb の `scripts/sync-pose-lib.mjs`。写したファイルのハッシュを `SOURCE.json` に残し、`--check` で照合）。写すもの：`src/vendor/render-pose*`・`torso-support*`・`src/authoring/*`・`src/adapters/xrift*`・`src/humanoid-inference*`・`src/role-inference*`・`specs/<id>.v1.json`。
+- アイテムはこのリポジトリを直接 import しない。写す（例：items/ki-charge-orb の `scripts/sync-pose-lib.mjs`。写したファイルのハッシュを `SOURCE.json` に残し、`--check` で照合）。写すもの：`src/world*`（ワールド行列の読み取り。2026-11-11 以降の版では必須）・`src/vendor/render-pose*`・`torso-support*`・`src/authoring/*`・`src/adapters/xrift*`・`src/humanoid-inference*`・`src/role-inference*`・`specs/<id>.v1.json`。
 - アバターは `selectActorRig({scene,userId,isLocal,feet})`：他人は `remote-player-<id>` 印（ホストの慣習で、SDKの約束ではない）、自分はどの印にも入っていない骨格。読めないときは当てずに `diagnosis` をコンソールへ（ユーザーがコピーして送れる形）。
 - 描画のたびに当てて戻す（`scene.onBeforeRender`／`onAfterRender`、入れ子の描画は深さで数える）。頭はホスト（`headMode:'host'`）。VRの人には当てない（手は追跡される）。
 - アイテムの時計とクリップの時計：入りと溜めはアイテムの時間に伸び縮みさせてよいが、放ってから先（押し出し・余韻・戻り）の秒数は一致させ、テストで固定する。

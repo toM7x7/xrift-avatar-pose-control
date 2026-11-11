@@ -9,7 +9,8 @@ export interface PoseOptions {enabled?:boolean;heading?:number;orientation?:Quat
 export interface RenderPoseBridge {last:PoseMetrics|null;frames:number;restored:boolean;cameraPositionDriftMm:number;cameraRotationErrorDegrees:number;restore:()=>void;dispose:()=>void}
 export function roleOf(name:string):string|null
 export function inspectHumanoidRigs(scene:Object3D):HumanoidRig[]
-export function captureBones(skeleton:Skeleton):{bone:Bone;position:Vector3;quaternion:Quaternion;scale:Vector3}[]
+/** `reuse`: an earlier snapshot of the same skeleton, overwritten and returned instead of allocating a new one. */
+export function captureBones(skeleton:Skeleton,reuse?:{bone:Bone;position:Vector3;quaternion:Quaternion;scale:Vector3}[]|null):{bone:Bone;position:Vector3;quaternion:Quaternion;scale:Vector3}[]
 export function restoreBones(snapshot:ReturnType<typeof captureBones>):void
 export function prepareRig(rig:HumanoidRig):PreparedRig
 export function applyPronePose(rig:PreparedRig,options?:PoseOptions):PoseMetrics

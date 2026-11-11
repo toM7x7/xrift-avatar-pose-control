@@ -10,13 +10,13 @@ export const point=(bone,out=new Vector3())=>worldPositionOf(bone,out)
 export const worldQ=(bone,out=new Quaternion())=>worldQuaternionOf(bone,out)
 export const restPoint=(rig,bone)=>new Vector3().setFromMatrixPosition(rig.restWorld.get(bone))
 
+const _fy=new Vector3(),_fz=new Vector3(),_fx=new Vector3(),_fm=new Matrix4()
 /** Orthonormal frame whose columns are (x, y, z); y is kept exactly, z is the hint made perpendicular. */
 export function frameYZ(y,zHint,out=new Quaternion()){
- const yy=y.clone().normalize(),z=zHint.clone().addScaledVector(yy,-zHint.dot(yy))
+ const yy=_fy.copy(y).normalize(),z=_fz.copy(zHint).addScaledVector(yy,-zHint.dot(yy))
  if(z.lengthSq()<1e-12){z.set(0,0,1).addScaledVector(yy,-yy.z);if(z.lengthSq()<1e-12)z.set(1,0,0).addScaledVector(yy,-yy.x)}
  z.normalize()
- const x=new Vector3().crossVectors(yy,z)
- return out.setFromRotationMatrix(new Matrix4().makeBasis(x,yy,z))
+ return out.setFromRotationMatrix(_fm.makeBasis(_fx.crossVectors(yy,z),yy,z))
 }
 export function axes(q){return {x:new Vector3(1,0,0).applyQuaternion(q),y:new Vector3(0,1,0).applyQuaternion(q),z:new Vector3(0,0,1).applyQuaternion(q)}}
 
@@ -41,11 +41,12 @@ export function eulerYXZ(yawDeg=0,pitchDeg=0,rollDeg=0){
  // yaw about +Y (positive turns toward the body's left), pitch about +X (positive bends forward), roll about +Z (positive lowers the right shoulder)
  return new Quaternion().setFromAxisAngle(UP,yawDeg*DEG).multiply(new Quaternion().setFromAxisAngle(new Vector3(1,0,0),pitchDeg*DEG)).multiply(new Quaternion().setFromAxisAngle(new Vector3(0,0,1),rollDeg*DEG))
 }
+const _sa=new Vector3(),_sb=new Vector3(),_sc=new Vector3()
 export function signedAngle(from,to,axis){
- const a=from.clone().addScaledVector(axis,-from.dot(axis)),b=to.clone().addScaledVector(axis,-to.dot(axis))
+ const a=_sa.copy(from).addScaledVector(axis,-from.dot(axis)),b=_sb.copy(to).addScaledVector(axis,-to.dot(axis))
  if(a.lengthSq()<1e-12||b.lengthSq()<1e-12)return 0
  a.normalize();b.normalize()
- return Math.atan2(new Vector3().crossVectors(a,b).dot(axis),clamp(a.dot(b),-1,1))
+ return Math.atan2(_sc.crossVectors(a,b).dot(axis),clamp(a.dot(b),-1,1))
 }
 export function lerp(a,b,t){return a+(b-a)*t}
 export const EASE={

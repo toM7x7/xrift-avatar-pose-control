@@ -9,6 +9,16 @@ import {DEG,UP,clamp,frameYZ,frameToWorld,point,setWorldRotation,signedAngle} fr
 // externalRotation/internalRotation: the upper arm's roll about its own axis (shoulder rotation), see humeralRotation().
 export const ARM_LIMITS=Object.freeze({flexion:75,extension:70,radial:22,ulnar:35,pronation:80,supination:85,elbowFlexion:150,externalRotation:90,internalRotation:75})
 const Y=new Vector3(0,1,0)
+// The swivel search tries about 80 elbow directions per arm per frame, so nothing in it allocates: a candidate is
+// written into one of three reusable slots (the one being tried, the best so far, the best of the local valley).
+const _c1=new Vector3(),_c2=new Vector3(),_zU=new Vector3(),_hinge=new Vector3(),_cross=new Vector3(),_axis1=new Vector3(),_axis2=new Vector3(),_fl=new Vector3(),_bend=new Vector3(),_medial=new Vector3(),_ref=new Vector3()
+const _q1=new Quaternion(),_q2=new Quaternion(),_q3=new Quaternion(),_q4=new Quaternion(),_q5=new Quaternion()
+const candidate=()=>({phi:0,o:new Vector3(),elbow:new Vector3(),u:new Vector3(),a:new Vector3(),Fu:new Quaternion(),Ff0:new Quaternion(),Ff:new Quaternion(),H:new Quaternion(),rho:0,pron:0,pron0:0,residual:0,flex:0,dev:0,elbowFlex:0,humeral:0,pN:null,fN:null,tN:null})
+const SLOTS=[candidate(),candidate(),candidate()]
+// Rest data of the arm being solved: the same for every candidate.
+const K={pN:new Vector3(),fN:new Vector3(),tN:new Vector3(),toForearm:null,toForearmInverse:new Quaternion(),pronSign:1}
+// A candidate kept past the search (opts.trace) needs its own copies.
+const keep=r=>({...r,o:r.o.clone(),elbow:r.elbow.clone(),u:r.u.clone(),a:r.a.clone(),Fu:r.Fu.clone(),Ff0:r.Ff0.clone(),Ff:r.Ff.clone(),H:r.H.clone(),pN:r.pN.clone(),fN:r.fN.clone(),tN:r.tN.clone()})
 const wrapAngle=a=>Math.atan2(Math.sin(a),Math.cos(a))
 const FORWARD=Object.freeze(new Vector3(0,0,1)),LEFT=Object.freeze(new Vector3(1,0,0))
 
@@ -20,8 +30,8 @@ const FORWARD=Object.freeze(new Vector3(0,0,1)),LEFT=Object.freeze(new Vector3(1
  * An elbow that points across the body or up while the arm reaches forward reads as about ±180°: no shoulder does that.
  */
 export function humeralRotation(d,bend,side,thorax){
- const fwd=thorax?.forward??FORWARD,medial=(thorax?.left??LEFT).clone().multiplyScalar(side==='left'?-1:1)
- const ref=fwd.clone().addScaledVector(medial,1.5*Math.max(0,d.dot(fwd)))
+ const fwd=thorax?.forward??FORWARD,medial=_medial.copy(thorax?.left??LEFT).multiplyScalar(side==='left'?-1:1)
+ const ref=_ref.copy(fwd).addScaledVector(medial,1.5*Math.max(0,d.dot(fwd)))
  ref.addScaledVector(d,-ref.dot(d))
  if(ref.lengthSq()<1e-8)ref.copy(medial).addScaledVector(d,-medial.dot(d))
  if(ref.lengthSq()<1e-8)return 0
@@ -48,9 +58,12 @@ function reachableHand(Ff,H,hand,pN,fN,tN,residual,flex,dev){
 
 /** Signed clearance (m) of p from an elliptic capsule; negative = inside the skin. */
 export function clearance(p,c){
- const rel=p.clone().sub(c.start),t=clamp(rel.dot(c.axis),0,c.length),radial=rel.clone().addScaledVector(c.axis,-t)
- const along=rel.dot(c.axis),beyond=along<0?-along:along>c.length?along-c.length:0
- const x=radial.dot(c.lateral),z=radial.dot(c.front),r=Math.hypot(x,z)
+ // Vector3 sub / dot / addScaledVector written out on scalars, in the same order.
+ const s=c.start,ax=c.axis,rx=p.x-s.x,ry=p.y-s.y,rz=p.z-s.z
+ const along=rx*ax.x+ry*ax.y+rz*ax.z,t=clamp(along,0,c.length),nt=-t
+ const qx=rx+ax.x*nt,qy=ry+ax.y*nt,qz=rz+ax.z*nt
+ const beyond=along<0?-along:along>c.length?along-c.length:0
+ const L=c.lateral,F=c.front,x=qx*L.x+qy*L.y+qz*L.z,z=qx*F.x+qy*F.y+qz*F.z,r=Math.hypot(x,z)
  if(r<1e-9)return -Math.min(c.a,c.front_r)+beyond
  const b=z>=0?c.front_r:c.back_r,ellipse=1/Math.sqrt((x/r/c.a)**2+(z/r/b)**2)
  const radialGap=r-ellipse
@@ -58,39 +71,37 @@ export function clearance(p,c){
 }
 export function minClearance(p,colliders,skip){let best=Infinity,which=null;for(const c of colliders){if(skip&&skip(c))continue;const d=clearance(p,c);if(d<best){best=d;which=c.key}}return {distance:best,key:which}}
 
-function analyze(info,side,s,wc,L1,L2,n,e1,e2,h,along,phi,H,opts){
- const o=e1.clone().multiplyScalar(Math.cos(phi)).addScaledVector(e2,Math.sin(phi))
- const c=s.clone().addScaledVector(n,along),elbow=c.clone().addScaledVector(o,h)
- const u=elbow.clone().sub(s).divideScalar(L1),a=wc.clone().sub(elbow).divideScalar(L2)
- const zU=o.clone().negate().addScaledVector(u,o.dot(u));if(zU.lengthSq()<1e-12)zU.copy(opts.forward??new Vector3(0,0,1)).addScaledVector(u,-(opts.forward??new Vector3(0,0,1)).dot(u))
- const Fu=frameYZ(u,zU),hinge=new Vector3(1,0,0).applyQuaternion(Fu)
- const Ff0=frameYZ(a,new Vector3().crossVectors(hinge,a))
- const hand=info.hands[side],limb=info.limbs[side]
- // Pronation sign: rotating the thumb side toward the palm about the distal axis.
- const pN=new Vector3(0,0,1).applyQuaternion(hand.toForearm),fN=new Vector3(0,1,0).applyQuaternion(hand.toForearm)
- const tN=hand.thumbSide.clone().applyQuaternion(limb.foreRest.clone().invert())
- const pronSign=Math.sign(new Vector3().crossVectors(Y,tN).dot(pN))||1
+/** One elbow direction on the reach circle, written into `out` (a slot). K holds the arm's rest data. */
+function analyze(side,s,wc,L1,L2,n,e1,e2,h,along,phi,H,opts,out){
+ const o=out.o.copy(e1).multiplyScalar(Math.cos(phi)).addScaledVector(e2,Math.sin(phi))
+ const elbow=out.elbow.copy(s).addScaledVector(n,along).addScaledVector(o,h)
+ const u=out.u.copy(elbow).sub(s).divideScalar(L1),a=out.a.copy(wc).sub(elbow).divideScalar(L2)
+ const zU=_zU.copy(o).negate().addScaledVector(u,o.dot(u));if(zU.lengthSq()<1e-12){const f=opts.forward??FORWARD;zU.copy(f).addScaledVector(u,-f.dot(u))}
+ const Fu=frameYZ(u,zU,out.Fu),hinge=_hinge.set(1,0,0).applyQuaternion(Fu)
+ const Ff0=frameYZ(a,_cross.crossVectors(hinge,a),out.Ff0)
+ const {pN,fN,tN,pronSign}=K,Hq=out.H.copy(H)
  // Between keys the hand may follow the joint-space plan (forearm roll + wrist angles)
  // instead of the world-space slerp, which can demand a twist the forearm cannot make.
  if(opts.plan?.blend>1e-3&&Number.isFinite(opts.plan.flex)){
-  const p=opts.plan,Fp=Ff0.clone().multiply(new Quaternion().setFromAxisAngle(Y,clamp(p.pronation,-ARM_LIMITS.supination*DEG,ARM_LIMITS.pronation*DEG)*pronSign))
-  const wrist=new Quaternion().setFromAxisAngle(new Vector3().crossVectors(fN,pN).normalize(),p.flex).multiply(new Quaternion().setFromAxisAngle(new Vector3().crossVectors(fN,tN).normalize(),p.dev))
-  H=H.clone().slerp(Fp.multiply(wrist).multiply(hand.toForearm),clamp(p.blend,0,1))
+  const p=opts.plan,Fp=_q1.copy(Ff0).multiply(_q2.setFromAxisAngle(Y,clamp(p.pronation,-ARM_LIMITS.supination*DEG,ARM_LIMITS.pronation*DEG)*pronSign))
+  const wrist=_q3.setFromAxisAngle(_axis1.crossVectors(fN,pN).normalize(),p.flex).multiply(_q4.setFromAxisAngle(_axis2.crossVectors(fN,tN).normalize(),p.dev))
+  Hq.slerp(Fp.multiply(wrist).multiply(K.toForearm),clamp(p.blend,0,1))
  }
  // Wrist relative rotation with the forearm at its rest roll.
- const R0=Ff0.clone().invert().multiply(H).multiply(hand.toForearm.clone().invert())
+ const R0=_q5.copy(Ff0).invert().multiply(Hq).multiply(K.toForearmInverse)
  const tau0=wrapAngle(2*Math.atan2(R0.y,R0.w))
  // Unwrap against the previous frame so a hand turning past ±180° keeps rolling the same way.
  let pron0=pronSign*tau0
  if(Number.isFinite(opts.previousPronation)){while(pron0-opts.previousPronation>Math.PI)pron0-=2*Math.PI;while(pron0-opts.previousPronation<-Math.PI)pron0+=2*Math.PI}
  const pron=clamp(pron0,-ARM_LIMITS.supination*DEG,ARM_LIMITS.pronation*DEG),rho=pron*pronSign
- const Ff=Ff0.clone().multiply(new Quaternion().setFromAxisAngle(Y,rho))
- const Hl=Ff.clone().invert().multiply(H),fl=new Vector3(0,1,0).applyQuaternion(Hl)
- const flex=Math.atan2(fl.dot(pN),fl.dot(fN)),dev=Math.atan2(fl.dot(tN),fl.dot(fN))
- const elbowFlex=Math.acos(clamp(u.dot(a),-1,1))
+ const Ff=out.Ff.copy(Ff0).multiply(_q2.setFromAxisAngle(Y,rho))
+ const fl=_fl.set(0,1,0).applyQuaternion(_q5.copy(Ff).invert().multiply(Hq))
+ out.flex=Math.atan2(fl.dot(pN),fl.dot(fN));out.dev=Math.atan2(fl.dot(tN),fl.dot(fN))
+ out.elbowFlex=Math.acos(clamp(u.dot(a),-1,1))
  // Shoulder roll: the front of the elbow (where the forearm folds) relative to the arm's plain rotation.
- const humeral=humeralRotation(u,new Vector3(0,0,1).applyQuaternion(Fu),side,opts.thorax)
- return {phi,o,elbow,u,a,Fu,Ff0,Ff,rho,pron,pron0,residual:pron0-pron,flex,dev,elbowFlex,humeral,H,pN,fN,tN}
+ out.humeral=humeralRotation(u,_bend.set(0,0,1).applyQuaternion(Fu),side,opts.thorax)
+ out.phi=phi;out.rho=rho;out.pron=pron;out.pron0=pron0;out.residual=pron0-pron;out.pN=pN;out.fN=fN;out.tN=tN
+ return out
 }
 
 function cost(r,opts,colliders){
@@ -110,8 +121,9 @@ function cost(r,opts,colliders){
   // includes loose clothing such as a hoodie hem) costs a lot, up to a cap. An arm resting against the body is normal; twisting
   // the whole arm to keep a sleeve off the clothes is not.
   const margin=opts.margin??.015,sink=opts.sink??.02
-  for(const p of [r.elbow,r.elbow.clone().lerp(opts.shoulder,.5),r.elbow.clone().lerp(opts.wrist,.5)]){
-   const d=minClearance(p,colliders,opts.skipCollider).distance
+  for(let k=0;k<3;k++){
+   const p=k===0?r.elbow:k===1?_c1.copy(r.elbow).lerp(opts.shoulder,.5):_c2.copy(r.elbow).lerp(opts.wrist,.5)
+   let d=Infinity;for(const collider of colliders){if(opts.skipCollider&&opts.skipCollider(collider))continue;const gap=clearance(p,collider);if(gap<d)d=gap}
    if(d<margin)c+=.8*Math.min(1,(margin-d)/(margin+sink))**2
    // Saturates (at 8) so that a penetration no elbow direction can avoid (a hanging arm against a body whose width
    // is only estimated) cannot pick the swivel by millimetres and wring the arm.
@@ -143,8 +155,20 @@ export function solveArm(rig,info,side,target,opts={}){
  const e2=new Vector3().crossVectors(n,e1)
  const H=target.hand,local={...opts,shoulder:s,wrist:wc}
  const samples=opts.samples??36
- let best=null,bestCost=Infinity
- const consider=phi=>{const r=analyze(info,side,s,wc,L1,L2,n,e1,e2,h,along,phi,H,local),c=cost(r,local,opts.colliders);opts.trace?.push({phi,cost:c,r,clearance:opts.trace&&opts.colliders?.length?minClearance(r.elbow,opts.colliders,opts.skipCollider):null});if(c<bestCost){bestCost=c;best=r}return c}
+ const limb=info.limbs[side],hand=info.hands[side]
+ // Pronation sign: rotating the thumb side toward the palm about the distal axis.
+ K.pN.set(0,0,1).applyQuaternion(hand.toForearm);K.fN.set(0,1,0).applyQuaternion(hand.toForearm)
+ K.tN.copy(hand.thumbSide).applyQuaternion(_q1.copy(limb.foreRest).invert())
+ K.pronSign=Math.sign(_cross.crossVectors(Y,K.tN).dot(K.pN))||1
+ K.toForearm=hand.toForearm;K.toForearmInverse.copy(hand.toForearm).invert()
+ let best=null,bestCost=Infinity,spare=SLOTS[0],idle=SLOTS[1],third=SLOTS[2]
+ const consider=phi=>{
+  const r=analyze(side,s,wc,L1,L2,n,e1,e2,h,along,phi,H,local,spare),c=cost(r,local,opts.colliders)
+  if(opts.trace)opts.trace.push({phi,cost:c,r:keep(r),clearance:opts.colliders?.length?minClearance(r.elbow,opts.colliders,opts.skipCollider):null})
+  // The slot that held the previous best is free again; the first best of a search takes a fresh one.
+  if(c<bestCost){bestCost=c;const old=best;best=r;if(old)spare=old;else{spare=idle;idle=third;third=null}}
+  return c
+ }
  // Continuity first: with a previous swivel, follow the nearest valley (±window) instead
  // of jumping to a distant global minimum; first frames search the whole circle.
  // If the local valley turns bad (a joint limit is being crossed), switch to the
@@ -162,7 +186,7 @@ export function solveArm(rig,info,side,target,opts={}){
  const g=(Math.sqrt(5)-1)/2
  let x1=hi-g*(hi-lo),x2=lo+g*(hi-lo),f1=consider(x1),f2=consider(x2)
  for(let i=0;i<14;i++){if(f1<f2){hi=x2;x2=x1;f2=f1;x1=hi-g*(hi-lo);f1=consider(x1)}else{lo=x1;x1=x2;f1=f2;x2=lo+g*(hi-lo);f2=consider(x2)}}
- const r=best,limb=info.limbs[side],hand=info.hands[side],split=clamp(opts.twistSplit??1,0,1)
+ const r=best,split=clamp(opts.twistSplit??1,0,1)
  setWorldRotation(upper,frameToWorld(rig,upper,r.Fu,limb.upperRest))
  setWorldRotation(lower,frameToWorld(rig,lower,r.Ff0.clone().multiply(new Quaternion().setFromAxisAngle(Y,r.rho*split)),limb.foreRest))
  // The hand shows what the wrist can do (opts.clampWrist === false keeps the requested frame, twist included).

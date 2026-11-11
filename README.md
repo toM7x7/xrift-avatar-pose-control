@@ -92,7 +92,7 @@ driver.dispose()
 
 元の低レベルモジュールも残っていますが、既存standing／proneの別々の描画フックを同じ身体へ混ぜず、新しいattachPoseDriverを入口にしてください。src/reproの旧版は意図的に不具合を残した比較用で、公開APIからはexportしません。
 
-`npm run verify`で単体158件・型の利用例・デモビルドを確認します。`npm run replay:n02`は採用profileで1740フレームと16checkpointを検査します。傾斜14条件と、傾斜OFFで従来の上下14・走行10・旧頭優先22条件を確認。実VRM2体×8状態×3視点をON/OFFで96枚比較しました。低／負荷重のZMP・足荷重比はnullと理由を返すため、利用側は有効性を確認してください。力・近似バランスとIKの連動実験であり、全身の剛体接触や回転点の加速度を解いたものではありません。前段階の実験記録も残し、小型×大型の肩車や太い衣服の干渉は未完です。
+`npm run verify`で単体195件・型の利用例・デモビルドを確認します。1体あたりの時間・行列の掛け算・確保量は`node --expose-gc scripts/bench-pose.mjs`（[計測と改善の記録](docs/experiments/engine-performance-2026-11-11.md)）。`npm run replay:n02`は採用profileで1740フレームと16checkpointを検査します。傾斜14条件と、傾斜OFFで従来の上下14・走行10・旧頭優先22条件を確認。実VRM2体×8状態×3視点をON/OFFで96枚比較しました。低／負荷重のZMP・足荷重比はnullと理由を返すため、利用側は有効性を確認してください。力・近似バランスとIKの連動実験であり、全身の剛体接触や回転点の加速度を解いたものではありません。前段階の実験記録も残し、小型×大型の肩車や太い衣服の干渉は未完です。
 
 - [乗り物・姿勢・VRMの実験指針](docs/EXPERIMENTS.md)
 - [N02の走行・胸腰足・重心feedback](docs/experiments/n02-ride-loop-2026-10-25.md)

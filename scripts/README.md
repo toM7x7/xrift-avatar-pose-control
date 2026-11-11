@@ -1,5 +1,9 @@
 # ブラウザでデモを確認する
 
+## 1体あたりの実行コスト
+
+`node --expose-gc scripts/bench-pose.mjs`：自作骨格で、N02（ドライバー経由）・作り込みの動作・持ち物・骨格の探索の、1フレームの時間・行列の掛け算の回数・確保量を出します。`--root <別のチェックアウト>` で同じシナリオを別の版に当てられます（前後比較）。`--json` で JSON。デスクトップの Node の値で、Quest の時間ではありません。記録は `docs/experiments/engine-performance-2026-11-11.md`。
+
 ## 骨格の役割推定（ローカル実VRM）
 
 `node scripts/check-role-inference-vrms.mjs`：手元の`vrm/`の各VRMで、元の名前・名前を消したもの・足の形を消したものがVRMのhumanoidと14役割一致するか、左右の名前を逆にしたもの・手がかりを消したもの・小さいskinを当てないかを確かめます。ファイル名入りの結果はignoredの`local-assets/role-inference-vrms.json`、画面には匿名ID（ファイル順）だけを出します。

@@ -14,4 +14,6 @@
 
 2026-11-05、骨格の役割推定（`src/role-inference.mjs`・`src/humanoid-inference.mjs`）を追加。同じ所有者のXRift作業領域の筋斗雲アイテム（items/nimbus-cloud、2026-10-27）で書いたものを移した。第三者のコードは含まない。検証の合成骨格は自作、実VRMの結果は匿名IDの数値だけで、VRM本体・原ファイル名・画像は含めない。
 
+2026-11-11、実行時の改善で `src/vendor/render-pose.mjs`・`src/vendor/torso-support.mjs` を変更（ワールド行列の読み取りを `src/world.mjs` 経由に、`captureBones` に使い回しの引数、`roleOf` に名前ごとの保持）。結果は変えていない。source-manifest は切り出し時のハッシュのまま。
+
 2026-11-05、MITライセンスを追加（上記）。リポジトリ内のコード・文書・自作骨格の画像・image_genの想像図が対象で、依存パッケージ（three / three-vrm / Vite等）は各ライセンスに従う。私有VRM・元ファイル名対応・私有画像はこれまで通りGitHubに含めない。
