@@ -6,8 +6,8 @@
 // - on entry the hips' ancestors and subtree are refreshed once, so every matrix matches its local transform;
 // - a read walks hips -> node and rebuilds only the links whose local transform, or whose parent, changed since their
 //   matrix was built (compared by value, so it does not depend on the solver announcing its writes);
-// - `settle` (the old updateWorldMatrix after a write) does nothing under the hips, `skinUpdate` refreshes the subtree
-//   before the skeleton reads it, and on exit the subtree is refreshed once more.
+// - `settle` (the old updateWorldMatrix after a write) does nothing under the hips; on exit the subtree is refreshed
+//   once, and the skeletons a solver asked to update (`skinUpdate`) are updated once, from those final matrices.
 // The matrices are produced by the same compose/multiply as three's, from the same inputs, so results are bit-identical;
 // tests/world-reads.test.mjs holds every solver to that against `referenceWorldReads(true)` (plain three calls).
 // Outside a solve, and for anything not under the hips (a support object, another avatar), these are plain three calls.
@@ -78,8 +78,8 @@ export function settle(node,parents=true,children=true){
 }
 /** Before anything that reads bone.matrixWorld directly (SkinnedMesh.applyBoneTransform, Skeleton.update). */
 export function settleSolved(){if(scope!==null)flush()}
-/** skeleton.update(), which reads every bone's matrixWorld directly. */
-export function skinUpdate(skeleton){settleSolved();skeleton.update()}
+/** skeleton.update(). During a solve it runs once when the solve ends: nothing reads the skinning matrices in between. */
+export function skinUpdate(skeleton){if(scope===null)skeleton.update();else if(!scope.skins.includes(skeleton))scope.skins.push(skeleton)}
 
 /** Run a solver with the rig's hips subtree read lazily. Nested calls for the same rig share one solve. */
 export function solving(rig,fn){
@@ -90,11 +90,13 @@ export function solving(rig,fn){
  // A solve for another avatar inside this one (a carrier): leave this avatar fully current first.
  if(outer!==null)flush()
  top.updateWorldMatrix(true,true)
- scope={top,base:++clock};epoch++
+ const skins=[]
+ scope={top,base:++clock,skins};epoch++
  try{return fn()}
  finally{
   top.updateWorldMatrix(false,true)
   scope=outer;chain.length=0
+  for(const skeleton of skins)skeleton.update()
   if(outer!==null){outer.top.updateWorldMatrix(true,true);outer.base=++clock;epoch++}
  }
 }

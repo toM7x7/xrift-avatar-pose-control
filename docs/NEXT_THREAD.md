@@ -1,5 +1,9 @@
 # 次のスレッドへ
 
+## 2026-11-11：ソルバーを書く・直すときのワールド行列
+
+ソルバーの中では three の `getWorldPosition`／`getWorldQuaternion`／`worldToLocal`／`localToWorld`／`updateWorldMatrix`／`skeleton.update()` を直接呼ばず、`src/world.mjs` の `worldPositionOf`／`worldQuaternionOf`／`intoLocal`／`intoWorld`／`settle`／`skinUpdate` を使い、公開する入口を `solving(rig, …)` で包む。骨の `matrixWorld` を直接読む three の機能（`applyBoneTransform` など）の前には `settleSolved()`。`tests/world-reads.test.mjs` のシナリオに新しいモードを足すと、three そのままの読み取りとのビット一致を確かめられる。[計測と改善の記録](experiments/engine-performance-2026-11-11.md)。
+
 ## 2026-11-10：持ち物を持つ動作（pump-gun）
 
 [実験記録](experiments/pump-gun-2026-11-10.md)と[仕組み（7章）](specs/AUTHORED_ACTIONS_V1.md)から。`npm run review:pump-gun`（17/17・17/17・16/17）と `npm run review:compat:pump-gun`（21/21）で数値を再現してから触る。持つ位置を変えるときは `npm run fit:pump-gun -- --x a:b:step --y ... --z ...` で関節の余裕を見てから。見た目は items/shio-machinegun の検証ページ（`node scripts/pose-look.mjs [--vrm <手元VRM>]`、撮影は非公開）。残り：実XRift（一人称で自分の腕が見えるか、カメラモード、他者視点、Quest）、歩行中のホスト姿勢の上での揺れ、Pose Studio が持ち物のクリップを表示できない、大きい体の高い構えで下を見たときの尺屈。

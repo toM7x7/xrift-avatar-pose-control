@@ -4,6 +4,8 @@ import {captureBones,restoreBones} from './vendor/render-pose.mjs'
 import {intoLocal,settle,skinUpdate,solving,worldPositionOf,worldQuaternionOf} from './world.mjs'
 
 const point=bone=>worldPositionOf(bone,new Vector3())
+// The pose before a support-frame solve, to put back if the solve throws: one buffer per skeleton, reused every frame.
+const rollback=new WeakMap()
 const safe=(value,fallback,min,max)=>Number.isFinite(value)?Math.max(min,Math.min(max,value)):fallback
 const sides=[[1,'left'],[-1,'right']]
 function worldRotation(bone,q){const parent=(bone.parent?worldQuaternionOf(bone.parent,new Quaternion()):new Quaternion());bone.quaternion.copy(parent.invert().multiply(q));settle(bone,true,true)}
@@ -42,7 +44,8 @@ function nimbusPose(rig,options={}){
   return measureWorldSupport(rig,result,origin,q,'legacy-horizontal-world-projection')
  }
  const origin=coordinate(options.supportFrame.position),q=supportQuaternion(options.supportFrame.quaternion),inverse=q.clone().invert(),localPoint=value=>coordinate(value).sub(origin).applyQuaternion(inverse),worldPoint=value=>new Vector3().fromArray(value).applyQuaternion(q).add(origin).toArray(),worldDirection=value=>new Vector3().fromArray(value).applyQuaternion(q).toArray()
- const snapshot=captureBones(rig.skeleton),originalHead=point(rig.bones.head),originalHeadQ=worldQuaternionOf(rig.bones.head,new Quaternion())
+ const snapshot=captureBones(rig.skeleton,rollback.get(rig.skeleton));rollback.set(rig.skeleton,snapshot)
+ const originalHead=point(rig.bones.head),originalHeadQ=worldQuaternionOf(rig.bones.head,new Quaternion())
  try{
   const hipPosition=point(rig.bones.hips).sub(origin).applyQuaternion(inverse),hipRotation=worldQuaternionOf(rig.bones.hips,new Quaternion()).premultiply(inverse)
   worldRotation(rig.bones.hips,hipRotation);translate(rig.bones.hips,hipPosition.sub(point(rig.bones.hips)))

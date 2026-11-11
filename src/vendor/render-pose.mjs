@@ -5,7 +5,18 @@ import {intoLocal,settle,skinUpdate,solving,worldPositionOf,worldQuaternionOf} f
 
 const aliases={hips:['hips','pelvis','chips'],spine:['spine','cspine'],chest:['chest','cchest','spine1'],neck:['neck','cneck'],head:['head','chead'],leftUpperArm:['leftupperarm','leftarm','lupperarm'],leftLowerArm:['leftlowerarm','leftforearm','llowerarm'],leftHand:['lefthand','lhand'],rightUpperArm:['rightupperarm','rightarm','rupperarm'],rightLowerArm:['rightlowerarm','rightforearm','rlowerarm'],rightHand:['righthand','rhand'],leftUpperLeg:['leftupperleg','leftupleg','lupperleg'],leftLowerLeg:['leftlowerleg','leftleg','llowerleg'],leftFoot:['leftfoot','lfoot'],rightUpperLeg:['rightupperleg','rightupleg','rupperleg'],rightLowerLeg:['rightlowerleg','rightleg','rlowerleg'],rightFoot:['rightfoot','rfoot']}
 const required=['hips','head','leftUpperArm','leftLowerArm','leftHand','rightUpperArm','rightLowerArm','rightHand','leftUpperLeg','leftLowerLeg','leftFoot','rightUpperLeg','rightLowerLeg','rightFoot']
-export function roleOf(name){const compact=name.toLowerCase().replace(/^normalized_?/,'').replace(/^character\d+[_:]/,'').replace(/_sub(?:_\d+)?$/,'').replace(/[^a-z0-9]/g,'').replace(/^mixamorig/,'').replace(/^jbip/,'');return Object.keys(aliases).find(role=>aliases[role].includes(compact))??null}
+// A scan asks for every bone of every skinned mesh in the scene: the answer per name is kept (null included).
+const roleCache=new Map()
+export function roleOf(name){
+  let role=roleCache.get(name)
+  if(role===undefined){
+    const compact=name.toLowerCase().replace(/^normalized_?/,'').replace(/^character\d+[_:]/,'').replace(/_sub(?:_\d+)?$/,'').replace(/[^a-z0-9]/g,'').replace(/^mixamorig/,'').replace(/^jbip/,'')
+    role=Object.keys(aliases).find(role=>aliases[role].includes(compact))??null
+    if(roleCache.size>=8192)roleCache.clear()
+    roleCache.set(name,role)
+  }
+  return role
+}
 export function inspectHumanoidRigs(scene){
   const groups=new Map()
   scene.traverse(object=>{
@@ -20,8 +31,25 @@ export function inspectHumanoidRigs(scene){
   })
   return [...groups.values()]
 }
-export function captureBones(skeleton){return skeleton.bones.map(bone=>({bone,position:bone.position.clone(),quaternion:bone.quaternion.clone(),scale:bone.scale.clone()}))}
-export function restoreBones(snapshot){const set=new Set(snapshot.map(s=>s.bone));for(const s of snapshot){s.bone.position.copy(s.position);s.bone.quaternion.copy(s.quaternion);s.bone.scale.copy(s.scale)}for(const s of snapshot)if(!set.has(s.bone.parent))settle(s.bone,true,true)}
+/** Every bone's local transform. `reuse`: an earlier snapshot of the same skeleton to overwrite instead of allocating one per frame. */
+export function captureBones(skeleton,reuse=null){
+  const bones=skeleton.bones
+  if(reuse&&reuse.length===bones.length){
+    let i=0
+    for(;i<bones.length;i++){const s=reuse[i],bone=bones[i];if(s.bone!==bone)break;s.position.copy(bone.position);s.quaternion.copy(bone.quaternion);s.scale.copy(bone.scale)}
+    if(i===bones.length)return reuse
+  }
+  return bones.map(bone=>({bone,position:bone.position.clone(),quaternion:bone.quaternion.clone(),scale:bone.scale.clone()}))
+}
+// The bones of a snapshot whose parent is not in it, kept until a bone is re-parented.
+const tops=new WeakMap()
+function topBones(snapshot){
+  let entry=tops.get(snapshot)
+  if(entry)for(let i=0;i<snapshot.length;i++)if(snapshot[i].bone.parent!==entry.parents[i]){entry=null;break}
+  if(!entry){const set=new Set(snapshot.map(s=>s.bone));entry={parents:snapshot.map(s=>s.bone.parent),bones:snapshot.filter(s=>!set.has(s.bone.parent)).map(s=>s.bone)};tops.set(snapshot,entry)}
+  return entry.bones
+}
+export function restoreBones(snapshot){for(const s of snapshot){s.bone.position.copy(s.position);s.bone.quaternion.copy(s.quaternion);s.bone.scale.copy(s.scale)}for(const bone of topBones(snapshot))settle(bone,true,true)}
 const worldPoint=bone=>worldPositionOf(bone,new Vector3())
 function worldQuaternion(bone,q){const parent=(bone.parent?worldQuaternionOf(bone.parent,new Quaternion()):new Quaternion());bone.quaternion.copy(parent.invert().multiply(q));settle(bone,true,true)}
 function translateWorld(bone,delta){const p=worldPoint(bone).add(delta);if(bone.parent)intoLocal(bone.parent,p);bone.position.copy(p);settle(bone,true,true)}

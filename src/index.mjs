@@ -54,10 +54,12 @@ export function attachPoseDriver({scene,rig,getOptions=()=>({}),relatedSkeletons
   manager={entries,dispose(){restore();if(scene.onBeforeRender===onBefore)scene.onBeforeRender=before;if(scene.onAfterRender===onAfter)scene.onAfterRender=after;managers.delete(scene)}}
   scene.onBeforeRender=onBefore;scene.onAfterRender=onAfter;managers.set(scene,manager)
  }
- let snapshot=null,disposed=false
+ // The rig's own skeleton is usually among the related ones: each is updated once.
+ const skins=[...new Set([rig.skeleton,...relatedSkeletons])]
+ let snapshot=null,buffer=null,disposed=false
  const api={hips:rig.bones.hips,last:null,error:null,frames:0,restored:true,
-  restore(){if(snapshot){restoreBones(snapshot);rig.skeleton.update();relatedSkeletons.forEach(s=>s.update());snapshot=null}api.restored=true},
-  apply(){const config=getOptions();if(disposed||config.enabled===false||api.error)return false;snapshot=captureBones(rig.skeleton);api.restored=false;try{api.last=applyPose(rig,config);rig.skeleton.update();relatedSkeletons.forEach(s=>s.update());api.frames++;return true}catch(error){api.error=String(error);api.restore();return false}},
+  restore(){if(snapshot){restoreBones(snapshot);skins.forEach(s=>s.update());snapshot=null}api.restored=true},
+  apply(){const config=getOptions();if(disposed||config.enabled===false||api.error)return false;snapshot=buffer=captureBones(rig.skeleton,buffer);api.restored=false;try{api.last=applyPose(rig,config);skins.forEach(s=>s.update());api.frames++;return true}catch(error){api.error=String(error);api.restore();return false}},
   dispose(){if(disposed)return;api.restore();disposed=true;manager.entries.delete(api);if(!manager.entries.size)manager.dispose()}}
  manager.entries.add(api);return api
 }
