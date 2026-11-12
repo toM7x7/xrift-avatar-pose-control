@@ -1,6 +1,6 @@
 ---
 name: authored-pose
-description: このリポジトリ（xrift-avatar-pose-control）で、新しい全身の動作（構える→溜める→放つ のようなキー＋タイムライン）を作る・直す・XRiftアイテムへ渡すときの手順。参考画像づくり、specs/<id>.v1.json のキーの書き方、Pose Studio での確認、組の向きのフィット、全タイムライン検査、いろいろな骨格での互換確認、手元VRMでの確認、記録、アイテムへの写し方までを含む。新しいポーズを作る依頼、charge-wave の見た目や品質を直す依頼、「このアバターで構えが出ない」という報告のときに使う。
+description: このリポジトリ（xrift-avatar-pose-control）で、新しい全身の動作（構える→溜める→放つ のようなキー＋タイムライン）を作る・直す・XRiftアイテムへ渡すときの手順。最初に公式（@xrift/world-components の掴む・乗り物・カメラ）の今の仕様を確かめる手順、参考画像づくり、specs/<id>.v1.json のキーの書き方、Pose Studio での確認、組の向きのフィット、全タイムライン検査、いろいろな骨格での互換確認、手元VRMでの確認、記録、アイテムへの写し方までを含む。新しいポーズを作る依頼、charge-wave の見た目や品質を直す依頼、「このアバターで構えが出ない」という報告のときに使う。
 ---
 
 # 全身の動作を作る（authored actions）
@@ -8,6 +8,37 @@ description: このリポジトリ（xrift-avatar-pose-control）で、新しい
 charge-wave（両手で溜めて放つ）を作ったときの流れを、次の動作でもそのまま使える形にしたもの。仕組みの説明は [docs/specs/AUTHORED_ACTIONS_V1.md](../../../docs/specs/AUTHORED_ACTIONS_V1.md)、実例は [specs/charge-wave.v1.json](../../../specs/charge-wave.v1.json) と [docs/experiments/charge-wave-2026-11-05.md](../../../docs/experiments/charge-wave-2026-11-05.md)。
 
 守ること（AGENTS.md と同じ）：私有VRM・その撮影画像はコミットしない（`vrm/` と `local-assets/` は無視される）。既存の作品名・キャラクター名を動作名やファイル名に使わない（「〜らしい構え」は形の特徴で書く）。数値の合格を見た目や実機の合格と書かない。
+
+## 最初に：公式の今の仕様を確かめる
+
+XRift の上で動かす動作は、絵やキーに入る前にここを済ませる。対象は、アイテムへ渡す新しい動作、渡し済みの動作の直し、掴む物・乗り物・カメラに関わる動作。Pose Studio の中だけで終わる作業は飛ばしてよい。
+
+理由：このエンジンは公式が約束した API ではなく、本体のふるまい（ホストの慣習）に乗っている。そのうえ `@xrift/world-components` は本体から貸し出されるので、アップロード済みのアイテムも作り直さずに本体の新しい版で動く。公式が変わると、ビルドは通ったまま実機で壊れる。実例：0.64.0（2026-11-11）で、掴んだ物は本体ごと手元へ動くようになり `renderGhost` は無視された。持ち物を自分で描いていたアイテムは、持つ本人の画面で物が消えた。
+
+1. **版を比べる。** 最新（`npm view @xrift/world-components version`）、渡し先のアイテムに入っている版、そのアイテムの README に残した「前回確かめた版」。最新が本番で動いている版だと考える（実機で違うと分かったときを除く）。
+2. **変更を読む。** 公式の公開リポジトリ（WebXR-JP の `xrift-world-components`・`xrift-skills`・`xrift-docs`）を最新にして、前回の版からの変更を読む。変更履歴のファイルもリリースも無いので、`git log --format="%h %cs %s"` を使う（件名に版が入る）。見る所は次のとおり。説明は遅れることがあるので実装も読む。
+   - `xrift-world-components/src/components/` の `Grabbable`・`Seat`・`Vehicle`・`DevEnvironment`、`src/hooks/useViewpoint.ts`
+   - `xrift-skills/skills/xrift-world/references/api-reference.md` の Grabbable / Seat / Vehicle / useViewpoint / useUsers
+3. **頼っている前提を書き出して確かめる。** 下の表から今回の動作に関わる行を選び、動作に固有の前提を足す。確かめる場所は一番小さい所にする（アイテムの dev ページ、ラボの代役、古い版に差し替えた dev）。本体は非公開なので、本体だけが決めることは「実機で確かめる項目」として残し、確かめたとは書かない。
+4. **記録する。** 確かめた版・日付・前提・実機に残した項目を、実験記録（7章）の入力条件と、渡し先のアイテムの README に書く。
+
+前提が崩れていたら、キーを書く前に設計を決め直す。同じ前提に頼っている渡し済みのアイテムがあれば、どれかを報告する（直すのは別の依頼）。
+
+| 頼っている前提 | 公式の約束か | 確かめる所 |
+|---|---|---|
+| 他人のアバターは、`userData.id` が `remote-player-<id>` で `onInteract` を持つ印（本体が他人に付ける Interactable）の下にある。自分はどの印にも入っていない骨格 | いいえ（慣習） | 実機だけ。読めないときは当てずに `diagnosis` を出す（8章） |
+| アバターのボーン名と骨格の形 | いいえ | 名前の表→骨格の形の推定。怪しいときは当てない（5章・6章） |
+| 本体が先にアバターの姿勢を書き、描画の直前に当てて直後に戻せる（`scene.onBeforeRender`／`onAfterRender`、鏡などの入れ子の描画も） | いいえ | 実機（鏡・カメラモード・他者視点） |
+| 頭は本体が持つ（`headMode:'host'`）。一人称で自分の頭をどう隠すか、本体のカメラがどの層を描くか | いいえ | 実機 |
+| 掴んでいる間、`children` の本体が持つ人の手元にある（全員の画面で） | はい（0.64.0〜） | `Grabbable/index.tsx`、API reference の “Picked up / released” |
+| 本体が持ち物を置く位置と向き（PC は視点の前に浮かせ、掴んだ時の回転のまま。VR は手元） | いいえ | PC は `DevEnvironment/components/GrabSystem`。本番と VR は実機 |
+| `onUseStart`／`onUseEnd` は持つ人の画面だけ、`onGrab`／`onRelease` は全員の画面 | はい（0.62.0／0.64.0） | API reference の “Using a held object” |
+| 座っている人は `Seat` のワールド行列に毎フレーム従う。`Vehicle` が姿勢を持ち、1台につき1つの姿勢を同期する | はい（0.50.0／0.52.0） | `Seat/index.tsx`・`Vehicle/index.tsx` |
+| 座っている間に本体が作る座り姿勢と、毎フレーム書く骨 | いいえ | 実機 |
+| `useViewpoint`：VR とカメラモード中は `'first-person'`。`DevEnvironment` は常に `'first-person'` | はい（0.58.0〜） | `hooks/useViewpoint.ts`、API reference |
+| VR の人には当てない（手は追跡される）。VR の持ち方 | いいえ | 実機（Quest） |
+
+公式の資料を最後に読んだ版：2026-11-12、`@xrift/world-components` 0.64.0（この日は資料と変更一覧を読んだだけで、表の前提を試し直してはいない）。読み直したらこの行を更新する。
 
 ## 0. 動作を言葉と絵で決める
 
@@ -97,6 +128,7 @@ node scripts/studio-capture.mjs --vrm vrm/<file>.vrm [--vrm ...] --read host --k
 
 ## 8. XRiftアイテムへ渡す
 
+- 渡す前に、冒頭の「公式の今の仕様を確かめる」が済んでいること。日が空いたら版だけでも見直す。確かめた版と日付は渡し先のアイテムの README に書く。
 - アイテムはこのリポジトリを直接 import しない。写す（例：items/ki-charge-orb の `scripts/sync-pose-lib.mjs`。写したファイルのハッシュを `SOURCE.json` に残し、`--check` で照合）。写すもの：`src/world*`（ワールド行列の読み取り。2026-11-11 以降の版では必須）・`src/vendor/render-pose*`・`torso-support*`・`src/authoring/*`・`src/adapters/xrift*`・`src/humanoid-inference*`・`src/role-inference*`・`specs/<id>.v1.json`。
 - アバターは `selectActorRig({scene,userId,isLocal,feet})`：他人は `remote-player-<id>` 印（ホストの慣習で、SDKの約束ではない）、自分はどの印にも入っていない骨格。読めないときは当てずに `diagnosis` をコンソールへ（ユーザーがコピーして送れる形）。
 - 描画のたびに当てて戻す（`scene.onBeforeRender`／`onAfterRender`、入れ子の描画は深さで数える）。頭はホスト（`headMode:'host'`）。VRの人には当てない（手は追跡される）。
@@ -126,6 +158,7 @@ node scripts/studio-capture.mjs --vrm vrm/<file>.vrm [--vrm ...] --read host --k
 
 ## 終わりの条件
 
+- [ ] XRift で動かす動作は、公式の今の仕様を確かめた（版・日付・頼っている前提・実機に残した項目を記録した）
 - [ ] 自作骨格3体格＋短押しで18/18（警告は説明つき）、240Hzで単発の跳びなし
 - [ ] `review:compat` 21/21
 - [ ] 手元VRMで XRift と同じ読み方で読める・見た目を確認（撮影はローカルのみ）
