@@ -1,5 +1,15 @@
 # Changelog
 
+## 全身の動作の確保をさらに減らす — 2026-11-16
+
+- 腕の解法：`cost` の中で毎回作っていた補助関数をモジュールへ、当たりの `Math.hypot` を `Math.sqrt` に、衝突体の走査を添字に。`collectPosed` は体ごとに1回だけ作る。ホスト姿勢の控えは `weight<1` のときだけ。
+- `applyAuthoredPose` の `metrics:false`：検査用の計測（重心・当たり・頭の誤差）を省き、`weight`・`arms`・`legs`・`fingers`・`handTargets`・`pairShiftMm` だけ返す。毎フレーム解く配布アイテム向け。
+- ブラウザ（気功波アイテム、VRM）で姿勢の計算 1.38 → 1.01ms、確保 282 → 154kB／フレーム。`review:charge-wave` 22/22、`review:compat` の数値は前と同じ、`replay:n02` 一致。
+
+## 頭を向けたい方向へ（headLook） — 2026-11-12（main の軽量化の上に載せ直し 2026-11-16）
+
+- `applyAuthoredPose` の `headLook: {dir, weight}`：頭を世界の向き `dir` へ向ける（左右と上下、上下は `HEAD_LOOK_PITCH_DEG` 45° まで）。首はいつもどおり胸と頭の間で配分し、`weight` でホストの頭の向きと混ぜる。撃ちながら動かす光線の向きへ頭を向けるのに使う（体だけ光線へ回して頭がホストの向きに残っていた）。
+- 既定（指定なし・weight 0）の動きは変わらない。
 ## 手順：公式の仕様を先に確かめる — 2026-11-12
 
 - `.claude/skills/authored-pose/SKILL.md` の冒頭に「最初に：公式の今の仕様を確かめる」を追加。版を比べる→変更を読む→頼っている前提を書き出して確かめる→記録する、の4手順と、頼っている前提の表（公式の約束か、どこで確かめるか）。8章・終わりの条件・AGENTS.md からも参照する。

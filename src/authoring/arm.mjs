@@ -63,7 +63,7 @@ export function clearance(p,c){
  const along=rx*ax.x+ry*ax.y+rz*ax.z,t=clamp(along,0,c.length),nt=-t
  const qx=rx+ax.x*nt,qy=ry+ax.y*nt,qz=rz+ax.z*nt
  const beyond=along<0?-along:along>c.length?along-c.length:0
- const L=c.lateral,F=c.front,x=qx*L.x+qy*L.y+qz*L.z,z=qx*F.x+qy*F.y+qz*F.z,r=Math.hypot(x,z)
+ const L=c.lateral,F=c.front,x=qx*L.x+qy*L.y+qz*L.z,z=qx*F.x+qy*F.y+qz*F.z,r=Math.sqrt(x*x+z*z) // not Math.hypot: it allocates, and this runs ~3000 times a frame
  if(r<1e-9)return -Math.min(c.a,c.front_r)+beyond
  const b=z>=0?c.front_r:c.back_r,ellipse=1/Math.sqrt((x/r/c.a)**2+(z/r/b)**2)
  const radialGap=r-ellipse
@@ -104,10 +104,11 @@ function analyze(side,s,wc,L1,L2,n,e1,e2,h,along,phi,H,opts,out){
  return out
 }
 
+// Module-level helpers: cost() runs ~80 times per arm per frame, and closures made inside it are garbage each time.
+const deg=v=>v/DEG,lim=(v,pos,neg)=>v>=0?v/pos:-v/neg,over=(v,pos,neg)=>Math.max(0,v-pos,-v-neg)
 function cost(r,opts,colliders){
- const L=ARM_LIMITS,deg=v=>v/DEG
+ const L=ARM_LIMITS
  const flex=deg(r.flex),dev=deg(r.dev),pron=deg(r.pron0)
- const lim=(v,pos,neg)=>v>=0?v/pos:-v/neg,over=(v,pos,neg)=>Math.max(0,v-pos,-v-neg)
  let c=lim(flex,L.flexion,L.extension)**2+lim(dev,L.radial,L.ulnar)**2+.6*lim(pron,L.pronation,L.supination)**2
  c+=4*(over(flex,L.flexion,L.extension)/10)**2+4*(over(dev,L.radial,L.ulnar)/10)**2+4*(over(pron,L.pronation,L.supination)/10)**2
  // Shoulder rotation has a range too: without this an elbow may turn across the body or up to save the wrist, or a
@@ -120,10 +121,10 @@ function cost(r,opts,colliders){
   // Comfort gap (margin) costs a little; real penetration (past `sink`, default 2 cm into the measured skin, which
   // includes loose clothing such as a hoodie hem) costs a lot, up to a cap. An arm resting against the body is normal; twisting
   // the whole arm to keep a sleeve off the clothes is not.
-  const margin=opts.margin??.015,sink=opts.sink??.02
+  const margin=opts.margin??.015,sink=opts.sink??.02,skip=opts.skipCollider
   for(let k=0;k<3;k++){
    const p=k===0?r.elbow:k===1?_c1.copy(r.elbow).lerp(opts.shoulder,.5):_c2.copy(r.elbow).lerp(opts.wrist,.5)
-   let d=Infinity;for(const collider of colliders){if(opts.skipCollider&&opts.skipCollider(collider))continue;const gap=clearance(p,collider);if(gap<d)d=gap}
+   let d=Infinity;for(let i=0;i<colliders.length;i++){const collider=colliders[i];if(skip&&skip(collider))continue;const gap=clearance(p,collider);if(gap<d)d=gap}
    if(d<margin)c+=.8*Math.min(1,(margin-d)/(margin+sink))**2
    // Saturates (at 8) so that a penetration no elbow direction can avoid (a hanging arm against a body whose width
    // is only estimated) cannot pick the swivel by millimetres and wring the arm.

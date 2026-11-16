@@ -170,3 +170,23 @@ test('the rest key keeps its own plain arms (not the return trip from the releas
  for(const s of ['left','right'])assert.ok(Math.abs(plan[s].pronation*180/Math.PI)<30,`${s} ready forearm ${plan[s].pronation*180/Math.PI}`)
  f.dispose()
 })
+
+test('headLook turns the head toward a direction (yaw and pitch), the neck shares it, weight 0 changes nothing',()=>{
+ const {rig,f}=body(),info=authoringRig(rig),frame=sampleKey(clip,info,'thrust')
+ const fwdOf=bone=>new Vector3(0,0,1).applyQuaternion(bone.getWorldQuaternion(new Quaternion()).multiply(rig.restRotations.get(bone).clone().invert()).multiply(rig.restBasis))
+ const yawOf=v=>Math.atan2(v.x,v.z)*180/Math.PI,pitchOf=v=>Math.asin(Math.max(-1,Math.min(1,v.y)))*180/Math.PI
+ const solve=headLook=>{f.idle(0);f.mesh.updateWorldMatrix(true,true);const snap=captureBones(f.skeleton);applyAuthoredPose(rig,frame,{heading:0,headMode:'host',headLook});const r={head:fwdOf(rig.bones.head),neck:fwdOf(rig.bones.neck)};restoreBones(snap);f.skeleton.update();return r}
+ const plain=solve(undefined),none=solve({dir:[1,0,1],weight:0})
+ assert.ok(plain.head.distanceTo(none.head)<1e-9,'weight 0 = no change')
+ // 60° to the left (+X, heading 0 faces +Z) and 25° up.
+ const d=[Math.sin(Math.PI/3)*Math.cos(25*Math.PI/180),Math.sin(25*Math.PI/180),Math.cos(Math.PI/3)*Math.cos(25*Math.PI/180)]
+ const looked=solve({dir:d,weight:1})
+ assert.ok(Math.abs(yawOf(looked.head)-60)<2&&Math.abs(pitchOf(looked.head)-25)<2,`head ${yawOf(looked.head)} ${pitchOf(looked.head)}`)
+ assert.ok(yawOf(looked.neck)>10&&yawOf(looked.neck)<55,'the neck takes part of the turn '+yawOf(looked.neck))
+ // Straight up is limited.
+ const up=solve({dir:[0,1,.001],weight:1})
+ assert.ok(pitchOf(up.head)<46,'pitch limited '+pitchOf(up.head))
+ const half=solve({dir:d,weight:.5})
+ assert.ok(yawOf(half.head)>15&&yawOf(half.head)<45,'half weight is between '+yawOf(half.head))
+ f.dispose()
+})
