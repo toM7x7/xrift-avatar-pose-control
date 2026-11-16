@@ -1,5 +1,9 @@
 # 次のスレッドへ
 
+## 2026-11-17：エリアで当てる全身の動作と VR
+
+[実験記録](experiments/area-pose-stage-2026-11-17.md)から。非対応アバターの報告は `diagnosis`（コンソールの `[motion-stage] ... not posed` の行）を受け取ってから、記録の一覧のどれかを決める。VR で腕も上書きしてよいかは利用側が選ぶ（`preserveHands` か上書き）。残り：VR の視点ごとの見え方、他者視点、アイテムの写しを 4f28544 以降へ。
+
 ## 2026-11-11：ソルバーを書く・直すときのワールド行列
 
 ソルバーの中では three の `getWorldPosition`／`getWorldQuaternion`／`worldToLocal`／`localToWorld`／`updateWorldMatrix`／`skeleton.update()` を直接呼ばず、`src/world.mjs` の `worldPositionOf`／`worldQuaternionOf`／`intoLocal`／`intoWorld`／`settle`／`skinUpdate` を使い、公開する入口を `solving(rig, …)` で包む。骨の `matrixWorld` を直接読む three の機能（`applyBoneTransform` など）の前には `settleSolved()`。`tests/world-reads.test.mjs` のシナリオに新しいモードを足すと、three そのままの読み取りとのビット一致を確かめられる。[計測と改善の記録](experiments/engine-performance-2026-11-11.md)。
