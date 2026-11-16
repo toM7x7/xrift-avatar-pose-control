@@ -14,6 +14,8 @@ import {poseFingers} from './hand.mjs'
 import {DEG,UP,anatomicalToWorld,clamp,eulerYXZ,finite,frameToWorld,frameYZ,point,setWorldPosition,setWorldRotation,signedAngle} from './math.mjs'
 
 export const REFERENCE_HIP_HEIGHT=.95 // body metres are authored for a 1.65 m figure with hips at 0.95 m
+/** headLook: how far up / down the head tilts toward a direction (deg). */
+export const HEAD_LOOK_PITCH_DEG=45
 const SIDES=[['left',1],['right',-1]]
 const v3=a=>Array.isArray(a)?new Vector3(finite(a[0]),finite(a[1]),finite(a[2])):a?.isVector3?a.clone():new Vector3()
 const rot=a=>eulerYXZ(...(Array.isArray(a)?a.map(x=>finite(x)):[0,0,0]))
@@ -22,7 +24,13 @@ function hostHandFrame(rig,info,side){
  const bone=rig.bones[side+'Hand'],w=worldQuaternionOf(bone,new Quaternion())
  return w.multiply(rig.restRotations.get(bone).clone().invert()).multiply(rig.restBasis).multiply(info.hands[side].rest)
 }
+const posedCache=new WeakMap()
+/** The bones a pose writes, parents first. The same list every frame for a rig, so it is built once (do not mutate). */
 function collectPosed(rig,info,upperOnly=false){
+ let c=posedCache.get(rig);if(!c){c={};posedCache.set(rig,c)}
+ return c[upperOnly?'upper':'full']??=listPosed(rig,info,upperOnly)
+}
+function listPosed(rig,info,upperOnly){
  const b=rig.bones,set=new Set([upperOnly?null:b.hips,...info.torso,b.neck,b.head].filter(Boolean))
  for(const [s] of SIDES){
   for(const r of upperOnly?['UpperArm','LowerArm','Hand']:['UpperArm','LowerArm','Hand','UpperLeg','LowerLeg','Foot'])set.add(b[s+r])
@@ -60,7 +68,10 @@ const anatomicalWorld=(rig,bone)=>worldQuaternionOf(bone,new Quaternion()).multi
  * options: {heading (rad, 0 = facing +Z), origin (world ground point), groundY,
  *   headMode ('host' keeps the host head rotation), state (mutable object for continuity),
  *   twistSplit, colliders (default true), preserveHands (VR: reach the host hands),
- *   lowerBody ('host' keeps the host's pelvis and legs and poses only the upper body over them)}
+ *   lowerBody ('host' keeps the host's pelvis and legs and poses only the upper body over them),
+ *   metrics (false = skip the reviewer's measurements and return only weight, arms, legs, fingers, handTargets, pairShiftMm),
+ *   headLook ({dir: world direction, weight 0..1}: turn the head toward dir, e.g. along a beam the player steers;
+ *   the neck shares the turn as usual; pitch is limited to ±HEAD_LOOK_PITCH_DEG)}
  */
 export function applyAuthoredPose(rig,pose,options){return solving(rig,()=>authoredPose(rig,pose,options))}
 function authoredPose(rig,pose,options={}){
@@ -68,7 +79,8 @@ function authoredPose(rig,pose,options={}){
  const weight=clamp(finite(pose.weight,1),0,1)
  const upperOnly=(options.lowerBody??pose.lowerBody)==='host'
  const posed=collectPosed(rig,info,upperOnly)
- const host=new Map(posed.map(bone=>[bone,{q:bone.quaternion.clone(),p:bone.position.clone()}]))
+ // The host pose is only needed to blend in and out (weight < 1).
+ const host=weight<1?new Map(posed.map(bone=>[bone,{q:bone.quaternion.clone(),p:bone.position.clone()}])):null
  const hostHead={p:point(b.head),q:worldQuaternionOf(b.head,new Quaternion())}
  const preserveHands=options.preserveHands||pose.hands?.mode==='host'
  const hostHands=preserveHands?Object.fromEntries(SIDES.map(([s])=>[s,{wrist:point(b[s+'Hand']),hand:hostHandFrame(rig,info,s)}])):null
@@ -110,6 +122,18 @@ function authoredPose(rig,pose,options={}){
  let headWorld
  if(headMode==='host')headWorld=hostHead.q.clone()
  else headWorld=anatomicalToWorld(rig,b.head,heading,rot(pose.head?.rot))
+ // Look along a direction (a steered beam): head facing dir horizontally, tilted by its pitch, blended by weight.
+ const look=options.headLook,lookW=clamp(finite(look?.weight,0),0,1)
+ if(look&&lookW>0){
+  const d=v3(look.dir),flat=Math.hypot(d.x,d.z)
+  if(flat>1e-4||Math.abs(d.y)>1e-4){
+   const yaw=flat>1e-4?Math.atan2(d.x,d.z):finite(options.heading,0)
+   const pitch=clamp(Math.atan2(d.y,flat)/DEG,-HEAD_LOOK_PITCH_DEG,HEAD_LOOK_PITCH_DEG)
+   // eulerYXZ pitch: positive bends forward (looks down), so looking up is negative.
+   const lookQ=anatomicalToWorld(rig,b.head,new Quaternion().setFromAxisAngle(UP,yaw),eulerYXZ(0,-pitch,0))
+   headWorld.slerp(lookQ,lookW)
+  }
+ }
  if(b.neck){
   const headA=heading.clone().invert().multiply(headWorld).multiply(rig.restRotations.get(b.head).clone().invert()).multiply(rig.restBasis)
   setWorldRotation(b.neck,anatomicalToWorld(rig,b.neck,heading,topA.clone().slerp(headA,clamp(finite(pose.head?.neck,.5),0,1))))
@@ -252,6 +276,9 @@ function authoredPose(rig,pose,options={}){
   ;settle(upperOnly?info.torso[0]??b.hips:b.hips,true,true)
  }
  skinUpdate(rig.skeleton)
+ // metrics:false (a shipped item, every frame): only what a driver needs. The reviewer's measurements (balance,
+ // clearances, head error) cost about a tenth of the solve and a second set of colliders.
+ if(options.metrics===false)return {weight,pairShiftMm,arms:armMetrics,legs:legMetrics,fingers:fingerMetrics,handTargets:Object.fromEntries(Object.entries(handTargets).map(([s,t])=>[s,{wrist:t.wrist.toArray(),point:t.point?.toArray()??null}]))}
  const metrics=measureAuthoredPose(rig,info,{scale,k,heading,origin,groundY,feet,colliders:options.colliders===false?[]:buildColliders(rig,info,scale),armMetrics,legMetrics,fingerMetrics,handTargets,hostHead,headMode,pelvisDropM,weight})
  metrics.pairShiftMm=pairShiftMm
  return metrics

@@ -1,6 +1,7 @@
 import type {PreparedRig} from '../vendor/render-pose.mjs'
 import type {AuthoredPoseMetrics,AuthoredPoseOptions,PoseFrame} from './types.d.mts'
 export const REFERENCE_HIP_HEIGHT:number
+export const HEAD_LOOK_PITCH_DEG:number
 /** World metres per bind unit (`scale`) and per body metre (`k`) for this rig as it stands now. */
 export function bodyScale(rig:PreparedRig,info?:object):{scale:number;k:number}
 export function applyAuthoredPose(rig:PreparedRig,pose:PoseFrame,options?:AuthoredPoseOptions):AuthoredPoseMetrics
